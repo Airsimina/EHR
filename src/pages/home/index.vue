@@ -1,0 +1,275 @@
+<template>
+  <div class="home">
+    <div class="top">
+      <div class="commission-card-container">
+        <div class="commission-card">
+          <div class="single-card">
+            <div class="number">{{awaitNum}}</div>
+            <div class="discribe">我的代办（个）</div>
+          </div>
+          <div class="single-card">
+            <div class="number">{{vacationNum}}</div>
+            <div class="discribe">假期余额（天）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="single"
+           @click="goto(item)"
+           v-for="(item,index) in iconList"
+           :key="index">
+        <img class="single-icon"
+             :src="item.iconUrl">
+        <div class="icon-text">{{item.iconText}}</div>
+      </div>
+    </div>
+    <div class=people-container>
+      <div class="people-title">人事管理</div>
+      <div class="single"
+           @click="goto(item)"
+           v-for="(item,index) in personnelManageList"
+           :key="index">
+        <img class="single-icon"
+             :src="item.iconUrl">
+        <div class="icon-text">{{item.iconText}}</div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import HttpEhr from '@requestPool/index.js'
+export default {
+  data () {
+    return {
+      iconList: [
+        {
+          iconUrl: '../../../static/img/myMessage.png',
+          iconText: '我的信息',
+          path: 'myMessage'
+        },
+        {
+          iconUrl: '../../../static/img/money.png',
+          iconText: '我的工资',
+          path: 'mySalary'
+        },
+        {
+          iconUrl: '../../../static/img/check.png',
+          iconText: '我的考勤',
+          path: 'myTimecard'
+        },
+        {
+          iconUrl: '../../../static/img/text.png',
+          iconText: '我的的异动',
+          path: ''
+        },
+        {
+          iconUrl: '../../../static/img/kzm.png',
+          iconText: '审批',
+          path: ''
+        }
+      ],
+      personnelManageList: [
+        {
+          iconUrl: '../../../static/img/people.png',
+          iconText: '员工信息',
+          path: ''
+        },
+        {
+          iconUrl: '../../../static/img/card.png',
+          iconText: '员工薪酬',
+          path: ''
+        },
+        {
+          iconUrl: '../../../static/img/personcard.png',
+          iconText: '员工考勤',
+          path: ''
+        },
+        {
+          iconUrl: '../../../static/img/list.png',
+          iconText: '员工异动',
+          path: ''
+        }
+      ],
+      userId: '',
+      awaitNum: '0',
+      vacationNum: '0'
+    }
+  },
+  mounted () {
+    this.getUserId()
+    document.title = '首页'
+  },
+  methods: {
+    goto (item) {
+      if (!item.path) {
+        this.$toast(
+          {
+            message: '敬请期待',
+            icon: 'like-o'
+          })
+        return
+      }
+      this.$router.push({
+        name: 'sharePage',
+        query: {
+          pagePath: item.path
+        }
+      })
+    },
+    annualResidue () {
+      return new Promise((resolve, reject) => {
+        HttpEhr.annualResidue({ userId: this.userId }).then(res => {
+          resolve(res)
+        })
+      })
+    },
+    // 获取userId  设置年假
+    async getUserId () {
+      this.userId = '00025015'
+      // 判断是不是打包环境获取userId
+      if (this.buildType !== 'dev') {
+        const urlId = location.href.split('?')[1].split('=')[1]
+        this.userId = urlId.substring(0, urlId.length - 6)
+      } else {
+        this.util.setSession('sessionData', { userId: this.userId })
+      }
+      await this.annualResidue().then(res => {
+        console.log(res.datas.surplus)
+        this.vacationNum = res.datas.surplus
+      })
+      // HttpEhr.getUserInfo({ userId: this.userId }).then(res => {
+      //   console.log(res)
+      //   if (res.code == 200) {
+      //     const sessionData = res.data
+      //     this.util.setSession('sessionData', sessionData)
+      //   }
+      // })
+    }
+  }
+
+}
+</script>
+
+<style lang='scss' scoped>
+.home {
+  .top {
+    background: url("../../../static/img/top-bg.png") 0 0 no-repeat;
+    background-size: 100% 100%;
+    height: 2.9rem;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    .commission-card-container {
+      position: absolute;
+      width: 100%;
+      padding: 0 0.2rem;
+      height: 1.52rem;
+      box-sizing: border-box;
+      bottom: -0.15rem;
+      .commission-card {
+        width: 100%;
+        background: rgba(255, 255, 255, 1);
+        height: 100%;
+        box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.05);
+        opacity: 1;
+        border-radius: 10px;
+        display: flex;
+        justify-content: flex-start;
+        .single-card {
+          width: 50%;
+          position: relative;
+          text-align: center;
+          &:first-child {
+            &::before {
+              content: "";
+              width: 1px;
+              height: 0.8rem;
+              position: absolute;
+              right: 0;
+              top: 0.23rem;
+              background: #ccc;
+            }
+          }
+          .number {
+            font-size: 0.6rem;
+            font-weight: bold;
+            line-height: 0.44rem;
+            color: rgba(51, 51, 51, 1);
+            margin-top: 0.4rem;
+          }
+          .discribe {
+            font-weight: 400;
+            line-height: 0.22rem;
+            font-size: 0.24rem;
+            margin-top: 0.2rem;
+            color: rgba(153, 153, 153, 1);
+            margin-left: 0.3rem;
+          }
+        }
+      }
+    }
+  }
+  .container {
+    width: 100%;
+    background: rgba(255, 255, 255, 1);
+    padding: 3.59rem 0.4rem 0 0.4rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    .single {
+      padding-top: 0.29rem;
+      width: 25%;
+      height: 1.6rem;
+      text-align: center;
+      .icon-text {
+        color: rgba(51, 51, 51, 1);
+        font-size: 0.24rem;
+        margin-top: 0.15rem;
+        width: 100%;
+      }
+      .single-icon {
+        width: 0.9rem;
+        height: 0.9rem;
+      }
+    }
+  }
+  .people-container {
+    margin-top: 0.2rem;
+    background: #fff;
+    font-size: 0.24rem;
+    padding: 0.59rem 0.4rem 0 0.4rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    .people-title {
+      color: #111111;
+      font-size: 0.36rem;
+      font-weight: bold;
+      width: 100%;
+      margin-bottom: 0.2rem;
+    }
+    .single {
+      padding-top: 0.29rem;
+      width: 25%;
+      height: 1.6rem;
+      text-align: center;
+      .icon-text {
+        color: rgba(51, 51, 51, 1);
+        font-size: 0.24rem;
+        margin-top: 0.15rem;
+        width: 100%;
+      }
+      .single-icon {
+        width: 0.9rem;
+        height: 0.9rem;
+      }
+    }
+  }
+}
+</style>

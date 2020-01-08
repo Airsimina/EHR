@@ -1,0 +1,85 @@
+.lis-title {
+  font-size: 0.32rem;
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+  position: relative;
+
+
+  span {
+    display: inline-block;
+    position: relative;
+
+    &::before {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      width: 0.3rem;
+      height: 0.3rem;
+      background: rgb(135, 182, 248);
+      border-radius: 50%;
+      right: -0.1rem;
+      bottom: -0.1rem;
+      opacity: 0.5;
+
+    }
+  }
+}
+
+.list-box {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 0.24rem;
+  padding: 0.2rem 0.38rem;
+  background: #fff;
+  border-radius: 0.2rem;
+  margin-bottom: 0.2rem;
+
+  >.icon-right {
+    position: absolute;
+    content: "";
+    display: inline-block;
+    font-size: 0.24rem;
+    width: 0.55rem;
+    height: 0.55rem;
+    background: rgba(85, 118, 171, 1);
+    border-radius: 2px 20px 2px 40px;
+    top: 0;
+    right: 0;
+    text-align: center;
+    line-height: 0.55rem;
+    color: #ffffff;
+  }
+
+  .lis-box {
+    padding: 0.15rem 0;
+    position: relative;
+
+    .lis-row {
+      position: relative;
+      display: inline-block;
+    }
+
+    .lis-name {
+      position: relative;
+      min-width: 1.2rem;
+      font-size: 0.26rem;
+      font-weight: bold;
+      text-align-last: justify;
+      text-align: justify;
+    }
+
+    .lis-name-2 {
+      position: relative;
+ font-size: 0.26rem;
+ font-weight: bold;
+    }
+
+    .lis-value {
+      position: relative;
+      font-size: 0.26rem;
+      color: #666666;
+      padding-left: 0.1rem;
+    }
+  }
+}
