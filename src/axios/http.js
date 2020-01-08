@@ -51,7 +51,7 @@ axios.interceptors.request.use(
 // axios,reponse请求拦截器
 axios.interceptors.response.use(response => {
     store.commit('setLoading', false)
-    if (response.data.resp_code !== 0) {
+    if (response.data.code !== 200) {
         Dialog.alert({
             message: response.data.msg,
             title: '错误提示'

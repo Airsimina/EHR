@@ -55,25 +55,21 @@
               <div class="div-name-1">图片</div>
             </div>
             <div class="lis-r">
-              <div class="img-box">
-                <van-uploader v-model="fileViewLists"
-                              :preview-size="55"
-                              multiple
-                              :after-read="afterRead"
-                              @delete="delImg"
-                              :max-count="9" />
-              </div>
-              <!-- <van-uploader :preview-size="55"
+              <van-uploader :preview-size="55"
+                            v-if="fileViewLists.length<9"
                             multiple
                             :after-read="afterRead"
                             @delete="delImg"
-                            :max-count="9" />
+                            :max-count="9"></van-uploader>
               <div class="img-box"
-                   v-for="(item,index) in fileLists"
+                   v-for="(item,index) in fileViewLists"
                    :key="index">
+                <div class="icon-close"
+                     @click="delImg(index)"></div>
                 <img :src="item"
+                     @click="viewImg(index)"
                      alt="">
-              </div> -->
+              </div>
             </div>
           </div>
           <div class="lis">
@@ -121,36 +117,37 @@
 import HttpEhr from '@requestPool/index.js'
 // import util from '../../../util/util.js'
 // import datas from '../../../testJson/from.js'
-
+import { ImagePreview } from 'vant';
 export default {
   components: {},
   props: {},
   data () {
     return {
+      serverUrl: "http://hafdev.hxoadev.com",
+      loginUserName: "lixianxen",
       fromData: {
         leaveTypeId: '1', // 请假类型id
         duration: '1', // 请假时长
         reason: '', // 理由
         startTime: '', // 开始时间
         endTime: '', // 结束时间,
-        fileList: [] // 图片集合
+        id: '', // 原请假id  修改 , 销假用
+        fileViewLists: [] // 图片集合
       },
       flag: '0', // 1:修改 2:销假
       leaveType: '' || '请选择', // 请假类型
       // 本地数据图片集合
-      fileLists: [],
       fileViewLists: [
-        // 'https://img.yzcdn.cn/vant/leaf.jpg',
-        // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=8343bf7b65534b6db88cafe0bb4ce6a9&loginUsername=lixiansen'
-        { isImage: true, url: 'https://img.yzcdn.cn/vant/leaf.jpg' },
-        { isImage: true, url: 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=8343bf7b65534b6db88cafe0bb4ce6a9&loginUsername=lixiansen' }
+        // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=8343bf7b65534b6db88cafe0bb4ce6a9&loginUsername=lixiansen',
+        // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=5be9bd97e71a4d7b940178fd206c8859&loginUsername=lixiansen',
+        // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=a3c321f355604772b99346714f60b473&loginUsername=lixiansen',
+        // 'https://img.yzcdn.cn/vant/leaf.jpg'
       ],
       // 时间选择title
       popupTitle: '',
       currentDate: new Date(),
       datePicker: 0, // 用于判断哪个选择器的显示与隐藏
       isPopShow: false, // 弹出层隐藏与显示
-      oldId: '', // 原请假id  销假接口用
       isPopShowType: false,
       // 请假类型1、年休2、病假3、事假4、工伤假5、婚假6、产假7、护理假8、丧假
       columns: [
@@ -175,21 +172,16 @@ export default {
           text: '产假'
         }
       ],
-      dataId: ''
+
     }
   },
   methods: {
     // 提交按钮
     commitFun () {
-      // return
       console.log(this.fromData)
-      console.log(this.fileLists)
-      console.log(this.fileViewLists)
-
-      // this.addAndEditVacation()
       if (this.flag == '0' || this.flag == '1') {
+        // this.addAndEditVacation()
         // 修改和提交
-
       } else if (this.flag == '2') {
         // 销假
 
@@ -231,12 +223,13 @@ export default {
     addAndEditVacation () {
       HttpEhr.addAndEditVacation({
         userId: this.util.getSession('sessionData').userId || '',
-        type: this.leaveType,
-        id: this.userId, // 不传为新增，传了为修改
+        type: this.fromData.leaveTypeId,
+        id: this.fromData.id, // 不传为新增，传了为修改,销假
         startDate: this.fromData.startTime,
         endDate: this.fromData.endTime,
         sum: this.fromData.duration,
-        url: JSON.stringify(this.fromData.fileList),
+        url: JSON.stringify(this.fromData.fileViewLists),
+        note: this.fromData.duration,
         flowData: '测试 abc',
         note: this.fromData.reason
       }).then(res => {
@@ -268,6 +261,7 @@ export default {
         sum: this.fromData.duration,
         note: this.fromData.reason
       }).then(res => {
+        console.log('销假');
         console.log(res)
       })
     },
@@ -288,7 +282,6 @@ export default {
     },
     // 确定按钮，时间格式化并显示在页面上
     confirmPicker (value) {
-      // console.log(value)
       const date = value
       const y = date.getFullYear()
       let m = date.getMonth() + 1
@@ -358,36 +351,44 @@ export default {
       return day + 1
     },
     // 图片上传 读取完成后的回调函数
-    afterRead (e) {
+    async afterRead (e) {
       const fromdata = new FormData()
       if (e && e.length) { // 判断是否是多图上传 多图则循环添加进去
         e.forEach(item => {
-          console.log('1111')
           fromdata.append('loginUsername', 'lixiansen')
           fromdata.append('file', item.file)// 第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
         })
       } else {
-        console.log('222')
         fromdata.append('loginUsername', 'lixiansen')
         fromdata.append('file', e.file)
       }
-      HttpEhr.multiUpload(fromdata).then(res => {
-        console.log(res)
+      await HttpEhr.multiUpload(fromdata).then(res => {
+        let newList = []
+        res.data.forEach(element => {
+          let url = `${this.serverUrl}/cap-bpm/attach/download.do?id=${element.id}&loginUsername=${this.loginUserName}`
+          newList.push(url)
+        });
+        this.fileViewLists = [...this.fileViewLists, ...newList]
         // http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=2a0df3e74c2c495fbe80198c85f0cf7a&loginUsername=wangw
         // this.fileViewLists = [...this.fileViewLists, ...res.Result]
       })
     },
     // 图片删除
-    delImg (file, item) {
-      console.log(file)
-      console.log(item)
-      console.log('删除')
-      // this.uploadImages.splice(item.index, 1)
+    delImg (index) {
+      this.fileViewLists.splice(index, 1)
+    },
+    //图片预览
+    viewImg (index) {
+      ImagePreview(
+        {
+          images: this.fileViewLists,
+          startPosition: index,
+        }
+      );
     }
   },
   mounted () {
     console.log(window.location.host)
-
     this.fromData.endTime = this.getdate()
     this.fromData.startTime = this.getdate()
     // 1:修改 2:销假
@@ -396,11 +397,11 @@ export default {
       document.title = '假期申请调整'
     } else {
       document.title = '请假申请'
-      this.init()
+      // this.init()
     }
     // 获取ID
     if (this.$route.query.id) {
-      this.dataId = this.$route.query.id
+      this.fromData.id = this.$route.query.id
     }
   }
 }
@@ -488,20 +489,33 @@ export default {
               color: #999;
               font-size: 0.28rem;
             }
-            .img-box {
-              width: 100%;
-            }
             // .img-box {
-            //   background: rgb(248, 191, 191);
-            //   box-sizing: border-box;
-            //   width: 33.3%;
-            //   height: 1.05rem;
-            //   padding: 0.1rem;
-            //   img {
-            //     width: 100%;
-            //     height: 100%;
-            //   }
+            //   width: 100%;
             // }
+            .img-box {
+              // background: rgb(248, 191, 191);
+              box-sizing: border-box;
+              width: 33.3%;
+              height: 1rem;
+              padding: 0 0.1rem;
+              position: relative;
+              top: 0.3rem;
+              .icon-close {
+                position: absolute;
+                display: inline-block;
+                width: 0.24rem;
+                height: 0.24rem;
+                right: 0;
+                top: -0.1rem;
+                background: url("../../../../static/img/close.png") 0 0
+                  no-repeat;
+                background-size: 100% 100%;
+              }
+              img {
+                width: 100%;
+                height: 100%;
+              }
+            }
           }
         }
       }
