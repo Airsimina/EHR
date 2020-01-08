@@ -136,7 +136,6 @@ export default {
         this.util.setSession('sessionData', { userId: this.userId })
       }
       await this.annualResidue().then(res => {
-        console.log(res.datas.surplus)
         this.vacationNum = res.datas.surplus
       })
       // HttpEhr.getUserInfo({ userId: this.userId }).then(res => {
