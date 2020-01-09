@@ -102,18 +102,15 @@ export default {
     // 获取我的工资列表
     getMySalaryList () {
       HttpEhr.getMySalaryList({
-        //  userId: this.util.getSession('sessionData').userId || '',
-        // userId: '00025608',
-        // startDate: this.startTime,
-        // endDate: this.endTime
+        // userId: this.util.getSession('sessionData').userId || '',
         userId: '00025608',
-        startDate: '2019-01',
-        endDate: '2019-04'
+        startDate: this.startTime,
+        endDate: this.endTime
+        // userId: '00025608',
+        // startDate: '2019-01',
+        // endDate: '2019-04'
       }).then(res => {
         console.log(res)
-        for (const key in res.data.detailData) {
-          console.log(key)
-        }
         // this.dataList = res.data.list
         this.dataList = res.data.detailData
         // this.sumSalary = res.data.sumSalary
@@ -127,7 +124,6 @@ export default {
     },
     // 搜索方法
     searchTimeMySalaryFun (timeData) {
-      console.log(timeData)
       this.startTime = timeData.startTime
       this.endTime = timeData.endTime
       this.getMySalaryList()

@@ -103,7 +103,6 @@ export default {
         page: this.page,
         showCount: this.showCount
       }).then(res => {
-        console.log(res)
         if (res.data.list.length > 0) {
           this.dataList = this.dataList.concat(res.data.list)
           this.totalPage = res.data.totalPage
@@ -116,7 +115,6 @@ export default {
     },
     // 搜索
     classSearchFun (subData) {
-      console.log(subData)
       this.page = 1
       this.totalPage = -1
       this.jsonData.startTime = subData.startTime

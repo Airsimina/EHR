@@ -139,7 +139,6 @@ export default {
         this.vacationNum = res.data.surplus
       })
       // HttpEhr.getUserInfo({ userId: this.userId }).then(res => {
-      //   console.log(res)
       //   if (res.code == 200) {
       //     const sessionData = res.data
       //     this.util.setSession('sessionData', sessionData)

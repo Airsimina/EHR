@@ -215,18 +215,11 @@ export default new Router({
                     import('../pages/myTimecard/applyRecord/applyRecord.vue')
             },
             {
-                // 请假申请
+                // 请假申请详情
                 path: '/leaveApply',
                 name: 'leaveApply',
                 component: () =>
                     import('../pages/myTimecard/leaveApply/leaveApply.vue')
-            },
-            {
-                // 请假申请
-                path: '/destroyVacation',
-                name: 'destroyVacation',
-                component: () =>
-                    import('../pages/myTimecard/destroyVacation/destroyVacation.vue')
             },
             {
                 // 年假余额

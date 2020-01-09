@@ -43,7 +43,7 @@
               <input type="number"
                      :disabled="fromData.leaveTypeId != '3'"
                      class="input-time"
-                     :placeholder="fromData.leaveTypeId == '3' ? '请输入时长' :''"
+                     :placeholder="fromData.leaveTypeId == '3'  ? '请输入时长' :'0'"
                      v-model="fromData.duration">
               <span class="dw">/天</span>
             </div>
@@ -127,10 +127,10 @@ export default {
       loginUserName: 'lixianxen',
       fromData: {
         leaveTypeId: '1', // 请假类型id
-        duration: '1', // 请假时长
+        duration: '', // 请假时长
         reason: '', // 理由
-        startTime: '', // 开始时间
-        endTime: '', // 结束时间,
+        startTime: '请选择', // 开始时间
+        endTime: '请选择', // 结束时间,
         id: '', // 原请假id  修改 , 销假用
         fileViewLists: [] // 图片集合
       },
@@ -374,16 +374,12 @@ export default {
           startPosition: index
         }
       )
-    },
-    // 默认时间
-    initTime () {
-      this.fromData.endTime = this.util.setDefaultTime(1)
-      this.fromData.startTime = this.util.setDefaultTime(1)
     }
+
   },
   mounted () {
     console.log(window.location.host)
-    this.initTime()
+    // this.initTime()
     // 1:修改 2:销假
     this.flag = this.$route.query.flag
     if (this.flag == '2') {

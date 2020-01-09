@@ -149,7 +149,6 @@ export default {
         startDate: this.startTime,
         endtDate: this.endTime
       }).then(res => {
-        console.log(res)
         this.formData = res.data.formData
         this.setVal()
         this.dataList = res.data.list
@@ -167,7 +166,6 @@ export default {
     },
     // 搜索方法
     searchTimeChSeFun (timeData) {
-      console.log(timeData)
       this.startTime = timeData.startTime
       this.endTime = timeData.endTime
       // this.getcheckSeekList()

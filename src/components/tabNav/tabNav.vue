@@ -190,10 +190,7 @@ export default {
       } else if (this.tabIndex == 2) {
         this.lisindex_3 = index
       }
-      // console.log(item.id)
       this.setInfoData(util.filtData(this.getInfoDataList, item.id))
-      // console.log(util.filtData(this.getInfoDataList, item.id))
-
       this.$router.push({
         name: item.path
       })

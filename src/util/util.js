@@ -99,5 +99,39 @@ export default {
         } else {
             return `${y}-${m}`
         }
+    },
+    // 时间格式化 默认时间 升级后
+    setDefaultTime2 ({ type, num }) {
+        const date = new Date()
+        var y = date.getFullYear() // 年
+        var m = date.getMonth() + 1 // 月
+        var d = date.getDate() + 1 // 天
+        // var h = date.getHours()// 小时
+        // var mi = date.getMinutes() // 分
+        // var s = date.getSeconds()// 秒
+
+        m = m < 10 ? '0' + m : m
+        d = d < 10 ? '0' + d : d
+        // h = h < 10 ? '0' + h : h
+        // mi = mi < 10 ? '0' + mi : mi
+        // s = s < 10 ? '0' + s : s
+
+        if (type == 1) {
+            if (num == 2) {
+                return `${y}年${m}月`
+            } else if (num == 3) {
+                return `${y}年${m}月${d}日`
+            } else if (num == 4) {
+                return `${y}年${m}月${d}日 00时00分00秒`
+            }
+        } else if (type == 2) {
+            if (num == 2) {
+                return `${y}-${m}`
+            } else if (num == 3) {
+                return `${y}-${m}-${d}`
+            } else if (num == 4) {
+                return `${y}-${m}-${d} 00:00:00`
+            }
+        }
     }
 }

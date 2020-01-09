@@ -71,7 +71,6 @@ export default {
     },
     // 确定按钮，时间格式化并显示在页面上
     confirmPicker (value) {
-      console.log(value)
       const date = value
       let m = date.getMonth() + 1
       let d = date.getDate()
