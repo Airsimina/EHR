@@ -87,5 +87,17 @@ export default {
     // 过滤数据
     filtData (arr, id) {
         return arr.filter(item => item.afType === id)
+    },
+    // 时间格式化 默认时间
+    setDefaultTime (type) {
+        const date = new Date()
+        var y = date.getFullYear()
+        var m = date.getMonth() + 1
+        m = m < 10 ? '0' + m : m
+        if (type == 1) {
+            return `${y}年${m}月`
+        } else {
+            return `${y}-${m}`
+        }
     }
 }

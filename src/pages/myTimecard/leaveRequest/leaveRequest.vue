@@ -309,16 +309,6 @@ export default {
       }
       return value
     },
-    // 获取默认时间
-    getdate () {
-      const date = new Date()
-      var y = date.getFullYear()
-      var m = date.getMonth() + 1
-      var d = date.getDay()
-      m = m < 10 ? '0' + m : m
-      d = d < 10 ? '0' + d : d
-      return `${y}-${m}-${d}`
-    },
     // 请假类型选择
     onConfirm (item, index) {
       this.leaveType = item.text
@@ -384,12 +374,16 @@ export default {
           startPosition: index
         }
       )
+    },
+    // 默认时间
+    initTime () {
+      this.fromData.endTime = this.util.setDefaultTime(1)
+      this.fromData.startTime = this.util.setDefaultTime(1)
     }
   },
   mounted () {
     console.log(window.location.host)
-    this.fromData.endTime = this.getdate()
-    this.fromData.startTime = this.getdate()
+    this.initTime()
     // 1:修改 2:销假
     this.flag = this.$route.query.flag
     if (this.flag == '2') {

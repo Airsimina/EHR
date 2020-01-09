@@ -116,10 +116,11 @@ export default {
     },
     // 搜索
     classSearchFun (subData) {
+      console.log(subData)
       this.page = 1
       this.totalPage = -1
-      this.jsonData.startTime = subData.startDate
-      this.jsonData.endTime = subData.endDate
+      this.jsonData.startTime = subData.startTime
+      this.jsonData.endTime = subData.endTime
       this.jsonData.type = subData.type
       if (this.$route.query.icon == 'qjtzsq') {
         this.jsonData.status = '1'
@@ -137,18 +138,24 @@ export default {
       // }
       this.page++
       this.getApplyRecordList()
-    }
-  },
-  created () {
-    if (this.$route.query.icon == 'qjtzsq') {
-      document.title = '假期调整申请'
-      this.pageTypeVal = '2'
-    } else {
-      document.title = '我的申请'
-      this.pageTypeVal = '1'
+    },
+    // 默认时间
+    initTime () {
+      this.jsonData.endTime = this.util.setDefaultTime(2)
+      this.jsonData.startTime = this.util.setDefaultTime(2)
+    },
+    created () {
+      if (this.$route.query.icon == 'qjtzsq') {
+        document.title = '假期调整申请'
+        this.pageTypeVal = '2'
+      } else {
+        document.title = '我的申请'
+        this.pageTypeVal = '1'
+      }
     }
   },
   mounted () {
+    this.initTime()
     // 测试数据
     // this.dataList = testapplyList.data
   }

@@ -35,8 +35,10 @@
                @click.stop="open(item,index)">
             <div class="box1-lis right-lis">
               <div class="top">
+                <!-- 月工资记录 -->
                 {{item.titleName.substr(0,4)}}年
-                {{item.titleName.substr(4,2)}}月工资记录</div>
+                {{item.titleName.substr(4,2)}}月工资记录
+              </div>
               <!-- <div class="bottom">进账金额:10000.00元 </div> -->
             </div>
             <div class="left-lis"
@@ -65,7 +67,7 @@
 <script>
 import cardSearchTime from '@components/card/cardSearchTime'
 import HttpEhr from '@requestPool/index.js'
-import testmysalary from '../../testJson/mySalary.js'
+// import testmysalary from '../../testJson/mySalary.js'
 export default {
   components: { cardSearchTime },
   props: {},
@@ -100,13 +102,20 @@ export default {
     // 获取我的工资列表
     getMySalaryList () {
       HttpEhr.getMySalaryList({
-        userId: '00025015',
-        startDate: this.startTime,
-        endtDate: this.endTime
+        //  userId: this.util.getSession('sessionData').userId || '',
+        // userId: '00025608',
+        // startDate: this.startTime,
+        // endDate: this.endTime
+        userId: '00025608',
+        startDate: '2019-01',
+        endDate: '2019-04'
       }).then(res => {
         console.log(res)
+        for (const key in res.data.detailData) {
+          console.log(key)
+        }
         // this.dataList = res.data.list
-        // this.dataList = res.data.detailData
+        this.dataList = res.data.detailData
         // this.sumSalary = res.data.sumSalary
         // this.startTime = res.data.startDate
         // this.endTime = res.data.endDate
@@ -122,18 +131,24 @@ export default {
       this.startTime = timeData.startTime
       this.endTime = timeData.endTime
       this.getMySalaryList()
+    },
+    // 默认时间
+    initTime () {
+      this.endTime = this.util.setDefaultTime(2)
+      this.startTime = this.util.setDefaultTime(2)
     }
   },
   mounted () {
     document.title = '我的工资'
-    // 测试数据
-    this.dataList = testmysalary.detailData
-    this.sumSalary = testmysalary.sumSalary
-    this.titleTime = `${testmysalary.startDate.substr(0, 4)}年
-                ${testmysalary.startDate.substr(5, 2)}月 -
-                ${testmysalary.endDate.substr(0, 4)}年
-                ${testmysalary.endDate.substr(5, 2)}月汇总工资记录`
+    this.initTime()
     this.getMySalaryList()
+    // 测试数据
+    // this.dataList = testmysalary.detailData
+    // this.sumSalary = testmysalary.sumSalary
+    // this.titleTime = `${testmysalary.startDate.substr(0, 4)}年
+    //             ${testmysalary.startDate.substr(5, 2)}月 -
+    //             ${testmysalary.endDate.substr(0, 4)}年
+    //             ${testmysalary.endDate.substr(5, 2)}月汇总工资记录`
   }
 }
 </script>

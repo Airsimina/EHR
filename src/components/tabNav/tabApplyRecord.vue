@@ -234,22 +234,10 @@ export default {
     },
     // 默认时间
     initTime () {
-      this.endTime = this.getdate(1)
-      this.startTime = this.getdate(1)
-      this.startTimeVal = this.getdate(2)
-      this.endTimeVal = this.getdate(2)
-    },
-    // 获取默认时间
-    getdate (type) {
-      const date = new Date()
-      var y = date.getFullYear()
-      var m = date.getMonth() + 1
-      m = m < 10 ? '0' + m : m
-      if (type == 1) {
-        return `${y}年${m}月`
-      } else {
-        return `${y}-${m}`
-      }
+      this.endTime = this.util.setDefaultTime(1)
+      this.startTime = this.util.setDefaultTime(1)
+      this.startTimeVal = this.util.setDefaultTime(2)
+      this.endTimeVal = this.util.setDefaultTime(2)
     }
   },
   mounted () {
