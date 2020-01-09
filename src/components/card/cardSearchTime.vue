@@ -23,18 +23,24 @@
                            type="year-month"
                            :formatter="formatter" />
     </van-popup>
+    <!-- <van-calendar v-model="isPopShow"
+                  @confirm="confirmPicker"
+                  :title="popupTitle"
+                  :min-date="minDate"
+                  :max-date="maxDate"
+                  :default-date="currentDate"
+                  @cancel="cancelPicker" /> -->
   </div>
 </template>
 
 <script>
 export default {
-  props: {
-  },
-
   data () {
     return {
+      minDate: new Date(2019, 0, 1),
+      maxDate: new Date(2040, 0, 31),
       popupTitle: '',
-      currentDate: new Date(),
+      currentDate: new Date(), // 时间默认值
       datePicker: 0, // 用于判断哪个选择器的显示与隐藏
       isPopShow: false, // 弹出层隐藏与显示
       startTime: '', // 开始时间
@@ -65,6 +71,7 @@ export default {
     },
     // 确定按钮，时间格式化并显示在页面上
     confirmPicker (value) {
+      console.log(value)
       const date = value
       let m = date.getMonth() + 1
       let d = date.getDate()

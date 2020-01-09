@@ -1,5 +1,5 @@
 const data = {
-  datas: {
+  data: {
     flowData: {
       sla_re_node_id: '',
       loginUsername: 'wangw',

@@ -50,9 +50,9 @@ export default {
         startDate: this.startTime,
         endtDate: this.endTime
       }).then(res => {
-        this.fixationNum = res.datas.quota
-        this.fulfillNum = res.datas.quota
-        this.residueNum = res.datas.surplus
+        this.fixationNum = res.data.quota
+        this.fulfillNum = res.data.quota
+        this.residueNum = res.data.surplus
       })
     }
   },

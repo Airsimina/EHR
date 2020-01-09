@@ -11,8 +11,9 @@
             <div class="box1-lis right-lis">
               <div class="top">
                 {{this.startTime.substr(0,4)}}年
-                {{this.endTime.substr(5,3)}}月
-                汇总考勤记录</div>
+                {{this.startTime.substr(5,3)}}月 -
+                {{this.endTime.substr(0,4)}}年
+                {{this.endTime.substr(5,3)}}月汇总考勤记录</div>
             </div>
             <div class="left-lis"
                  :class="{'open':collectShow}"></div>
@@ -43,9 +44,7 @@
             <div class="box1-lis right-lis">
               <div class="top">
                 {{item.title.substr(0,4)}}年
-                {{item.title.substr(5,2)}}月
-                考勤记录
-              </div>
+                {{item.title.substr(5,2)}}月考勤记录</div>
             </div>
             <div class="left-lis"
                  :class="{'open':selIndex==index}"></div>
@@ -92,7 +91,7 @@
 <script>
 import cardSearchTime from '@components/card/cardSearchTime'
 import HttpEhr from '@requestPool/index.js'
-import checkData from '../../../testJson/checkSeek.js'
+// import checkData from '../../../testJson/checkSeek.js'
 // import util from '../../../util/util.js'
 
 export default {
@@ -151,12 +150,12 @@ export default {
         endtDate: this.endTime
       }).then(res => {
         console.log(res)
-        this.formData = res.datas.formData
-        this.setVal(this.formData)
-        this.dataList = res.datas.list
+        this.formData = res.data.formData
+        this.setVal()
+        this.dataList = res.data.list
       })
     },
-    setVal (datas) {
+    setVal () {
       this.dataList_s[0].val = this.formData.compassionateLeave // 事假
       this.dataList_s[1].val = this.formData.sickLeave // 病假
       this.dataList_s[2].val = this.formData.marriageLeave // 婚假

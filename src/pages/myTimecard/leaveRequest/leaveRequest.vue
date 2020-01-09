@@ -116,15 +116,15 @@
 <script>
 import HttpEhr from '@requestPool/index.js'
 // import util from '../../../util/util.js'
-// import datas from '../../../testJson/from.js'
-import { ImagePreview } from 'vant';
+// import testdata from '../../../testJson/from.js'
+import { ImagePreview } from 'vant'
 export default {
   components: {},
   props: {},
   data () {
     return {
-      serverUrl: "http://hafdev.hxoadev.com",
-      loginUserName: "lixianxen",
+      serverUrl: 'http://hafdev.hxoadev.com',
+      loginUserName: 'lixianxen',
       fromData: {
         leaveTypeId: '1', // 请假类型id
         duration: '1', // 请假时长
@@ -171,7 +171,7 @@ export default {
           id: '7',
           text: '产假'
         }
-      ],
+      ]
 
     }
   },
@@ -229,7 +229,6 @@ export default {
         endDate: this.fromData.endTime,
         sum: this.fromData.duration,
         url: JSON.stringify(this.fromData.fileViewLists),
-        note: this.fromData.duration,
         flowData: '测试 abc',
         note: this.fromData.reason
       }).then(res => {
@@ -261,7 +260,7 @@ export default {
         sum: this.fromData.duration,
         note: this.fromData.reason
       }).then(res => {
-        console.log('销假');
+        console.log('销假')
         console.log(res)
       })
     },
@@ -363,11 +362,11 @@ export default {
         fromdata.append('file', e.file)
       }
       await HttpEhr.multiUpload(fromdata).then(res => {
-        let newList = []
+        const newList = []
         res.data.forEach(element => {
-          let url = `${this.serverUrl}/cap-bpm/attach/download.do?id=${element.id}&loginUsername=${this.loginUserName}`
+          const url = `${this.serverUrl}/cap-bpm/attach/download.do?id=${element.id}&loginUsername=${this.loginUserName}`
           newList.push(url)
-        });
+        })
         this.fileViewLists = [...this.fileViewLists, ...newList]
         // http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=2a0df3e74c2c495fbe80198c85f0cf7a&loginUsername=wangw
         // this.fileViewLists = [...this.fileViewLists, ...res.Result]
@@ -377,14 +376,14 @@ export default {
     delImg (index) {
       this.fileViewLists.splice(index, 1)
     },
-    //图片预览
+    // 图片预览
     viewImg (index) {
       ImagePreview(
         {
           images: this.fileViewLists,
-          startPosition: index,
+          startPosition: index
         }
-      );
+      )
     }
   },
   mounted () {

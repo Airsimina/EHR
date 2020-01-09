@@ -47,11 +47,11 @@ export default {
         isMoble: 'isMoble'
       }).then(res => {
         // 总数据保存起来
-        this.setInfoDataList(res.datas)
+        this.setInfoDataList(res.data)
         // 默认显示第一个 基本信息
-        this.setInfoData(util.filtData(res.datas, '01'))
-        this.userNumber = util.filtData(res.datas, '01')[0].dataList[0].id
-        this.title = util.filtData(res.datas, '01')[0].dataList[0].name
+        this.setInfoData(util.filtData(res.data, '01'))
+        this.userNumber = util.filtData(res.data, '01')[0].dataList[0].id
+        this.title = util.filtData(res.data, '01')[0].dataList[0].name
       })
     }
   },

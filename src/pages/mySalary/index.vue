@@ -65,7 +65,7 @@
 <script>
 import cardSearchTime from '@components/card/cardSearchTime'
 import HttpEhr from '@requestPool/index.js'
-import datas from '../../testJson/mySalary.js'
+import testmysalary from '../../testJson/mySalary.js'
 export default {
   components: { cardSearchTime },
   props: {},
@@ -105,15 +105,15 @@ export default {
         endtDate: this.endTime
       }).then(res => {
         console.log(res)
-        // this.dataList = res.datas.list
-        // this.dataList = res.datas.detailData
-        // this.sumSalary = res.datas.sumSalary
-        // this.startTime = res.datas.startDate
-        // this.endTime = res.datas.endDate
-        // this.titleTime = `${res.datas.startDate.substr(0, 4)}年
-        //         ${res.datas.startDate.substr(5, 2)}月 -
-        //         ${res.datas.endDate.substr(0, 4)}年
-        //         ${res.datas.endDate.substr(5, 2)}月汇总工资记录`
+        // this.dataList = res.data.list
+        // this.dataList = res.data.detailData
+        // this.sumSalary = res.data.sumSalary
+        // this.startTime = res.data.startDate
+        // this.endTime = res.data.endDate
+        // this.titleTime = `${res.data.startDate.substr(0, 4)}年
+        //         ${res.data.startDate.substr(5, 2)}月 -
+        //         ${res.data.endDate.substr(0, 4)}年
+        //         ${res.data.endDate.substr(5, 2)}月汇总工资记录`
       })
     },
     // 搜索方法
@@ -124,16 +124,16 @@ export default {
       this.getMySalaryList()
     }
   },
-  created () { },
   mounted () {
     document.title = '我的工资'
-    this.dataList = datas.detailData
-    this.sumSalary = datas.sumSalary
-    this.titleTime = `${datas.startDate.substr(0, 4)}年
-                ${datas.startDate.substr(5, 2)}月 -
-                ${datas.endDate.substr(0, 4)}年
-                ${datas.endDate.substr(5, 2)}月汇总工资记录`
-    // this.getMySalaryList()
+    // 测试数据
+    this.dataList = testmysalary.detailData
+    this.sumSalary = testmysalary.sumSalary
+    this.titleTime = `${testmysalary.startDate.substr(0, 4)}年
+                ${testmysalary.startDate.substr(5, 2)}月 -
+                ${testmysalary.endDate.substr(0, 4)}年
+                ${testmysalary.endDate.substr(5, 2)}月汇总工资记录`
+    this.getMySalaryList()
   }
 }
 </script>

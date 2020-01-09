@@ -57,7 +57,7 @@
 <script>
 import tabApplyRecord from '@components/tabNav/tabApplyRecord'
 import HttpEhr from '@requestPool/index.js'
-// import testdatas from '../../../testJson/applyList.js'
+// import testapplyList from '../../../testJson/applyList.js'
 // import util from '../../../util/util.js'
 
 export default {
@@ -104,9 +104,9 @@ export default {
         showCount: this.showCount
       }).then(res => {
         console.log(res)
-        if (res.datas.list.length > 0) {
-          this.dataList = this.dataList.concat(res.datas.list)
-          this.totalPage = res.datas.totalPage
+        if (res.data.list.length > 0) {
+          this.dataList = this.dataList.concat(res.data.list)
+          this.totalPage = res.data.totalPage
           this.loading = false
         } else {
           this.finished = true
@@ -150,7 +150,7 @@ export default {
   },
   mounted () {
     // 测试数据
-    // this.dataList = testdatas.datas
+    // this.dataList = testapplyList.data
   }
 }
 </script>
