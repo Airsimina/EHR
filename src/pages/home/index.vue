@@ -16,8 +16,8 @@
     </div>
     <div class="container">
       <div class="single"
-           @click="goto(item)"
-           v-for="(item,index) in iconList"
+           @click="transmitFun(item)"
+           v-for="(item,index) in fromData.list_a"
            :key="index">
         <img class="single-icon"
              :src="item.iconUrl">
@@ -27,8 +27,8 @@
     <div class=people-container>
       <div class="people-title">人事管理</div>
       <div class="single"
-           @click="goto(item)"
-           v-for="(item,index) in personnelManageList"
+           @click="transmitFun(item)"
+           v-for="(item,index) in fromData.list_b"
            :key="index">
         <img class="single-icon"
              :src="item.iconUrl">
@@ -43,55 +43,57 @@ import HttpEhr from '@requestPool/index.js'
 export default {
   data () {
     return {
-      iconList: [
-        {
-          iconUrl: '../../../static/img/myMessage.png',
-          iconText: '我的信息',
-          path: 'myMessage'
-        },
-        {
-          iconUrl: '../../../static/img/money.png',
-          iconText: '我的工资',
-          path: 'mySalary'
-        },
-        {
-          iconUrl: '../../../static/img/check.png',
-          iconText: '我的考勤',
-          path: 'myTimecard'
-        },
-        {
-          iconUrl: '../../../static/img/text.png',
-          iconText: '我的的异动',
-          path: ''
-        },
-        {
-          iconUrl: '../../../static/img/kzm.png',
-          iconText: '审批',
-          path: ''
-        }
-      ],
-      personnelManageList: [
-        {
-          iconUrl: '../../../static/img/people.png',
-          iconText: '员工信息',
-          path: ''
-        },
-        {
-          iconUrl: '../../../static/img/card.png',
-          iconText: '员工薪酬',
-          path: ''
-        },
-        {
-          iconUrl: '../../../static/img/personcard.png',
-          iconText: '员工考勤',
-          path: ''
-        },
-        {
-          iconUrl: '../../../static/img/list.png',
-          iconText: '员工异动',
-          path: ''
-        }
-      ],
+      fromData: {
+        list_a: [
+          {
+            iconUrl: '../../../static/img/myMessage.png',
+            iconText: '我的信息',
+            path: 'myMessage'
+          },
+          {
+            iconUrl: '../../../static/img/money.png',
+            iconText: '我的工资',
+            path: 'mySalary'
+          },
+          {
+            iconUrl: '../../../static/img/check.png',
+            iconText: '我的考勤',
+            path: 'myTimecard'
+          },
+          {
+            iconUrl: '../../../static/img/text.png',
+            iconText: '我的的异动',
+            path: ''
+          },
+          {
+            iconUrl: '../../../static/img/kzm.png',
+            iconText: '审批',
+            path: ''
+          }
+        ],
+        list_b: [
+          {
+            iconUrl: '../../../static/img/people.png',
+            iconText: '员工信息',
+            path: ''
+          },
+          {
+            iconUrl: '../../../static/img/card.png',
+            iconText: '员工薪酬',
+            path: ''
+          },
+          {
+            iconUrl: '../../../static/img/personcard.png',
+            iconText: '员工考勤',
+            path: ''
+          },
+          {
+            iconUrl: '../../../static/img/list.png',
+            iconText: '员工异动',
+            path: ''
+          }
+        ]
+      },
       userId: '',
       awaitNum: '0',
       vacationNum: '0'
@@ -102,7 +104,8 @@ export default {
     document.title = '首页'
   },
   methods: {
-    goto (item) {
+    // 跳转
+    transmitFun (item) {
       if (!item.path) {
         this.$toast(
           {
@@ -118,6 +121,7 @@ export default {
         }
       })
     },
+    // 获取年假余额
     annualResidue () {
       return new Promise((resolve, reject) => {
         HttpEhr.annualResidue({ userId: this.userId }).then(res => {
@@ -127,7 +131,9 @@ export default {
     },
     // 获取userId  设置年假
     async getUserId () {
-      this.userId = '00025015'
+      // this.userId = '00025015'
+      this.userId = '00025608'
+
       // 判断是不是打包环境获取userId
       if (this.buildType !== 'dev') {
         const urlId = location.href.split('?')[1].split('=')[1]

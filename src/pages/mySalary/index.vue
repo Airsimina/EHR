@@ -102,24 +102,27 @@ export default {
     // 获取我的工资列表
     getMySalaryList () {
       HttpEhr.getMySalaryList({
-        // userId: this.util.getSession('sessionData').userId || '',
-        userId: '00025608',
+        userId: this.util.getSession('sessionData').userId || '',
+        // userId: '00025608',
         startDate: this.startTime,
         endDate: this.endTime
-        // userId: '00025608',
         // startDate: '2019-01',
         // endDate: '2019-04'
       }).then(res => {
-        console.log(res)
-        // this.dataList = res.data.list
-        this.dataList = res.data.detailData
-        // this.sumSalary = res.data.sumSalary
-        // this.startTime = res.data.startDate
-        // this.endTime = res.data.endDate
-        // this.titleTime = `${res.data.startDate.substr(0, 4)}年
-        //         ${res.data.startDate.substr(5, 2)}月 -
-        //         ${res.data.endDate.substr(0, 4)}年
-        //         ${res.data.endDate.substr(5, 2)}月汇总工资记录`
+        this.titleTime = `${res.data.startDate.substr(0, 4)}年
+                ${res.data.startDate.substr(5, 2)}月 -
+                ${res.data.endDate.substr(0, 4)}年
+                ${res.data.endDate.substr(5, 2)}月汇总工资记录`
+        if (!res.data.detailData) {
+          this.dataList = []
+        } else {
+          this.dataList = res.data.detailData
+        }
+        if (!res.data.sumSalary) {
+          this.sumSalary = []
+        } else {
+          this.sumSalary = res.data.sumSalary
+        }
       })
     },
     // 搜索方法
