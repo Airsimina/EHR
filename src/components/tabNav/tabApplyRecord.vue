@@ -151,7 +151,6 @@ export default {
 
     }
   },
-  watch: {},
   methods: {
     // 切换tab
     changeTab (item, index) {

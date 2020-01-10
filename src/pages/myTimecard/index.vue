@@ -108,6 +108,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss" scoped>
 .myTimecard {
   font-size: 0.24rem;

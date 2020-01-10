@@ -141,15 +141,15 @@ export default {
     initTime () {
       this.jsonData.endTime = this.util.setDefaultTime(2)
       this.jsonData.startTime = this.util.setDefaultTime(2)
-    },
-    created () {
-      if (this.$route.query.icon == 'qjtzsq') {
-        document.title = '假期调整申请'
-        this.pageTypeVal = '2'
-      } else {
-        document.title = '我的申请'
-        this.pageTypeVal = '1'
-      }
+    }
+  },
+  created () {
+    if (this.$route.query.icon == 'qjtzsq') {
+      document.title = '假期调整申请'
+      this.pageTypeVal = '2'
+    } else {
+      document.title = '我的申请'
+      this.pageTypeVal = '1'
     }
   },
   mounted () {

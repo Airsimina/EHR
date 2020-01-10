@@ -11,7 +11,7 @@
             </div>
             <div class="lis-r"
                  @click="openPopShowType">
-              <div class="div-val-1">{{leaveType}}</div>
+              <div class="div-val-1">{{leaveTypetxt}}</div>
               <div :class="{'icon-jt' :this.flag!='2'}"></div>
             </div>
           </div>
@@ -56,13 +56,13 @@
             </div>
             <div class="lis-r">
               <van-uploader :preview-size="55"
-                            v-if="fileViewLists.length<9"
+                            v-if="fromData.fileViewLists.length<9"
                             multiple
                             :after-read="afterRead"
                             @delete="delImg"
                             :max-count="9"></van-uploader>
               <div class="img-box"
-                   v-for="(item,index) in fileViewLists"
+                   v-for="(item,index) in fromData.fileViewLists"
                    :key="index">
                 <div class="icon-close"
                      @click="delImg(index)"></div>
@@ -132,17 +132,16 @@ export default {
         startTime: '请选择', // 开始时间
         endTime: '请选择', // 结束时间,
         id: '', // 原请假id  修改 , 销假用
-        fileViewLists: [] // 图片集合
+        // 图片集合
+        fileViewLists: [
+          // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=8343bf7b65534b6db88cafe0bb4ce6a9&loginUsername=lixiansen',
+          // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=5be9bd97e71a4d7b940178fd206c8859&loginUsername=lixiansen',
+          // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=a3c321f355604772b99346714f60b473&loginUsername=lixiansen',
+          // 'https://img.yzcdn.cn/vant/leaf.jpg'
+        ]
       },
-      flag: '0', // 1:修改 2:销假
-      leaveType: '' || '请选择', // 请假类型
-      // 本地数据图片集合
-      fileViewLists: [
-        // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=8343bf7b65534b6db88cafe0bb4ce6a9&loginUsername=lixiansen',
-        // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=5be9bd97e71a4d7b940178fd206c8859&loginUsername=lixiansen',
-        // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=a3c321f355604772b99346714f60b473&loginUsername=lixiansen',
-        // 'https://img.yzcdn.cn/vant/leaf.jpg'
-      ],
+      flag: '1', // 1:修改 2:销假
+      leaveTypetxt: '' || '请选择', // 请假类型文字
       // 时间选择title
       popupTitle: '',
       currentDate: new Date(),
@@ -264,7 +263,42 @@ export default {
         console.log(res)
       })
     },
-    // 弹出层并显示时间选择器 0: 开始 1: 结束
+    // 图片上传 读取完成后的回调函数
+    async afterRead (e) {
+      const fromdata = new FormData()
+      if (e && e.length) { // 判断是否是多图上传 多图则循环添加进去
+        e.forEach(item => {
+          fromdata.append('loginUsername', 'lixiansen')
+          fromdata.append('file', item.file)// 第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
+        })
+      } else {
+        fromdata.append('loginUsername', 'lixiansen')
+        fromdata.append('file', e.file)
+      }
+      await HttpEhr.multiUpload(fromdata).then(res => {
+        const newList = []
+        res.data.forEach(element => {
+          const url = `${this.serverUrl}/cap-bpm/attach/download.do?id=${element.id}&loginUsername=${this.loginUserName}`
+          newList.push(url)
+        })
+        this.fromData.fileViewLists = [...this.fromData.fileViewLists, ...newList]
+        // http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=2a0df3e74c2c495fbe80198c85f0cf7a&loginUsername=wangw
+      })
+    },
+    // 图片删除
+    delImg (index) {
+      this.fromData.fileViewLists.splice(index, 1)
+    },
+    // 图片预览
+    viewImg (index) {
+      ImagePreview(
+        {
+          images: this.fromData.fileViewLists,
+          startPosition: index
+        }
+      )
+    },
+    // 打开时间选择器 0: 开始 1: 结束
     showDatePicker (picker) {
       this.isPopShow = true
       this.datePicker = picker
@@ -274,12 +308,12 @@ export default {
         this.popupTitle = '选择开始日期'
       }
     },
-    // 选择器取消按钮点击事件
+    // 关闭日历选择
     cancelPicker () {
       this.isPopShow = false
       this.datePicker = ''
     },
-    // 确定按钮，时间格式化并显示在页面上
+    // 确定日期选择，时间格式化并显示在页面上
     confirmPicker (value) {
       const date = value
       const y = date.getFullYear()
@@ -309,20 +343,20 @@ export default {
       }
       return value
     },
-    // 请假类型选择
+    // 确认请假类型选择
     onConfirm (item, index) {
-      this.leaveType = item.text
+      this.leaveTypetxt = item.text
       this.fromData.leaveTypeId = item.id
       this.isPopShowType = false
       if (this.fromData.leaveTypeId != '3') {
         this.fromData.duration = this.DateMinus(this.fromData.startTime, this.fromData.endTime)
       }
     },
-    // 关闭
+    // 关闭请假类型下拉选
     onCancel () {
       this.isPopShowType = false
     },
-    // 打开
+    // 展开请假类型下拉选
     openPopShowType () {
       if (this.flag == '2') return
       this.isPopShowType = true
@@ -338,42 +372,6 @@ export default {
         return
       }
       return day + 1
-    },
-    // 图片上传 读取完成后的回调函数
-    async afterRead (e) {
-      const fromdata = new FormData()
-      if (e && e.length) { // 判断是否是多图上传 多图则循环添加进去
-        e.forEach(item => {
-          fromdata.append('loginUsername', 'lixiansen')
-          fromdata.append('file', item.file)// 第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
-        })
-      } else {
-        fromdata.append('loginUsername', 'lixiansen')
-        fromdata.append('file', e.file)
-      }
-      await HttpEhr.multiUpload(fromdata).then(res => {
-        const newList = []
-        res.data.forEach(element => {
-          const url = `${this.serverUrl}/cap-bpm/attach/download.do?id=${element.id}&loginUsername=${this.loginUserName}`
-          newList.push(url)
-        })
-        this.fileViewLists = [...this.fileViewLists, ...newList]
-        // http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=2a0df3e74c2c495fbe80198c85f0cf7a&loginUsername=wangw
-        // this.fileViewLists = [...this.fileViewLists, ...res.Result]
-      })
-    },
-    // 图片删除
-    delImg (index) {
-      this.fileViewLists.splice(index, 1)
-    },
-    // 图片预览
-    viewImg (index) {
-      ImagePreview(
-        {
-          images: this.fileViewLists,
-          startPosition: index
-        }
-      )
     }
 
   },
