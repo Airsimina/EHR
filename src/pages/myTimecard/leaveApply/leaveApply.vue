@@ -135,29 +135,23 @@ export default {
       endTime: '',
       numDay: 0, // 时长
       reason: '', // 理由
-      editFlag: '1', // 1、正常使用 2、无法使用
-      removeFlag: '2', // 1、正常使用 2、无法使用
+      editFlag: '2', // 1、正常使用 2、无法使用
+      removeFlag: '1', // 1、正常使用 2、无法使用
       dataId: '', // 数据id
-      dataType: '' // 1:请假 2:销假
+      dataType: '', // 1:请假 2:销假
+      itemData: {}
     }
   },
   methods: {
     // 1 修改和 2销假跳转
     editFun (flag) {
-      if (flag == '1' && this.editFlag == '1') {
+      if ((flag == '1' && this.editFlag == '1') || (flag == '2' && this.removeFlag == '1')) {
         this.$router.push({
           name: 'leaveRequest',
           query: {
+            id: this.dataId,
             flag: flag,
-            id: this.dataId
-          }
-        })
-      } else if (flag == '2' && this.removeFlag == '1') {
-        this.$router.push({
-          name: 'leaveRequest',
-          query: {
-            flag: flag,
-            id: this.itemData
+            itemData: this.itemData
           }
         })
       }
@@ -171,15 +165,15 @@ export default {
       }).then(res => {
         console.log(res)
         this.flowHiComments = res.data.flowData.flowHiComments
-        this.dataType = res.data.formData.dataType
-
-        this.startTime = res.data.formData.startTime
-        this.endTime = res.data.formData.endTime
-        this.numDay = res.data.formData.sum
-        this.reason = res.data.formData.note
-        this.imgList = JSON.parse(res.data.formData.url)
-        this.editFlag = res.data.formData.editFlag
-        this.removeFlag = res.data.formData.removeFlag
+        this.itemData = res.data.formData
+        this.dataType = this.itemData.dataType
+        this.startTime = this.itemData.startTime
+        this.endTime = this.itemData.endTime
+        this.numDay = this.itemData.sum
+        this.reason = this.itemData.note
+        this.imgList = JSON.parse(this.itemData.url)
+        // this.editFlag = this.itemData .editFlag
+        // this.removeFlag = this.itemData .removeFlag
       })
     },
     getLeaveVal (id) {
@@ -244,6 +238,9 @@ export default {
               font-size: 0.28rem;
               color: #111111;
               font-weight: bold;
+              text-align-last: justify;
+              text-align: justify;
+              min-width: 1.2rem;
             }
           }
           .lis-r {

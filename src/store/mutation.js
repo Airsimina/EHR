@@ -10,13 +10,13 @@ export default {
     },
 
     addLoading: (state, value) => {
-        state.isShowLoading = value
+        state.loading = true
         state.loadingCount++
     },
     isCloseLoading: (state, value) => {
         state.loadingCount--
         if (state.loadingCount == 0) {
-            state.isShowLoading = false
+            state.loading = false
         }
     }
 }

@@ -12,7 +12,7 @@
             <div class="lis-r"
                  @click="openPopShowType">
               <div class="div-val-1">{{leaveTypetxt}}</div>
-              <div :class="{'icon-jt' :this.flag!='2'}"></div>
+              <div :class="{'icon-jt' :this.dateType!='2'}"></div>
             </div>
           </div>
           <div class="lis icon-jt">
@@ -21,7 +21,7 @@
             </div>
             <div class="lis-r"
                  @click="showDatePicker(0)">
-              <div class="div-val-1">{{fromData.startTime}}</div>
+              <div class="div-val-1">{{jsonData.startTime}}</div>
               <div class="icon-jt"></div>
             </div>
           </div>
@@ -31,7 +31,7 @@
             </div>
             <div class="lis-r"
                  @click="showDatePicker(1)">
-              <div class="div-val-1">{{fromData.endTime}}</div>
+              <div class="div-val-1">{{jsonData.endTime}}</div>
               <div class="icon-jt"></div>
             </div>
           </div>
@@ -41,28 +41,28 @@
             </div>
             <div class="lis-r">
               <input type="number"
-                     :disabled="fromData.leaveTypeId != '3'"
+                     :disabled="jsonData.leaveTypeId != '3'"
                      class="input-time"
-                     :placeholder="fromData.leaveTypeId == '3'  ? '请输入时长' :'0'"
-                     v-model="fromData.duration">
+                     :placeholder="jsonData.leaveTypeId == '3'  ? '请输入时长' :'0'"
+                     v-model="jsonData.duration">
               <span class="dw">/天</span>
             </div>
 
           </div>
           <div class="lis"
-               v-if="flag!='2'">
+               v-if="this.dateType!='2'">
             <div class="lis-f">
               <div class="div-name-1">图片</div>
             </div>
             <div class="lis-r">
               <van-uploader :preview-size="55"
-                            v-if="fromData.fileViewLists.length<9"
+                            v-if="jsonData.fileViewLists.length<9"
                             multiple
                             :after-read="afterRead"
                             @delete="delImg"
                             :max-count="9"></van-uploader>
               <div class="img-box"
-                   v-for="(item,index) in fromData.fileViewLists"
+                   v-for="(item,index) in jsonData.fileViewLists"
                    :key="index">
                 <div class="icon-close"
                      @click="delImg(index)"></div>
@@ -80,7 +80,7 @@
               <input type="text"
                      class="input-time"
                      placeholder="请输入请假事由"
-                     v-model="fromData.reason"></div>
+                     v-model="jsonData.reason"></div>
           </div>
         </div>
       </div>
@@ -149,7 +149,7 @@ export default {
       // -----------------------------------------------------
       serverUrl: 'http://hafdev.hxoadev.com',
       loginUserName: 'lixianxen',
-      fromData: {
+      jsonData: {
         leaveTypeId: '1', // 请假类型id
         duration: '1', // 请假时长
         reason: '', // 理由
@@ -165,7 +165,8 @@ export default {
         ],
         saveType: '1' // 1新增提交 2、修改提交（待办提交全部传1
       },
-      flag: '1', // 1:修改 2:销假
+      dateType: '1', // 1:修改 2:销假
+      dataId: '', // 数据ID
       leaveTypetxt: '' || '请选择', // 请假类型文字
       // 时间选择title
       popupTitle: '',
@@ -195,11 +196,12 @@ export default {
           id: '7',
           text: '产假'
         }
-      ]
+      ],
+      itemData: {} // 传过来的表单数据
     }
   },
   methods: {
-
+    // --------------------------数据解析处理---------------------------
     // 初始化表单流程数据
     load () {
       const classifyHangup = '[HANGUP]'
@@ -251,13 +253,7 @@ export default {
       this.cacheFlowVar = cacheFlowVar
       this.flowMessages = flowMessages
       this.oNodeButtons = oNodeButtons
-      console.log('-----------------------------------')
-      console.log(this.cacheFlowVar)
-      console.log(this.flowMessages)
-      console.log(this.oNodeButtons)
-      console.log('-----------------------------------')
       this.initFlowContext()
-      console.log(JSON.stringify(this.flowContext))
     },
     // 初始化提示文本
     initDefMessages () {
@@ -344,26 +340,12 @@ export default {
       }
       return params
     },
-    // TODO: 获取bizData 表单相关数据
     parseBizData () {
       let params = {}
       params = { ...this.formData }
       return params
     },
     // -----------------------------------------------------
-    // 提交按钮
-    commitFun () {
-      console.log(this.fromData)
-      this.init()
-      if (this.flag == '0' || this.flag == '1') {
-        // this.addAndEditVacation()
-
-        // 修改和提交
-      } else if (this.flag == '2') {
-        // 销假
-        // this.init()
-      }
-    },
     // 1. form.do
     leaveApplyDetail () {
       return new Promise((resolve, reject) => {
@@ -380,8 +362,8 @@ export default {
       return new Promise((resolve, reject) => {
         HttpEhr.getBranch({
           userId: this.util.getSession('sessionData').userId,
-          type: this.fromData.leaveTypeId,
-          sum: this.fromData.duration
+          type: this.jsonData.leaveTypeId,
+          sum: this.jsonData.duration
         }).then(res => {
           resolve(res)
         })
@@ -400,26 +382,9 @@ export default {
         personId: this.cacheFlowVar.personId,
         formData: params
       }
-
-      // let assigners = await api.getAssigner(data)
-
       return new Promise((resolve, reject) => {
         HttpEhr.getAssignersList(
           data
-          // {
-          //   loginUsername: 'wangw',
-          //   personId: 'P00025015',
-          //   formData: {
-          //     flowDefId: 'H2R_PERSON_BASE_INFO:2:fddf053484f140029261cfea0470afa8',
-          //     instId: '',
-          //     proRunId: '',
-          //     paramMap: {
-          //       afFormNumber: '',
-          //       afCompanyCode: 'CN48',
-          //       afType: '01'
-          //     }
-          //   }
-          // }
         ).then(res => {
           resolve(res)
         })
@@ -454,25 +419,18 @@ export default {
           // debugger
           this.nextNodeData = res.data
           // 用nextNode里的id取出assigners的当前环节处理人
-          // console.log(this.assigners.nodeAssigners)
-          // console.log('aaaaaaaaaaaaaaaaaaaaaaa')
           const nextNodeAssigner = this.assigners.nodeAssigners.find((assigner) => {
             console.log(assigner.nodeId, this.nextNodeData[0].id)
             return assigner.nodeId.toLowerCase() == this.nextNodeData[0].id.toLowerCase()
           })
-          // console.log(this.nextNodeData[0].id)
-          // console.log(nextNodeAssigner)
-          // console.log('bbbbbbbbbbbbbbbbbbb')
           // 当存在多个处理人时 用defaultShow 取出默认处理人
           const nextNodePerson = nextNodeAssigner.nodeAssignerPersons[nextNodeAssigner.defaultShow]
-          console.log(nextNodePerson)
-
           this.flowContext.nextNodeId = this.nextNodeData[0].id
-          this.flowContext.flowMessage = 'flowMessage'
-          this.flowContext.flowComment = 'flowComment'
+          this.flowContext.flowMessage = ''
+          this.flowContext.flowComment = ''
           // this.flowContext.assigners = { task2: 'pengjian' }
           // this.flowContext.assigners[this.nextNodeData[0].id] = nextNodePerson.sysUsername || ''
-          this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()] = 'pengjian'
+          this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()] = nextNodePerson.sysUsername || ''
         })
       })
     },
@@ -482,24 +440,22 @@ export default {
       return new Promise((resolve, reject) => {
         HttpEhr.addAndEditVacation({
           userId: this.util.getSession('sessionData').userId || '',
-          type: this.fromData.leaveTypeId,
-          id: this.fromData.id, // 不传为新增，传了为修改,销假
-          startDate: this.fromData.startTime,
-          endDate: this.fromData.endTime,
-          sum: this.fromData.duration,
-          url: JSON.stringify(this.fromData.fileViewLists),
+          type: this.jsonData.leaveTypeId,
+          id: this.jsonData.id, // 不传为新增，传了为修改,销假
+          startDate: this.jsonData.startTime,
+          endDate: this.jsonData.endTime,
+          sum: this.jsonData.duration,
+          url: JSON.stringify(this.jsonData.fileViewLists),
           flowData: JSON.stringify(this.flowContext),
-          // flowData: JSON.stringify(dd),
-          note: this.fromData.reason,
-          saveType: this.fromData.saveType
+          note: this.jsonData.reason,
+          saveType: this.jsonData.saveType
         }).then(res => {
-          // console.log(res)
           resolve(res)
         })
       })
     },
-    // 初始化数据
-    async init () {
+    // 提交按钮
+    async commitFun () {
       await this.leaveApplyDetail().then(res => {
         console.log('获取from.do')
         console.log(res)
@@ -513,15 +469,12 @@ export default {
           Object.assign(this.flowContext.processParams, res.data)
         }
       })
-
       await this.getAssignersList().then(res => {
         console.log('获取审批人信息')
         console.log(res)
         this.assigners = res.data
         this.assigners.nodeAssigners.forEach(item => {
           if (item.nodeAssignerPersons.length != 0) {
-            console.log('111111111')
-            console.log(item.nodeAssignerPersons[0].sysUsername)
             this.flowContext.preAssigners[item.nodeId] = {
               assignerId: item.nodeAssignerPersons[0].sysUsername || '',
               assignerName: item.nodeAssignerPersons[0].name || ''
@@ -534,26 +487,36 @@ export default {
             }
           }
         })
-        console.log(this.flowContext.preAssigners)
       })
       await this.getNextNode().then(res => {
         console.log('获取下一节点')
         console.log(res)
       })
-      await this.addAndEditVacation().then(res => {
-        console.log('提交接口')
-        console.log(res)
-      })
+      if (this.dateType == '0' || this.dateType == '1') {
+        await this.addAndEditVacation().then(res => {
+          console.log('提交,修改接口')
+          console.log(res)
+        })
+      } else if (this.dateType == '2') {
+        await this.removeVacation().then(res => {
+          console.log('销假接口')
+          console.log(res)
+        })
+      }
     },
     // 销假
     removeVacation () {
       HttpEhr.removeVacation({
         userId: this.util.getSession('sessionData').userId || '',
-        dataId: this.oldId, // 原请假id
-        startDate: this.fromData.startTime,
-        endDate: this.fromData.endTime,
-        sum: this.fromData.duration,
-        note: this.fromData.reason
+        dataId: this.jsonData.oldId, // 原请假id
+        startDate: this.jsonData.startTime,
+        endDate: this.jsonData.endTime,
+        sum: this.jsonData.duration,
+        note: this.jsonData.reason,
+        flowData: JSON.stringify(this.flowContext),
+        saveType: this.jsonData.saveType
+        // -----------------------------
+
       }).then(res => {
         console.log('销假')
         console.log(res)
@@ -561,35 +524,35 @@ export default {
     },
     // 图片上传 读取完成后的回调函数
     async afterRead (e) {
-      const fromdata = new FormData()
+      const jsonData = new FormData()
       if (e && e.length) { // 判断是否是多图上传 多图则循环添加进去
         e.forEach(item => {
-          fromdata.append('loginUsername', 'lixiansen')
-          fromdata.append('file', item.file)// 第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
+          jsonData.append('loginUsername', 'lixiansen')
+          jsonData.append('file', item.file)// 第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
         })
       } else {
-        fromdata.append('loginUsername', 'lixiansen')
-        fromdata.append('file', e.file)
+        jsonData.append('loginUsername', 'lixiansen')
+        jsonData.append('file', e.file)
       }
-      await HttpEhr.multiUpload(fromdata).then(res => {
+      await HttpEhr.multiUpload(jsonData).then(res => {
         const newList = []
         res.data.forEach(element => {
           const url = `${this.serverUrl}/cap-bpm/attach/download.do?id=${element.id}&loginUsername=${this.loginUserName}`
           newList.push(url)
         })
-        this.fromData.fileViewLists = [...this.fromData.fileViewLists, ...newList]
+        this.jsonData.fileViewLists = [...this.jsonData.fileViewLists, ...newList]
         // http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=2a0df3e74c2c495fbe80198c85f0cf7a&loginUsername=wangw
       })
     },
     // 图片删除
     delImg (index) {
-      this.fromData.fileViewLists.splice(index, 1)
+      this.jsonData.fileViewLists.splice(index, 1)
     },
     // 图片预览
     viewImg (index) {
       ImagePreview(
         {
-          images: this.fromData.fileViewLists,
+          images: this.jsonData.fileViewLists,
           startPosition: index
         }
       )
@@ -619,13 +582,13 @@ export default {
       d = d < 10 ? '0' + d : d
       const newTime = `${y}-${m}-${d}`
       if (this.datePicker) {
-        this.fromData.endTime = newTime
+        this.jsonData.endTime = newTime
       } else {
-        this.fromData.startTime = newTime
+        this.jsonData.startTime = newTime
       }
       this.isPopShow = false
-      if (this.fromData.leaveTypeId != '3') {
-        this.fromData.duration = this.DateMinus(this.fromData.startTime, this.fromData.endTime)
+      if (this.jsonData.leaveTypeId != '3') {
+        this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
       }
     },
     // 格式化选择器日期
@@ -642,10 +605,10 @@ export default {
     // 确认请假类型选择
     onConfirm (item, index) {
       this.leaveTypetxt = item.text
-      this.fromData.leaveTypeId = item.id
+      this.jsonData.leaveTypeId = item.id
       this.isPopShowType = false
-      if (this.fromData.leaveTypeId != '3') {
-        this.fromData.duration = this.DateMinus(this.fromData.startTime, this.fromData.endTime)
+      if (this.jsonData.leaveTypeId != '3') {
+        this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
       }
     },
     // 关闭请假类型下拉选
@@ -654,7 +617,7 @@ export default {
     },
     // 展开请假类型下拉选
     openPopShowType () {
-      if (this.flag == '2') return
+      if (this.dateType == '2') return
       this.isPopShowType = true
     },
     // 计算时间开始,结束日期差
@@ -668,6 +631,13 @@ export default {
         return
       }
       return day + 1
+    },
+    setVal () {
+      this.jsonData.startTime = this.itemData.startDate
+      this.jsonData.endTime = this.itemData.endDate
+      this.jsonData.duration = this.itemData.sum // 时长
+      this.jsonData.reason = this.itemData.note // 理由
+      this.jsonData.fileViewLists = JSON.parse(this.itemData.url)
     }
 
   },
@@ -675,18 +645,25 @@ export default {
     console.log(window.location.host)
     // this.initTime()
     // 1:新增 销假 2:修改
-    this.flag = this.$route.query.flag // 1修改 2:销假
-    if (this.flag == '1') {
+    this.itemData = this.$route.query.itemData || {}
+    this.dateType = this.$route.query.flag || '0'
+    // 数据id
+    this.dataId = this.$route.query.dataId || ''
+    // 提交接口 saveType 1、销假 新增提交 2、修改提交
+    if (this.dateType == '0') {
+      // 新增
       document.title = '请假申请'
-      // this.fromData.saveType = '1'
+      this.jsonData.saveType = '1'
+    } else if (this.dateType == '1') {
+      // 修改
+      document.title = '请假申请'
+      this.jsonData.saveType = '2'
+      this.setVal()
     } else {
+      // 销假
       document.title = '假期申请调整'
-      // this.fromData.saveType = '2'
-      // this.init()
-    }
-    // 获取ID
-    if (this.$route.query.id) {
-      this.fromData.id = this.$route.query.id
+      this.jsonData.saveType = '1'
+      this.setVal()
     }
   }
 }
@@ -732,6 +709,9 @@ export default {
             .div-name-1 {
               font-size: 0.28rem;
               color: #666666;
+              text-align-last: justify;
+              text-align: justify;
+              min-width: 1.2rem;
             }
           }
           .lis-r {

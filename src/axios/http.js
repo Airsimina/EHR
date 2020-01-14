@@ -38,7 +38,7 @@ axios.interceptors.request.use(
     // token预留
     config => {
         store.commit('setLoading', true)
-        // this.commit()
+        // store.commit('addLoading')
         const sessionData = util.getSession('sessionData')
         if (sessionData instanceof Object) {
             config.headers = Object.assign(config.headers, sessionData)
@@ -46,22 +46,28 @@ axios.interceptors.request.use(
         return config
     },
     error => {
+        // store.state.loading = false
+        // store.state.loadingCount = 0
         return Promise.reject(error)
     }
 )
 // axios,reponse请求拦截器
 axios.interceptors.response.use(response => {
     store.commit('setLoading', false)
+    // store.commit('isCloseLoading')
     if (response.data.code != 0 && response.data.code != 200) {
         Dialog.alert({
             message: response.data.msg,
             title: '错误提示'
         })
     } else {
+        // store.commit('isCloseLoading')
         return response.data
     }
 }, () => {
     store.commit('setLoading', false)
+    // store.state.loading = false
+    // store.state.loadingCount = 0
     Dialog.alert({
         message: '数据异常，请联系管理员',
         title: '错误提示'
