@@ -141,8 +141,8 @@ export default {
     },
     // 获取userId  设置年假
     async init () {
-      // this.userId = '00000251'
-      this.userId = '00025608'
+      this.userId = '00000251'
+      // this.userId = '00025608'
       // 判断是不是打包环境获取userId
       if (this.buildType !== 'dev') {
         const urlId = location.href.split('?')[1].split('=')[1]
@@ -163,7 +163,12 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+@font-face {
+  font-family: "DINPro-Medium";
+  src: url("../../style/DINPro-Medium.otf");
+}
 .home {
+  font-family: "DINPro-Medium";
   .top {
     background: url("../../../static/img/top-bg.png") 0 0 no-repeat;
     background-size: 100% 100%;
@@ -202,14 +207,16 @@ export default {
               right: 0;
               top: 0.23rem;
               background: #ccc;
+              opacity: 0.5;
             }
           }
           .number {
             font-size: 0.6rem;
-            font-weight: bold;
+            // font-weight: bold;
             line-height: 0.44rem;
             color: rgba(51, 51, 51, 1);
             margin-top: 0.4rem;
+            font-family: "DINPro-Medium";
           }
           .discribe {
             font-weight: 400;
@@ -260,7 +267,7 @@ export default {
     .people-title {
       color: #111111;
       font-size: 0.36rem;
-      font-weight: bold;
+      // font-weight: bold;
       width: 100%;
       margin-bottom: 0.2rem;
     }

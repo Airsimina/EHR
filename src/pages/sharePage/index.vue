@@ -5,6 +5,9 @@
       </div>
       <span class="back"
             @click="$router.go(-1)"></span>
+      <!-- @click="$router.push({name:"home"})" -->
+      <span class="home"
+            @click="goHome">首页</span>
       <router-view></router-view>
     </div>
   </div>
@@ -19,9 +22,11 @@ export default {
       pagePath: this.$route.query.pagePath || ''
     }
   },
-  watch: {},
-  computed: {},
-  methods: {},
+  methods: {
+    goHome () {
+      this.$router.push({ name: 'home' })
+    }
+  },
   created () { },
   mounted () {
     this.$router.replace({
@@ -32,7 +37,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@font-face {
+  font-family: "DINPro-Medium";
+  src: url("../../../src/style/DINPro-Medium.otf");
+}
 .sharePage {
+  font-family: "DINPro-Medium";
   font-size: 0.24rem;
   .my-message-wrap {
     font-size: 0.24rem;
@@ -54,6 +64,17 @@ export default {
       background: url("../../../static/img/bank.png") 0 0 no-repeat;
       background-size: 100% 100%;
       z-index: 120;
+    }
+    .home {
+      display: inline-block;
+      position: fixed;
+      top: 0.2rem;
+      right: 0.4rem;
+      // width: 0.2rem;
+      z-index: 120;
+      color: #fff;
+      font-size: 0.3rem;
+      letter-spacing: 0.05rem;
     }
     .top {
       background: url("../../../static/img/top-bg.png") 0 0 no-repeat;
