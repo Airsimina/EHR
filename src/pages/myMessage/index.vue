@@ -32,7 +32,9 @@ export default {
     }
   },
   watch: {},
-  mounted () { },
+  mounted () {
+    document.title = '我的信息'
+  },
   computed: {
     ...mapGetters({
       infoData: 'getInfoData'
@@ -50,8 +52,13 @@ export default {
         this.setInfoDataList(res.data)
         // 默认显示第一个 基本信息
         this.setInfoData(util.filtData(res.data, '01'))
-        this.userNumber = util.filtData(res.data, '01')[0].dataList[0].id
-        this.title = util.filtData(res.data, '01')[0].dataList[0].name
+        if (!this.util.filtData(res.data, '01')[0].dataList) {
+          this.userNumber = ''
+          this.title = ''
+        } else {
+          this.userNumber = this.util.filtData(res.data, '01')[0].dataList[0].id || '111'
+          this.title = this.util.filtData(res.data, '01')[0].dataList[0].name || '111'
+        }
       })
     }
   },
@@ -65,6 +72,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss" scoped>
 .myMessage {
   font-size: 0.24rem;

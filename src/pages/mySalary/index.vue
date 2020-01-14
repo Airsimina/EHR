@@ -55,7 +55,7 @@
           </div>
         </div>
         <!-- 空数据占位符 -->
-        <div class="box-2"
+        <div class="no-data"
              v-show="dataList.length==0">
           <div class="img-box"></div>
           <div class="text">暂无数据~</div>
@@ -262,7 +262,7 @@ export default {
           }
         }
       }
-      .box-2 {
+      .no-data {
         font-size: 0.24rem;
         width: 100%;
         height: 8.06rem;

@@ -5,6 +5,11 @@ import {
 // const serverurl = '/weixinQY/oauth2/invoke.do'
 
 export default {
+
+    // 获取登录用户名
+    getLoginUserName: function (payLoad) {
+        return HXpost('/ehr/home/user/info.do', payLoad)
+    },
     // 获取token 和userid
     getUserInfo: function (payLoad) {
         return HXpost('/weixinQY/oauth2/getUserInfo.do', payLoad)
@@ -36,6 +41,10 @@ export default {
     // 4.请假申请提交/修改 -lxs
     addAndEditVacation: function (payLoad) {
         return HXpost('/ehr/vacation/submitVacation.do', payLoad)
+    },
+    // 5.获取审批人信息
+    getAssignersList: function (payLoad) {
+        return HXpost('/cap-bpm/flow/getAssigners_n.do', payLoad)
     },
     // 请假销假 -lxs
     removeVacation: function (payLoad) {

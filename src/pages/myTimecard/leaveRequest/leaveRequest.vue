@@ -123,11 +123,35 @@ export default {
   props: {},
   data () {
     return {
+      nextNodeData: [],
+      cacheFlowVar: {}, // 缓存流程变量
+      flowMessages: [],
+      oNodeButtons: [],
+      flowData: {}, // 流程数据
+      flowContext: { // 流程内容 pass
+        assigners: {},
+        preAssigners: {},
+        processVar: {},
+        subProcessVar: {},
+        processParams: {
+          // inCharge: '1',
+          // theFirstTrial: '1'
+        },
+        operateType: 'submit'
+      },
+      flowNodesData: [],
+      formData: {
+        dataList: [{}]
+      },
+      assigners: {},
+      allNextNodes: [], // pass
+      nextNode: [], // pass
+      // -----------------------------------------------------
       serverUrl: 'http://hafdev.hxoadev.com',
       loginUserName: 'lixianxen',
       fromData: {
         leaveTypeId: '1', // 请假类型id
-        duration: '', // 请假时长
+        duration: '1', // 请假时长
         reason: '', // 理由
         startTime: '请选择', // 开始时间
         endTime: '请选择', // 结束时间,
@@ -138,7 +162,8 @@ export default {
           // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=5be9bd97e71a4d7b940178fd206c8859&loginUsername=lixiansen',
           // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=a3c321f355604772b99346714f60b473&loginUsername=lixiansen',
           // 'https://img.yzcdn.cn/vant/leaf.jpg'
-        ]
+        ],
+        saveType: '1' // 1新增提交 2、修改提交（待办提交全部传1
       },
       flag: '1', // 1:修改 2:销假
       leaveTypetxt: '' || '请选择', // 请假类型文字
@@ -171,32 +196,186 @@ export default {
           text: '产假'
         }
       ]
-
     }
   },
   methods: {
+
+    // 初始化表单流程数据
+    load () {
+      const classifyHangup = '[HANGUP]'
+      const flowData = this.flowData
+      const cacheFlowVar = this.cacheFlowVar
+      const flowNodesData = this.flowNodesData
+      const flowMessages = this.initDefMessages()
+      const oNodeButtons = this.oNodeButtons
+      if (flowData.currentPerson && flowData.currentPerson.id) cacheFlowVar.personId = flowData.currentPerson.id
+      if (flowData.loginUsername) cacheFlowVar.loginUsername = flowData.loginUsername
+      if (flowData.flowKeyId) cacheFlowVar.flowKeyId = flowData.flowKeyId || ''
+      if (flowData.formId) cacheFlowVar.formId = flowData.formId || ''
+      if (flowData.dataId) cacheFlowVar.dataId = flowData.dataId || ''
+      if (Object.keys(flowData).length) cacheFlowVar.flowDefId = flowData.flowBase.id
+      if (!flowData.firstNode || flowData.firstNode === 'startEvent') cacheFlowVar.firstNode = flowData.flowNodes[0].id
+      if (flowData.currentNode.nodeId) {
+        cacheFlowVar.nodeId = flowData.currentNode.nodeId
+      } else if (flowData.flowInst.currentNodeId) {
+        cacheFlowVar.nodeId = flowData.flowInst.currentNodeId
+      }
+      if (flowData.isNewFlow) {
+        cacheFlowVar.nodeId = cacheFlowVar.firstNode || ''
+      } else {
+        cacheFlowVar.instId = flowData.flowInst.actInstId || ''
+        cacheFlowVar.proRunId = flowData.flowInst.proRunId || ''
+      }
+      flowData.flowNodes.forEach((item, i) => {
+        flowNodesData[item.id] = item
+      })
+      if (flowData.currentTask && flowData.currentTask.id) {
+        cacheFlowVar.taskUserId = flowData.currentTask.id || ''
+        cacheFlowVar.executionId = flowData.currentTask.actExecutionId || ''
+
+        // 流程权限控制button
+        const lastOptType = flowData.currentTask.lastOperateType
+        if (lastOptType == 'authorize') {
+          oNodeButtons.authorize = false // 授权任务，不允许再授权
+          oNodeButtons.handover = false // 授权任务，不允许再转办
+        } else if (lastOptType == 'handover') {
+          oNodeButtons.authorize = false // 转办任务，不允许再授权
+          oNodeButtons.handover = false // 转办任务，不允许再转办
+        } else if (lastOptType == 'append') {
+          oNodeButtons.append = false // 加签任务，不允许再加签
+        }
+        if (flowData.currentTask.classify == classifyHangup) {
+          oNodeButtons.hangup = false
+        }
+      }
+      this.cacheFlowVar = cacheFlowVar
+      this.flowMessages = flowMessages
+      this.oNodeButtons = oNodeButtons
+      console.log('-----------------------------------')
+      console.log(this.cacheFlowVar)
+      console.log(this.flowMessages)
+      console.log(this.oNodeButtons)
+      console.log('-----------------------------------')
+      this.initFlowContext()
+      console.log(JSON.stringify(this.flowContext))
+    },
+    // 初始化提示文本
+    initDefMessages () {
+      const personName = this.flowData.currentPerson.name
+      const applyerName = this.flowData.flowInst ? this.flowData.flowInst.applyerName : ''
+      const applyerStr = applyerName && applyerName != personName ? ('(' + applyerName + '的)') : ''
+      const flowName = this.flowData.flowBase.name
+      const flowMessages = {
+        submit: personName + this.getButtonText('submit') + '了' + applyerStr + flowName + '，请处理',
+        reject: personName + this.getButtonText('reject') + '了您的' + applyerStr + flowName + '，请查阅',
+        restart: personName + this.getButtonText('restart') + '了您的' + applyerStr + flowName + '，请查阅',
+        append: personName + this.getButtonText('append') + '给您了' + applyerStr + flowName + '，请处理',
+        handover: personName + '将' + applyerStr + flowName + '转交给您' + '，请处理',
+        notify: personName + this.getButtonText('notify') + '您及时处理' + applyerStr + flowName + '，请查阅',
+        deliver: personName + '传给您的' + applyerStr + flowName + '，请查阅',
+        authorize: personName + '授权您处理' + applyerStr + flowName + '，请查阅',
+        jump: personName + '将' + applyerStr + flowName + '跳转给您，请处理',
+        replace: personName + '将' + applyerStr + flowName + '处理人替换为您，请处理'
+      }
+      return flowMessages
+    },
+    getButtonText (type) {
+      let text = ''
+      switch (type) {
+        case 'submit':
+          text = '提交'
+          break
+        case 'reject':
+          text = '驳回'
+          break
+        case 'restart':
+          text = '强制驳回'
+          break
+        case 'append':
+          text = '加签'
+          break
+        case 'notify':
+          text = '转办'
+          break
+        default:
+          break
+      }
+      return text
+    },
+    initFlowContext () {
+      this.flowContext = {
+        ...this.flowContext,
+        flowDefId: this.cacheFlowVar.flowDefId,
+        flowKeyId: this.cacheFlowVar.flowKeyId,
+        instId: this.cacheFlowVar.instId,
+        nodeId: this.cacheFlowVar.nodeId,
+        taskUserId: this.cacheFlowVar.taskUserId,
+        executionId: this.cacheFlowVar.executionId,
+        dataId: this.cacheFlowVar.dataId,
+        formId: this.cacheFlowVar.formId,
+        proRunId: this.cacheFlowVar.proRunId ? this.cacheFlowVar.proRunId : ''
+      }
+    },
+    // 获取页面数据
+    getProcessParams (useBizData) {
+      const params = {}
+      let formFields = this.flowData.flowBase.bizDataRule || ''
+      if (formFields) {
+        formFields = JSON.parse(formFields)
+        if (Array.isArray(formFields)) {
+          let bizData = {}
+          if (useBizData) {
+            bizData = this.parseBizData()
+          }
+          formFields.forEach((item, i) => {
+            if (item.propertyName) {
+              if (this.formData[item.propertyName]) {
+                params[item.propertyName] = this.formData[item.propertyName] || ''
+              } else {
+                params[item.propertyName] = bizData[item.propertyName] || ''
+                // em.bizDataKey && bizData[em.bizDataKey] 存在
+                if (item.bizDataKey && bizData[item.bizDataKey]) {
+                  params[item.propertyName] = bizData[item.bizDataKey]
+                }
+              }
+            }
+          })
+        }
+      }
+      return params
+    },
+    // TODO: 获取bizData 表单相关数据
+    parseBizData () {
+      let params = {}
+      params = { ...this.formData }
+      return params
+    },
+    // -----------------------------------------------------
     // 提交按钮
     commitFun () {
       console.log(this.fromData)
+      this.init()
       if (this.flag == '0' || this.flag == '1') {
         // this.addAndEditVacation()
+
         // 修改和提交
       } else if (this.flag == '2') {
         // 销假
-
+        // this.init()
       }
     },
     // 1. form.do
     leaveApplyDetail () {
       return new Promise((resolve, reject) => {
         HttpEhr.leaveApplyDetail({
-          userId: this.util.getSession('sessionData').userId
+          userId: this.util.getSession('sessionData').userId,
+          formType: '1'
         }).then(res => {
           resolve(res)
         })
       })
     },
-    // 2. 分支几款
+    // 2. 分支接口
     getBranch () {
       return new Promise((resolve, reject) => {
         HttpEhr.getBranch({
@@ -208,30 +387,115 @@ export default {
         })
       })
     },
-    // 3. 获取下一节点
-    getNextNode () {
+    // 3.获取审批人信息
+    getAssignersList () {
+      const params = {
+        flowDefId: this.cacheFlowVar.flowDefId || '',
+        instId: this.cacheFlowVar.instId || '',
+        proRunId: this.cacheFlowVar.proRunId || ''
+      }
+      params.paramMap = { ...this.getProcessParams(true) }
+      const data = {
+        loginUsername: this.cacheFlowVar.loginUsername,
+        personId: this.cacheFlowVar.personId,
+        formData: params
+      }
+
+      // let assigners = await api.getAssigner(data)
+
       return new Promise((resolve, reject) => {
-        HttpEhr.getNextNode({
-          userId: this.util.getSession('sessionData').userId
-        }).then(res => {
+        HttpEhr.getAssignersList(
+          data
+          // {
+          //   loginUsername: 'wangw',
+          //   personId: 'P00025015',
+          //   formData: {
+          //     flowDefId: 'H2R_PERSON_BASE_INFO:2:fddf053484f140029261cfea0470afa8',
+          //     instId: '',
+          //     proRunId: '',
+          //     paramMap: {
+          //       afFormNumber: '',
+          //       afCompanyCode: 'CN48',
+          //       afType: '01'
+          //     }
+          //   }
+          // }
+        ).then(res => {
           resolve(res)
         })
       })
     },
-    // 4.请假申请提交/修改
+    // 4. 获取下一节点
+    getNextNode () {
+      return new Promise((resolve, reject) => {
+        HttpEhr.getNextNode({
+          // personId: this.cacheFlowVar.personId,
+          // flowContext: this.flowContext
+          personId: 'P00025015',
+          flowContext: {
+            flowDefId: 'H2R_PERSON_BASE_INFO:2:fddf053484f140029261cfea0470afa8',
+            instId: '',
+            proRunId: '',
+            paramMap: {
+              afCompanyCode: 'CN48',
+              afFormNumber: ''
+            },
+            flowKeyId: 'H2R_PERSON_BASE_INFO',
+            nodeId: 'FirstNode',
+            taskUserId: '',
+            executionId: '',
+            dataId: 'a0d06f2a8a964ee4bb6160fce1f259f8',
+            formId: '/afPersonBaseInfo/form.do',
+            operateType: 'submit'
+          }
+
+        }).then(res => {
+          resolve(res)
+          // debugger
+          this.nextNodeData = res.data
+          // 用nextNode里的id取出assigners的当前环节处理人
+          // console.log(this.assigners.nodeAssigners)
+          // console.log('aaaaaaaaaaaaaaaaaaaaaaa')
+          const nextNodeAssigner = this.assigners.nodeAssigners.find((assigner) => {
+            console.log(assigner.nodeId, this.nextNodeData[0].id)
+            return assigner.nodeId.toLowerCase() == this.nextNodeData[0].id.toLowerCase()
+          })
+          // console.log(this.nextNodeData[0].id)
+          // console.log(nextNodeAssigner)
+          // console.log('bbbbbbbbbbbbbbbbbbb')
+          // 当存在多个处理人时 用defaultShow 取出默认处理人
+          const nextNodePerson = nextNodeAssigner.nodeAssignerPersons[nextNodeAssigner.defaultShow]
+          console.log(nextNodePerson)
+
+          this.flowContext.nextNodeId = this.nextNodeData[0].id
+          this.flowContext.flowMessage = 'flowMessage'
+          this.flowContext.flowComment = 'flowComment'
+          // this.flowContext.assigners = { task2: 'pengjian' }
+          // this.flowContext.assigners[this.nextNodeData[0].id] = nextNodePerson.sysUsername || ''
+          this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()] = 'pengjian'
+        })
+      })
+    },
+
+    // 5.请假申请提交/修改
     addAndEditVacation () {
-      HttpEhr.addAndEditVacation({
-        userId: this.util.getSession('sessionData').userId || '',
-        type: this.fromData.leaveTypeId,
-        id: this.fromData.id, // 不传为新增，传了为修改,销假
-        startDate: this.fromData.startTime,
-        endDate: this.fromData.endTime,
-        sum: this.fromData.duration,
-        url: JSON.stringify(this.fromData.fileViewLists),
-        flowData: '测试 abc',
-        note: this.fromData.reason
-      }).then(res => {
-        console.log(res)
+      return new Promise((resolve, reject) => {
+        HttpEhr.addAndEditVacation({
+          userId: this.util.getSession('sessionData').userId || '',
+          type: this.fromData.leaveTypeId,
+          id: this.fromData.id, // 不传为新增，传了为修改,销假
+          startDate: this.fromData.startTime,
+          endDate: this.fromData.endTime,
+          sum: this.fromData.duration,
+          url: JSON.stringify(this.fromData.fileViewLists),
+          flowData: JSON.stringify(this.flowContext),
+          // flowData: JSON.stringify(dd),
+          note: this.fromData.reason,
+          saveType: this.fromData.saveType
+        }).then(res => {
+          // console.log(res)
+          resolve(res)
+        })
       })
     },
     // 初始化数据
@@ -239,13 +503,45 @@ export default {
       await this.leaveApplyDetail().then(res => {
         console.log('获取from.do')
         console.log(res)
+        this.flowData = res.data.flowData
+        this.load()
       })
       await this.getBranch().then(res => {
         console.log('获取分支')
         console.log(res)
+        if (res.data) {
+          Object.assign(this.flowContext.processParams, res.data)
+        }
+      })
+
+      await this.getAssignersList().then(res => {
+        console.log('获取审批人信息')
+        console.log(res)
+        this.assigners = res.data
+        this.assigners.nodeAssigners.forEach(item => {
+          if (item.nodeAssignerPersons.length != 0) {
+            console.log('111111111')
+            console.log(item.nodeAssignerPersons[0].sysUsername)
+            this.flowContext.preAssigners[item.nodeId] = {
+              assignerId: item.nodeAssignerPersons[0].sysUsername || '',
+              assignerName: item.nodeAssignerPersons[0].name || ''
+            }
+          } else {
+            console.log('222222')
+            this.flowContext.preAssigners[item.nodeId] = {
+              assignerId: '',
+              assignerName: ''
+            }
+          }
+        })
+        console.log(this.flowContext.preAssigners)
       })
       await this.getNextNode().then(res => {
         console.log('获取下一节点')
+        console.log(res)
+      })
+      await this.addAndEditVacation().then(res => {
+        console.log('提交接口')
         console.log(res)
       })
     },
@@ -378,12 +674,14 @@ export default {
   mounted () {
     console.log(window.location.host)
     // this.initTime()
-    // 1:修改 2:销假
-    this.flag = this.$route.query.flag
-    if (this.flag == '2') {
-      document.title = '假期申请调整'
-    } else {
+    // 1:新增 销假 2:修改
+    this.flag = this.$route.query.flag // 1修改 2:销假
+    if (this.flag == '1') {
       document.title = '请假申请'
+      // this.fromData.saveType = '1'
+    } else {
+      document.title = '假期申请调整'
+      // this.fromData.saveType = '2'
       // this.init()
     }
     // 获取ID

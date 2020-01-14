@@ -101,9 +101,15 @@ export default {
   },
   mounted () {
     this.getUserId()
+    this.getLoginUserName()
     document.title = '首页'
   },
   methods: {
+    getLoginUserName () {
+      HttpEhr.getLoginUserName({ userId: '00000251' }).then(res => {
+        console.log(res)
+      })
+    },
     // 跳转
     transmitFun (item) {
       if (!item.path) {
@@ -131,8 +137,8 @@ export default {
     },
     // 获取userId  设置年假
     async getUserId () {
-      // this.userId = '00025015'
-      this.userId = '00025608'
+      this.userId = '00000251'
+      // this.userId = '00025608'
 
       // 判断是不是打包环境获取userId
       if (this.buildType !== 'dev') {

@@ -5,6 +5,7 @@
       <tabApplyRecord :pageTypeVal="pageTypeVal"
                       @classSearchFun='classSearchFun'></tabApplyRecord>
       <van-list v-model="loading"
+                v-if="dataList.length>0"
                 :finished="finished"
                 finished-text="我也是有底线的"
                 @load="updateList">
@@ -50,6 +51,12 @@
                v-if="item.status==3">驳回</div>
         </div>
       </van-list>
+      <!-- 空数据占位符 -->
+      <div class="no-data"
+           v-show="dataList.length==0">
+        <div class="img-box"></div>
+        <div class="text">暂无数据~</div>
+      </div>
     </div>
   </div>
 </template>
@@ -73,8 +80,8 @@ export default {
         type: '1',
         status: '1'
       },
-      page: 0,
-      showCount: 5,
+      page: 1,
+      showCount: 10,
       totalPage: -1, // 总页数
       finished: false,
       loading: false
@@ -154,8 +161,8 @@ export default {
   },
   mounted () {
     this.initTime()
+    this.getApplyRecordList()
     // 测试数据
-    // this.dataList = testapplyList.data
   }
 }
 </script>
@@ -227,6 +234,31 @@ export default {
             }
           }
         }
+      }
+    }
+    .no-data {
+      font-size: 0.24rem;
+      width: 100%;
+      height: 8.06rem;
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0px 0.1rem 0.45rem rgba(0, 0, 0, 0.02);
+      border-radius: 0.2rem;
+      position: relative;
+      .img-box {
+        width: 2.2rem;
+        height: 1.7rem;
+        position: relative;
+        top: 3.18rem;
+        margin: auto;
+        background: url("../../../../static/img/zwt.png") 0 0 no-repeat;
+        background-size: 100% 100%;
+      }
+      .text {
+        color: #999999;
+        font-size: 0.3rem;
+        text-align: center;
+        position: relative;
+        top: 3.45rem;
       }
     }
   }

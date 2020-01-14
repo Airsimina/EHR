@@ -16,7 +16,9 @@ export default new Vuex.Store({
         loading: false,
         // 我的文档公用数据
         infoDataList: [],
-        infoData: {}
+        infoData: {},
+        isShowLoading: false, // todo
+        loadingCount: 0 // todo
     },
     mutations,
     actions,

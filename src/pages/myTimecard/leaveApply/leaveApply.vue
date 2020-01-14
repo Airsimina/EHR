@@ -37,9 +37,9 @@
             </div>
             <div class="lis-r">
               <div class="img-box"
-                   v-for="(item,index) in dataList"
+                   v-for="(item,index) in imgList"
                    :key="index">
-                <img :src="img"
+                <img :src="item"
                      alt="">
               </div>
             </div>
@@ -60,22 +60,40 @@
       <!-- 流程区域 -->
       <div class="flow-box">
         <div class="flow-item"
-             v-for="(item, index) in dataList"
+             v-for="(item, index) in flowHiComments"
              :key="index">
           <!-- 销售计划 左侧时间线 -->
-          <div class="state"
-               :class="[statusStyleList[item.id-1]]"></div>
+          <!-- <div class="state"
+               :class="[statusStyleList[item.id-1]]"></div> -->
+          <div v-if="item.operateType=='提交'"
+               class="state blue"></div>
+          <div v-if="item.operateType=='未审核'"
+               class="state grey"></div>
+          <div v-if="item.operateType=='待审核'"
+               class="state green"></div>
+          <div v-if="item.operateType=='驳回'"
+               class="state orange"></div>
+
           <div class="flow-info">
             <div class="name-box">
-              <div class="flow-name">王安定</div>
-              <div class="position">审批人职位</div>
+              <div class="flow-name">{{item.operaterName}}</div>
+              <div class="position">{{item.nodeName}}</div>
             </div>
             <div class="approval-info"
                  v-if="item.id==4">意见：好好学习天天向上</div>
-            <div class="time">2019/11/05 09:23:30</div>
+            <div class="time">{{item.operateTime}}</div>
             <!-- 销售计划 右侧展示文字 -->
-            <div class="status"
-                 :class="[statusStyleList[item.id-1]]">{{item.name}}</div>
+            <!-- <div class="status"
+                 :class="[statusStyleList[item.id-1]]">{{item.operateType}}</div> -->
+            <div v-if="item.operateType=='提交'"
+                 class="status blue">提交</div>
+            <div v-if="item.operateType=='未审核'"
+                 class="status grey">未审核</div>
+            <div v-if="item.operateType=='待审核'"
+                 class="status green">待审核</div>
+            <div v-if="item.operateType=='驳回'"
+                 class="status orange">驳回</div>
+
           </div>
         </div>
       </div>
@@ -105,44 +123,26 @@ export default {
   props: {},
   data () {
     return {
+      img: 'http://img3.imgtn.bdimg.com/it/u=3402063479,1936521224&fm=11&gp=0.jpg',
+      statusStyleList: ['blue', 'grey', 'green', 'orange'],
+      // --------------------
       userNumber: '',
       title: '',
       keyName: '请假类型',
-      dataList: [
-        {
-          id: 1,
-          name: '  提交'
-        },
-        {
-          id: 2,
-          name: '未审核'
-
-        },
-        {
-          id: 3,
-          name: '待审核'
-        },
-        {
-          id: 4,
-          name: '驳回'
-        }
-      ],
-      img: 'http://img3.imgtn.bdimg.com/it/u=3402063479,1936521224&fm=11&gp=0.jpg',
-      statusStyleList: ['blue', 'grey', 'green', 'orange'],
-      startTime: '2019-12-12',
-      endTime: '2019-12-12',
-      numDay: 2,
-      reason: '',
+      flowHiComments: [], // 流程
+      imgList: [], // 图片集合
+      startTime: '',
+      endTime: '',
+      numDay: 0, // 时长
+      reason: '', // 理由
       editFlag: '1', // 1、正常使用 2、无法使用
       removeFlag: '2', // 1、正常使用 2、无法使用
       dataId: '', // 数据id
       dataType: '' // 1:请假 2:销假
     }
   },
-  watch: {},
-  computed: {},
   methods: {
-    // 修改和销假跳转
+    // 1 修改和 2销假跳转
     editFun (flag) {
       if (flag == '1' && this.editFlag == '1') {
         this.$router.push({
@@ -162,25 +162,24 @@ export default {
         })
       }
     },
-    // 将传过来的值赋值
-    arrangeFun (items) {
-      this.keyName = items.keyName
-      this.title = items.title
-      this.userNumber = items.userNumber
-      this.startTime = items.startTime
-      this.endTime = items.endTime
-      this.numDay = items.numDay
-      this.reason = items.reason
-    },
     // 获取详情数据
     leaveApplyDetail () {
       HttpEhr.leaveApplyDetail({
         userId: this.util.getSession('sessionData').userId || '',
-        dataId: this.dataId,
-        formType: this.dataType
+        dataId: this.dataId
+        // formType: this.dataType
       }).then(res => {
         console.log(res)
-        // this.jsonData = res.flowData.formData
+        this.flowHiComments = res.data.flowData.flowHiComments
+        this.dataType = res.data.formData.dataType
+
+        this.startTime = res.data.formData.startTime
+        this.endTime = res.data.formData.endTime
+        this.numDay = res.data.formData.sum
+        this.reason = res.data.formData.note
+        this.imgList = JSON.parse(res.data.formData.url)
+        this.editFlag = res.data.formData.editFlag
+        this.removeFlag = res.data.formData.removeFlag
       })
     },
     getLeaveVal (id) {

@@ -141,7 +141,7 @@ export default {
       // 选中的全部
       type: '1',
       // 选中的分类
-      status: '0',
+      status: '1',
       // 日期title
       popupTitle: '',
       // 时间选择器的默认值

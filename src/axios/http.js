@@ -38,6 +38,7 @@ axios.interceptors.request.use(
     // token预留
     config => {
         store.commit('setLoading', true)
+        // this.commit()
         const sessionData = util.getSession('sessionData')
         if (sessionData instanceof Object) {
             config.headers = Object.assign(config.headers, sessionData)
