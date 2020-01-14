@@ -64,6 +64,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import cardSearchTime from '@components/card/cardSearchTime'
 import HttpEhr from '@requestPool/index.js'
@@ -151,6 +152,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss" scoped>
 .mySalary {
   font-size: 0.24rem;

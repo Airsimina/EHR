@@ -40,6 +40,7 @@
                    v-for="(item,index) in imgList"
                    :key="index">
                 <img :src="item"
+                     @click="viewImg(index)"
                      alt="">
               </div>
             </div>
@@ -79,8 +80,9 @@
               <div class="flow-name">{{item.operaterName}}</div>
               <div class="position">{{item.nodeName}}</div>
             </div>
+            <!-- v-if="item.operateType=='驳回'" -->
             <div class="approval-info"
-                 v-if="item.id==4">意见：好好学习天天向上</div>
+                 v-if="item.operateType=='驳回'">意见：{{item.opinion}}</div>
             <div class="time">{{item.operateTime}}</div>
             <!-- 销售计划 右侧展示文字 -->
             <!-- <div class="status"
@@ -116,6 +118,7 @@
 <script>
 import cardMyMessage from '@components/card/cardMyMessage'
 import HttpEhr from '@requestPool/index.js'
+import { ImagePreview } from 'vant'
 // import util from '../../../util/util.js'
 
 export default {
@@ -135,7 +138,7 @@ export default {
       endTime: '',
       numDay: 0, // 时长
       reason: '', // 理由
-      editFlag: '2', // 1、正常使用 2、无法使用
+      editFlag: '1', // 1、正常使用 2、无法使用
       removeFlag: '1', // 1、正常使用 2、无法使用
       dataId: '', // 数据id
       dataType: '', // 1:请假 2:销假
@@ -160,20 +163,19 @@ export default {
     leaveApplyDetail () {
       HttpEhr.leaveApplyDetail({
         userId: this.util.getSession('sessionData').userId || '',
-        dataId: this.dataId
-        // formType: this.dataType
+        dataId: this.dataId,
+        formType: this.dataType
       }).then(res => {
-        console.log(res)
         this.flowHiComments = res.data.flowData.flowHiComments
         this.itemData = res.data.formData
         this.dataType = this.itemData.dataType
-        this.startTime = this.itemData.startTime
-        this.endTime = this.itemData.endTime
+        this.startTime = this.itemData.startDate
+        this.endTime = this.itemData.endDate
         this.numDay = this.itemData.sum
         this.reason = this.itemData.note
         this.imgList = JSON.parse(this.itemData.url)
-        // this.editFlag = this.itemData .editFlag
-        // this.removeFlag = this.itemData .removeFlag
+        this.editFlag = this.itemData.editFlag
+        this.removeFlag = this.itemData.removeFlag
       })
     },
     getLeaveVal (id) {
@@ -188,6 +190,15 @@ export default {
       } else if (id == '7') {
         return '产假'
       }
+    },
+    // 图片预览
+    viewImg (index) {
+      ImagePreview(
+        {
+          images: this.imgList,
+          startPosition: index
+        }
+      )
     }
   },
   mounted () {
@@ -342,7 +353,7 @@ export default {
         .flow-info {
           flex: 1;
           box-sizing: border-box;
-          padding: 0.32rem 0.44rem 0.32rem 0.6rem;
+          padding: 0.15rem 0.44rem 0.2rem 0.6rem;
           background: rgba(255, 255, 255, 1);
           box-shadow: 0 0 0.44rem 0.05rem rgba(0, 0, 0, 0.03);
           border-radius: 0.2rem;
@@ -366,7 +377,7 @@ export default {
             display: flex;
             align-items: center;
             line-height: 0.26rem;
-
+            margin-top: 0.25rem;
             .flow-name {
               color: #333;
               font-size: 0.26rem !important;

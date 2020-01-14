@@ -100,14 +100,18 @@ export default {
     }
   },
   mounted () {
-    this.getUserId()
-    this.getLoginUserName()
+    this.init()
     document.title = '首页'
   },
   methods: {
     getLoginUserName () {
-      HttpEhr.getLoginUserName({ userId: '00000251' }).then(res => {
-        console.log(res)
+      return new Promise((resolve, reject) => {
+        HttpEhr.getLoginUserName({
+          userId: this.userId
+        }
+        ).then(res => {
+          resolve(res)
+        })
       })
     },
     // 跳转
@@ -136,10 +140,9 @@ export default {
       })
     },
     // 获取userId  设置年假
-    async getUserId () {
-      this.userId = '00000251'
-      // this.userId = '00025608'
-
+    async init () {
+      // this.userId = '00000251'
+      this.userId = '00025608'
       // 判断是不是打包环境获取userId
       if (this.buildType !== 'dev') {
         const urlId = location.href.split('?')[1].split('=')[1]
@@ -150,12 +153,9 @@ export default {
       await this.annualResidue().then(res => {
         this.vacationNum = res.data.surplus
       })
-      // HttpEhr.getUserInfo({ userId: this.userId }).then(res => {
-      //   if (res.code == 200) {
-      //     const sessionData = res.data
-      //     this.util.setSession('sessionData', sessionData)
-      //   }
-      // })
+      await this.getLoginUserName().then(res => {
+        this.util.setSession('sysUsername', { sysUsername: res.data.sysUsername })
+      })
     }
   }
 

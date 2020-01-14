@@ -12,7 +12,7 @@
             <div class="lis-r"
                  @click="openPopShowType">
               <div class="div-val-1">{{leaveTypetxt}}</div>
-              <div :class="{'icon-jt' :this.dateType!='2'}"></div>
+              <div :class="{'icon-jt' :this.dataType!='2'}"></div>
             </div>
           </div>
           <div class="lis icon-jt">
@@ -50,7 +50,7 @@
 
           </div>
           <div class="lis"
-               v-if="this.dateType!='2'">
+               v-if="this.dataType!='2'">
             <div class="lis-f">
               <div class="div-name-1">图片</div>
             </div>
@@ -128,7 +128,7 @@ export default {
       flowMessages: [],
       oNodeButtons: [],
       flowData: {}, // 流程数据
-      flowContext: { // 流程内容 pass
+      flowContext: { // 流程内容
         assigners: {},
         preAssigners: {},
         processVar: {},
@@ -144,11 +144,9 @@ export default {
         dataList: [{}]
       },
       assigners: {},
-      allNextNodes: [], // pass
-      nextNode: [], // pass
       // -----------------------------------------------------
       serverUrl: 'http://hafdev.hxoadev.com',
-      loginUserName: 'lixianxen',
+      loginUserName: '',
       jsonData: {
         leaveTypeId: '1', // 请假类型id
         duration: '1', // 请假时长
@@ -157,19 +155,13 @@ export default {
         endTime: '请选择', // 结束时间,
         id: '', // 原请假id  修改 , 销假用
         // 图片集合
-        fileViewLists: [
-          // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=8343bf7b65534b6db88cafe0bb4ce6a9&loginUsername=lixiansen',
-          // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=5be9bd97e71a4d7b940178fd206c8859&loginUsername=lixiansen',
-          // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=a3c321f355604772b99346714f60b473&loginUsername=lixiansen',
-          // 'https://img.yzcdn.cn/vant/leaf.jpg'
-        ],
+        fileViewLists: [],
         saveType: '1' // 1新增提交 2、修改提交（待办提交全部传1
       },
-      dateType: '1', // 1:修改 2:销假
+      dataType: '1', // 1:修改 2:销假
       dataId: '', // 数据ID
       leaveTypetxt: '' || '请选择', // 请假类型文字
-      // 时间选择title
-      popupTitle: '',
+      popupTitle: '', // 时间选择title
       currentDate: new Date(),
       datePicker: 0, // 用于判断哪个选择器的显示与隐藏
       isPopShow: false, // 弹出层隐藏与显示
@@ -394,43 +386,21 @@ export default {
     getNextNode () {
       return new Promise((resolve, reject) => {
         HttpEhr.getNextNode({
-          // personId: this.cacheFlowVar.personId,
-          // flowContext: this.flowContext
-          personId: 'P00025015',
-          flowContext: {
-            flowDefId: 'H2R_PERSON_BASE_INFO:2:fddf053484f140029261cfea0470afa8',
-            instId: '',
-            proRunId: '',
-            paramMap: {
-              afCompanyCode: 'CN48',
-              afFormNumber: ''
-            },
-            flowKeyId: 'H2R_PERSON_BASE_INFO',
-            nodeId: 'FirstNode',
-            taskUserId: '',
-            executionId: '',
-            dataId: 'a0d06f2a8a964ee4bb6160fce1f259f8',
-            formId: '/afPersonBaseInfo/form.do',
-            operateType: 'submit'
-          }
-
+          personId: this.cacheFlowVar.personId,
+          flowContext: this.flowContext
         }).then(res => {
           resolve(res)
-          // debugger
-          this.nextNodeData = res.data
-          // 用nextNode里的id取出assigners的当前环节处理人
-          const nextNodeAssigner = this.assigners.nodeAssigners.find((assigner) => {
-            console.log(assigner.nodeId, this.nextNodeData[0].id)
-            return assigner.nodeId.toLowerCase() == this.nextNodeData[0].id.toLowerCase()
-          })
-          // 当存在多个处理人时 用defaultShow 取出默认处理人
-          const nextNodePerson = nextNodeAssigner.nodeAssignerPersons[nextNodeAssigner.defaultShow]
-          this.flowContext.nextNodeId = this.nextNodeData[0].id
-          this.flowContext.flowMessage = ''
-          this.flowContext.flowComment = ''
-          // this.flowContext.assigners = { task2: 'pengjian' }
-          // this.flowContext.assigners[this.nextNodeData[0].id] = nextNodePerson.sysUsername || ''
-          this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()] = nextNodePerson.sysUsername || ''
+          // this.nextNodeData = res.data
+          // // 用nextNode里的id取出assigners的当前环节处理人
+          // const nextNodeAssigner = this.assigners.nodeAssigners.find((assigner) => {
+          //   return assigner.nodeId.toLowerCase() == this.nextNodeData[0].id.toLowerCase()
+          // })
+          // // 当存在多个处理人时 用defaultShow 取出默认处理人
+          // const nextNodePerson = nextNodeAssigner.nodeAssignerPersons[nextNodeAssigner.defaultShow]
+          // this.flowContext.nextNodeId = this.nextNodeData[0].id
+          // this.flowContext.flowMessage = ''
+          // this.flowContext.flowComment = ''
+          // this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()] = nextNodePerson.sysUsername || ''
         })
       })
     },
@@ -454,57 +424,7 @@ export default {
         })
       })
     },
-    // 提交按钮
-    async commitFun () {
-      await this.leaveApplyDetail().then(res => {
-        console.log('获取from.do')
-        console.log(res)
-        this.flowData = res.data.flowData
-        this.load()
-      })
-      await this.getBranch().then(res => {
-        console.log('获取分支')
-        console.log(res)
-        if (res.data) {
-          Object.assign(this.flowContext.processParams, res.data)
-        }
-      })
-      await this.getAssignersList().then(res => {
-        console.log('获取审批人信息')
-        console.log(res)
-        this.assigners = res.data
-        this.assigners.nodeAssigners.forEach(item => {
-          if (item.nodeAssignerPersons.length != 0) {
-            this.flowContext.preAssigners[item.nodeId] = {
-              assignerId: item.nodeAssignerPersons[0].sysUsername || '',
-              assignerName: item.nodeAssignerPersons[0].name || ''
-            }
-          } else {
-            console.log('222222')
-            this.flowContext.preAssigners[item.nodeId] = {
-              assignerId: '',
-              assignerName: ''
-            }
-          }
-        })
-      })
-      await this.getNextNode().then(res => {
-        console.log('获取下一节点')
-        console.log(res)
-      })
-      if (this.dateType == '0' || this.dateType == '1') {
-        await this.addAndEditVacation().then(res => {
-          console.log('提交,修改接口')
-          console.log(res)
-        })
-      } else if (this.dateType == '2') {
-        await this.removeVacation().then(res => {
-          console.log('销假接口')
-          console.log(res)
-        })
-      }
-    },
-    // 销假
+    // 6.销假
     removeVacation () {
       HttpEhr.removeVacation({
         userId: this.util.getSession('sessionData').userId || '',
@@ -522,6 +442,69 @@ export default {
         console.log(res)
       })
     },
+    // 提交按钮
+    async commitFun () {
+      await this.leaveApplyDetail().then(res => {
+        this.flowData = res.data.flowData
+        this.load()
+      })
+      await this.getBranch().then(res => {
+        if (res.data) {
+          Object.assign(this.flowContext.processParams, res.data)
+        }
+      })
+      await this.getAssignersList().then(res => {
+        this.assigners = res.data
+        this.assigners.nodeAssigners.forEach(item => {
+          if (item.nodeAssignerPersons.length != 0) {
+            this.flowContext.preAssigners[item.nodeId] = {
+              assignerId: item.nodeAssignerPersons[0].sysUsername || '',
+              assignerName: item.nodeAssignerPersons[0].name || ''
+            }
+          } else {
+            this.flowContext.preAssigners[item.nodeId] = {
+              assignerId: '',
+              assignerName: ''
+            }
+          }
+        })
+      })
+      await this.getNextNode().then(res => {
+        this.nextNodeData = res.data
+        // 用nextNode里的id取出assigners的当前环节处理人
+        const nextNodeAssigner = this.assigners.nodeAssigners.find((assigner) => {
+          return assigner.nodeId.toLowerCase() == this.nextNodeData[0].id.toLowerCase()
+        })
+        // 当存在多个处理人时 用defaultShow 取出默认处理人
+        const nextNodePerson = nextNodeAssigner.nodeAssignerPersons[nextNodeAssigner.defaultShow]
+        this.flowContext.nextNodeId = this.nextNodeData[0].id
+        this.flowContext.flowMessage = ''
+        this.flowContext.flowComment = ''
+        if (!nextNodePerson) {
+          this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()] = ''
+        } else {
+          this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()] = nextNodePerson.sysUsername || ''
+        }
+      })
+      if (this.dataType == '0' || this.dataType == '1') {
+        await this.addAndEditVacation().then(res => {
+          if (res.code == 0) {
+            this.$toast.success({
+              message: '提交成功'
+            })
+          }
+        })
+      } else if (this.dataType == '2') {
+        await this.removeVacation().then(res => {
+          if (res.code == 0) {
+            this.$toast.success({
+              message: '销假成功'
+            })
+          }
+        })
+      }
+    },
+
     // 图片上传 读取完成后的回调函数
     async afterRead (e) {
       const jsonData = new FormData()
@@ -537,7 +520,7 @@ export default {
       await HttpEhr.multiUpload(jsonData).then(res => {
         const newList = []
         res.data.forEach(element => {
-          const url = `${this.serverUrl}/cap-bpm/attach/download.do?id=${element.id}&loginUsername=${this.loginUserName}`
+          const url = `${this.serverUrl}/cap-bpm/attach/download.do?id=${element.id}&loginUsername=${this.util.getSession('sysUsername').sysUsername || 'huaxin'}`
           newList.push(url)
         })
         this.jsonData.fileViewLists = [...this.jsonData.fileViewLists, ...newList]
@@ -559,6 +542,7 @@ export default {
     },
     // 打开时间选择器 0: 开始 1: 结束
     showDatePicker (picker) {
+      if (this.dataType == 2) return
       this.isPopShow = true
       this.datePicker = picker
       if (this.datePicker) {
@@ -617,7 +601,7 @@ export default {
     },
     // 展开请假类型下拉选
     openPopShowType () {
-      if (this.dateType == '2') return
+      if (this.dataType == '2') return
       this.isPopShowType = true
     },
     // 计算时间开始,结束日期差
@@ -637,29 +621,31 @@ export default {
       this.jsonData.endTime = this.itemData.endDate
       this.jsonData.duration = this.itemData.sum // 时长
       this.jsonData.reason = this.itemData.note // 理由
+      this.jsonData.leaveTypeId = this.itemData.type // 请假类型
       this.jsonData.fileViewLists = JSON.parse(this.itemData.url)
+      const newObj = this.columns.find((item) => { return item.id == this.itemData.type })
+      this.leaveTypetxt = newObj.text // 请假类型
     }
 
   },
   mounted () {
-    console.log(window.location.host)
-    // this.initTime()
+    // this.serverUrl = ' http://' + window.location.host
     // 1:新增 销假 2:修改
     this.itemData = this.$route.query.itemData || {}
-    this.dateType = this.$route.query.flag || '0'
+    this.dataType = this.$route.query.flag || '0'
     // 数据id
     this.dataId = this.$route.query.dataId || ''
     // 提交接口 saveType 1、销假 新增提交 2、修改提交
-    if (this.dateType == '0') {
+    if (this.dataType == '0') {
       // 新增
       document.title = '请假申请'
       this.jsonData.saveType = '1'
-    } else if (this.dateType == '1') {
+    } else if (this.dataType == '1') {
       // 修改
       document.title = '请假申请'
       this.jsonData.saveType = '2'
       this.setVal()
-    } else {
+    } else if (this.dataType == '2') {
       // 销假
       document.title = '假期申请调整'
       this.jsonData.saveType = '1'

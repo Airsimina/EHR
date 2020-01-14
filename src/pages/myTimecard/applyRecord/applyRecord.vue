@@ -114,6 +114,7 @@ export default {
           this.dataList = this.dataList.concat(res.data.list)
           this.totalPage = res.data.totalPage
           this.loading = false
+          this.finished = false
         } else {
           this.finished = true
           this.loading = false
