@@ -4,7 +4,7 @@
     <div class="wrap-1">
       <div class="cantainer">
         <div class="box">
-          <div class="title">请假申请</div>
+          <div class="title">{{this.title}}</div>
           <div class="lis">
             <div class="lis-f">
               <div class="div-name-1">请假类型</div>
@@ -200,7 +200,8 @@ export default {
           text: '丧假'
         }
       ],
-      itemData: {} // 传过来的表单数据
+      itemData: {}, // 传过来的表单数据
+      title: ''
     }
   },
   methods: {
@@ -507,7 +508,6 @@ export default {
         })
       } else if (this.dataType == '2') {
         await this.removeVacation().then(res => {
-          console.log('销假')
           if (res.code == 0) {
             this.$toast.success({
               message: '销假成功'
@@ -645,25 +645,28 @@ export default {
     // this.serverUrl = ' http://' + window.location.host
     this.itemData = this.$route.query.itemData || {}
     this.dataType = this.$route.query.flag || '0'
+    console.log(this.dataType, '----------------')
+
     // 数据id
     this.jsonData.dataId = this.$route.query.id || ''
-    // this.dataType 0:新增 1:修改 2:销假
+    // 本地 this.dataType 0:新增 1:修改 2:销假
     // 提交接口 saveType 1、销假 新增提交 2、修改提交
     if (this.dataType == '0') {
       // 新增
-      document.title = '请假申请'
+      this.title = '请假申请'
       this.jsonData.saveType = '1'
     } else if (this.dataType == '1') {
       // 修改
-      document.title = '请假申请'
+      this.title = '请假申请'
       this.jsonData.saveType = '2'
       this.setVal()
     } else if (this.dataType == '2') {
       // 销假
-      document.title = '假期申请调整'
+      this.title = '假期申请调整'
       this.jsonData.saveType = '1'
       this.setVal()
     }
+    document.title = this.title
   }
 }
 </script>

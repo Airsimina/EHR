@@ -123,7 +123,7 @@ export default {
       this.jsonData.type = subData.type
       this.dataList = []
       if (this.$route.query.icon == 'qjtzsq') {
-        this.jsonData.status = '1'
+        this.jsonData.status = '3'
       } else {
         this.jsonData.status = subData.status
       }
@@ -144,6 +144,7 @@ export default {
       this.jsonData.endTime = this.util.setDefaultTime(2)
       this.jsonData.startTime = this.util.setDefaultTime(2)
     },
+    // 获取请假类型文本
     getTypeTxt (type) {
       // 请假类型 1、年休 2、病假 3、事假 4、工伤假 5、婚假 6、产假 7、护理假 8、丧假
       if (type == '1') {
@@ -164,6 +165,7 @@ export default {
         return '丧假'
       }
     },
+    // 获取状态文本
     getStatusTxt (type) {
       if (type == 3) {
         return { txt: '同意', sty: 'ty' }

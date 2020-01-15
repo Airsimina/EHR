@@ -119,8 +119,8 @@ export default {
       endTime: '',
       numDay: 0, // 时长
       reason: '', // 理由
-      editFlag: '1', // 1、正常使用 2、无法使用
-      removeFlag: '1', // 1、正常使用 2、无法使用
+      editFlag: '2', // 1、正常使用 2、无法使用
+      removeFlag: '2', // 1、正常使用 2、无法使用
       dataId: '', // 数据id
       dataType: '', // 1:请假 2:销假
       itemData: {}
@@ -194,7 +194,6 @@ export default {
     }
   },
   mounted () {
-    console.log('---222--------', this.$route.query.id)
     this.dataId = this.$route.query.id // 数据id  原请假id
     this.dataType = this.$route.query.dataType
     this.userNumber = this.getLeaveVal(this.$route.query.type)
