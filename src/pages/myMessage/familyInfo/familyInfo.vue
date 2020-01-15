@@ -11,16 +11,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">子类型</div>
           <span>:</span>
-          <div class="lis-row lis-value"
-               v-if="item.relation=='1'">配偶</div>
-          <div class="lis-row lis-value"
-               v-if="item.relation=='2'">子女</div>
-          <div class="lis-row lis-value"
-               v-if="item.relation=='11'">父亲</div>
-          <div class="lis-row lis-value"
-               v-if="item.relation=='12'">母亲</div>
-          <div class="lis-row lis-value"
-               v-if="item.relation=='99'">其他亲属关系</div>
+          <div class="lis-row lis-value">{{getRelationTxt(item.relation)}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">与本人关系</div>
@@ -76,22 +67,32 @@
 import { mapGetters } from 'vuex'
 import '../../../style/tabList.scss'
 export default {
-  components: {},
-  props: {},
   data () {
     return {
       str: '家庭信息测试数据',
       jsonDataList: []
     }
   },
-  watch: {},
   computed: {
     ...mapGetters({
       infoData: 'getInfoData'
     })
   },
-  methods: {},
-  created () { },
+  methods: {
+    getRelationTxt (type) {
+      if (type == '1') {
+        return '配偶'
+      } else if (type == '2') {
+        return '子女'
+      } else if (type == '11') {
+        return '父亲'
+      } else if (type == '12') {
+        return '母亲'
+      } else if (type == '99') {
+        return '其他亲属关系'
+      }
+    }
+  },
   mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]

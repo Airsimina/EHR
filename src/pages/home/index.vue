@@ -104,6 +104,18 @@ export default {
     document.title = '首页'
   },
   methods: {
+    // 获取代办个数
+    getTaskCount () {
+      return new Promise((resolve, reject) => {
+        HttpEhr.getTaskCount({
+          userId: this.userId
+        }
+        ).then(res => {
+          resolve(res)
+        })
+      })
+    },
+    // 获取用户
     getLoginUserName () {
       return new Promise((resolve, reject) => {
         HttpEhr.getLoginUserName({
@@ -112,23 +124,6 @@ export default {
         ).then(res => {
           resolve(res)
         })
-      })
-    },
-    // 跳转
-    transmitFun (item) {
-      if (!item.path) {
-        this.$toast(
-          {
-            message: '敬请期待',
-            icon: 'like-o'
-          })
-        return
-      }
-      this.$router.push({
-        name: 'sharePage',
-        query: {
-          pagePath: item.path
-        }
       })
     },
     // 获取年假余额
@@ -155,6 +150,26 @@ export default {
       })
       await this.getLoginUserName().then(res => {
         this.util.setSession('sysUsername', { sysUsername: res.data.sysUsername })
+      })
+      await this.getTaskCount().then(res => {
+        this.awaitNum = res.data
+      })
+    },
+    // 跳转
+    transmitFun (item) {
+      if (!item.path) {
+        this.$toast(
+          {
+            message: '敬请期待',
+            icon: 'like-o'
+          })
+        return
+      }
+      this.$router.push({
+        name: 'sharePage',
+        query: {
+          pagePath: item.path
+        }
       })
     }
   }
@@ -207,7 +222,7 @@ export default {
               right: 0;
               top: 0.23rem;
               background: #ccc;
-              opacity: 0.5;
+              opacity: 0.3;
             }
           }
           .number {

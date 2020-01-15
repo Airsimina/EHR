@@ -153,13 +153,12 @@ export default {
         reason: '', // 理由
         startTime: '请选择', // 开始时间
         endTime: '请选择', // 结束时间,
-        id: '', // 原请假id  修改 , 销假用
+        dataId: '', // 原请假id  修改 , 销假用
         // 图片集合
         fileViewLists: [],
         saveType: '1' // 1新增提交 2、修改提交（待办提交全部传1
       },
       dataType: '1', // 1:修改 2:销假
-      dataId: '', // 数据ID
       leaveTypetxt: '' || '请选择', // 请假类型文字
       popupTitle: '', // 时间选择title
       currentDate: new Date(),
@@ -181,19 +180,31 @@ export default {
           text: '事假'
         },
         {
+          id: '4',
+          text: '工伤假'
+        },
+        {
           id: '5',
           text: '婚假'
         },
         {
-          id: '7',
+          id: '6',
           text: '产假'
+        },
+        {
+          id: '7',
+          text: '护理假'
+        },
+        {
+          id: '8',
+          text: '丧假'
         }
       ],
       itemData: {} // 传过来的表单数据
     }
   },
   methods: {
-    // --------------------------数据解析处理---------------------------
+    // --------------------------公用数据解析处理---------------------------
     // 初始化表单流程数据
     load () {
       const classifyHangup = '[HANGUP]'
@@ -337,7 +348,7 @@ export default {
       params = { ...this.formData }
       return params
     },
-    // -----------------------------------------------------
+    // -------------------------表单数据处理----------------------------
     // 1. form.do
     leaveApplyDetail () {
       return new Promise((resolve, reject) => {
@@ -426,20 +437,20 @@ export default {
     },
     // 6.销假
     removeVacation () {
-      HttpEhr.removeVacation({
-        userId: this.util.getSession('sessionData').userId || '',
-        dataId: this.jsonData.oldId, // 原请假id
-        startDate: this.jsonData.startTime,
-        endDate: this.jsonData.endTime,
-        sum: this.jsonData.duration,
-        note: this.jsonData.reason,
-        flowData: JSON.stringify(this.flowContext),
-        saveType: this.jsonData.saveType
-        // -----------------------------
+      return new Promise((resolve, reject) => {
+        HttpEhr.removeVacation({
+          userId: this.util.getSession('sessionData').userId || '',
+          remId: this.jsonData.dataId, // 原请假id
+          startDate: this.jsonData.startTime,
+          endDate: this.jsonData.endTime,
+          sum: this.jsonData.duration,
+          note: this.jsonData.reason,
+          flowData: JSON.stringify(this.flowContext),
+          saveType: this.jsonData.saveType
 
-      }).then(res => {
-        console.log('销假')
-        console.log(res)
+        }).then(res => {
+          resolve(res)
+        })
       })
     },
     // 提交按钮
@@ -496,6 +507,7 @@ export default {
         })
       } else if (this.dataType == '2') {
         await this.removeVacation().then(res => {
+          console.log('销假')
           if (res.code == 0) {
             this.$toast.success({
               message: '销假成功'
@@ -542,7 +554,7 @@ export default {
     },
     // 打开时间选择器 0: 开始 1: 结束
     showDatePicker (picker) {
-      if (this.dataType == 2) return
+      if (this.dataType == '2') return
       this.isPopShow = true
       this.datePicker = picker
       if (this.datePicker) {
@@ -550,11 +562,6 @@ export default {
       } else {
         this.popupTitle = '选择开始日期'
       }
-    },
-    // 关闭日历选择
-    cancelPicker () {
-      this.isPopShow = false
-      this.datePicker = ''
     },
     // 确定日期选择，时间格式化并显示在页面上
     confirmPicker (value) {
@@ -575,6 +582,11 @@ export default {
         this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
       }
     },
+    // 关闭日历选择
+    cancelPicker () {
+      this.isPopShow = false
+      this.datePicker = ''
+    },
     // 格式化选择器日期
     formatter (type, value) {
       if (type === 'year') {
@@ -585,6 +597,11 @@ export default {
         return `${value}日`
       }
       return value
+    },
+    // 打开请假类型下拉选
+    openPopShowType () {
+      if (this.dataType == '2') return
+      this.isPopShowType = true
     },
     // 确认请假类型选择
     onConfirm (item, index) {
@@ -599,11 +616,6 @@ export default {
     onCancel () {
       this.isPopShowType = false
     },
-    // 展开请假类型下拉选
-    openPopShowType () {
-      if (this.dataType == '2') return
-      this.isPopShowType = true
-    },
     // 计算时间开始,结束日期差
     DateMinus (start, end) {
       var sdate = new Date(start)
@@ -616,6 +628,7 @@ export default {
       }
       return day + 1
     },
+    // 赋值传递参数
     setVal () {
       this.jsonData.startTime = this.itemData.startDate
       this.jsonData.endTime = this.itemData.endDate
@@ -630,11 +643,11 @@ export default {
   },
   mounted () {
     // this.serverUrl = ' http://' + window.location.host
-    // 1:新增 销假 2:修改
     this.itemData = this.$route.query.itemData || {}
     this.dataType = this.$route.query.flag || '0'
     // 数据id
-    this.dataId = this.$route.query.dataId || ''
+    this.jsonData.dataId = this.$route.query.id || ''
+    // this.dataType 0:新增 1:修改 2:销假
     // 提交接口 saveType 1、销假 新增提交 2、修改提交
     if (this.dataType == '0') {
       // 新增

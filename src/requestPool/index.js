@@ -5,7 +5,10 @@ import {
 // const serverurl = '/weixinQY/oauth2/invoke.do'
 
 export default {
-
+    // 获取代办个数
+    getTaskCount: function (payLoad) {
+        return HXpost('/ehr/vacation/getTaskCount.do', payLoad)
+    },
     // 获取登录用户名
     getLoginUserName: function (payLoad) {
         return HXpost('/ehr/home/user/info.do', payLoad)
@@ -48,7 +51,7 @@ export default {
     },
     // 请假销假 -lxs
     removeVacation: function (payLoad) {
-        return HXpost('/home/user/removeVacation.do', payLoad)
+        return HXpost('/ehr/vacation/removeVacation.do', payLoad)
     },
     // 请假申请列表 -lxs
     getApplyRecordList: function (payLoad) {

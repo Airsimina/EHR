@@ -57,16 +57,7 @@
                  :key="index">
               <div class="sublis">
                 <span class="name">请假类型 :</span>
-                <span class="val color-b"
-                      v-if="item.type=='1'">病假</span>
-                <span class="val color-b"
-                      v-if="item.type=='2'">事假</span>
-                <span class="val color-b"
-                      v-if="item.type=='3'">产假</span>
-                <span class="val color-b"
-                      v-if="item.type=='4'">婚假</span>
-                <span class="val color-b"
-                      v-if="item.type=='5'">丧假</span>
+                <span class="val color-b">{{getTypeTxt(item.type)}}</span>
               </div>
               <div class="sublis">
                 <span class="name">开始时间 :</span>
@@ -154,6 +145,7 @@ export default {
         this.dataList = res.data.list
       })
     },
+    // 设置汇总考勤样式
     setVal () {
       this.dataList_s[0].val = this.formData.compassionateLeave // 事假
       this.dataList_s[1].val = this.formData.sickLeave // 病假
@@ -168,7 +160,7 @@ export default {
     searchTimeChSeFun (timeData) {
       this.startTime = timeData.startTime
       this.endTime = timeData.endTime
-      // this.getcheckSeekList()
+      this.getcheckSeekList()
     },
     // 获取默认时间
     getdate (type) {
@@ -180,6 +172,19 @@ export default {
         return `${y}年${m}月`
       } else {
         return `${y}-${m}`
+      }
+    },
+    getTypeTxt (type) {
+      if (type == '1') {
+        return '年休'
+      } else if (type == '2') {
+        return '病假'
+      } else if (type == '3') {
+        return '事假'
+      } else if (type == '5') {
+        return '婚假'
+      } else if (type == '7') {
+        return '产假'
       }
     }
   },

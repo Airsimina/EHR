@@ -12,6 +12,7 @@
 
       <div class="tab-list-box"
            v-if="showbox">
+        <!-- 全部 -->
         <div class="box-1"
              v-if="selTabIdShow==1">
           <div @click="selcontent(item,index)"
@@ -19,6 +20,7 @@
                v-for="(item,index) in dataList"
                :key="index">{{item.name}}</div>
         </div>
+        <!-- 筛选 -->
         <div class="box-1"
              v-if="selTabIdShow==2">
           <div class="lis-2">
@@ -38,6 +40,7 @@
           </div>
 
         </div>
+        <!-- 分类 -->
         <div class="box-1"
              v-if="selTabIdShow==3">
           <div @click="selcontent(item,index)"
@@ -105,7 +108,7 @@ export default {
         statusList: [
           {
             name: '同意',
-            id: '1'
+            id: '3'
           },
           {
             name: '审批中',
@@ -113,7 +116,7 @@ export default {
           },
           {
             name: '驳回',
-            id: '3'
+            id: '4'
           }
         ],
         // 1 请假申请 2 加班申请 3 出差申请
@@ -141,7 +144,7 @@ export default {
       // 选中的全部
       type: '1',
       // 选中的分类
-      status: '1',
+      status: '3',
       // 日期title
       popupTitle: '',
       // 时间选择器的默认值

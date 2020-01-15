@@ -15,20 +15,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">培训类型</div>
           <span>:</span>
-          <div class="lis-row lis-value"
-               v-if="item.trainingType='A0'">进修</div>
-          <div class="lis-row lis-value"
-               v-if="item.trainingType='A1'">语言培训</div>
-          <div class="lis-row lis-value"
-               v-if="item.trainingType='A2'">管理培训</div>
-          <div class="lis-row lis-value"
-               v-if="item.trainingType='A3'">技术培训</div>
-          <div class="lis-row lis-value"
-               v-if="item.trainingType='A4'">技能培训</div>
-          <div class="lis-row lis-value"
-               v-if="item.trainingType='A5'">专业培训</div>
-          <div class="lis-row lis-value"
-               v-if="item.trainingType='ZZ'">其他</div>
+          <div class="lis-row lis-value">{{getTrainingTypeTxt(item.trainingType)}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">课程名称</div>
@@ -67,14 +54,30 @@ export default {
       jsonDataList: []
     }
   },
-  watch: {},
   computed: {
     ...mapGetters({
       infoData: 'getInfoData'
     })
   },
-  methods: {},
-  created () { },
+  methods: {
+    getTrainingTypeTxt (type) {
+      if (type == 'A0') {
+        return '进修'
+      } else if (type == 'A1') {
+        return '语言培训'
+      } else if (type == 'A2') {
+        return '管理培训'
+      } else if (type == 'A3') {
+        return '技术培训'
+      } else if (type == 'A4') {
+        return '技能培训'
+      } else if (type == 'A5') {
+        return '专业培训'
+      } else if (type == 'ZZ') {
+        return '其他'
+      }
+    }
+  },
   mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]

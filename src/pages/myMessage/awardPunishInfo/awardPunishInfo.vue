@@ -30,18 +30,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">奖惩类型</div>
           <span>:</span>
-          <div class="lis-row lis-value"
-               v-if="item.rewardType=='01'">公司奖惩</div>
-          <div class="lis-row lis-value"
-               v-if="item.rewardType=='02'">分支机构奖惩</div>
-          <div class="lis-row lis-value"
-               v-if="item.rewardType=='03'">行业奖励</div>
-          <div class="lis-row lis-value"
-               v-if="item.rewardType=='04'">市级奖励</div>
-          <div class="lis-row lis-value"
-               v-if="item.rewardType=='05'">省级奖励</div>
-          <div class="lis-row lis-value"
-               v-if="item.rewardType=='06'">国家级奖励</div>
+          <div class="lis-row lis-value">{{getRewardTypeTxt(item.rewardType)}}</div>
         </div>
       </div>
     </div>
@@ -53,8 +42,6 @@ import { mapGetters } from 'vuex'
 
 import '../../../style/tabList.scss'
 export default {
-  components: {},
-  props: {},
   data () {
     return {
       str: '奖惩信息测试数据',
@@ -67,8 +54,23 @@ export default {
       infoData: 'getInfoData'
     })
   },
-  methods: {},
-  created () { },
+  methods: {
+    getRewardTypeTxt (type) {
+      if (type == '01') {
+        return '公司奖惩'
+      } else if (type == '02') {
+        return '分支机构奖惩'
+      } else if (type == '03') {
+        return '行业奖励'
+      } else if (type == '04') {
+        return '市级奖励'
+      } else if (type == '05') {
+        return '省级奖励'
+      } else if (type == '06') {
+        return '国家级奖励'
+      }
+    }
+  },
   mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]

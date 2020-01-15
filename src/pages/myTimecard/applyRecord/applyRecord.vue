@@ -18,16 +18,7 @@
             <!-- // 请假类型1、年休2、病假3、事假4、工伤假5、婚假6、产假7、护理假8、丧假 -->
             <div class="sublis">
               <span class="name">请假类型 :</span>
-              <span class="val color-b"
-                    v-if="item.type=='1'">年假</span>
-              <span class="val color-b"
-                    v-if="item.type=='2'">病假</span>
-              <span class="val color-b"
-                    v-if="item.type=='3'">事假</span>
-              <span class="val color-b"
-                    v-if="item.type=='5'">婚假</span>
-              <span class="val color-b"
-                    v-if="item.type=='7'">产假</span>
+              <span class="val color-b">{{getTypeTxt(item.type)}}</span>
             </div>
             <div class="sublis">
               <span class="name">开始时间 :</span>
@@ -43,12 +34,14 @@
             </div>
           </div>
           <!-- 1 同意 2 审核中 3 驳回 -->
-          <div class="title-status ty"
+          <div class="title-status"
+               :class="[getStatusTxt(item.status).sty]">{{getStatusTxt(item.status).txt}}</div>
+          <!-- <div class="title-status ty"
                v-if="item.status==1">同意</div>
           <div class="title-status spz"
                v-if="item.status==2">审批中</div>
           <div class="title-status bh"
-               v-if="item.status==3">驳回</div>
+               v-if="item.status==3">驳回</div> -->
         </div>
       </van-list>
       <!-- 空数据占位符 -->
@@ -78,10 +71,10 @@ export default {
         startDate: '',
         endDate: '',
         type: '1',
-        status: '1'
+        status: '3'
       },
-      page: 1,
-      showCount: 10,
+      page: 1, // 当前页
+      showCount: 10, // 当前页显示多少条
       totalPage: -1, // 总页数
       finished: false,
       loading: false
@@ -105,14 +98,16 @@ export default {
         userId: this.util.getSession('sessionData').userId || '',
         startDate: this.jsonData.startTime,
         endDate: this.jsonData.endTime,
+        // startDate: '2020-01',
+        // endDate: '2020-02',
         type: this.jsonData.type,
         status: this.jsonData.status,
         page: this.page,
         showCount: this.showCount
       }).then(res => {
-        if (res.data.list.length > 0) {
-          this.dataList = this.dataList.concat(res.data.list)
-          this.totalPage = res.data.totalPage
+        if (res.data.records.length > 0) {
+          this.dataList = this.dataList.concat(res.data.records)
+          this.totalPage = res.data.pages
           this.loading = false
           this.finished = false
         } else {
@@ -128,6 +123,7 @@ export default {
       this.jsonData.startTime = subData.startTime
       this.jsonData.endTime = subData.endTime
       this.jsonData.type = subData.type
+      this.dataList = []
       if (this.$route.query.icon == 'qjtzsq') {
         this.jsonData.status = '1'
       } else {
@@ -149,6 +145,35 @@ export default {
     initTime () {
       this.jsonData.endTime = this.util.setDefaultTime(2)
       this.jsonData.startTime = this.util.setDefaultTime(2)
+    },
+    getTypeTxt (type) {
+      // 请假类型 1、年休 2、病假 3、事假 4、工伤假 5、婚假 6、产假 7、护理假 8、丧假
+      if (type == '1') {
+        return '年休'
+      } else if (type == '2') {
+        return '病假'
+      } else if (type == '3') {
+        return '事假'
+      } else if (type == '4') {
+        return '工伤假'
+      } else if (type == '5') {
+        return '婚假'
+      } else if (type == '6') {
+        return '产假'
+      } else if (type == '7') {
+        return '护理假'
+      } else if (type == '8') {
+        return '丧假'
+      }
+    },
+    getStatusTxt (type) {
+      if (type == 3) {
+        return { txt: '同意', sty: 'ty' }
+      } else if (type == 2) {
+        return { txt: '审批中', sty: 'spz' }
+      } else if (type == 4) {
+        return { txt: '驳回', sty: 'bh' }
+      }
     }
   },
   created () {
@@ -159,10 +184,11 @@ export default {
       document.title = '我的申请'
       this.pageTypeVal = '1'
     }
-  },
-  mounted () {
     this.initTime()
     this.getApplyRecordList()
+  },
+  mounted () {
+
     // 测试数据
   }
 }

@@ -64,38 +64,19 @@
              v-for="(item, index) in flowHiComments"
              :key="index">
           <!-- 销售计划 左侧时间线 -->
-          <!-- <div class="state"
-               :class="[statusStyleList[item.id-1]]"></div> -->
-          <div v-if="item.operateType=='提交'"
-               class="state blue"></div>
-          <div v-if="item.operateType=='未审核'"
-               class="state grey"></div>
-          <div v-if="item.operateType=='待审核'"
-               class="state green"></div>
-          <div v-if="item.operateType=='驳回'"
-               class="state orange"></div>
-
+          <div :class="[getStatus(item.operateType)]"
+               class="state"></div>
           <div class="flow-info">
             <div class="name-box">
               <div class="flow-name">{{item.operaterName}}</div>
               <div class="position">{{item.nodeName}}</div>
             </div>
-            <!-- v-if="item.operateType=='驳回'" -->
             <div class="approval-info"
                  v-if="item.operateType=='驳回'">意见：{{item.opinion}}</div>
             <div class="time">{{item.operateTime}}</div>
             <!-- 销售计划 右侧展示文字 -->
-            <!-- <div class="status"
-                 :class="[statusStyleList[item.id-1]]">{{item.operateType}}</div> -->
-            <div v-if="item.operateType=='提交'"
-                 class="status blue">提交</div>
-            <div v-if="item.operateType=='未审核'"
-                 class="status grey">未审核</div>
-            <div v-if="item.operateType=='待审核'"
-                 class="status green">待审核</div>
-            <div v-if="item.operateType=='驳回'"
-                 class="status orange">驳回</div>
-
+            <div :class="[getStatus(item.operateType)]"
+                 class="status">{{item.operateType}}</div>
           </div>
         </div>
       </div>
@@ -146,6 +127,17 @@ export default {
     }
   },
   methods: {
+    getStatus (typeTxt) {
+      if (typeTxt == '提交') {
+        return 'blue'
+      } else if (typeTxt == '未审核') {
+        return 'grey'
+      } else if (typeTxt == '待审核') {
+        return 'green'
+      } else if (typeTxt == '驳回') {
+        return 'orange'
+      }
+    },
     // 1 修改和 2销假跳转
     editFun (flag) {
       if ((flag == '1' && this.editFlag == '1') || (flag == '2' && this.removeFlag == '1')) {
@@ -202,7 +194,8 @@ export default {
     }
   },
   mounted () {
-    this.dataId = this.$route.query.id
+    console.log('---222--------', this.$route.query.id)
+    this.dataId = this.$route.query.id // 数据id  原请假id
     this.dataType = this.$route.query.dataType
     this.userNumber = this.getLeaveVal(this.$route.query.type)
     if (this.dataType == '1') {
@@ -237,7 +230,7 @@ export default {
         background: #fff;
         border-radius: 0.2rem;
         .lis {
-          padding: 0.25rem 0;
+          padding: 0.15rem 0;
           position: relative;
           display: flex;
           div {
