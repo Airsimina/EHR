@@ -98,8 +98,6 @@ export default {
         userId: this.util.getSession('sessionData').userId || '',
         startDate: this.jsonData.startTime,
         endDate: this.jsonData.endTime,
-        // startDate: '2020-01',
-        // endDate: '2020-02',
         type: this.jsonData.type,
         status: this.jsonData.status,
         page: this.page,
