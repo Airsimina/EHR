@@ -65,10 +65,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@font-face {
-  font-family: "DINPro-Medium";
-  src: url("../../../style/DINPro-Medium.otf");
-}
 .annualResidue {
   font-size: 0.24rem;
   .wrap-1 {
@@ -117,7 +113,6 @@ export default {
             font-size: 0.28rem;
             font-weight: bold;
             color: #111;
-            font-family: "DINPro-Medium";
             &.ccc {
               color: #cccccc;
             }

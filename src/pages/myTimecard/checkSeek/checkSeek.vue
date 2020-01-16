@@ -50,26 +50,30 @@
                  :class="{'open':selIndex==index}"></div>
           </div>
           <!-- 单月展开记录 -->
+
           <div class="list-data"
-               v-show="selIndex==index">
+               v-if="selIndex==index">
+            <!-- v-if="item.subList.length>0 && selIndex==index" -->
+            <div class="no-data"
+                 v-if="item.subList.length==0 && selIndex==index">暂无数据~</div>
             <div class="row-data"
-                 v-for="(item,index) in item.subList"
+                 v-for="(subItem,index) in item.subList"
                  :key="index">
               <div class="sublis">
                 <span class="name">请假类型 :</span>
-                <span class="val color-b">{{getTypeTxt(item.type)}}</span>
+                <span class="val color-b">{{getTypeTxt(subItem.type)}}</span>
               </div>
               <div class="sublis">
                 <span class="name">开始时间 :</span>
-                <span class="val">{{item.startDate}}</span>
+                <span class="val">{{subItem.startDate}}</span>
               </div>
               <div class="sublis">
                 <span class="name">结束时间 :</span>
-                <span class="val">{{item.endDate}}</span>
+                <span class="val">{{subItem.endDate}}</span>
               </div>
               <div class="sublis">
                 <span class="name">请假时长 :</span>
-                <span class="val">{{item.sum}}/天</span>
+                <span class="val">{{subItem.sum}}/天</span>
               </div>
             </div>
           </div>
@@ -138,10 +142,7 @@ export default {
       HttpEhr.getcheckSeekList({
         userId: this.util.getSession('sessionData').userId || '',
         startDate: this.startTime,
-        // startDate: '2019-05',
         endDate: this.endTime
-        // endDate: '2019-05'
-
       }).then(res => {
         this.formData = res.data.formData
         this.setVal()
@@ -207,10 +208,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@font-face {
-  font-family: "DINPro-Medium";
-  src: url("../../../style/DINPro-Medium.otf");
-}
 .mySalary {
   font-size: 0.24rem;
   .wrap-1 {
@@ -291,7 +288,14 @@ export default {
         margin-bottom: 0.1rem;
         border-bottom-left-radius: 0.2rem;
         border-bottom-right-radius: 0.2rem;
-
+        .no-data {
+          font-size: 0.24rem;
+          text-align: center;
+          width: 100%;
+          line-height: 1rem;
+          color: #999;
+          letter-spacing: 0.05rem;
+        }
         .row-data {
           font-size: 0.24rem;
           border-bottom: 1px solid #fafafa;
@@ -335,7 +339,6 @@ export default {
             box-sizing: border-box;
             text-align: center;
             .num {
-              font-family: "DINPro-Medium";
               font-size: 0.3rem;
               font-weight: bold;
             }

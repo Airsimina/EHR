@@ -178,12 +178,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@font-face {
-  font-family: "DINPro-Medium";
-  src: url("../../style/DINPro-Medium.otf");
-}
 .home {
-  font-family: "DINPro-Medium";
   .top {
     background: url("../../../static/img/top-bg.png") 0 0 no-repeat;
     background-size: 100% 100%;
@@ -231,7 +226,6 @@ export default {
             line-height: 0.44rem;
             color: rgba(51, 51, 51, 1);
             margin-top: 0.4rem;
-            font-family: "DINPro-Medium";
           }
           .discribe {
             font-weight: 400;

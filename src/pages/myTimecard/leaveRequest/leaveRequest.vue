@@ -7,7 +7,7 @@
           <div class="title">{{this.title}}</div>
           <div class="lis">
             <div class="lis-f">
-              <div class="div-name-1">请假类型</div>
+              <div class="div-name-1"> {{this.dataType=='2'?'销假类型' : '请假类型'}}</div>
             </div>
             <div class="lis-r"
                  @click="openPopShowType">
@@ -37,7 +37,7 @@
           </div>
           <div class="lis">
             <div class="lis-f">
-              <div class="div-name-1">请假时长</div>
+              <div class="div-name-1">{{this.dataType=='2'?'销假时长' : '请假时长'}}</div>
             </div>
             <div class="lis-r">
               <input type="number"
@@ -74,7 +74,7 @@
           </div>
           <div class="lis">
             <div class="lis-f">
-              <div class="div-name-1">请假理由</div>
+              <div class="div-name-1">{{this.dataType=='2'?'销假事由' : '请假理由'}}</div>
             </div>
             <div class="lis-r">
               <input type="text"

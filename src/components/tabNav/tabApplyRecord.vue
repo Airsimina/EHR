@@ -16,7 +16,7 @@
         <div class="box-1"
              v-if="selTabIdShow==1">
           <div @click="selcontent(item,index)"
-               :class="{'active-name-3' : index == lisIndex,'lis-3':selTabIdShow==1}"
+               :class="{'active-name-1' : index == lisIndex_1,'lis-1':selTabIdShow==1}"
                v-for="(item,index) in dataList"
                :key="index">{{item.name}}</div>
         </div>
@@ -44,7 +44,7 @@
         <div class="box-1"
              v-if="selTabIdShow==3">
           <div @click="selcontent(item,index)"
-               :class="{'active-name-1' : index == lisIndex,'lis-1':selTabIdShow==3}"
+               :class="{'active-name-3' : index == lisIndex_3,'lis-3':selTabIdShow==3}"
                v-for="(item,index) in dataList"
                :key="index">{{item.name}}</div>
         </div>
@@ -102,7 +102,8 @@ export default {
       // 选中的展开数据
       selTabIdShow: 1,
       // 选中的子菜单信息
-      lisIndex: 0,
+      lisIndex_1: 0,
+      lisIndex_3: 0,
       // 导航菜单数据
       tabNabJsonList: {
         statusList: [
@@ -172,11 +173,11 @@ export default {
       if (this.selTabIdShow == 1) {
         // 全部
         this.status = item.id
-        this.lisIndex = index
+        this.lisIndex_1 = index
       } else if (this.selTabIdShow == 3) {
         // 分类
         this.type = item.id
-        this.lisIndex = index
+        this.lisIndex_3 = index
       }
       this.$emit('classSearchFun', {
         selTabIdShow: this.selTabIdShow,
@@ -319,11 +320,20 @@ export default {
       overflow: auto;
       .box-1 {
         .lis-1 {
-          padding-top: 0.1rem;
-          font-size: 0.26rem;
-          color: #999999;
+          display: inline-block;
+          width: 1rem;
+          background: rgba(255, 255, 255, 1);
+          border: 1px solid rgba(153, 153, 153, 1);
+          border-radius: 20px;
+          font-size: 0.24rem;
+          color: rgba(153, 153, 153, 1);
+          margin: 0.5rem 0.3rem 0 0.3rem;
+          text-align: center;
+          line-height: 0.4rem;
           &.active-name-1 {
-            color: #5576ab;
+            border: 1px solid #5576ab;
+            color: #fff;
+            background: #5576ab;
           }
         }
         .lis-2 {
@@ -354,6 +364,14 @@ export default {
             }
           }
         }
+        .lis-3 {
+          padding-top: 0.1rem;
+          font-size: 0.26rem;
+          color: #999999;
+          &.active-name-3 {
+            color: #5576ab;
+          }
+        }
         .btn-box {
           display: flex;
           justify-content: center;
@@ -378,23 +396,6 @@ export default {
               );
               box-shadow: 0px 10px 20px rgba(85, 118, 171, 0.16);
             }
-          }
-        }
-        .lis-3 {
-          display: inline-block;
-          width: 1rem;
-          background: rgba(255, 255, 255, 1);
-          border: 1px solid rgba(153, 153, 153, 1);
-          border-radius: 20px;
-          font-size: 0.24rem;
-          color: rgba(153, 153, 153, 1);
-          margin: 0.5rem 0.3rem 0 0.3rem;
-          text-align: center;
-          line-height: 0.4rem;
-          &.active-name-3 {
-            border: 1px solid #5576ab;
-            color: #fff;
-            background: #5576ab;
           }
         }
       }
