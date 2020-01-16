@@ -71,35 +71,19 @@ import HttpEhr from '@requestPool/index.js'
 // import testmysalary from '../../testJson/mySalary.js'
 export default {
   components: { cardSearchTime },
-  props: {},
   data () {
     return {
       selIndex: -1, // 展开的下标
-      // 单月数据集合
-      dataList: [],
-      // 汇总
-      sumSalary: [],
-      // 控制汇总展开收起
-      collectShow: false,
+      dataList: [], // 单月数据集合
+      sumSalary: [], // 汇总
+      collectShow: false, // 控制汇总展开收起
       startTime: '',
       endTime: '',
       titleTime: ''
-
     }
   },
   methods: {
-    // 汇总展开
-    collect () {
-      this.collectShow = !this.collectShow
-    },
-    // 展开收起
-    open (item, index) {
-      if (this.selIndex == index) {
-        this.selIndex = -1
-        return
-      }
-      this.selIndex = index
-    },
+
     // 获取我的工资列表
     getMySalaryList () {
       HttpEhr.getMySalaryList({
@@ -136,6 +120,18 @@ export default {
     initTime () {
       this.endTime = this.util.setDefaultTime(2)
       this.startTime = this.util.setDefaultTime(2)
+    },
+    // 汇总展开
+    collect () {
+      this.collectShow = !this.collectShow
+    },
+    // 展开收起
+    open (item, index) {
+      if (this.selIndex == index) {
+        this.selIndex = -1
+        return
+      }
+      this.selIndex = index
     }
   },
   mounted () {

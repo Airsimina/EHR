@@ -81,8 +81,6 @@ export default {
       ]
     }
   },
-  watch: {},
-  computed: {},
   methods: {
     // 跳转
     jumpFun (item, index) {
@@ -102,7 +100,6 @@ export default {
       })
     }
   },
-  created () { },
   mounted () {
     document.title = '我的考勤'
   }

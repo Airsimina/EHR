@@ -31,7 +31,6 @@ export default {
       keyName: '人员编号'
     }
   },
-  watch: {},
   mounted () {
     document.title = '我的信息'
   },

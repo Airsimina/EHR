@@ -156,9 +156,10 @@ export default {
         dataId: '', // 原请假id  修改 , 销假用
         // 图片集合
         fileViewLists: [],
-        saveType: '1' // 1新增提交 2、修改提交（待办提交全部传1
+        saveType: '1', // 1新增提交 2、修改提交（待办提交全部传1
+        formType: '1' // 1:新增 1:修改 2:销假
       },
-      dataType: '1', // 1:修改 2:销假
+      dataType: '1', // 0:新增 1:修改 2:销假
       leaveTypetxt: '' || '请选择', // 请假类型文字
       popupTitle: '', // 时间选择title
       currentDate: new Date(),
@@ -179,26 +180,26 @@ export default {
           id: '3',
           text: '事假'
         },
-        {
-          id: '4',
-          text: '工伤假'
-        },
+        // {
+        //   id: '4',
+        //   text: '工伤假'
+        // },
         {
           id: '5',
           text: '婚假'
         },
-        {
-          id: '6',
-          text: '产假'
-        },
+        // {
+        //   id: '6',
+        //   text: '产假'
+        // },
         {
           id: '7',
           text: '护理假'
-        },
-        {
-          id: '8',
-          text: '丧假'
         }
+        // {
+        //   id: '8',
+        //   text: '丧假'
+        // }
       ],
       itemData: {}, // 传过来的表单数据
       title: ''
@@ -355,7 +356,8 @@ export default {
       return new Promise((resolve, reject) => {
         HttpEhr.leaveApplyDetail({
           userId: this.util.getSession('sessionData').userId,
-          formType: '1'
+          dataId: this.jsonData.dataId,
+          formType: this.jsonData.formType
         }).then(res => {
           resolve(res)
         })
@@ -423,7 +425,6 @@ export default {
         HttpEhr.addAndEditVacation({
           userId: this.util.getSession('sessionData').userId || '',
           type: this.jsonData.leaveTypeId,
-          id: this.jsonData.id, // 不传为新增，传了为修改,销假
           startDate: this.jsonData.startTime,
           endDate: this.jsonData.endTime,
           sum: this.jsonData.duration,
@@ -498,6 +499,7 @@ export default {
           this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()] = nextNodePerson.sysUsername || ''
         }
       })
+      // return
       if (this.dataType == '0' || this.dataType == '1') {
         await this.addAndEditVacation().then(res => {
           if (res.code == 0) {
@@ -645,8 +647,6 @@ export default {
     // this.serverUrl = ' http://' + window.location.host
     this.itemData = this.$route.query.itemData || {}
     this.dataType = this.$route.query.flag || '0'
-    console.log(this.dataType, '----------------')
-
     // 数据id
     this.jsonData.dataId = this.$route.query.id || ''
     // 本地 this.dataType 0:新增 1:修改 2:销假
@@ -664,6 +664,7 @@ export default {
       // 销假
       this.title = '假期申请调整'
       this.jsonData.saveType = '1'
+      this.jsonData.formType = '2'
       this.setVal()
     }
     document.title = this.title

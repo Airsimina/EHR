@@ -5,7 +5,6 @@
       </div>
       <span class="back"
             @click="$router.go(-1)"></span>
-      <!-- @click="$router.push({name:"home"})" -->
       <span class="home"
             @click="goHome">首页</span>
       <router-view></router-view>
@@ -15,8 +14,6 @@
 
 <script>
 export default {
-  components: {},
-  props: {},
   data () {
     return {
       pagePath: this.$route.query.pagePath || ''
@@ -27,7 +24,6 @@ export default {
       this.$router.push({ name: 'home' })
     }
   },
-  created () { },
   mounted () {
     this.$router.replace({
       name: this.pagePath,
@@ -36,6 +32,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss" scoped>
 .sharePage {
   font-size: 0.24rem;

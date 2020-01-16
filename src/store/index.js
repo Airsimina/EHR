@@ -15,8 +15,8 @@ export default new Vuex.Store({
     state: {
         loading: false,
         // 我的文档公用数据
-        infoDataList: [],
-        infoData: {},
+        infoDataList: [], // 所有模块数据
+        infoData: {}, // 子模块数据
         isShowLoading: false, // todo
         loadingCount: 0 // todo
     },

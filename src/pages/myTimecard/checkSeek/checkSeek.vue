@@ -138,7 +138,10 @@ export default {
       HttpEhr.getcheckSeekList({
         userId: this.util.getSession('sessionData').userId || '',
         startDate: this.startTime,
-        endtDate: this.endTime
+        // startDate: '2019-05',
+        endDate: this.endTime
+        // endDate: '2019-05'
+
       }).then(res => {
         this.formData = res.data.formData
         this.setVal()

@@ -82,9 +82,10 @@
       </div>
       <!-- 底部按钮 -->
       <div class="footer-box">
-        <div class="btn edit-btn"
-             :class="{'forbid':editFlag=='2'}">
-          <span @click="editFun('1')">修改</span>
+        <div class="btn edit-btn">
+          <span @click="editFun('1')"
+                class="btn xj-btn"
+                :class="{'forbid':editFlag=='2'}">修改</span>
         </div>
         <div class="btn xj-btn"
              :class="{'forbid':removeFlag=='2'}">
@@ -166,26 +167,6 @@ export default {
         this.editFlag = this.itemData.editFlag
         this.removeFlag = this.itemData.removeFlag
       })
-    },
-    getLeaveVal2 (type) {
-      // 请假类型 1、年休 2、病假 3、事假 4、工伤假 5、婚假 6、产假 7、护理假 8、丧假
-      if (type == '1') {
-        return '年休'
-      } else if (type == '2') {
-        return '病假'
-      } else if (type == '3') {
-        return '事假'
-      } else if (type == '4') {
-        return '工伤假'
-      } else if (type == '5') {
-        return '婚假'
-      } else if (type == '6') {
-        return '产假'
-      } else if (type == '7') {
-        return '护理假'
-      } else if (type == '8') {
-        return '丧假'
-      }
     },
     // 图片预览
     viewImg (index) {

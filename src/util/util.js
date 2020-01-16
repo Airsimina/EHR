@@ -49,7 +49,6 @@ export default {
         const sessionObj = JSON.stringify(obj)
         window.sessionStorage.setItem(key, sessionObj)
     },
-
     // 取出session
     getSession (key) {
         const getValue = window.sessionStorage.getItem(key)
@@ -138,21 +137,21 @@ export default {
     getLeaveVal (type) {
         // 请假类型 1、年休 2、病假 3、事假 4、工伤假 5、婚假 6、产假 7、护理假 8、丧假
         if (type == '1') {
-          return '年休'
+            return '年休'
         } else if (type == '2') {
-          return '病假'
+            return '病假'
         } else if (type == '3') {
-          return '事假'
+            return '事假'
         } else if (type == '4') {
-          return '工伤假'
+            return '工伤假'
         } else if (type == '5') {
-          return '婚假'
+            return '婚假'
         } else if (type == '6') {
-          return '产假'
+            return '产假'
         } else if (type == '7') {
-          return '护理假'
+            return '护理假'
         } else if (type == '8') {
-          return '丧假'
+            return '丧假'
         }
-      }
+    }
 }

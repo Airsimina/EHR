@@ -3,7 +3,6 @@ import {
     HXpost
 } from '../axios/http.js'
 // const serverurl = '/weixinQY/oauth2/invoke.do'
-
 export default {
     // 获取代办个数
     getTaskCount: function (payLoad) {
@@ -25,7 +24,6 @@ export default {
     // ----------我的工资-----------------
     // 我的工资 -lxs
     getMySalaryList: function (payLoad) {
-        // http://10.248.24.55:8080/ehr/
         return HXpost('ehr/salary/salarySearch.do', payLoad)
     },
     // ----------我的考勤-----------------
