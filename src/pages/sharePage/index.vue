@@ -37,12 +37,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@font-face {
-  font-family: "DINPro-Medium";
-  src: url("../../../src/style/DINPro-Medium.otf");
-}
 .sharePage {
-  font-family: "DINPro-Medium";
   font-size: 0.24rem;
   .my-message-wrap {
     font-size: 0.24rem;

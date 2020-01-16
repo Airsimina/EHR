@@ -36,9 +36,9 @@ export default {
   props: {},
   data () {
     return {
-      fixationNum: '17', // 定额
-      fulfillNum: '56', // 已休
-      residueNum: '39' // 剩余
+      fixationNum: '0', // 定额
+      fulfillNum: '0', // 已休
+      residueNum: '0' // 剩余
     }
   },
   watch: {},
@@ -50,9 +50,9 @@ export default {
         startDate: this.startTime,
         endtDate: this.endTime
       }).then(res => {
-        this.fixationNum = res.data.quota
-        this.fulfillNum = res.data.quota
-        this.residueNum = res.data.surplus
+        this.fixationNum = res.data.quota // 定
+        this.fulfillNum = res.data.cease // 已
+        this.residueNum = res.data.surplus // 剩
       })
     }
   },

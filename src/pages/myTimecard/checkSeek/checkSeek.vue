@@ -160,6 +160,7 @@ export default {
     searchTimeChSeFun (timeData) {
       this.startTime = timeData.startTime
       this.endTime = timeData.endTime
+      this.dataList = []
       this.getcheckSeekList()
     },
     // 获取默认时间
@@ -203,6 +204,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@font-face {
+  font-family: "DINPro-Medium";
+  src: url("../../../style/DINPro-Medium.otf");
+}
 .mySalary {
   font-size: 0.24rem;
   .wrap-1 {
@@ -327,7 +332,8 @@ export default {
             box-sizing: border-box;
             text-align: center;
             .num {
-              font-size: 0.28rem;
+              font-family: "DINPro-Medium";
+              font-size: 0.3rem;
               font-weight: bold;
             }
             .name {
