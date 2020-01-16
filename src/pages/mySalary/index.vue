@@ -263,7 +263,8 @@ export default {
       .no-data {
         font-size: 0.24rem;
         width: 100%;
-        height: 8.06rem;
+        position: absolute;
+        height: 8.8rem;
         background: rgba(255, 255, 255, 1);
         box-shadow: 0px 0.1rem 0.45rem rgba(0, 0, 0, 0.02);
         border-radius: 0.2rem;

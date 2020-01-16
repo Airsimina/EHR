@@ -247,7 +247,12 @@ export default {
               box-sizing: border-box;
               width: 32%;
               height: 1.3rem;
-              padding: 0.1rem;
+              padding: 0rem 0.1rem 0.2rem 0.1rem;
+              vertical-align: middle;
+              img {
+                width: 100%;
+                height: 100%;
+              }
             }
           }
         }

@@ -94,11 +94,11 @@ export default {
         endDate: this.jsonData.endTime,
         type: this.jsonData.type,
         status: this.jsonData.status,
-        page: this.page,
-        showCount: this.showCount
+        pageNum: this.page,
+        showSize: this.showCount
       }).then(res => {
-        if (res.data.records.length > 0) {
-          this.dataList = this.dataList.concat(res.data.records)
+        if (res.data.rows.length > 0) {
+          this.dataList = this.dataList.concat(res.data.rows)
           this.totalPage = res.data.pages
           this.loading = false
           this.finished = false
@@ -239,7 +239,7 @@ export default {
     .no-data {
       font-size: 0.24rem;
       width: 100%;
-      height: 8.06rem;
+      height: 8.8rem;
       background: rgba(255, 255, 255, 1);
       box-shadow: 0px 0.1rem 0.45rem rgba(0, 0, 0, 0.02);
       border-radius: 0.2rem;

@@ -55,12 +55,6 @@
               <div class="div-name-1">图片</div>
             </div>
             <div class="lis-r">
-              <van-uploader :preview-size="55"
-                            v-if="jsonData.fileViewLists.length<9"
-                            multiple
-                            :after-read="afterRead"
-                            @delete="delImg"
-                            :max-count="9"></van-uploader>
               <div class="img-box"
                    v-for="(item,index) in jsonData.fileViewLists"
                    :key="index">
@@ -69,6 +63,14 @@
                 <img :src="item"
                      @click="viewImg(index)"
                      alt="">
+              </div>
+              <div class="upload-box img-box">
+                <van-uploader :preview-size="55"
+                              v-if="jsonData.fileViewLists.length<9"
+                              multiple
+                              :after-read="afterRead"
+                              @delete="delImg"
+                              :max-count="9"></van-uploader>
               </div>
             </div>
           </div>
@@ -149,13 +151,15 @@ export default {
       loginUserName: '',
       jsonData: {
         leaveTypeId: '1', // 请假类型id
-        duration: '1', // 请假时长
+        duration: '0', // 请假时长
         reason: '', // 理由
         startTime: '请选择', // 开始时间
         endTime: '请选择', // 结束时间,
         dataId: '', // 原请假id  修改 , 销假用
         // 图片集合
-        fileViewLists: [],
+        fileViewLists: [
+          // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=1dc5278a5f9c4093ac28ceefb7415bae&loginUsername=yefei_hq',
+        ],
         saveType: '1', // 1新增提交 2、修改提交（待办提交全部传1
         formType: '1' // 1:新增 1:修改 2:销假
       },
@@ -213,15 +217,15 @@ export default {
       const flowData = this.flowData
       const cacheFlowVar = this.cacheFlowVar
       const flowNodesData = this.flowNodesData
-      const flowMessages = this.initDefMessages()
+      const flowMessages = this.initDefMessages() // yinh
       const oNodeButtons = this.oNodeButtons
-      if (flowData.currentPerson && flowData.currentPerson.id) cacheFlowVar.personId = flowData.currentPerson.id
+      if (flowData.currentPerson && flowData.currentPerson.id) cacheFlowVar.personId = flowData.currentPerson.id // yinh
       if (flowData.loginUsername) cacheFlowVar.loginUsername = flowData.loginUsername
       if (flowData.flowKeyId) cacheFlowVar.flowKeyId = flowData.flowKeyId || ''
       if (flowData.formId) cacheFlowVar.formId = flowData.formId || ''
       if (flowData.dataId) cacheFlowVar.dataId = flowData.dataId || ''
-      if (Object.keys(flowData).length) cacheFlowVar.flowDefId = flowData.flowBase.id
-      if (!flowData.firstNode || flowData.firstNode === 'startEvent') cacheFlowVar.firstNode = flowData.flowNodes[0].id
+      if (Object.keys(flowData).length) cacheFlowVar.flowDefId = flowData.flowBase.id // yinh
+      if (!flowData.firstNode || flowData.firstNode === 'startEvent') cacheFlowVar.firstNode = flowData.flowNodes[0].id // yinh
       if (flowData.currentNode.nodeId) {
         cacheFlowVar.nodeId = flowData.currentNode.nodeId
       } else if (flowData.flowInst.currentNodeId) {
@@ -262,7 +266,7 @@ export default {
     },
     // 初始化提示文本
     initDefMessages () {
-      const personName = this.flowData.currentPerson.name
+      const personName = this.flowData.currentPerson
       const applyerName = this.flowData.flowInst ? this.flowData.flowInst.applyerName : ''
       const applyerStr = applyerName && applyerName != personName ? ('(' + applyerName + '的)') : ''
       const flowName = this.flowData.flowBase.name
@@ -356,7 +360,8 @@ export default {
       return new Promise((resolve, reject) => {
         HttpEhr.leaveApplyDetail({
           userId: this.util.getSession('sessionData').userId,
-          dataId: this.jsonData.dataId,
+          // dataId: this.jsonData.dataId, // 销假和新增为空,修改要传值
+          // dataId: '', // 销假和新增为空,修改要传值
           formType: this.jsonData.formType
         }).then(res => {
           resolve(res)
@@ -499,7 +504,6 @@ export default {
           this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()] = nextNodePerson.sysUsername || ''
         }
       })
-      // return
       if (this.dataType == '0' || this.dataType == '1') {
         await this.addAndEditVacation().then(res => {
           if (res.code == 0) {
@@ -647,8 +651,7 @@ export default {
     // this.serverUrl = ' http://' + window.location.host
     this.itemData = this.$route.query.itemData || {}
     this.dataType = this.$route.query.flag || '0'
-    // 数据id
-    this.jsonData.dataId = this.$route.query.id || ''
+
     // 本地 this.dataType 0:新增 1:修改 2:销假
     // 提交接口 saveType 1、销假 新增提交 2、修改提交
     if (this.dataType == '0') {
@@ -659,6 +662,8 @@ export default {
       // 修改
       this.title = '请假申请'
       this.jsonData.saveType = '2'
+      // 数据id
+      this.jsonData.dataId = this.$route.query.id || ''
       this.setVal()
     } else if (this.dataType == '2') {
       // 销假
@@ -720,7 +725,6 @@ export default {
           .lis-r {
             flex: 5;
             position: relative;
-            // border: 1px solid #000;
             .div-val-1 {
               font-size: 0.28rem;
               color: #999;
@@ -757,23 +761,26 @@ export default {
               color: #999;
               font-size: 0.28rem;
             }
-            // .img-box {
-            //   width: 100%;
-            // }
+
             .img-box {
-              // background: rgb(248, 191, 191);
-              box-sizing: border-box;
-              width: 33.3%;
-              height: 1rem;
-              padding: 0 0.1rem;
               position: relative;
-              top: 0.3rem;
+              box-sizing: border-box;
+              width: 32.8%;
+              height: 1rem;
+              padding: 0 0.2rem;
+              top: 0rem;
+              margin-bottom: 0.25rem;
+              &.upload-box {
+                box-sizing: border-box;
+                position: relative;
+                vertical-align: top;
+              }
               .icon-close {
                 position: absolute;
                 display: inline-block;
                 width: 0.24rem;
                 height: 0.24rem;
-                right: 0;
+                right: 0.1rem;
                 top: -0.1rem;
                 background: url("../../../../static/img/close.png") 0 0
                   no-repeat;
@@ -805,6 +812,7 @@ export default {
     text-align: center;
     margin: auto;
     margin-top: 1rem;
+    margin-bottom: 0.5rem;
     letter-spacing: 0.14rem;
   }
 }
