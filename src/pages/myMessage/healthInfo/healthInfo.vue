@@ -10,7 +10,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">体检子类型</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.healthType}}</div>
+          <div class="lis-row lis-value">{{item.healthTypeTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">体检日期</div>
@@ -36,8 +36,6 @@
 import { mapGetters } from 'vuex'
 import '../../../style/tabList.scss'
 export default {
-  components: {},
-  props: {},
   data () {
     return {
       str: '体检信息测试数据',
@@ -51,7 +49,6 @@ export default {
     })
   },
   methods: {},
-  created () { },
   mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]

@@ -51,22 +51,18 @@
 import { mapGetters } from 'vuex'
 import '../../../style/tabList.scss'
 export default {
-  components: {},
-  props: {},
   data () {
     return {
       str: '残疾信息测试数据',
       jsonDataList: []
     }
   },
-  watch: {},
   computed: {
     ...mapGetters({
       infoData: 'getInfoData'
     })
   },
   methods: {},
-  created () { },
   mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]

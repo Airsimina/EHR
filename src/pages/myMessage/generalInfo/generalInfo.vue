@@ -50,7 +50,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">国籍名称</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.name}}</div>
+          <div class="lis-row lis-value">{{item.nationalityTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">婚姻状况</div>
@@ -70,12 +70,12 @@
         <div class="lis-box">
           <div class="lis-row lis-name">语种名称</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.langueName}}</div>
+          <div class="lis-row lis-value">{{item.langueNameTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">民族名称</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.nation}}</div>
+          <div class="lis-row lis-value">{{item.nationTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">特长</div>
@@ -96,22 +96,18 @@
 import { mapGetters } from 'vuex'
 import '../../../style/tabList.scss'
 export default {
-  components: {},
-  props: {},
   data () {
     return {
       str: '家庭信息测试数据',
       jsonDataList: []
     }
   },
-  watch: {},
   computed: {
     ...mapGetters({
       infoData: 'getInfoData'
     })
   },
   methods: {},
-  created () { },
   mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]

@@ -64,7 +64,8 @@
                      @click="viewImg(index)"
                      alt="">
               </div>
-              <div class="upload-box img-box">
+              <div class="upload-box img-box"
+                   v-if="jsonData.fileViewLists.length<9">
                 <van-uploader :preview-size="55"
                               v-if="jsonData.fileViewLists.length<9"
                               multiple
@@ -451,8 +452,8 @@ export default {
           sum: this.jsonData.duration,
           note: this.jsonData.reason,
           flowData: JSON.stringify(this.flowContext),
+          url: JSON.stringify(this.jsonData.fileViewLists),
           saveType: this.jsonData.saveType
-
         }).then(res => {
           resolve(res)
         })
@@ -554,7 +555,7 @@ export default {
     },
     // 打开时间选择器 0: 开始 1: 结束
     showDatePicker (picker) {
-      if (this.dataType == '2') return
+      // if (this.dataType == '2') return
       this.isPopShow = true
       this.datePicker = picker
       if (this.datePicker) {
@@ -666,8 +667,10 @@ export default {
       this.setVal()
     }
     document.title = this.title
-    // this.jsonData.dataId = this.$route.query.id
+    this.jsonData.dataId = this.$route.query.id
     console.log('this.jsonData.formType----' + this.jsonData.formType)
+    console.log(this.jsonData.saveType)
+
     this.leaveApplyDetail()
   }
 }
@@ -761,7 +764,7 @@ export default {
             .img-box {
               position: relative;
               box-sizing: border-box;
-              width: 32.8%;
+              width: 32.6%;
               height: 1rem;
               padding: 0 0.2rem;
               top: 0rem;

@@ -11,7 +11,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">子类型</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{getRelationTxt(item.relation)}}</div>
+          <div class="lis-row lis-value">{{item.relationTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">与本人关系</div>
@@ -36,12 +36,12 @@
         <div class="lis-box">
           <div class="lis-row lis-name">出生国家</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.country}}</div>
+          <div class="lis-row lis-value">{{item.countryTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">国籍</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.nationality}}</div>
+          <div class="lis-row lis-value">{{item.nationalityTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">工作单位</div>
@@ -56,7 +56,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">回避政策</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.avoidStatus=='01' ? '已回避' :'待回避'}}</div>
+          <div class="lis-row lis-value">{{item.avoidStatusTxt=='01' ? '已回避' :'待回避'}}</div>
         </div>
       </div>
     </div>
@@ -78,21 +78,7 @@ export default {
       infoData: 'getInfoData'
     })
   },
-  methods: {
-    getRelationTxt (type) {
-      if (type == '1') {
-        return '配偶'
-      } else if (type == '2') {
-        return '子女'
-      } else if (type == '11') {
-        return '父亲'
-      } else if (type == '12') {
-        return '母亲'
-      } else if (type == '99') {
-        return '其他亲属关系'
-      }
-    }
-  },
+  methods: {},
   mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]

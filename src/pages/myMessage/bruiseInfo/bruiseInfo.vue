@@ -15,12 +15,12 @@
         <div class="lis-box">
           <div class="lis-row lis-name">伤残组</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.injuryGroup}}</div>
+          <div class="lis-row lis-value">{{item.injuryGroupTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">工伤类型</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.injuryType}}</div>
+          <div class="lis-row lis-value">{{item.injuryTypeTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">工伤等级(新华)</div>
@@ -64,14 +64,12 @@ export default {
       jsonDataList: []
     }
   },
-  watch: {},
   computed: {
     ...mapGetters({
       infoData: 'getInfoData'
     })
   },
   methods: {},
-  created () { },
   mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]

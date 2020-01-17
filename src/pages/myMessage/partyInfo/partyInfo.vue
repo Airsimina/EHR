@@ -15,12 +15,12 @@
         <div class="lis-box">
           <div class="lis-row lis-name">政党状态</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.partyState}}</div>
+          <div class="lis-row lis-value">{{item.partyStateTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">政治面貌</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.politicsStatus}}</div>
+          <div class="lis-row lis-value">{{item.politicsStatusTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">参加单位</div>
@@ -41,22 +41,18 @@
 import { mapGetters } from 'vuex'
 import '../../../style/tabList.scss'
 export default {
-  components: {},
-  props: {},
   data () {
     return {
       str: '党团信息测试数据',
       jsonDataList: []
     }
   },
-  watch: {},
   computed: {
     ...mapGetters({
       infoData: 'getInfoData'
     })
   },
   methods: {},
-  created () { },
   mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]

@@ -9,7 +9,7 @@
       <div class="lis-box">
         <div class="lis-row lis-name">通讯类型</div>
         <span>:</span>
-        <div class="lis-row lis-value">{{item.phoneType}}</div>
+        <div class="lis-row lis-value">{{item.phoneTypeTxt}}</div>
       </div>
       <div class="lis-box">
         <div class="lis-row lis-name">标识号</div>
@@ -32,14 +32,12 @@ export default {
       jsonDataList: []
     }
   },
-  watch: {},
   computed: {
     ...mapGetters({
       infoData: 'getInfoData'
     })
   },
   methods: {},
-  created () { },
   mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]

@@ -20,7 +20,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">本人在其中的作用</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.personAffect}}</div>
+          <div class="lis-row lis-value">{{item.personAffectTxt}}</div>
         </div>
       </div>
     </div>
@@ -32,22 +32,18 @@
 import { mapGetters } from 'vuex'
 import '../../../style/tabList.scss'
 export default {
-  components: {},
-  props: {},
   data () {
     return {
       str: '工作业绩测试数据',
       jsonDataList: []
     }
   },
-  watch: {},
   computed: {
     ...mapGetters({
       infoData: 'getInfoData'
     })
   },
   methods: {},
-  created () { },
   mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]

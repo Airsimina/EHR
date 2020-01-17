@@ -10,7 +10,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">证件类别</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.operateType}}</div>
+          <div class="lis-row lis-value">{{item.idCardTypeTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">发证机关</div>
@@ -41,14 +41,12 @@ export default {
       jsonDataList: []
     }
   },
-  watch: {},
   computed: {
     ...mapGetters({
       infoData: 'getInfoData'
     })
   },
   methods: {},
-  created () { },
   mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]

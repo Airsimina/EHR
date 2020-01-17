@@ -86,8 +86,7 @@ export default {
     })
   },
   methods: {},
-  mounted () { },
-  created () {
+  mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]
       return

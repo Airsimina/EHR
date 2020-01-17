@@ -25,7 +25,7 @@ switch (BUILD_TYPE) {
         baseUrl = 'http://mob.huaxincem.com/appPI'
         break
     case 'PRO_DEV':
-        baseUrl = 'http://mobq.huaxincem.com/appPI'
+        baseUrl = 'http://hafdev.hxoadev.com'
         break
     default:
         break

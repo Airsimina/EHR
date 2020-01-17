@@ -10,7 +10,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">地址类型</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.addressType}}</div>
+          <div class="lis-row lis-value">{{item.addressTypeTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">国家名称</div>
@@ -60,14 +60,12 @@ export default {
       jsonDataList: []
     }
   },
-  watch: {},
   computed: {
     ...mapGetters({
       infoData: 'getInfoData'
     })
   },
   methods: {},
-  created () { },
   mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]

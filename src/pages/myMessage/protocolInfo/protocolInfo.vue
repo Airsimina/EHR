@@ -10,17 +10,17 @@
         <div class="lis-box">
           <div class="lis-row lis-name">开始日期</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.protocolBeginDate}}</div>
+          <div class="lis-row lis-value">{{item.beginDate}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">协议类型</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.type}}</div>
+          <div class="lis-row lis-value">{{item.typeText}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">协议截止日期</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.protocolEndDate}}</div>
+          <div class="lis-row lis-value">{{item.endDate}}</div>
         </div>
         <!-- <div class="lis-box">
         <div class="lis-row lis-name">服务开始日期</div>
@@ -47,22 +47,18 @@
 import { mapGetters } from 'vuex'
 import '../../../style/tabList.scss'
 export default {
-  components: {},
-  props: {},
   data () {
     return {
       str: '协议信息测试数据',
       jsonDataList: []
     }
   },
-  watch: {},
   computed: {
     ...mapGetters({
       infoData: 'getInfoData'
     })
   },
   methods: {},
-  created () { },
   mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]

@@ -30,7 +30,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">奖惩类型</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{getRewardTypeTxt(item.rewardType)}}</div>
+          <div class="lis-row lis-value">{{item.rewardTypeTxt}}</div>
         </div>
       </div>
     </div>
@@ -48,29 +48,12 @@ export default {
       jsonDataList: []
     }
   },
-  watch: {},
   computed: {
     ...mapGetters({
       infoData: 'getInfoData'
     })
   },
-  methods: {
-    getRewardTypeTxt (type) {
-      if (type == '01') {
-        return '公司奖惩'
-      } else if (type == '02') {
-        return '分支机构奖惩'
-      } else if (type == '03') {
-        return '行业奖励'
-      } else if (type == '04') {
-        return '市级奖励'
-      } else if (type == '05') {
-        return '省级奖励'
-      } else if (type == '06') {
-        return '国家级奖励'
-      }
-    }
-  },
+  methods: {},
   mounted () {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]
