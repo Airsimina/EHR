@@ -156,7 +156,7 @@ export default {
         dataId: this.dataId,
         formType: this.dataType
       }).then(res => {
-        this.flowHiComments = res.data.flowData.flowHiComments
+        this.flowHiComments = res.data.flowData.flowMobileHiComments
         this.itemData = res.data.formData
         this.dataType = this.itemData.dataType
         this.startTime = this.itemData.startDate

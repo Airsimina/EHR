@@ -38,6 +38,7 @@
         <!-- 单月 -->
         <div class="box"
              v-for="(item,index) in dataList"
+             v-show="item.subList.length !=0"
              :key="index">
           <div class="list-box-1"
                @click="open(item,index)">
@@ -50,7 +51,6 @@
                  :class="{'open':selIndex==index}"></div>
           </div>
           <!-- 单月展开记录 -->
-
           <div class="list-data"
                v-if="selIndex==index">
             <!-- v-if="item.subList.length>0 && selIndex==index" -->
@@ -331,16 +331,21 @@ export default {
           flex-direction: row;
           flex-wrap: wrap;
           box-sizing: border-box;
-          padding: 0.4rem 0;
+          padding-top: 0.4rem;
           .grid-div {
-            height: 1rem;
+            height: 1.4rem;
             border: 1px solid transparent;
             width: 25%;
             box-sizing: border-box;
             text-align: center;
+            &:nth-child(-n + 4) {
+              margin-bottom: 0.4rem;
+              border-bottom: 1px solid #fafafa;
+            }
             .num {
               font-size: 0.3rem;
               font-weight: bold;
+              font-family: "DINPro-Medium";
             }
             .name {
               font-size: 0.22rem;

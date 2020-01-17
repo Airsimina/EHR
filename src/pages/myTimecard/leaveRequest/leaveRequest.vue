@@ -121,8 +121,6 @@ import HttpEhr from '@requestPool/index.js'
 // import testdata from '../../../testJson/from.js'
 import { ImagePreview } from 'vant'
 export default {
-  components: {},
-  props: {},
   data () {
     return {
       nextNodeData: [],
@@ -357,16 +355,17 @@ export default {
     // -------------------------表单数据处理----------------------------
     // 1. form.do
     leaveApplyDetail () {
-      return new Promise((resolve, reject) => {
-        HttpEhr.leaveApplyDetail({
-          userId: this.util.getSession('sessionData').userId,
-          // dataId: this.jsonData.dataId, // 销假和新增为空,修改要传值
-          // dataId: '', // 销假和新增为空,修改要传值
-          formType: this.jsonData.formType
-        }).then(res => {
-          resolve(res)
-        })
+      // return new Promise((resolve, reject) => {
+      HttpEhr.leaveApplyDetail({
+        userId: this.util.getSession('sessionData').userId,
+        // dataId: this.jsonData.dataId, // 销假和新增为空,修改要传值
+        formType: this.jsonData.formType
+      }).then(res => {
+        // resolve(res)
+        this.flowData = res.data.flowData
+        this.load()
       })
+      // })
     },
     // 2. 分支接口
     getBranch () {
@@ -423,7 +422,6 @@ export default {
         })
       })
     },
-
     // 5.请假申请提交/修改
     addAndEditVacation () {
       return new Promise((resolve, reject) => {
@@ -462,10 +460,6 @@ export default {
     },
     // 提交按钮
     async commitFun () {
-      await this.leaveApplyDetail().then(res => {
-        this.flowData = res.data.flowData
-        this.load()
-      })
       await this.getBranch().then(res => {
         if (res.data) {
           Object.assign(this.flowContext.processParams, res.data)
@@ -651,7 +645,6 @@ export default {
     // this.serverUrl = ' http://' + window.location.host
     this.itemData = this.$route.query.itemData || {}
     this.dataType = this.$route.query.flag || '0'
-
     // 本地 this.dataType 0:新增 1:修改 2:销假
     // 提交接口 saveType 1、销假 新增提交 2、修改提交
     if (this.dataType == '0') {
@@ -673,6 +666,9 @@ export default {
       this.setVal()
     }
     document.title = this.title
+    // this.jsonData.dataId = this.$route.query.id
+    console.log('this.jsonData.formType----' + this.jsonData.formType)
+    this.leaveApplyDetail()
   }
 }
 </script>

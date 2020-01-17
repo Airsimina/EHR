@@ -17,7 +17,7 @@
     <div class="container">
       <div class="single"
            @click="transmitFun(item)"
-           v-for="(item,index) in fromData.list_a"
+           v-for="(item,index) in jsonData.list_a"
            :key="index">
         <img class="single-icon"
              :src="item.iconUrl">
@@ -28,7 +28,7 @@
       <div class="people-title">人事管理</div>
       <div class="single"
            @click="transmitFun(item)"
-           v-for="(item,index) in fromData.list_b"
+           v-for="(item,index) in jsonData.list_b"
            :key="index">
         <img class="single-icon"
              :src="item.iconUrl">
@@ -43,7 +43,7 @@ import HttpEhr from '@requestPool/index.js'
 export default {
   data () {
     return {
-      fromData: {
+      jsonData: {
         list_a: [
           {
             iconUrl: '../../../static/img/myMessage.png',
@@ -222,10 +222,10 @@ export default {
           }
           .number {
             font-size: 0.6rem;
-            // font-weight: bold;
             line-height: 0.44rem;
             color: rgba(51, 51, 51, 1);
             margin-top: 0.4rem;
+            font-family: "DINPro-Medium";
           }
           .discribe {
             font-weight: 400;

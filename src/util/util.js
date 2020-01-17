@@ -83,6 +83,7 @@ export default {
             return resultValue
         }
     },
+    // ----------------------lixiansen-------------------------
     // 过滤数据
     filtData (arr, id) {
         return arr.filter(item => item.afType === id)

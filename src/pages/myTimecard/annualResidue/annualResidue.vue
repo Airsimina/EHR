@@ -112,6 +112,7 @@ export default {
           .num {
             font-size: 0.28rem;
             font-weight: bold;
+            font-family: "DINPro-Medium";
             color: #111;
             &.ccc {
               color: #cccccc;
