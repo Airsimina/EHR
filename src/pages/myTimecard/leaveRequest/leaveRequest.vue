@@ -668,8 +668,8 @@ export default {
     }
     document.title = this.title
     this.jsonData.dataId = this.$route.query.id
-    console.log('this.jsonData.formType----' + this.jsonData.formType)
-    console.log(this.jsonData.saveType)
+    // console.log('this.jsonData.formType----' + this.jsonData.formType)
+    // console.log(this.jsonData.saveType)
 
     this.leaveApplyDetail()
   }
