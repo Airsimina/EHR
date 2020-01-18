@@ -514,6 +514,7 @@ export default {
             this.$toast.success({
               message: '提交成功'
             })
+            this.push({ name: 'applyRecord' })
           }
         })
       } else if (this.dataType == '2') {
@@ -522,6 +523,7 @@ export default {
             this.$toast.success({
               message: '销假成功'
             })
+            this.push({ name: 'applyRecord' })
           }
         })
       }
