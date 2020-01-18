@@ -40,55 +40,56 @@
 
 <script>
 import HttpEhr from '@requestPool/index.js'
+
 export default {
   data () {
     return {
       jsonData: {
         list_a: [
           {
-            iconUrl: '../../../static/img/myMessage.png',
+            iconUrl: require('../../../static/img/myMessage.png'),
             iconText: '我的信息',
             path: 'myMessage'
           },
           {
-            iconUrl: '../../../static/img/money.png',
+            iconUrl: require('../../../static/img/money.png'),
             iconText: '我的工资',
             path: 'mySalary'
           },
           {
-            iconUrl: '../../../static/img/check.png',
+            iconUrl: require('../../../static/img/check.png'),
             iconText: '我的考勤',
             path: 'myTimecard'
           },
           {
-            iconUrl: '../../../static/img/text.png',
+            iconUrl: require('../../../static/img/text.png'),
             iconText: '我的的异动',
             path: ''
           },
           {
-            iconUrl: '../../../static/img/kzm.png',
+            iconUrl: require('../../../static/img/kzm.png'),
             iconText: '审批',
             path: ''
           }
         ],
         list_b: [
           {
-            iconUrl: '../../../static/img/people.png',
+            iconUrl: require('../../../static/img/people.png'),
             iconText: '员工信息',
             path: ''
           },
           {
-            iconUrl: '../../../static/img/card.png',
+            iconUrl: require('../../../static/img/card.png'),
             iconText: '员工薪酬',
             path: ''
           },
           {
-            iconUrl: '../../../static/img/personcard.png',
+            iconUrl: require('../../../static/img/personcard.png'),
             iconText: '员工考勤',
             path: ''
           },
           {
-            iconUrl: '../../../static/img/list.png',
+            iconUrl: require('../../../static/img/list.png'),
             iconText: '员工异动',
             path: ''
           }
