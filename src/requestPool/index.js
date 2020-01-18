@@ -24,7 +24,7 @@ export default {
     // ----------我的工资-----------------
     // 我的工资 -lxs
     getMySalaryList: function (payLoad) {
-        return HXpost('ehr/api/salary/salarySearch.do', payLoad)
+        return HXpost('/ehr/api/salary/salarySearch.do', payLoad)
     },
     // ----------我的考勤-----------------
     // 1.请假申请详情 -lxs paramsJson
