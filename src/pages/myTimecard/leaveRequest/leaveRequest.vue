@@ -446,6 +446,7 @@ export default {
     },
     // 6.销假
     removeVacation () {
+      console.log('this.$route.query.id==' + this.$route.query.id)
       return new Promise((resolve, reject) => {
         HttpEhr.removeVacation({
           userId: this.util.getSession('sessionData').userId || '',
