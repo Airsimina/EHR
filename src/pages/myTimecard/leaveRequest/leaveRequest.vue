@@ -446,7 +446,6 @@ export default {
     },
     // 6.销假
     removeVacation () {
-      console.log('this.$route.query.id==' + this.$route.query.id)
       return new Promise((resolve, reject) => {
         HttpEhr.removeVacation({
           userId: this.util.getSession('sessionData').userId || '',
@@ -493,11 +492,10 @@ export default {
         const nextNodeAssigner = this.assigners.nodeAssigners.find((assigner) => {
           return assigner.nodeId.toLowerCase() == this.nextNodeData[0].id.toLowerCase()
         })
-        console.log(nextNodeAssigner)
-
+        // console.log(nextNodeAssigner)
         // 当存在多个处理人时 用defaultShow 取出默认处理人
         const nextNodePerson = nextNodeAssigner.nodeAssignerPersons[nextNodeAssigner.defaultShow]
-        console.log(nextNodePerson)
+        // console.log(nextNodePerson)
 
         this.flowContext.nextNodeId = this.nextNodeData[0].id
         this.flowContext.flowMessage = ''
@@ -679,9 +677,8 @@ export default {
       this.setVal()
     }
     document.title = this.title
-    // this.jsonData.dataId = this.$route.query.id
-    console.log(this.$route.query.id)
-    console.log('this.jsonData.dataId====' + this.jsonData.dataId)
+    // console.log(this.$route.query.id)
+    // console.log('this.jsonData.dataId====' + this.jsonData.dataId)
     // console.log('this.jsonData.formType----' + this.jsonData.formType)
     // console.log(this.jsonData.saveType)
 
