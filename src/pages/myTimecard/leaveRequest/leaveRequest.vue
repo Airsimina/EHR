@@ -669,7 +669,9 @@ export default {
       this.setVal()
     }
     document.title = this.title
-    this.jsonData.dataId = this.$route.query.id
+    // this.jsonData.dataId = this.$route.query.id
+    // console.log(this.$route.query.id)
+    console.log('this.jsonData.dataId====' + this.jsonData.dataId)
     // console.log('this.jsonData.formType----' + this.jsonData.formType)
     // console.log(this.jsonData.saveType)
 
