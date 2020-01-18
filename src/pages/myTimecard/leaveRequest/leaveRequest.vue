@@ -435,6 +435,7 @@ export default {
           url: JSON.stringify(this.jsonData.fileViewLists),
           flowData: JSON.stringify(this.flowContext),
           note: this.jsonData.reason,
+          id: this.jsonData.dataId,
           saveType: this.jsonData.saveType
         }).then(res => {
           resolve(res)
@@ -453,6 +454,7 @@ export default {
           note: this.jsonData.reason,
           flowData: JSON.stringify(this.flowContext),
           url: JSON.stringify(this.jsonData.fileViewLists),
+          id: this.jsonData.dataId,
           saveType: this.jsonData.saveType
         }).then(res => {
           resolve(res)

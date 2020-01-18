@@ -141,10 +141,12 @@ export default {
       // this.userId = '00025608'
       // 判断是不是打包环境获取userId
       if (this.buildType !== 'dev') {
+        console.log('dev')
         const urlId = location.href.split('?')[1].split('=')[1]
         this.userId = urlId.substring(0, urlId.length - 6)
         this.util.setSession('sessionData', { userId: this.userId })
       } else {
+        console.log('bendi')
         this.util.setSession('sessionData', { userId: this.userId })
       }
       await this.annualResidue().then(res => {
