@@ -81,7 +81,7 @@
             </div>
             <div class="lis-r">
               <input type="text"
-                     class="input-time"
+                     class="input-time liy"
                      placeholder="请输入请假事由"
                      v-model="jsonData.reason"></div>
           </div>
@@ -359,7 +359,7 @@ export default {
       // return new Promise((resolve, reject) => {
       HttpEhr.leaveApplyDetail({
         userId: this.util.getSession('sessionData').userId,
-        // dataId: this.jsonData.dataId, // 销假和新增为空,修改要传值
+        dataId: this.jsonData.dataId, // 销假和新增为空,修改要传值
         formType: this.jsonData.formType
       }).then(res => {
         // resolve(res)
@@ -750,6 +750,9 @@ export default {
               font-size: 0.28rem;
               line-height: 0.3rem;
               color: #999;
+              &.liy {
+                width: 100%;
+              }
               &::-webkit-input-placeholder {
                 color: #999;
               }
