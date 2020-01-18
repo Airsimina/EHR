@@ -449,14 +449,14 @@ export default {
       return new Promise((resolve, reject) => {
         HttpEhr.removeVacation({
           userId: this.util.getSession('sessionData').userId || '',
-          remId: this.jsonData.dataId, // 原请假id
+          remId: this.$route.query.id, // 原请假id
           startDate: this.jsonData.startTime,
           endDate: this.jsonData.endTime,
           sum: this.jsonData.duration,
           note: this.jsonData.reason,
           flowData: JSON.stringify(this.flowContext),
           url: JSON.stringify(this.jsonData.fileViewLists),
-          id: this.jsonData.dataId,
+          // id: this.jsonData.dataId,
           saveType: this.jsonData.saveType
         }).then(res => {
           resolve(res)
