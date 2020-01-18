@@ -155,6 +155,7 @@ export default {
         startTime: '请选择', // 开始时间
         endTime: '请选择', // 结束时间,
         dataId: '', // 原请假id  修改 , 销假用
+        editType: '', // 默认空,修改:2
         // 图片集合
         fileViewLists: [
           // 'http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=1dc5278a5f9c4093ac28ceefb7415bae&loginUsername=yefei_hq',
@@ -360,6 +361,7 @@ export default {
       HttpEhr.leaveApplyDetail({
         userId: this.util.getSession('sessionData').userId,
         dataId: this.jsonData.dataId, // 销假和新增为空,修改要传值
+        editType: this.jsonData.editType, // 修改专用
         formType: this.jsonData.formType
       }).then(res => {
         // resolve(res)
@@ -658,6 +660,7 @@ export default {
       // 修改
       this.title = '请假申请'
       this.jsonData.saveType = '2'
+      this.jsonData.editType = '2'
       // 数据id
       this.jsonData.dataId = this.$route.query.id || ''
       this.setVal()
