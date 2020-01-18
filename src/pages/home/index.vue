@@ -143,6 +143,7 @@ export default {
       if (this.buildType !== 'dev') {
         const urlId = location.href.split('?')[1].split('=')[1]
         this.userId = urlId.substring(0, urlId.length - 6)
+        this.util.setSession('sessionData', { userId: this.userId })
       } else {
         this.util.setSession('sessionData', { userId: this.userId })
       }
