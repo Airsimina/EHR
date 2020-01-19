@@ -171,7 +171,7 @@ export default {
         case 'Q3':
           this.OAurl = 'https://mob.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
-        case 'DEV':
+        case 'PRO_DEV':
           this.OAurl = 'https://mobq.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
         default:
