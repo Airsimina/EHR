@@ -69,7 +69,7 @@ export default {
           {
             iconUrl: require('../../../static/img/kzm.png'),
             iconText: '审批',
-            path: ''
+            path: 'commission'
           }
         ],
         list_b: [
@@ -97,12 +97,14 @@ export default {
       },
       userId: '',
       awaitNum: '0',
-      vacationNum: '0'
+      vacationNum: '0',
+      OAurl: ''
     }
   },
   mounted () {
     this.init()
     document.title = '首页'
+    console.log('aaa5'.toLowerCase())
   },
   methods: {
     // 获取代办个数
@@ -137,16 +139,16 @@ export default {
     },
     // 获取userId  设置年假
     async init () {
-      this.userId = '00000251'
-      // this.userId = '00025608'
       // 判断是不是打包环境获取userId
       if (this.buildType !== 'dev') {
         const urlId = location.href.split('?')[1].split('=')[1]
         this.userId = urlId.substring(0, urlId.length - 6)
-        this.util.setSession('sessionData', { userId: this.userId })
+        // this.util.setSession('sessionData', { userId: this.userId })
       } else {
-        this.util.setSession('sessionData', { userId: this.userId })
+        // this.userId = '00025608'
+        this.userId = '00000251'
       }
+      this.util.setSession('sessionData', { userId: this.userId })
       await this.annualResidue().then(res => {
         this.vacationNum = res.data.surplus
       })
@@ -159,6 +161,27 @@ export default {
     },
     // 跳转
     transmitFun (item) {
+      console.log(this.buildType + '环境')
+      switch (this.buildType.toUpperCase()) {
+        case 'PRO':
+          this.OAurl = ''
+          break
+        case 'PRE':
+          this.OAurl = ''
+          break
+        case 'Q3':
+          this.OAurl = 'https://mob.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
+          break
+        case 'Dev':
+          this.OAurl = 'https://mobq.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
+          break
+        default:
+          break
+      }
+      if (item.path == 'commission') {
+        window.location.href = this.OAurl
+        return
+      }
       if (!item.path) {
         this.$toast(
           {
