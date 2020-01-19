@@ -104,7 +104,6 @@ export default {
   mounted () {
     this.init()
     document.title = '首页'
-    console.log('aaa5'.toLowerCase())
   },
   methods: {
     // 获取代办个数
@@ -172,12 +171,13 @@ export default {
         case 'Q3':
           this.OAurl = 'https://mob.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
-        case 'Dev':
+        case 'DEV':
           this.OAurl = 'https://mobq.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
         default:
           break
       }
+      console.log(this.OAurl)
       if (item.path == 'commission') {
         window.location.href = this.OAurl
         return
