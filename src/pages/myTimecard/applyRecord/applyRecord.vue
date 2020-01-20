@@ -65,7 +65,7 @@ export default {
         startDate: '',
         endDate: '',
         type: '1',
-        status: '3'
+        status: '2'
       },
       page: 1, // 当前页
       showCount: 10, // 当前页显示多少条
@@ -153,9 +153,11 @@ export default {
     if (this.$route.query.icon == 'qjtzsq') {
       document.title = '假期调整申请'
       this.pageTypeVal = '2'
+      this.jsonData.status = '3'
     } else {
       document.title = '我的申请'
       this.pageTypeVal = '1'
+      this.jsonData.status = '2'
     }
     this.initTime()
     this.getApplyRecordList()

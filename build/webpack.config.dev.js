@@ -4,8 +4,8 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const baseConfig = require('./webpack.config.base')
 
-// const HOST = 'localhost'
-const HOST = '10.248.32.85'
+const HOST = 'localhost'
+// const HOST = '10.248.32.85'
 
 
 const PORT = 8091

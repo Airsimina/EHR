@@ -16,13 +16,13 @@ let baseUrl = '/api'
 // 根据不同的环境设置不同的baseUrl
 switch (BUILD_TYPE) {
     case 'PRO':
-        baseUrl = 'http://pesm.huaxincem.com/appPI'
+        baseUrl = ''
         break
     case 'PRE':
         baseUrl = 'PRE'
         break
     case 'Q3':
-        baseUrl = 'http://mob.huaxincem.com/appPI'
+        baseUrl = ''
         break
     case 'PRO_DEV':
         baseUrl = '/'

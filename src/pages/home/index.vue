@@ -175,6 +175,8 @@ export default {
           this.OAurl = 'https://mobq.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
         default:
+          // dev
+          this.OAurl = 'https://mobq.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
       }
       console.log(this.OAurl)
