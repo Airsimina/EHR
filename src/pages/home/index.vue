@@ -35,20 +35,13 @@
         <div class="icon-text">{{item.iconText}}</div>
       </div>
     </div>
-    <div class="people-container">
-      <intiTouch :jsonData="jsonData"></intiTouch>
-    </div>
   </div>
 </template>
 
 <script>
 import HttpEhr from '@requestPool/index.js'
-import intiTouch from '@components/intimacyTouch/index'
 
 export default {
-  components: {
-    intiTouch
-  },
   data () {
     return {
       jsonData: {
