@@ -588,7 +588,7 @@ export default {
         this.jsonData.startTime = newTime
       }
       this.isPopShow = false
-      if (this.jsonData.leaveTypeId != '3' || this.jsonData.leaveTypeId != '1') {
+      if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1') {
         this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
       }
     },
@@ -618,7 +618,7 @@ export default {
       this.leaveTypetxt = item.text
       this.jsonData.leaveTypeId = item.id
       this.isPopShowType = false
-      if (this.jsonData.leaveTypeId != '3' || this.jsonData.leaveTypeId != '1') {
+      if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1') {
         this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
       }
     },
