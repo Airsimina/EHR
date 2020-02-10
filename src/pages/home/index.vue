@@ -35,13 +35,20 @@
         <div class="icon-text">{{item.iconText}}</div>
       </div>
     </div>
+    <div class="people-container">
+      <intiTouch :jsonData="jsonData"></intiTouch>
+    </div>
   </div>
 </template>
 
 <script>
 import HttpEhr from '@requestPool/index.js'
+import intiTouch from '@components/intimacyTouch/index'
 
 export default {
+  components: {
+    intiTouch
+  },
   data () {
     return {
       jsonData: {
@@ -102,7 +109,7 @@ export default {
     }
   },
   mounted () {
-    this.init()
+    // this.init()
     document.title = '首页'
   },
   methods: {
@@ -184,6 +191,9 @@ export default {
         window.location.href = this.OAurl
         return
       }
+      this.$router.push({
+        name: 'unwell'
+      })
       if (!item.path) {
         this.$toast(
           {

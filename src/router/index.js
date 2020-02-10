@@ -234,6 +234,13 @@ export default new Router({
                 name: 'mySalary',
                 component: () =>
                     import('../pages/mySalary/index.vue')
+            },
+            {
+                // 我的工资
+                path: '/unwell',
+                name: 'unwell',
+                component: () =>
+                    import('../pages/home/unwell.vue')
             }
 
         ]
