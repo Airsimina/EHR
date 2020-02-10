@@ -102,7 +102,7 @@ export default {
     }
   },
   mounted () {
-    // this.init()
+    this.init()
     document.title = '首页'
   },
   methods: {
@@ -142,7 +142,7 @@ export default {
       if (this.buildType !== 'dev') {
         const urlId = location.href.split('?')[1].split('=')[1]
         this.userId = urlId.substring(0, urlId.length - 6)
-        // this.util.setSession('sessionData', { userId: this.userId })
+        this.util.setSession('sessionData', { userId: this.userId })
       } else {
         // this.userId = '00025608'
         this.userId = '00000251'
