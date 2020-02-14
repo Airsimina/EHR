@@ -17,11 +17,11 @@
           <span>:</span>
           <div class="lis-row lis-value">{{item.eduTypeTxt}}</div>
         </div>
-        <div class="lis-box">
+        <!-- <div class="lis-box">
           <div class="lis-row lis-name">说明</div>
           <span>:</span>
           <div class="lis-row lis-value">{{item.eduRemark}}</div>
-        </div>
+        </div> -->
         <div class="lis-box">
           <div class="lis-row lis-name">教育/培训</div>
           <span>:</span>
@@ -55,7 +55,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">专业</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.majorTxt}}</div>
+          <div class="lis-row lis-value">{{item.major}}</div>
         </div>
         <!-- <div class="lis-box">
           <div class="lis-row lis-name">专业2</div>
@@ -65,12 +65,12 @@
         <div class="lis-box">
           <div class="lis-row lis-name">首次就业学历标识</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.isFirstRank}}</div>
+          <div class="lis-row lis-value">{{item.isFirstRank=='1' ? '是':'否'}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">最高学历标识</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.isHighestRank}}</div>
+          <div class="lis-row lis-value">{{item.isHighestRank=='1' ? '是':'否'}}</div>
         </div>
       </div>
     </div>
