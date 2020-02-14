@@ -22,7 +22,8 @@
             <div class="row-data"
                  v-for="(item,index) in sumSalary"
                  :key="index">
-              <span class="name">{{item.typeName}}</span>
+              <span class="name"
+                    :class="{'bold':item.typeName=='应发工资'||item.typeName=='进账金额' }">{{item.typeName}}</span>
               <span class="val">{{item.value}}</span>
             </div>
           </div>
@@ -49,7 +50,8 @@
             <div class="row-data"
                  v-for="(item,index) in item.capSalaryList"
                  :key="index">
-              <span class="name">{{item.typeName}}</span>
+              <span class="name"
+                    :class="{'bold':item.typeName=='应发工资'||item.typeName=='进账金额' }">{{item.typeName}}</span>
               <span class="val">{{item.value}}</span>
             </div>
           </div>
@@ -221,6 +223,12 @@ export default {
             transform-origin: right top;
             transform: rotate(90deg);
           }
+          span {
+            &.bold {
+              font-weight: bold;
+              color: #111;
+            }
+          }
         }
       }
       .list-data {
@@ -251,6 +259,10 @@ export default {
               min-width: 1.2rem;
               text-align-last: justify;
               text-align: justify;
+            }
+            &.bold {
+              font-weight: bold;
+              color: #111;
             }
             &.val {
               color: #111;
