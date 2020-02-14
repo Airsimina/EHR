@@ -13,22 +13,27 @@
           <div class="lis-row lis-value">{{item.beginDate}} - {{item.endDate}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">工作单位</div>
+          <div class="lis-row lis-name">公司</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.ARBGB}}</div>
+          <div class="lis-row lis-value">{{item.companyName}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">城市</div>
+          <div class="lis-row lis-name">部门</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.ORT01}}</div>
+          <div class="lis-row lis-value">{{item.departmentName}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">行业</div>
+          <div class="lis-row lis-name">职位</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.ZZHY}}</div>
+          <div class="lis-row lis-value">{{item.positionName}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">入岗时间</div>
+          <div class="lis-row lis-name">职级</div>
+          <span>:</span>
+          <div class="lis-row lis-value">{{item.postLevelName}}</div>
+        </div>
+        <div class="lis-box">
+          <div class="lis-row lis-name">在岗时间</div>
           <span>:</span>
           <div class="lis-row lis-value">{{item.workLong}}</div>
         </div>
