@@ -15,12 +15,12 @@
         <div class="lis-box">
           <div class="lis-row lis-name">名称</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.personName}}</div>
+          <div class="lis-row lis-value">{{item.rewardInfo}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">授予单位或部门</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.rewardDepartmentId}}</div>
+          <div class="lis-row lis-value">{{item.rewardDepartment}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">发文文号</div>
