@@ -536,7 +536,7 @@ export default {
           jsonData.append('file', item.file)// 第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
         })
       } else {
-        jsonData.append('loginUsername', 'lixiansen')
+        jsonData.append('loginUsername', this.util.getSession('sysUsername').sysUsername)
         jsonData.append('file', e.file)
       }
       await HttpEhr.multiUpload(jsonData).then(res => {
