@@ -102,6 +102,7 @@ export default {
     }
   },
   mounted () {
+    console.log(BUILD_TYPE + '1111111111111')
     this.init()
     document.title = '首页'
   },
