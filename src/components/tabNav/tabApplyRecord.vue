@@ -102,7 +102,7 @@ export default {
       // 选中的展开数据
       selTabIdShow: 1,
       // 选中的子菜单信息
-      lisIndex_1: 1,
+      lisIndex_1: 0,
       lisIndex_3: 0,
       // 导航菜单数据
       tabNabJsonList: {
@@ -142,9 +142,9 @@ export default {
       endTime: '',
       startTimeVal: '',
       endTimeVal: '',
-      // 选中的全部
-      type: '1',
       // 选中的分类
+      type: '1',
+      // 选中的全部
       status: '3',
       // 日期title
       popupTitle: '',
@@ -169,6 +169,7 @@ export default {
     },
     // 选择内容
     selcontent (item, index) {
+      console.log(this.status)
       this.showbox = false
       if (this.selTabIdShow == 1) {
         // 全部

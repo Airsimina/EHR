@@ -65,7 +65,7 @@ export default {
         startDate: '',
         endDate: '',
         type: '1',
-        status: '2'
+        status: '3'
       },
       page: 1, // 当前页
       showCount: 10, // 当前页显示多少条
@@ -110,6 +110,7 @@ export default {
     },
     // 搜索
     classSearchFun (subData) {
+      console.log(subData)
       this.page = 1
       this.totalPage = -1
       this.jsonData.startTime = subData.startTime
@@ -157,7 +158,7 @@ export default {
     } else {
       document.title = '我的申请'
       this.pageTypeVal = '1'
-      this.jsonData.status = '2'
+      this.jsonData.status = '3'
     }
     this.initTime()
     this.getApplyRecordList()

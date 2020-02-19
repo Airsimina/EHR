@@ -678,7 +678,7 @@ export default {
 
   },
   mounted () {
-    console.log(BUILD_TYPE + '1111111111111')
+    // console.log(BUILD_TYPE + '1111111111111')
     this.urlInit()
     // this.serverUrl = ' http://' + window.location.host
     this.itemData = this.$route.query.itemData || {}
