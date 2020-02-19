@@ -532,7 +532,7 @@ export default {
       const jsonData = new FormData()
       if (e && e.length) { // 判断是否是多图上传 多图则循环添加进去
         e.forEach(item => {
-          jsonData.append('loginUsername', 'lixiansen')
+          jsonData.append('loginUsername', this.util.getSession('sysUsername').sysUsername)
           jsonData.append('file', item.file)// 第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
         })
       } else {
@@ -650,6 +650,7 @@ export default {
       this.leaveTypetxt = newObj.text // 请假类型
     },
     urlInit () {
+      console.log(this.util.getSession('sysUsername').sysUsername)
       console.log(this.buildType + '环境')
       switch (this.buildType.toUpperCase()) {
         case 'PRO':
@@ -672,7 +673,7 @@ export default {
           this.serverUrl = 'http://mobq.huaxincem.com'
           break
       }
-      console.log(this.serverUrl)
+      // console.log(this.serverUrl)
     }
 
   },
