@@ -146,7 +146,7 @@ export default {
       },
       assigners: {},
       // -----------------------------------------------------
-      serverUrl: 'http://hafdev.hxoadev.com',
+      serverUrl: '',
       loginUserName: '',
       jsonData: {
         leaveTypeId: '1', // 请假类型id
@@ -648,10 +648,36 @@ export default {
       this.jsonData.fileViewLists = JSON.parse(this.itemData.url)
       const newObj = this.columns.find((item) => { return item.id == this.itemData.type })
       this.leaveTypetxt = newObj.text // 请假类型
+    },
+    urlInit () {
+      console.log(this.buildType + '环境')
+      switch (this.buildType.toUpperCase()) {
+        case 'PRO':
+          this.serverUrl = ''
+          break
+        case 'PRE':
+          this.serverUrl = ''
+          break
+        case 'Q3':
+          // http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=2a0df3e74c2c495fbe80198c85f0cf7a&loginUsername=wangw
+          // const url = `${this.serverUrl}/cap-bpm/attach/download.do?id=${element.id}&loginUsername=${this.util.getSession('sysUsername').sysUsername || 'huaxin'}`
+          // http://mobq.huaxincem.com/cap-bpm/attach/download.do?id=2a0df3e74c2c495fbe80198c85f0cf7a&loginUsername=yeliangjun_hq
+          this.serverUrl = 'http://mob.huaxincem.com'
+          break
+        case 'PRO_DEV':
+          this.serverUrl = 'http://mobq.huaxincem.com'
+          break
+        default:
+          // dev
+          this.serverUrl = 'http://mobq.huaxincem.com'
+          break
+      }
+      console.log(this.serverUrl)
     }
 
   },
   mounted () {
+    this.urlInit()
     // this.serverUrl = ' http://' + window.location.host
     this.itemData = this.$route.query.itemData || {}
     this.dataType = this.$route.query.flag || '0'
