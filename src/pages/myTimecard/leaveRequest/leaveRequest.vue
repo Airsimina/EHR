@@ -651,7 +651,7 @@ export default {
     },
     urlInit () {
       console.log(this.util.getSession('sysUsername').sysUsername)
-      console.log(this.buildType + '环境')
+      console.log(this.buildType + '环境-1111')
       switch (this.buildType.toUpperCase()) {
         case 'PRO':
           this.serverUrl = ''
