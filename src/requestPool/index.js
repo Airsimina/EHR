@@ -26,7 +26,7 @@ export default {
     getMySalaryList: function (payLoad) {
         return HXpost('/ehr/api/salary/salarySearch.do', payLoad)
     },
-    // ----------我的考勤-----------------
+    // ----------我的假勤-----------------
     // 1.请假申请详情 -lxs paramsJson
     leaveApplyDetail: function (payLoad) {
         return HXpost('/ehr/api/vacation/vacationForm.do', payLoad)
@@ -55,7 +55,7 @@ export default {
     getApplyRecordList: function (payLoad) {
         return HXpost('/ehr/api/vacation/getVacationList.do', payLoad)
     },
-    // 我的考勤 -lxs
+    // 我的假勤 -lxs
     getcheckSeekList: function (payLoad) {
         return HXpost('/ehr/api/vacation/getAttendanceByUser.do', payLoad)
     },

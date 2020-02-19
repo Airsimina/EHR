@@ -58,7 +58,7 @@ export default {
           },
           {
             iconUrl: require('../../../static/img/check.png'),
-            iconText: '我的考勤',
+            iconText: '我的假勤',
             path: 'myTimecard'
           },
           {

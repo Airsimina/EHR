@@ -137,7 +137,7 @@ export default {
       }
       this.selIndex = index
     },
-    // 我的考勤列表
+    // 我的假勤列表
     getcheckSeekList () {
       HttpEhr.getcheckSeekList({
         userId: this.util.getSession('sessionData').userId || '',

@@ -1,6 +1,6 @@
 <template>
   <div class="myTimecard">
-    <!-- 我的考勤 -->
+    <!-- 我的假勤 -->
     <div class="wrap-1">
       <div class="card-box">
         <div class="nav"
@@ -101,7 +101,7 @@ export default {
     }
   },
   mounted () {
-    document.title = '我的考勤'
+    document.title = '我的假勤'
   }
 }
 </script>

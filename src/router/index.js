@@ -187,7 +187,7 @@ export default new Router({
                 ]
             },
             {
-                // 我的考勤
+                // 我的假勤
                 path: '/myTimecard',
                 name: 'myTimecard',
                 component: () =>
