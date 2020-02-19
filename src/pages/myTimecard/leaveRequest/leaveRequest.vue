@@ -673,7 +673,7 @@ export default {
           this.serverUrl = 'http://mobq.huaxincem.com'
           break
       }
-      // console.log(this.serverUrl)
+      console.log(this.serverUrl)
     }
 
   },
