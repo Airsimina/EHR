@@ -666,7 +666,7 @@ export default {
           this.serverUrl = 'http://mob.huaxincem.com'
           break
         case 'PRO_DEV':
-          this.serverUrl = 'http://mobq.huaxincem.com'
+          this.serverUrl = 'http://mob.huaxincem.com'
           break
         default:
           // dev
