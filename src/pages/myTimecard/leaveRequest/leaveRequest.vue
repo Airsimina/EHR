@@ -91,23 +91,29 @@
     <div class="commit-btn"
          @click="commitFun">提交</div>
     <!-- 开始 结束时间 -->
-    <van-popup v-model="isPopShow"
+    <!-- <van-popup v-model="isPopShow"
                close-icon-position="top-left"
                position="bottom"
-               :style="{ height: '40%' }">
-      <van-datetime-picker v-model="currentDate"
+               :style="{ height: '40%' }"> -->
+    <!-- <van-datetime-picker v-model="currentDate"
                            @cancel="cancelPicker"
                            @confirm="confirmPicker"
                            type="date"
                            :title="popupTitle"
-                           :formatter="formatter" />
-    </van-popup>
+                           :formatter="formatter" /> -->
+    <!-- </van-popup> -->
+    <van-calendar v-model="isPopShow"
+                  color="#79a2f9"
+                  @cancel="cancelPicker"
+                  :title="popupTitle"
+                  @confirm="confirmPicker" />
     <!-- 类型 -->
     <van-popup v-model="isPopShowType"
                close-icon-position="top-left"
                position="bottom"
                :style="{ height: '40%' }">
       <van-picker show-toolbar
+                  position="right"
                   :columns="columns"
                   title="选择请假类型"
                   @cancel="onCancel"
@@ -575,6 +581,9 @@ export default {
     },
     // 确定日期选择，时间格式化并显示在页面上
     confirmPicker (value) {
+      // this.isPopShow = false
+      // console.log(this.formatDate(date))
+      // return
       const date = value
       const y = date.getFullYear()
       let m = date.getMonth() + 1
@@ -618,7 +627,7 @@ export default {
       this.leaveTypetxt = item.text
       this.jsonData.leaveTypeId = item.id
       this.isPopShowType = false
-      if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1'&& this.jsonData.leaveTypeId != '5') {
+      if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1' && this.jsonData.leaveTypeId != '5') {
         this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
       }
     },
