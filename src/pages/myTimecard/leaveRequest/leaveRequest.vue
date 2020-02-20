@@ -41,9 +41,9 @@
             </div>
             <div class="lis-r">
               <input type="number"
-                     :disabled="(jsonData.leaveTypeId != '3' && jsonData.leaveTypeId != '1')"
+                     :disabled="(jsonData.leaveTypeId != '3' && jsonData.leaveTypeId != '1'&& jsonData.leaveTypeId != '5')"
                      class="input-time"
-                     :placeholder="(jsonData.leaveTypeId == '3' || jsonData.leaveTypeId == '1')  ? '请输入时长' :'0'"
+                     :placeholder="(jsonData.leaveTypeId == '3' || jsonData.leaveTypeId == '1'|| jsonData.leaveTypeId == '5')  ? '请输入时长' :'0'"
                      v-model="jsonData.duration">
               <span class="dw">/天</span>
             </div>
@@ -588,7 +588,7 @@ export default {
         this.jsonData.startTime = newTime
       }
       this.isPopShow = false
-      if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1') {
+      if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1' && this.jsonData.leaveTypeId != '5') {
         this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
       }
     },
@@ -618,7 +618,7 @@ export default {
       this.leaveTypetxt = item.text
       this.jsonData.leaveTypeId = item.id
       this.isPopShowType = false
-      if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1') {
+      if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1'&& this.jsonData.leaveTypeId != '5') {
         this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
       }
     },
