@@ -581,9 +581,6 @@ export default {
     },
     // 确定日期选择，时间格式化并显示在页面上
     confirmPicker (value) {
-      // this.isPopShow = false
-      // console.log(this.formatDate(date))
-      // return
       const date = value
       const y = date.getFullYear()
       let m = date.getMonth() + 1
@@ -684,7 +681,6 @@ export default {
       }
       console.log(this.serverUrl)
     }
-
   },
   mounted () {
     // console.log(BUILD_TYPE + '1111111111111')
