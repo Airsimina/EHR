@@ -185,7 +185,7 @@ export default {
     if (this.dataType == '1') {
       this.title = '请假申请'
     } else if (this.dataType == '2') {
-      this.title = '假期调整申请'
+      this.title = '请假调整申请'
     }
     document.title = this.title
     this.leaveApplyDetail()
