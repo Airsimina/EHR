@@ -102,6 +102,7 @@
                            :title="popupTitle"
                            :formatter="formatter" /> -->
     <!-- </van-popup> -->
+    <!-- type="range" -->
     <van-calendar v-model="isPopShow"
                   color="#79a2f9"
                   @cancel="cancelPicker"
@@ -579,8 +580,22 @@ export default {
         this.popupTitle = '选择开始日期'
       }
     },
+    formatDate (date) {
+      const y = date.getFullYear()
+      let m = date.getMonth() + 1
+      let d = date.getDate()
+      m = m < 10 ? '0' + m : m
+      d = d < 10 ? '0' + d : d
+      const newTime = `${y}-${m}-${d}`
+      return newTime
+    },
     // 确定日期选择，时间格式化并显示在页面上
     confirmPicker (value) {
+      // const [start, end] = value
+      // this.jsonData.startTime = this.formatDate(start)
+      // this.jsonData.endTime = this.formatDate(end)
+      // console.log(this.jsonData)
+      // return
       const date = value
       const y = date.getFullYear()
       let m = date.getMonth() + 1
@@ -597,6 +612,7 @@ export default {
       if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1' && this.jsonData.leaveTypeId != '5') {
         this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
       }
+      console.log(newTime)
     },
     // 关闭日历选择
     cancelPicker () {
