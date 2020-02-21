@@ -42,7 +42,7 @@ export default {
           icon: 'dkqd'
         },
         {
-          name: '我的申请',
+          name: '请假申请',
           path: 'leaveRequest',
           icon: 'wdsq'
 
@@ -50,7 +50,7 @@ export default {
       ],
       menuList: [
         {
-          name: '请假申请',
+          name: '我的申请',
           path: 'applyRecord',
           icon: 'jqsq'
         }, {

@@ -102,7 +102,7 @@ export default {
       // 选中的展开数据
       selTabIdShow: 1,
       // 选中的子菜单信息
-      lisIndex_1: 0,
+      lisIndex_1: 1,
       lisIndex_3: 0,
       // 导航菜单数据
       tabNabJsonList: {
@@ -145,7 +145,7 @@ export default {
       // 选中的分类
       type: '1',
       // 选中的全部
-      status: '3',
+      status: '2',
       // 日期title
       popupTitle: '',
       // 时间选择器的默认值
