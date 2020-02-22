@@ -504,7 +504,7 @@ export default {
     },
     // 提交按钮
     async commitFun () {
-      // console.log(this.jsonData)
+      console.log(this.jsonData)
       // HttpEhr.getNextNode({
       //   dates: JSON.stringify(this.jsonData.dateList)
       // }).then(res => {
