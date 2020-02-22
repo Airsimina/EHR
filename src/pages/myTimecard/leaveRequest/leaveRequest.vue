@@ -23,10 +23,13 @@
             <div class="lis-r"
                  @click="showDatePicker(1)">
               <div class="div-val-1">
-                {{jsonData.startTime}}至
-                <!-- <span v-show="jsonData.startTime">至</sapn> -->
+                {{jsonData.startTime}}
+                至
                 {{jsonData.endTime}}
-                </div>
+                <!-- {{jsonData.startTime}}
+                <span v-show="jsonData.startTime">至</sapn>
+                  {{jsonData.endTime}} -->
+              </div>
               <div class="icon-jt"></div>
             </div>
           </div>
@@ -191,7 +194,7 @@ export default {
         ],
         saveType: '1', // 1新增提交 2、修改提交（待办提交全部传1
         formType: '1', // 1:新增 1:修改 2:销假
-        dateList: '' // 多选的日期
+        dateList: [] // 多选的日期
       },
       dataType: '1', // 0:新增 1:修改 2:销假
       leaveTypetxt: '事假' || '请选择', // 请假类型文字
@@ -242,23 +245,6 @@ export default {
       showDateConp: false, // true 连选 false 多选
       dateArr: []
     }
-  },
-  watch: {
-    // 'jsonData.leaveTypeId': function toggle () {
-    //   if (this.jsonData.leaveTypeId == '1' ||
-    //     this.jsonData.leaveTypeId == '3' ||
-    //     this.jsonData.leaveTypeId == '5' ||
-    //     this.jsonData.leaveTypeId == '8') {
-    //     this.jsonData.dateList = ''
-    //   } else if (this.jsonData.leaveTypeId == '2' ||
-    //     // 2 病假,4 工伤假,6 产假,7 护理假 ----连选
-    //     this.jsonData.leaveTypeId == '4' ||
-    //     this.jsonData.leaveTypeId == '6' ||
-    //     this.jsonData.leaveTypeId == '7') {
-    //     // 1 年休,3 事假,5 婚假,8 丧假 ----多选
-    //     this.showDateConp = true
-    //   }
-    // }
   },
   methods: {
     // --------------------------公用数据解析处理---------------------------
@@ -518,11 +504,12 @@ export default {
     },
     // 提交按钮
     async commitFun () {
-      // console.log(this.jsonData.dateList)
-      // console.log(this.jsonData.startTime)
-      // console.log(this.jsonData.endTime)
-      // console.log(this.jsonData)
-      // return
+      console.log(this.jsonData)
+      HttpEhr.getNextNode({
+        dates: JSON.stringify(this.jsonData.dateList)
+      }).then(res => {
+      })
+      return
       await this.getBranch().then(res => {
         if (res.data) {
           Object.assign(this.flowContext.processParams, res.data)
@@ -648,8 +635,9 @@ export default {
         this.jsonData.leaveTypeId == '5' ||
         this.jsonData.leaveTypeId == '8') {
         this.showDateConp = false
-        if (this.jsonData.dateList) {
-          this.dateArr = JSON.parse(this.jsonData.dateList)
+        if (this.jsonData.dateList.length > 0) {
+          // this.dateArr = JSON.parse(this.jsonData.dateList)
+          this.dateArr = this.jsonData.dateList
         }
         console.log('多选')
         console.log(this.jsonData)
@@ -659,7 +647,7 @@ export default {
         this.jsonData.leaveTypeId == '6' ||
         this.jsonData.leaveTypeId == '7') {
         this.showDateConp = true
-        this.jsonData.dateList = ''
+        this.jsonData.dateList = []
         console.log('连选')
         console.log(this.jsonData)
       }
@@ -672,32 +660,14 @@ export default {
       this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
       this.isPopShow = false
       console.log(this.jsonData)
-      // return
-      // const date = value
-      // const y = date.getFullYear()
-      // let m = date.getMonth() + 1
-      // let d = date.getDate()
-      // m = m < 10 ? '0' + m : m
-      // d = d < 10 ? '0' + d : d
-      // const newTime = `${y}-${m}-${d}`
-      // if (this.datePicker) {
-      //   this.jsonData.endTime = newTime
-      // } else {
-      //   this.jsonData.startTime = newTime
-      // }
-      // this.isPopShow = false
-      // if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1' && this.jsonData.leaveTypeId != '5') {
-      //   this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
-      // }
-      // console.log(newTime)
     },
     // 多选--确定日历
     clickElPicker: function () {
-      console.log(this.dateArr)
-      this.jsonData.dateList = this.dateArr ? this.dateArr.join() : ''
+      // this.jsonData.dateList = this.dateArr ? this.dateArr.join() : []
+      this.jsonData.dateList = this.dateArr
       if (this.dateArr.length == 1) {
-         this.jsonData.startTime = this.dateArr[0]
-         this.jsonData.endTime = this.dateArr[0]
+        this.jsonData.startTime = this.dateArr[0]
+        this.jsonData.endTime = this.dateArr[0]
       }
       this.jsonData.duration = this.dateArr.length
       const newArr = []
@@ -706,9 +676,7 @@ export default {
       })
       this.jsonData.startTime = this.strDateFormat(Math.min(...newArr))
       this.jsonData.endTime = this.strDateFormat(Math.max(...newArr))
-      console.log(this.jsonData.startTime)
-      console.log(this.jsonData.endTime)
-      console.log(this.strDateFormat(Math.min(...newArr)), this.strDateFormat(Math.max(...newArr)))
+      console.log('this.jsonData.dateList-----' + this.jsonData.dateList)
     },
     // 时间戳转字符串日期
     strDateFormat (timestamp) {
@@ -781,7 +749,7 @@ export default {
       this.jsonData.fileViewLists = JSON.parse(this.itemData.url)
       const newObj = this.columns.find((item) => { return item.id == this.itemData.type })
       this.leaveTypetxt = newObj.text // 请假类型
-      this.jsonData.dateList = this.itemData.dates // 多选日期
+      this.jsonData.dateList = JSON.parse(this.itemData.dates) // 多选日期
       this.showDateConpFun()
     },
     // 获取环境地址
@@ -813,29 +781,8 @@ export default {
     }
   },
   mounted () {
-    // this.jsonData.dateList = '["2020-02-16","2020-02-18","2020-02-26"]'
-    // this.dateArr = JSON.parse(this.jsonData.dateList)
-    // 为了解决bug，所以默认值放在了这里
-    // this.$nextTick(function () {
-    // this.dateArr = ['2018-08-03', '2018-08-06']
-    //   this.$refs.datesRef.showPicker()
-    //   this.$refs.datesRef.hidePicker()
-    // })
-    // ----------------------------
-    // console.log(BUILD_TYPE + '1111111111111')
     this.urlInit()
-    // this.serverUrl = ' http://' + window.location.host
     this.itemData = this.$route.query.itemData || {}
-    // this.itemData = {
-    //   type: '2',
-    //   startDate: '',
-    //   endDate: '',
-    //   sum: '2',
-    //   note: '222222',
-    //   dates: '',
-    //   url: ''
-    // } || {}
-
     this.dataType = this.$route.query.flag || '0'
     // 本地 this.dataType 0:新增 1:修改 2:销假
     // 提交接口 saveType 1、销假 新增提交 2、修改提交
@@ -859,30 +806,27 @@ export default {
       this.setVal()
     }
     document.title = this.title
+    this.leaveApplyDetail()
     // console.log(this.$route.query.id)
     // console.log('this.jsonData.dataId====' + this.jsonData.dataId)
     // console.log('this.jsonData.formType----' + this.jsonData.formType)
     // console.log(this.jsonData.saveType)
-
-    this.leaveApplyDetail()
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.el-picker {
-  // border: 1px solid #000;
-  box-sizing: border-box;
-  margin-left: 0.1rem;
-  bottom: 0.07rem;
-  .el-date-editor.el-input,
-  .el-date-editor.el-input__inner {
-    // border: 1px solid #000;
-    // border: 0px solid #000 !important;
-    // border: none;
-    width: 95%;
-  }
-}
+// .lis-r.el-picker {
+//   box-sizing: border-box;
+//   margin-left: 0.1rem;
+//   bottom: 0.07rem;
+//   .el-date-editor.el-input,
+//   .el-date-editor.el-input__inner {
+//     border: 1px solid rgb(226, 14, 14);
+//     border: none;
+//     width: 95%;
+//   }
+// }
 .leaveRequest {
   font-size: 0.24rem;
   .wrap-1 {
@@ -930,6 +874,14 @@ export default {
           .lis-r {
             flex: 5;
             position: relative;
+            &.el-picker {
+              .el-date-editor.el-input,
+              .el-date-editor.el-input__inner {
+                border: 1px solid transparent;
+                // border: none;
+                width: 95%;
+              }
+            }
             .div-val-1 {
               font-size: 0.28rem;
               color: #999;
