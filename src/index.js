@@ -8,6 +8,10 @@ import 'vant/lib/index.css'
 import store from './store/index'
 import $util from '../src/util/util.js'
 import axios from 'axios'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
+Vue.use(ElementUI)
 Vue.prototype.axios = axios
 Vue.prototype.util = $util
 // 绑定repalceAll方法
