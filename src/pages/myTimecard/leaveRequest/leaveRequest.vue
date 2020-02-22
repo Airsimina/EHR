@@ -504,12 +504,12 @@ export default {
     },
     // 提交按钮
     async commitFun () {
-      console.log(this.jsonData)
-      HttpEhr.getNextNode({
-        dates: JSON.stringify(this.jsonData.dateList)
-      }).then(res => {
-      })
-      return
+      // console.log(this.jsonData)
+      // HttpEhr.getNextNode({
+      //   dates: JSON.stringify(this.jsonData.dateList)
+      // }).then(res => {
+      // })
+      // return
       await this.getBranch().then(res => {
         if (res.data) {
           Object.assign(this.flowContext.processParams, res.data)
