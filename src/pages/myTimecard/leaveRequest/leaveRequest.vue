@@ -704,7 +704,14 @@ export default {
     },
     // 多选--确定日历
     clickElPicker: function () {
-      this.jsonData.dateList = this.dateArr ? this.dateArr.join() : ''
+      console.log(this.dateArr)
+
+      // this.jsonData.dateList = this.dateArr ? this.dateArr.join() : ''
+      this.jsonData.dateList = this.dateArr ? this.dateArr.join() : []
+      if (this.dateArr.length == 1) {
+         this.jsonData.startTime = this.dateArr[0]
+         this.jsonData.endTime = this.dateArr[0]
+      }
       this.jsonData.duration = this.dateArr.length
       const newArr = []
       this.dateArr.forEach(element => {
@@ -712,7 +719,8 @@ export default {
       })
       this.jsonData.startTime = this.strDateFormat(Math.min(...newArr))
       this.jsonData.endTime = this.strDateFormat(Math.max(...newArr))
-
+      console.log(this.jsonData.startTime)
+      console.log(this.jsonData.endTime)
       console.log(this.strDateFormat(Math.min(...newArr)), this.strDateFormat(Math.max(...newArr)))
     },
     // 时间戳转字符串日期
