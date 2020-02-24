@@ -186,10 +186,16 @@ export default {
         return '病假'
       } else if (type == '3') {
         return '事假'
+      } else if (type == '4') {
+        return '工伤假'
       } else if (type == '5') {
         return '婚假'
-      } else if (type == '7') {
+      } else if (type == '6') {
         return '产假'
+      } else if (type == '7') {
+        return '护理假'
+      } else if (type == '8') {
+        return '丧假'
       }
     }
   },
