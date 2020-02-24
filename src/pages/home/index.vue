@@ -24,7 +24,8 @@
         <div class="icon-text">{{item.iconText}}</div>
       </div>
     </div>
-    <div class=people-container>
+    <div class=people-container
+         v-show="false">
       <div class="people-title">人事管理</div>
       <div class="single"
            @click="transmitFun(item)"
@@ -61,11 +62,11 @@ export default {
             iconText: '我的假勤',
             path: 'myTimecard'
           },
-          {
-            iconUrl: require('../../../static/img/text.png'),
-            iconText: '我的的异动',
-            path: ''
-          },
+          // {
+          //   iconUrl: require('../../../static/img/text.png'),
+          //   iconText: '我的的异动',
+          //   path: ''
+          // },
           {
             iconUrl: require('../../../static/img/kzm.png'),
             iconText: '审批',
