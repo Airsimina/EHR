@@ -23,14 +23,14 @@
               <span>{{endTime}}</span>
             </div>
           </div>
-          <div class="lis">
+          <!-- <div class="lis">
             <div class="lis-f">
               <div class="div-name-1">请假具体日期</div>
             </div>
             <div class="lis-r">
               <span>{{dates}}</span>
             </div>
-          </div>
+          </div> -->
           <div class="lis">
             <div class="lis-f">
               <div class="div-name-1">请假时长</div>
