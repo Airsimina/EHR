@@ -13,7 +13,7 @@
           <div class="lis-row lis-value">{{item.beginDate}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">项目或成功描述</div>
+          <div class="lis-row lis-name">成功描述</div>
           <span>:</span>
           <div class="lis-row lis-value">{{item.projects}}</div>
         </div>

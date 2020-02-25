@@ -25,6 +25,14 @@
           </div>
           <div class="lis">
             <div class="lis-f">
+              <div class="div-name-1">请假具体日期</div>
+            </div>
+            <div class="lis-r">
+              <span>{{dates}}</span>
+            </div>
+          </div>
+          <div class="lis">
+            <div class="lis-f">
               <div class="div-name-1">请假时长</div>
             </div>
             <div class="lis-r">
@@ -121,7 +129,8 @@ export default {
       removeFlag: '2', // 1、正常使用 2、无法使用
       dataId: '', // 数据id
       dataType: '', // 1:请假 2:销假
-      itemData: {}
+      itemData: {},
+      dates: ''
     }
   },
   methods: {
@@ -163,6 +172,7 @@ export default {
         this.endTime = this.itemData.endDate
         this.numDay = this.itemData.sum
         this.reason = this.itemData.note
+        this.dates = JSON.stringify(this.itemData.datas)
         this.imgList = JSON.parse(this.itemData.url)
         this.editFlag = this.itemData.editFlag
         this.removeFlag = this.itemData.removeFlag

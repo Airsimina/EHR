@@ -23,7 +23,7 @@
           <div class="lis-row lis-value">{{item.injuryTypeTxt}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">工伤等级(新华)</div>
+          <div class="lis-row lis-name">工伤等级(华新)</div>
           <span>:</span>
           <div class="lis-row lis-value">{{item.injuryRank}}</div>
         </div>

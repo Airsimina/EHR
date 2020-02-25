@@ -40,7 +40,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">类别</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.workType =='1' ?'新华内' :'新华外'}}</div>
+          <div class="lis-row lis-value">{{item.workType =='1' ?'华新内' :'华新外'}}</div>
         </div>
       </div>
     </div>
