@@ -17,11 +17,11 @@
           <span>:</span>
           <div class="lis-row lis-value">{{item.checkDate}}</div>
         </div>
-        <div class="lis-box">
+        <!-- <div class="lis-box">
           <div class="lis-row lis-name">最后检查</div>
           <span>:</span>
           <div class="lis-row lis-value">{{item.lastCheckDate}}</div>
-        </div>
+        </div> -->
         <div class="lis-box">
           <div class="lis-row lis-name">诊断</div>
           <span>:</span>

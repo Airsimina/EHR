@@ -21,7 +21,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">姓名</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.personName}}</div>
+          <div class="lis-row lis-value">{{item.name}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">性别</div>
