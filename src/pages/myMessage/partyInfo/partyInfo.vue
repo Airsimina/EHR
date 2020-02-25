@@ -8,9 +8,9 @@
            v-for="(item,index) in jsonDataList"
            :key="index">
         <div class="lis-box">
-          <div class="lis-row lis-name">起时间</div>
+          <div class="lis-row lis-name">起始时间</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.beginDate}}</div>
+          <div class="lis-row lis-value">{{item.beginDate}} - {{item.endDate}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">政党状态</div>
