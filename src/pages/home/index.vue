@@ -188,9 +188,6 @@ export default {
         window.location.href = this.OAurl
         return
       }
-      this.$router.push({
-        name: 'unwell'
-      })
       if (!item.path) {
         this.$toast(
           {
