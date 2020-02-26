@@ -9,13 +9,13 @@
             <div class="grid-div">
               <!-- :class="{'ccc' :item.a=='0'}" -->
               <div class="num">{{fixationNum}}</div>
-              <div class="name">定额(天)</div>
+              <div class="name">本年定额(天)</div>
             </div>
           </div>
           <div class="sub-box">
             <div class="grid-div">
               <div class="num">{{fulfillNum}}</div>
-              <div class="name">已休(天)</div>
+              <div class="name">本年已休(天)</div>
             </div>
           </div>
           <div class="sub-box">
