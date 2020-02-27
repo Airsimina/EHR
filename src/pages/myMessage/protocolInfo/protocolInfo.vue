@@ -7,26 +7,31 @@
       <div class="list-box"
            v-for="(item,index) in jsonDataList"
            :key="index">
-        <div class="lis-box">
+        <!-- <div class="lis-box">
           <div class="lis-row lis-name">开始日期</div>
           <span>:</span>
           <div class="lis-row lis-value">{{item.beginDate}}</div>
-        </div>
+        </div> -->
         <div class="lis-box">
           <div class="lis-row lis-name">协议类型</div>
           <span>:</span>
           <div class="lis-row lis-value">{{item.typeText}}</div>
         </div>
         <div class="lis-box">
+          <div class="lis-row lis-name">协议名称</div>
+          <span>:</span>
+          <div class="lis-row lis-value">{{item.protocolName}}</div>
+        </div>
+        <!-- <div class="lis-box">
           <div class="lis-row lis-name">协议截止日期</div>
           <span>:</span>
           <div class="lis-row lis-value">{{item.endDate}}</div>
+        </div> -->
+        <div class="lis-box">
+          <div class="lis-row lis-name">服务开始日期</div>
+          <span>:</span>
+          <div class="lis-row lis-value">{{item.serviceBeginDate}}</div>
         </div>
-        <!-- <div class="lis-box">
-        <div class="lis-row lis-name">服务开始日期</div>
-        <span>:</span>
-        <div class="lis-row lis-value">{{item.serviceBeginDate}}</div>
-      </div> -->
         <div class="lis-box">
           <div class="lis-row lis-name">服务结束日期</div>
           <span>:</span>

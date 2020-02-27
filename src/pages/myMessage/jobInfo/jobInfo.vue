@@ -15,7 +15,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">所在单位</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.divisionName}}</div>
+          <div class="lis-row lis-value">{{item.afDivisionName}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">所在部门</div>
@@ -30,7 +30,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">职位</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.positionName}}</div>
+          <div class="lis-row lis-value">{{item.afPositionName}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">成本中心</div>

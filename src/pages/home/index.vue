@@ -103,7 +103,7 @@ export default {
     }
   },
   mounted () {
-    console.log('huangyi同学-更新好啦')
+    console.log('1621更新')
     this.init()
     document.title = '首页'
   },
