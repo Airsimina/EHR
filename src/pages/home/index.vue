@@ -170,16 +170,16 @@ export default {
           this.OAurl = ''
           break
         case 'Q3':
-          this.OAurl = 'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=1'
+          this.OAurl = `http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`
           // this.OAurl = 'https://mob.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
         case 'PRO_DEV':
-          this.OAurl = 'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=1'
+          this.OAurl = `http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`
           // this.OAurl = 'https://mobq.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
         default:
           // dev
-          this.OAurl = 'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=1'
+          this.OAurl = `http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`
           // this.OAurl = 'https://mobq.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
       }
