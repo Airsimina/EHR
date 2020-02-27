@@ -16,7 +16,7 @@ let baseUrl = '/api'
 // 根据不同的环境设置不同的baseUrl
 switch (BUILD_TYPE) {
     case 'PRO':
-        baseUrl = ''
+        baseUrl = 'http://app.huaxincem.com'
         break
     case 'PRE':
         baseUrl = 'PRE'
