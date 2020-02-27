@@ -103,7 +103,7 @@ export default {
     }
   },
   mounted () {
-    console.log('huangyi-更新好啦')
+    console.log('huangyi同学-更新好啦')
     this.init()
     document.title = '首页'
   },
@@ -178,7 +178,7 @@ export default {
           break
         case 'PRO_DEV':
           this.OAurl = 'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
-          this.OAurl = encodeURI(`http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
+          // this.OAurl = encodeURI(`http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
           // this.OAurl = `http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`
           // this.OAurl = 'https://mobq.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
