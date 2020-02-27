@@ -430,7 +430,7 @@ export default {
       params.paramMap = { ...this.getProcessParams(true) }
       params.paramMap.theFirstTrial = this.getBranchData.theFirstTrial
       params.paramMap.inCharge = this.getBranchData.inCharge
-
+      console.log(params.paramMap)
       const data = {
         loginUsername: this.cacheFlowVar.loginUsername,
         personId: this.cacheFlowVar.personId,
@@ -447,6 +447,10 @@ export default {
     // 4. 获取下一节点
     getNextNode () {
       return new Promise((resolve, reject) => {
+        if (JSON.stringify(this.flowContext.processVar) == '{}') {
+          delete this.flowContext.processVar
+          console.log(this.flowContext)
+        }
         HttpEhr.getNextNode({
           personId: this.cacheFlowVar.personId,
           flowContext: this.flowContext
