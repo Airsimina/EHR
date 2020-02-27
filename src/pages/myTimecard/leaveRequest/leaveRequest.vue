@@ -243,7 +243,8 @@ export default {
       itemData: {}, // 传过来的表单数据
       title: '',
       showDateConp: false, // true 连选 false 多选
-      dateArr: []
+      dateArr: [],
+      getBranchData: {}
     }
   },
   methods: {
@@ -427,6 +428,9 @@ export default {
         proRunId: this.cacheFlowVar.proRunId || ''
       }
       params.paramMap = { ...this.getProcessParams(true) }
+      params.paramMap.theFirstTrial = this.getBranchData.theFirstTrial
+      params.paramMap.inCharge = this.getBranchData.inCharge
+
       const data = {
         loginUsername: this.cacheFlowVar.loginUsername,
         personId: this.cacheFlowVar.personId,
@@ -512,6 +516,7 @@ export default {
       // return
       await this.getBranch().then(res => {
         if (res.data) {
+          this.getBranchData = res.data
           Object.assign(this.flowContext.processParams, res.data)
         }
       })
@@ -781,6 +786,7 @@ export default {
     }
   },
   mounted () {
+    console.log('huaxinshuini')
     this.urlInit()
     this.itemData = this.$route.query.itemData || {}
     this.dataType = this.$route.query.flag || '0'
