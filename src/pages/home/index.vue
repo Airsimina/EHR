@@ -147,7 +147,7 @@ export default {
         this.util.setSession('sessionData', { userId: this.userId })
       } else {
         // this.userId = '00025608'
-        this.userId = '00000251'
+        this.userId = '00000345'
       }
       this.util.setSession('sessionData', { userId: this.userId })
       await this.annualResidue().then(res => {
@@ -164,7 +164,6 @@ export default {
     transmitFun (item) {
       console.log(this.buildType + '环境')
       const isShowBackStr = encodeURIComponent(`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
-      // this.OAurl = 'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
       switch (this.buildType.toUpperCase()) {
         case 'PRO':
           this.OAurl = ''
@@ -174,19 +173,13 @@ export default {
           break
         case 'Q3':
           this.OAurl = 'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
-          // this.OAurl = 'https://mob.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
         case 'PRO_DEV':
           this.OAurl = 'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
-          // this.OAurl = encodeURI(`http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
-          // this.OAurl = `http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`
-          // this.OAurl = 'https://mobq.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
         default:
           // dev
           this.OAurl = 'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
-          // this.OAurl = `http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`
-          // this.OAurl = 'https://mobq.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
       }
       console.log(this.OAurl)
