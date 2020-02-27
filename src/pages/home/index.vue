@@ -103,6 +103,7 @@ export default {
     }
   },
   mounted () {
+    console.log('huangyi-更新好啦')
     this.init()
     document.title = '首页'
   },
@@ -162,6 +163,8 @@ export default {
     // 跳转
     transmitFun (item) {
       console.log(this.buildType + '环境')
+      const isShowBackStr = encodeURIComponent(`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
+      // this.OAurl = 'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
       switch (this.buildType.toUpperCase()) {
         case 'PRO':
           this.OAurl = ''
@@ -170,17 +173,18 @@ export default {
           this.OAurl = ''
           break
         case 'Q3':
-          this.OAurl = encodeURI(`http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
+          this.OAurl = 'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
           // this.OAurl = 'https://mob.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
         case 'PRO_DEV':
+          this.OAurl = 'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
           this.OAurl = encodeURI(`http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
           // this.OAurl = `http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`
           // this.OAurl = 'https://mobq.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
         default:
           // dev
-          this.OAurl = encodeURI(`http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
+          this.OAurl = 'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
           // this.OAurl = `http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`
           // this.OAurl = 'https://mobq.huaxincem.com/appPI/weixinQY/ui/index.html?userId=' + this.userId
           break
