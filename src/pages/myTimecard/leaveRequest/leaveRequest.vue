@@ -790,7 +790,7 @@ export default {
     }
   },
   mounted () {
-    console.log('huaxinshuini')
+    console.log('huaxinshuini-2')
     this.urlInit()
     this.itemData = this.$route.query.itemData || {}
     this.dataType = this.$route.query.flag || '0'
