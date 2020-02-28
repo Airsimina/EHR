@@ -128,6 +128,7 @@
                   :title="popupTitle"
                   @confirm="confirmPicker" /> -->
     <van-calendar v-model="isPopShow"
+                  :min-date="minDate"
                   type="range"
                   color="#79a2f9"
                   @cancel="cancelPicker"
@@ -798,8 +799,8 @@ export default {
         month = 12
         year = year - 1
       }
-      console.log(year + ',' + month + ',' + '01')
-      this.minDate = new Date(year, month, 1)
+      console.log(year + ',' + month + ',' + '1')
+      this.minDate = new Date(year, month - 1, 1)
     }
   },
   mounted () {
@@ -829,7 +830,7 @@ export default {
     }
     document.title = this.title
     this.leaveApplyDetail()
-    // this.getFirstDay()
+    this.getFirstDay()
     // console.log(this.$route.query.id)
     // console.log('this.jsonData.dataId====' + this.jsonData.dataId)
     // console.log('this.jsonData.formType----' + this.jsonData.formType)
