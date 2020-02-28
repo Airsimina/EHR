@@ -16,7 +16,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">与本人关系</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.str}}</div>
+          <div class="lis-row lis-value">{{item.relationNote}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">姓名</div>
@@ -69,7 +69,6 @@ import '../../../style/tabList.scss'
 export default {
   data () {
     return {
-      str: '家庭信息测试数据',
       jsonDataList: []
     }
   },

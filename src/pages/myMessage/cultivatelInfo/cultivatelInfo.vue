@@ -30,7 +30,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">证书</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.trainningCertTxt}}</div>
+          <div class="lis-row lis-value">{{item.trainingCertTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">备注</div>

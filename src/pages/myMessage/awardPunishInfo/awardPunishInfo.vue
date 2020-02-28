@@ -32,6 +32,11 @@
           <span>:</span>
           <div class="lis-row lis-value">{{item.rewardTypeTxt}}</div>
         </div>
+        <div class="lis-box">
+          <div class="lis-row lis-name">备注</div>
+          <span>:</span>
+          <div class="lis-row lis-value">{{item.remark ? item.remark :'暂无'}}</div>
+        </div>
       </div>
     </div>
   </div>
