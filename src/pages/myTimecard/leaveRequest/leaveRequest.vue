@@ -244,7 +244,8 @@ export default {
       title: '',
       showDateConp: false, // true 连选 false 多选
       dateArr: [],
-      getBranchData: {}
+      getBranchData: {},
+      minDate: new Date() // :min-date="minDate"
     }
   },
   methods: {
@@ -787,10 +788,21 @@ export default {
           break
       }
       console.log(this.serverUrl)
+    },
+    // 获取上月第一天
+    getFirstDay () {
+      const nowdays = new Date()
+      let year = nowdays.getFullYear()
+      let month = nowdays.getMonth()
+      if (month == 0) {
+        month = 12
+        year = year - 1
+      }
+      console.log(year + ',' + month + ',' + '01')
+      this.minDate = new Date(year, month, 1)
     }
   },
   mounted () {
-    console.log('huaxinshuini-6-6-6-')
     this.urlInit()
     this.itemData = this.$route.query.itemData || {}
     this.dataType = this.$route.query.flag || '0'
@@ -817,6 +829,7 @@ export default {
     }
     document.title = this.title
     this.leaveApplyDetail()
+    // this.getFirstDay()
     // console.log(this.$route.query.id)
     // console.log('this.jsonData.dataId====' + this.jsonData.dataId)
     // console.log('this.jsonData.formType----' + this.jsonData.formType)
