@@ -514,6 +514,14 @@ export default {
     },
     // 提交按钮
     async commitFun () {
+      if (!this.jsonData.reason) {
+        // 请假理由哦
+        this.$toast(
+          {
+            message: '请假理由不能为空'
+          })
+        return
+      }
       console.log(this.jsonData)
       // HttpEhr.getNextNode({
       //   dates: JSON.stringify(this.jsonData.dateList)
