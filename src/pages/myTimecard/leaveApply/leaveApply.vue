@@ -89,13 +89,16 @@
         </div>
       </div>
       <!-- 底部按钮 -->
-      <div class="footer-box">
-        <div class="btn edit-btn">
+      <div class="footer-box"
+           v-if="editFlag=='1' || removeFlag=='1'">
+        <div class="btn edit-btn"
+             v-show="editFlag!='2'">
           <span @click="editFun('1')"
                 class="btn xj-btn"
                 :class="{'forbid':editFlag=='2'}">修改</span>
         </div>
         <div class="btn xj-btn"
+             v-show="removeFlag!='2'"
              :class="{'forbid':removeFlag=='2'}">
           <span @click="editFun('2')">销假</span>
         </div>
