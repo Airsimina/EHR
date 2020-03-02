@@ -129,6 +129,7 @@
                   @confirm="confirmPicker" /> -->
     <van-calendar v-model="isPopShow"
                   :min-date="minDate"
+                  :max-date="maxDate"
                   type="range"
                   color="#79a2f9"
                   @cancel="cancelPicker"
@@ -246,7 +247,8 @@ export default {
       showDateConp: false, // true 连选 false 多选
       dateArr: [],
       getBranchData: {},
-      minDate: new Date() // :min-date="minDate"
+      minDate: new Date(), // :min-date="minDate"
+      maxDate: new Date(2100, 0, 1)
     }
   },
   methods: {
