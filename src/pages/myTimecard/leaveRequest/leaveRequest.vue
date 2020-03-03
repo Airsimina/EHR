@@ -580,7 +580,7 @@ export default {
         return
       }
 
-      if (this.jsonData.duration == 0) {
+      if (!parseInt(this.jsonData.duration)) {
         this.$toast(
           {
             message: '请选择请假日期'
