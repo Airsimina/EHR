@@ -15,6 +15,17 @@
               <div :class="{'icon-jt' :this.dataType!='2'}"></div>
             </div>
           </div>
+          <div class="lis"
+               v-if="jsonData.leaveTypeId=='8'">
+            <div class="lis-f">
+              <div class="div-name-1">亲属关系</div>
+            </div>
+            <div class="lis-r"
+                 @click="openKinsfolk">
+              <div class="div-val-1">{{kinsfolkTxt}}</div>
+              <div :class="{'icon-jt' :this.dataType!='2'}"></div>
+            </div>
+          </div>
           <div v-show="showDateConp"
                class="lis">
             <div class="lis-f">
@@ -146,6 +157,18 @@
                   @cancel="onCancel"
                   @confirm="onConfirm" />
     </van-popup>
+    <!-- 直系亲属关系 -->
+    <van-popup v-model="isKinsfolkShowType"
+               close-icon-position="top-left"
+               position="bottom"
+               :style="{ height: '40%' }">
+      <van-picker show-toolbar
+                  position="right"
+                  :columns="KinsfolkList"
+                  title="选择请假类型"
+                  @cancel="cancelKinsfolk"
+                  @confirm="okKinsfolk" />
+    </van-popup>
   </div>
 </template>
 
@@ -184,7 +207,7 @@ export default {
       loginUserName: '',
       jsonData: {
         leaveTypeId: '3', // 请假类型id
-        duration: '0', // 请假时长
+        duration: 0, // 请假时长
         reason: '', // 理由
         startTime: '', // 开始时间
         endTime: '', // 结束时间,
@@ -196,15 +219,16 @@ export default {
         ],
         saveType: '1', // 1新增提交 2、修改提交（待办提交全部传1
         formType: '1', // 1:新增 1:修改 2:销假
-        dateList: [] // 多选的日期
+        dateList: [], // 多选的日期
+        kinsfolkId: '' // 亲属关系id
       },
       dataType: '1', // 0:新增 1:修改 2:销假
       leaveTypetxt: '事假' || '请选择', // 请假类型文字
       popupTitle: '', // 时间选择title
       currentDate: new Date(),
       datePicker: 0, // 用于判断哪个选择器的显示与隐藏
-      isPopShow: false, // 弹出层隐藏与显示
-      isPopShowType: false,
+      isPopShow: false, // 日历 - 隐藏与显示
+      isPopShowType: false, // 请假类型 - 隐藏与显示
       // 请假类型1、年休2、病假3、事假4、工伤假5、婚假6、产假7、护理假8、丧假
       // 1 年休,3 事假,5 婚假,8 丧假 ----多选
       // 2 病假,4 工伤假,6 产假,7 护理假 ----连选
@@ -248,7 +272,27 @@ export default {
       dateArr: [],
       getBranchData: {},
       minDate: new Date(), // :min-date="minDate"
-      maxDate: new Date(2100, 0, 1)
+      maxDate: new Date(2100, 0, 1),
+      isKinsfolkShowType: false, // 亲属关系 - 隐藏与显示
+      KinsfolkList: [
+        {
+          id: '1',
+          text: '父母'
+        },
+        {
+          id: '2',
+          text: '配偶父母'
+        },
+        {
+          id: '3',
+          text: '配偶'
+        },
+        {
+          id: '4',
+          text: '子女'
+        }
+      ],
+      kinsfolkTxt: '请选择'
     }
   },
   methods: {
@@ -488,7 +532,8 @@ export default {
           note: this.jsonData.reason,
           id: this.jsonData.dataId,
           saveType: this.jsonData.saveType,
-          dates: JSON.stringify(this.jsonData.dateList)
+          dates: JSON.stringify(this.jsonData.dateList),
+          relativeType: this.jsonData.kinsfolkId
         }).then(res => {
           resolve(res)
         })
@@ -508,7 +553,8 @@ export default {
           url: JSON.stringify(this.jsonData.fileViewLists),
           // id: this.jsonData.dataId,
           saveType: this.jsonData.saveType,
-          dates: JSON.stringify(this.jsonData.dateList)
+          dates: JSON.stringify(this.jsonData.dateList),
+          relativeType: this.jsonData.kinsfolkId
         }).then(res => {
           resolve(res)
         })
@@ -516,11 +562,28 @@ export default {
     },
     // 提交按钮
     async commitFun () {
+      console.log(this.jsonData.duration, typeof this.jsonData.duration)
+
       if (!this.jsonData.reason) {
         // 请假理由哦
         this.$toast(
           {
             message: '请假理由不能为空'
+          })
+        return
+      }
+      if (this.jsonData.leaveTypeId == '8' && !this.jsonData.kinsfolkId) {
+        this.$toast(
+          {
+            message: '请假理由不能为空'
+          })
+        return
+      }
+
+      if (this.jsonData.duration == 0) {
+        this.$toast(
+          {
+            message: '请选择请假日期'
           })
         return
       }
@@ -747,6 +810,21 @@ export default {
     // 关闭请假类型下拉选
     onCancel () {
       this.isPopShowType = false
+    },
+    // 打开亲属关系下拉选
+    openKinsfolk () {
+      if (this.dataType == '2') return
+      this.isKinsfolkShowType = true
+    },
+    // 确定亲属类型
+    okKinsfolk (item) {
+      this.kinsfolkTxt = item.text
+      this.jsonData.kinsfolkId = item.id
+      this.isKinsfolkShowType = false
+    },
+    // 打开亲属关系下拉选
+    cancelKinsfolk () {
+      this.isKinsfolkShowType = false
     },
     // 计算时间开始,结束日期差
     DateMinus (start, end) {
