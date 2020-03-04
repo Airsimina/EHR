@@ -55,8 +55,9 @@ export default {
           this.userNumber = ''
           this.title = ''
         } else {
-          this.userNumber = this.util.filtData(res.data, '01')[0].dataList[0].id || '111'
-          this.title = this.util.filtData(res.data, '01')[0].dataList[0].name || '111'
+          const newStr = this.util.filtData(res.data, '01')[0].dataList[0].id || '暂无'
+          this.userNumber = newStr.substr(1, newStr.length - 1)
+          this.title = this.util.filtData(res.data, '01')[0].dataList[0].name || '暂无'
         }
       })
     }
