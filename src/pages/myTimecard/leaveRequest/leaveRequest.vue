@@ -892,9 +892,42 @@ export default {
       }
       console.log(year + ',' + month + ',' + '1')
       this.minDate = new Date(year, month - 1, 1)
+    },
+    // 判断日期是否连选
+    runningDays (arr_days) {
+      // const arr_days = [
+      //   '2018-02-28 10:00:00',
+      //   '2018-02-29 10:00:01', // 闰月
+      //   '2018-03-01 10:00:02', // 跨月
+      //   '2018-03-02 10:00:03'
+      // ]
+      // 先排序，再转时间戳
+      const days = arr_days.sort().map((d, i) => {
+        const dt = new Date(d)
+        dt.setDate(dt.getDate() + 4 - i) // 处理为相同日期
+
+        // 去除时、分、秒、毫秒
+        dt.setHours(0)
+        dt.setMinutes(0)
+        dt.setSeconds(0)
+        dt.setMilliseconds(0)
+
+        return +dt
+      })
+
+      let ret = true
+
+      days.forEach(d => {
+        if (days[0] !== d) {
+          ret = false
+        }
+      })
+
+      return ret
     }
   },
   mounted () {
+    console.log(this.runningDays())
     this.urlInit()
     this.itemData = this.$route.query.itemData || {}
     this.dataType = this.$route.query.flag || '0'
