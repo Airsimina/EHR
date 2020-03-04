@@ -433,8 +433,8 @@ export default {
           })
         }
       }
-      params.departmentType = this.flowData.currentPerson.departmentType
-      params.departmentBizType = this.flowData.currentPerson.departmentBizType
+      params.departmentType = this.formData.departmentType
+      params.departmentBizType = this.formData.departmentBizType
 
       return params
     },
