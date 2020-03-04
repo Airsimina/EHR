@@ -927,7 +927,7 @@ export default {
     }
   },
   mounted () {
-    console.log(this.runningDays())
+    // console.log(this.runningDays())
     this.urlInit()
     this.itemData = this.$route.query.itemData || {}
     this.dataType = this.$route.query.flag || '0'
@@ -954,6 +954,8 @@ export default {
     }
     document.title = this.title
     this.leaveApplyDetail()
+    console.log('111')
+
     this.getFirstDay()
     // console.log(this.$route.query.id)
     // console.log('this.jsonData.dataId====' + this.jsonData.dataId)
