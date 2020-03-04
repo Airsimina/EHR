@@ -32,6 +32,11 @@
               <span class="name">请假时长 :</span>
               <span class="val">{{item.sum}}/天</span>
             </div>
+            <div class="sublis"
+                 v-if="false">
+              <span class="name">请假日期 :</span>
+              <span class="val">{{item.dates}}</span>
+            </div>
           </div>
           <!-- 1 同意 2 审核中 3 驳回 -->
           <div class="title-status"

@@ -23,14 +23,16 @@
               <span>{{endTime}}</span>
             </div>
           </div>
-          <!-- <div class="lis">
+          <div class="lis"
+               v-if="dates.length>0">
             <div class="lis-f">
-              <div class="div-name-1">请假具体日期</div>
+              <div class="div-name-1">请假日期</div>
             </div>
             <div class="lis-r">
-              <span>{{dates}}</span>
+              <!-- <span>{{JSON.stringify(dates)}}</span> -->
+              <span>{{dates.toString()}}</span>
             </div>
-          </div> -->
+          </div>
           <div class="lis">
             <div class="lis-f">
               <div class="div-name-1">请假时长</div>
@@ -133,7 +135,7 @@ export default {
       dataId: '', // 数据id
       dataType: '', // 1:请假 2:销假
       itemData: {},
-      dates: ''
+      dates: []
     }
   },
   methods: {
@@ -175,7 +177,7 @@ export default {
         this.endTime = this.itemData.endDate
         this.numDay = this.itemData.sum
         this.reason = this.itemData.note
-        this.dates = JSON.stringify(this.itemData.datas)
+        this.dates = JSON.parse(this.itemData.dates).length > 0 ? JSON.parse(this.itemData.dates) : []
         this.imgList = JSON.parse(this.itemData.url)
         this.editFlag = this.itemData.editFlag
         this.removeFlag = this.itemData.removeFlag
