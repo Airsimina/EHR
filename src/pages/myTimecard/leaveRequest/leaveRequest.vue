@@ -445,9 +445,10 @@ export default {
           })
         }
       }
-      params.departmentType = this.formData.departmentType
-      params.departmentBizType = this.formData.departmentBizType
-
+      params['departmentType'] = this.formData.departmentType
+      params['departmentBizType'] = this.formData.departmentBizType
+      // params.departmentType = this.formData.departmentType
+      // params.departmentBizType = this.formData.departmentBizType
       return params
     },
     parseBizData () {
