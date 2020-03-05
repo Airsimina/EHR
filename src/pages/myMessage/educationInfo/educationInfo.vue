@@ -10,7 +10,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">起止时间</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.beginDate}} - {{item.endDate}}</div>
+          <div class="lis-row lis-value">{{item.beginDate}} ~ {{item.endDate}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">教育类型</div>
@@ -28,7 +28,7 @@
           <div class="lis-row lis-value">{{item.eduSubTypeTxt}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">机构/地点</div>
+          <div class="lis-row lis-name">学校</div>
           <span>:</span>
           <div class="lis-row lis-value">{{item.schoolName}}</div>
         </div>
