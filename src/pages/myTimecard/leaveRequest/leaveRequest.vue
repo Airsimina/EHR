@@ -26,7 +26,29 @@
               <div :class="{'icon-jt' :this.dataType!='2'}"></div>
             </div>
           </div>
-          <div v-show="showDateConp"
+          <div class="lis"
+               v-show="showDateConp">
+            <div class="lis-f">
+              <div class="div-name-1">开始时间</div>
+            </div>
+            <div class="lis-r"
+                 @click="showDatePicker(0)">
+              <div class="div-val-1">{{jsonData.startTime}}</div>
+              <div class="icon-jt"></div>
+            </div>
+          </div>
+          <div class="lis"
+               v-show="showDateConp">
+            <div class="lis-f">
+              <div class="div-name-1">结束时间</div>
+            </div>
+            <div class="lis-r"
+                 @click="showDatePicker(1)">
+              <div class="div-val-1">{{jsonData.endTime}}</div>
+              <div class="icon-jt"></div>
+            </div>
+          </div>
+          <!-- <div v-show="showDateConp"
                class="lis">
             <div class="lis-f">
               <div class="div-name-1">请假日期</div>
@@ -37,13 +59,10 @@
                 {{jsonData.startTime}}
                 至
                 {{jsonData.endTime}}
-                <!-- {{jsonData.startTime}}
-                <span v-show="jsonData.startTime">至</sapn>
-                  {{jsonData.endTime}} -->
               </div>
               <div class="icon-jt"></div>
             </div>
-          </div>
+          </div> -->
           <div v-show="!showDateConp"
                class="lis">
             <div class="lis-f">
@@ -120,31 +139,24 @@
     <div class="commit-btn"
          @click="commitFun">提交</div>
     <!-- 开始 结束时间 -->
-    <!-- <van-popup v-model="isPopShow"
+    <van-popup v-model="isPopShow"
                close-icon-position="top-left"
                position="bottom"
-               :style="{ height: '40%' }"> -->
-    <!-- <van-datetime-picker v-model="currentDate"
+               :style="{ height: '40%' }">
+      <van-datetime-picker v-model="currentDate"
                            @cancel="cancelPicker"
                            @confirm="confirmPicker"
                            type="date"
                            :title="popupTitle"
-                           :formatter="formatter" /> -->
-    <!-- </van-popup> -->
-    <!-- type="range" -->
+                           :formatter="formatter" />
+    </van-popup>
     <!-- <van-calendar v-model="isPopShow"
-                  type="range"
-                  color="#79a2f9"
-                  @cancel="cancelPicker"
-                  :title="popupTitle"
-                  @confirm="confirmPicker" /> -->
-    <van-calendar v-model="isPopShow"
                   :min-date="minDate"
                   :max-date="maxDate"
                   type="range"
                   color="#79a2f9"
                   @cancel="cancelPicker"
-                  @confirm="confirmPicker" />
+                  @confirm="confirmPicker" /> -->
     <!-- 类型 -->
     <van-popup v-model="isPopShowType"
                close-icon-position="top-left"
@@ -209,8 +221,8 @@ export default {
         leaveTypeId: '3', // 请假类型id
         duration: 0, // 请假时长
         reason: '', // 理由
-        startTime: '', // 开始时间
-        endTime: '', // 结束时间,
+        startTime: '' || '请选择', // 开始时间
+        endTime: '' || '请选择', // 结束时间,
         dataId: '', // 原请假id  修改 , 销假用
         editType: '', // 默认空,修改:2
         // 图片集合
@@ -739,8 +751,27 @@ export default {
         console.log(this.jsonData)
       }
     },
-    // 连选--确定日期选择，时间格式化并显示在页面上
+    // 确定日期选择，时间格式化并显示在页面上
     confirmPicker (value) {
+      const date = value
+      const y = date.getFullYear()
+      let m = date.getMonth() + 1
+      let d = date.getDate()
+      m = m < 10 ? '0' + m : m
+      d = d < 10 ? '0' + d : d
+      const newTime = `${y}-${m}-${d}`
+      if (this.datePicker) {
+        this.jsonData.endTime = newTime
+      } else {
+        this.jsonData.startTime = newTime
+      }
+      this.isPopShow = false
+      // if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1' || this.jsonData.leaveTypeId != '5' && this.jsonData.leaveTypeId != '8') {
+      this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
+      // }
+    },
+    // 连选--确定日期选择，时间格式化并显示在页面上  -- 连选组件用的
+    confirmPicker_2 (value) {
       const [start, end] = value
       this.jsonData.startTime = this.formatDate(start)
       this.jsonData.endTime = this.formatDate(end)
@@ -805,10 +836,13 @@ export default {
       this.jsonData.leaveTypeId = item.id
       this.isPopShowType = false
       this.showDateConpFun()
-      // return
-      // if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1' && this.jsonData.leaveTypeId != '5') {
-      //   this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
-      // }
+      this.jsonData.duration = 0
+      this.jsonData.dateList = []
+      this.dateArr = []
+      if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1' && this.jsonData.leaveTypeId != '5') {
+        this.jsonData.startTime = '请选择'
+        this.jsonData.endTime = '请选择'
+      }
     },
     // 关闭请假类型下拉选
     onCancel () {
@@ -831,10 +865,14 @@ export default {
     },
     // 计算时间开始,结束日期差
     DateMinus (start, end) {
-      var sdate = new Date(start)
-      var now = new Date(end)
-      var days = now.getTime() - sdate.getTime()
-      var day = parseInt(days / (1000 * 60 * 60 * 24))
+      const newstart = new Date(start)
+      const now = new Date(end)
+      const days = now.getTime() - newstart.getTime()
+      const day = parseInt(days / (1000 * 60 * 60 * 24))
+      console.log(isNaN(day))
+      if (isNaN(day)) {
+        return 0
+      }
       if (day < 0) {
         this.$toast('开始日期不能大于结束时间')
         return
