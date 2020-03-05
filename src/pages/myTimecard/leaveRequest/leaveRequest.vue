@@ -445,8 +445,13 @@ export default {
           })
         }
       }
-      params['departmentType'] = this.formData.departmentType
-      params['departmentBizType'] = this.formData.departmentBizType
+      console.log('this.formData----------------')
+      console.log(this.flowData)
+
+      params.departmentType = this.flowData.currentPerson.departmentType
+      params.departmentBizType = this.flowData.currentPerson.departmentBizType
+      console.log(params)
+
       // params.departmentType = this.formData.departmentType
       // params.departmentBizType = this.formData.departmentBizType
       return params
