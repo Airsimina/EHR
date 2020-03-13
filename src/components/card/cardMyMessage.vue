@@ -9,7 +9,7 @@
         </div>
         <div class="card-lis"
              v-if="numberData">
-          <div class="card-row card-name">单据编号:</div>
+          <div class="card-row card-name">表单编号:</div>
           <div class="card-row card-value">{{numberData}}</div>
         </div>
       </div>
