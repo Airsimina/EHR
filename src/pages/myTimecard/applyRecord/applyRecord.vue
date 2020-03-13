@@ -33,9 +33,9 @@
               <span class="val">{{item.sum}}/天</span>
             </div>
             <div class="sublis"
-                 v-if="false">
+                 v-if="JSON.parse(item.dates).length>0">
               <span class="name">请假日期 :</span>
-              <span class="val">{{item.dates}}</span>
+              <span class="val">{{JSON.parse(item.dates).toString()}}</span>
             </div>
           </div>
           <!-- 1 同意 2 审核中 3 驳回 -->
