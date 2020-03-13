@@ -4,7 +4,8 @@
     <div class="wrap-1">
       <cardMyMessage :title="title"
                      :keyName="keyName"
-                     :userNumber="userNumber"></cardMyMessage>
+                     :userNumber="userNumber"
+                     :numberData="numberData"></cardMyMessage>
       <div class="cantainer">
         <div class="box">
           <div class="lis">
@@ -124,6 +125,7 @@ export default {
       userNumber: '',
       title: '',
       keyName: '请假类型',
+      numberData: '',
       flowHiComments: [], // 流程
       imgList: [], // 图片集合
       startTime: '',
@@ -172,6 +174,7 @@ export default {
       }).then(res => {
         this.flowHiComments = res.data.flowData.flowMobileHiComments
         this.itemData = res.data.formData
+        this.numberData = this.itemData.numberData
         this.dataType = this.itemData.dataType
         this.startTime = this.itemData.startDate
         this.endTime = this.itemData.endDate
