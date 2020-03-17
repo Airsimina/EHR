@@ -82,6 +82,17 @@
               <!-- <div class="icon-jt"></div> -->
             </div>
           </div>
+          <div class="lis"
+               v-if="jsonData.leaveTypeId=='6' || jsonData.leaveTypeId=='7'">
+            <div class="lis-f">
+              <div class="div-name-1"> 请选择省份</div>
+            </div>
+            <div class="lis-r"
+                 @click="openAreaShow">
+              <div class="div-val-1">{{jsonData.areaNameTxt}}</div>
+              <div :class="{'icon-jt' :this.dataType!='2'}"></div>
+            </div>
+          </div>
           <div class="lis">
             <div class="lis-f">
               <div class="div-name-1">{{this.dataType=='2'?'销假时长' : '请假时长'}}</div>
@@ -133,6 +144,7 @@
                      placeholder="请输入请假事由"
                      v-model="jsonData.reason"></div>
           </div>
+          <!-- <van-cell v-model="carmodel" title="省/市/区" value="" @click="show = true"></van-cell> -->
         </div>
       </div>
     </div>
@@ -181,6 +193,23 @@
                   @cancel="cancelKinsfolk"
                   @confirm="okKinsfolk" />
     </van-popup>
+    <!-- 省市区 -->
+    <van-popup v-model="showArea"
+               position="bottom">
+      <!-- <van-area :area-list="areaList"
+                :columns-num="1"
+                @change="onChange"
+                @confirm="AreaConfirm"
+                @cancel="showArea = false"
+                :value="provId" /> -->
+      <van-picker :columns="areaList"
+                  show-toolbar
+                  title=""
+                  :default-index='defaultIndex'
+                  @cancel="showArea = false"
+                  @confirm="AreaConfirm" />
+    </van-popup>
+
   </div>
 </template>
 
@@ -192,6 +221,9 @@ import { ImagePreview } from 'vant'
 export default {
   data () {
     return {
+      showArea: false,
+      areaList: [],
+      defaultIndex: 2, // 默认选中下标
       // --------------------
       nextNodeData: [],
       cacheFlowVar: {}, // 缓存流程变量
@@ -232,7 +264,9 @@ export default {
         saveType: '1', // 1新增提交 2、修改提交（待办提交全部传1
         formType: '1', // 1:新增 1:修改 2:销假
         dateList: [], // 多选的日期
-        kinsfolkId: '' // 亲属关系id
+        kinsfolkId: '', // 亲属关系id
+        areaNameTxt: '' || '请选择省份',
+        provId: '' // 省id
       },
       dataType: '1', // 0:新增 1:修改 2:销假
       leaveTypetxt: '事假' || '请选择', // 请假类型文字
@@ -308,6 +342,7 @@ export default {
     }
   },
   methods: {
+
     // --------------------------公用数据解析处理---------------------------
     // 初始化表单流程数据
     load () {
@@ -554,7 +589,9 @@ export default {
           id: this.jsonData.dataId,
           saveType: this.jsonData.saveType,
           dates: JSON.stringify(this.jsonData.dateList),
-          relativeType: this.jsonData.kinsfolkId
+          relativeType: this.jsonData.kinsfolkId,
+          cityName: this.jsonData.areaNameTxt,
+          cityValue: this.jsonData.provId
         }).then(res => {
           resolve(res)
         })
@@ -575,7 +612,9 @@ export default {
           // id: this.jsonData.dataId,
           saveType: this.jsonData.saveType,
           dates: JSON.stringify(this.jsonData.dateList),
-          relativeType: this.jsonData.kinsfolkId
+          relativeType: this.jsonData.kinsfolkId,
+          cityName: this.jsonData.areaNameTxt,
+          cityValue: this.jsonData.provId
         }).then(res => {
           resolve(res)
         })
@@ -892,6 +931,8 @@ export default {
       this.jsonData.duration = this.itemData.sum // 时长
       this.jsonData.reason = this.itemData.note // 理由
       this.jsonData.leaveTypeId = this.itemData.type // 请假类型
+      this.jsonData.areaNameTxt = this.itemData.cityName // 省名称
+      this.jsonData.provId = this.itemData.cityValue // 省id
       this.jsonData.fileViewLists = JSON.parse(this.itemData.url)
       const newObj = this.columns.find((item) => { return item.id == this.itemData.type })
       this.leaveTypetxt = newObj.text // 请假类型
@@ -968,7 +1009,35 @@ export default {
       })
 
       return ret
+    },
+    // 打开省份下拉选
+    openAreaShow () {
+      this.showArea = !this.showArea
+    },
+    // 确定省份
+    AreaConfirm (el) {
+      this.showArea = !this.showArea
+      // let areaName = ''
+      // for (var i = 0; i < value.length; i++) {
+      //   areaName = areaName + value[i].name + ' '
+      // }
+      this.jsonData.areaNameTxt = el.text
+      this.jsonData.provId = el.value
+    },
+    // 获取省份列表
+    getProvList () {
+      HttpEhr.getProvList({
+        type: 'md-sap-zone'
+      }).then(res => {
+        this.areaList = res.data
+        if (this.provId) {
+          this.defaultIndex = this.areaList.findIndex(fruit => fruit.value == this.provId)
+        }
+      })
     }
+    // getIndex () {
+    //   const index = this.areaList.findIndex(fruit => fruit.value === '060')
+    // }
   },
   mounted () {
     // console.log(this.runningDays())
@@ -997,10 +1066,10 @@ export default {
       this.setVal()
     }
     document.title = this.title
+    this.getProvList()
     this.leaveApplyDetail()
-    console.log('111')
-
     this.getFirstDay()
+
     // console.log(this.$route.query.id)
     // console.log('this.jsonData.dataId====' + this.jsonData.dataId)
     // console.log('this.jsonData.formType----' + this.jsonData.formType)

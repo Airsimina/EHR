@@ -34,6 +34,15 @@
               <span>{{dates.toString()}}</span>
             </div>
           </div>
+          <div class="lis"
+               v-if="cityName">
+            <div class="lis-f">
+              <div class="div-name-1">省份</div>
+            </div>
+            <div class="lis-r">
+              <span>{{cityName}}</span>
+            </div>
+          </div>
           <div class="lis">
             <div class="lis-f">
               <div class="div-name-1">请假时长</div>
@@ -122,6 +131,7 @@ export default {
   props: {},
   data () {
     return {
+
       userNumber: '',
       title: '',
       keyName: '请假类型',
@@ -137,7 +147,9 @@ export default {
       dataId: '', // 数据id
       dataType: '', // 1:请假 2:销假
       itemData: {},
-      dates: []
+      dates: [],
+      cityName: '',
+      cityValue: ''
     }
   },
   methods: {
@@ -184,6 +196,8 @@ export default {
         this.imgList = JSON.parse(this.itemData.url)
         this.editFlag = this.itemData.editFlag
         this.removeFlag = this.itemData.removeFlag
+        this.cityName = this.itemData.cityName
+        this.cityValue = this.itemData.cityValue
       })
     },
     // 图片预览
