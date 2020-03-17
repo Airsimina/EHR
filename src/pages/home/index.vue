@@ -155,9 +155,9 @@ export default {
       } else {
         // this.userId = '00049904'
 
-        this.userId = '80001247' // wangdan
+        // this.userId = '80001247' // wangdan
 
-        // this.userId = '00000345'
+        this.userId = '00000345'
       }
       this.util.setSession('sessionData', { userId: this.userId })
       await this.annualResidue().then(res => {
