@@ -66,7 +66,7 @@
           <div v-show="!showDateConp"
                class="lis">
             <div class="lis-f">
-              <div class="div-name-1">请假日期</div>
+              <div class="div-name-1">{{this.dataType=='2'?'销假日期' : '请假日期'}}</div>
             </div>
             <div class="lis-r el-picker">
               <el-date-picker ref="datesRef"
