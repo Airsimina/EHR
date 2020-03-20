@@ -196,7 +196,7 @@ export default {
         this.imgList = JSON.parse(this.itemData.url)
         this.editFlag = this.itemData.editFlag
         this.removeFlag = this.itemData.removeFlag
-        this.cityName = this.itemData.cityName
+        this.cityName = this.itemData.cityName == '请选择省份' ? '' : this.itemData.cityName
         this.cityValue = this.itemData.cityValue
       })
     },
