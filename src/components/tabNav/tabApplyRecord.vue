@@ -198,8 +198,10 @@ export default {
       this.datePicker = picker
       if (this.datePicker) {
         this.popupTitle = '选择结束日期'
+        this.currentDate = new Date(this.endTimeVal)
       } else {
         this.popupTitle = '选择开始日期'
+        this.currentDate = new Date(this.startTimeVal)
       }
     },
     // 选择器取消按钮点击事件
@@ -238,10 +240,10 @@ export default {
     },
     // 默认时间
     initTime () {
-      this.endTime = this.util.setDefaultTime(1)
-      this.startTime = this.util.setDefaultTime(1)
-      this.startTimeVal = this.util.setDefaultTime(2)
-      this.endTimeVal = this.util.setDefaultTime(2)
+      this.endTime = this.util.setDefaultTime(1, 'add')
+      this.startTime = this.util.setDefaultTime(1, 'minus')
+      this.startTimeVal = this.util.setDefaultTime(2, 'minus')
+      this.endTimeVal = this.util.setDefaultTime(2, 'add')
     }
   },
   mounted () {

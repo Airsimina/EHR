@@ -89,9 +89,15 @@ export default {
         return arr.filter(item => item.afType === id)
     },
     // 时间格式化 默认时间
-    setDefaultTime (type) {
+    setDefaultTime (type, flagStr = '') {
         const date = new Date()
-        var y = date.getFullYear()
+        var y
+        if (flagStr == 'add') {
+            y = date.getFullYear() + 1
+        } else if (flagStr == 'minus') {
+            y = date.getFullYear() - 1
+        }
+        // var y = date.getFullYear()
         var m = date.getMonth() + 1
         m = m < 10 ? '0' + m : m
         if (type == 1) {

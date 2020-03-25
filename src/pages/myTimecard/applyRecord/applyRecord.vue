@@ -141,8 +141,8 @@ export default {
     },
     // 默认时间
     initTime () {
-      this.jsonData.endTime = this.util.setDefaultTime(2)
-      this.jsonData.startTime = this.util.setDefaultTime(2)
+      this.jsonData.endTime = this.util.setDefaultTime(2, 'add')
+      this.jsonData.startTime = this.util.setDefaultTime(2, 'minus')
     },
     // 获取状态文本
     getStatusTxt (type) {
