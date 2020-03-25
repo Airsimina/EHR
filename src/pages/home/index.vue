@@ -110,7 +110,7 @@ export default {
     }
   },
   mounted () {
-    console.log('0325更新')
+    console.log('0325更新完成')
     this.init()
     document.title = '首页'
   },
