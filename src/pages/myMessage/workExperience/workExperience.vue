@@ -10,7 +10,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">起止时间</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.beginDate}} - {{item.endDate}}</div>
+          <div class="lis-row lis-value">{{item.beginDate}} ~ {{item.endDate}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">公司</div>

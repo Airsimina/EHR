@@ -15,7 +15,40 @@
               <div :class="{'icon-jt' :this.dataType!='2'}"></div>
             </div>
           </div>
-          <div v-show="showDateConp"
+          <div class="lis"
+               v-if="jsonData.leaveTypeId=='8'">
+            <div class="lis-f">
+              <div class="div-name-1">亲属关系</div>
+            </div>
+            <div class="lis-r"
+                 @click="openKinsfolk">
+              <div class="div-val-1">{{kinsfolkTxt}}</div>
+              <div :class="{'icon-jt' :this.dataType!='2'}"></div>
+            </div>
+          </div>
+          <div class="lis"
+               v-show="showDateConp">
+            <div class="lis-f">
+              <div class="div-name-1">开始时间</div>
+            </div>
+            <div class="lis-r"
+                 @click="showDatePicker(0)">
+              <div class="div-val-1">{{jsonData.startTime}}</div>
+              <div class="icon-jt"></div>
+            </div>
+          </div>
+          <div class="lis"
+               v-show="showDateConp">
+            <div class="lis-f">
+              <div class="div-name-1">结束时间</div>
+            </div>
+            <div class="lis-r"
+                 @click="showDatePicker(1)">
+              <div class="div-val-1">{{jsonData.endTime}}</div>
+              <div class="icon-jt"></div>
+            </div>
+          </div>
+          <!-- <div v-show="showDateConp"
                class="lis">
             <div class="lis-f">
               <div class="div-name-1">请假日期</div>
@@ -26,17 +59,14 @@
                 {{jsonData.startTime}}
                 至
                 {{jsonData.endTime}}
-                <!-- {{jsonData.startTime}}
-                <span v-show="jsonData.startTime">至</sapn>
-                  {{jsonData.endTime}} -->
               </div>
               <div class="icon-jt"></div>
             </div>
-          </div>
+          </div> -->
           <div v-show="!showDateConp"
                class="lis">
             <div class="lis-f">
-              <div class="div-name-1">请假日期</div>
+              <div class="div-name-1">{{this.dataType=='2'?'销假日期' : '请假日期'}}</div>
             </div>
             <div class="lis-r el-picker">
               <el-date-picker ref="datesRef"
@@ -50,6 +80,17 @@
                               placeholder="选择一个或多个日期">
               </el-date-picker>
               <!-- <div class="icon-jt"></div> -->
+            </div>
+          </div>
+          <div class="lis"
+               v-if="jsonData.leaveTypeId=='6' || jsonData.leaveTypeId=='7'">
+            <div class="lis-f">
+              <div class="div-name-1"> 请选择省份</div>
+            </div>
+            <div class="lis-r"
+                 @click="openAreaShow">
+              <div class="div-val-1">{{jsonData.areaNameTxt}}</div>
+              <div :class="{'icon-jt' :this.dataType!='2'}"></div>
             </div>
           </div>
           <div class="lis">
@@ -103,36 +144,31 @@
                      placeholder="请输入请假事由"
                      v-model="jsonData.reason"></div>
           </div>
+          <!-- <van-cell v-model="carmodel" title="省/市/区" value="" @click="show = true"></van-cell> -->
         </div>
       </div>
     </div>
     <div class="commit-btn"
          @click="commitFun">提交</div>
     <!-- 开始 结束时间 -->
-    <!-- <van-popup v-model="isPopShow"
+    <van-popup v-model="isPopShow"
                close-icon-position="top-left"
                position="bottom"
-               :style="{ height: '40%' }"> -->
-    <!-- <van-datetime-picker v-model="currentDate"
+               :style="{ height: '40%' }">
+      <van-datetime-picker v-model="currentDate"
                            @cancel="cancelPicker"
                            @confirm="confirmPicker"
                            type="date"
                            :title="popupTitle"
-                           :formatter="formatter" /> -->
-    <!-- </van-popup> -->
-    <!-- type="range" -->
+                           :formatter="formatter" />
+    </van-popup>
     <!-- <van-calendar v-model="isPopShow"
-                  type="range"
-                  color="#79a2f9"
-                  @cancel="cancelPicker"
-                  :title="popupTitle"
-                  @confirm="confirmPicker" /> -->
-    <van-calendar v-model="isPopShow"
                   :min-date="minDate"
+                  :max-date="maxDate"
                   type="range"
                   color="#79a2f9"
                   @cancel="cancelPicker"
-                  @confirm="confirmPicker" />
+                  @confirm="confirmPicker" /> -->
     <!-- 类型 -->
     <van-popup v-model="isPopShowType"
                close-icon-position="top-left"
@@ -145,6 +181,35 @@
                   @cancel="onCancel"
                   @confirm="onConfirm" />
     </van-popup>
+    <!-- 直系亲属关系 -->
+    <van-popup v-model="isKinsfolkShowType"
+               close-icon-position="top-left"
+               position="bottom"
+               :style="{ height: '40%' }">
+      <van-picker show-toolbar
+                  position="right"
+                  :columns="KinsfolkList"
+                  title="选择请假类型"
+                  @cancel="cancelKinsfolk"
+                  @confirm="okKinsfolk" />
+    </van-popup>
+    <!-- 省市区 -->
+    <van-popup v-model="showArea"
+               position="bottom">
+      <!-- <van-area :area-list="areaList"
+                :columns-num="1"
+                @change="onChange"
+                @confirm="AreaConfirm"
+                @cancel="showArea = false"
+                :value="provId" /> -->
+      <van-picker :columns="areaList"
+                  show-toolbar
+                  title=""
+                  :default-index='defaultIndex'
+                  @cancel="showArea = false"
+                  @confirm="AreaConfirm" />
+    </van-popup>
+
   </div>
 </template>
 
@@ -156,6 +221,9 @@ import { ImagePreview } from 'vant'
 export default {
   data () {
     return {
+      showArea: false,
+      areaList: [],
+      defaultIndex: 2, // 默认选中下标
       // --------------------
       nextNodeData: [],
       cacheFlowVar: {}, // 缓存流程变量
@@ -183,10 +251,10 @@ export default {
       loginUserName: '',
       jsonData: {
         leaveTypeId: '3', // 请假类型id
-        duration: '0', // 请假时长
+        duration: 0, // 请假时长
         reason: '', // 理由
-        startTime: '', // 开始时间
-        endTime: '', // 结束时间,
+        startTime: '' || '请选择', // 开始时间
+        endTime: '' || '请选择', // 结束时间,
         dataId: '', // 原请假id  修改 , 销假用
         editType: '', // 默认空,修改:2
         // 图片集合
@@ -195,15 +263,18 @@ export default {
         ],
         saveType: '1', // 1新增提交 2、修改提交（待办提交全部传1
         formType: '1', // 1:新增 1:修改 2:销假
-        dateList: [] // 多选的日期
+        dateList: [], // 多选的日期
+        kinsfolkId: '', // 亲属关系id
+        areaNameTxt: '' || '请选择省份',
+        provId: '' // 省id
       },
       dataType: '1', // 0:新增 1:修改 2:销假
       leaveTypetxt: '事假' || '请选择', // 请假类型文字
       popupTitle: '', // 时间选择title
       currentDate: new Date(),
       datePicker: 0, // 用于判断哪个选择器的显示与隐藏
-      isPopShow: false, // 弹出层隐藏与显示
-      isPopShowType: false,
+      isPopShow: false, // 日历 - 隐藏与显示
+      isPopShowType: false, // 请假类型 - 隐藏与显示
       // 请假类型1、年休2、病假3、事假4、工伤假5、婚假6、产假7、护理假8、丧假
       // 1 年休,3 事假,5 婚假,8 丧假 ----多选
       // 2 病假,4 工伤假,6 产假,7 护理假 ----连选
@@ -246,10 +317,32 @@ export default {
       showDateConp: false, // true 连选 false 多选
       dateArr: [],
       getBranchData: {},
-      minDate: new Date() // :min-date="minDate"
+      minDate: new Date(), // :min-date="minDate"
+      maxDate: new Date(2100, 0, 1),
+      isKinsfolkShowType: false, // 亲属关系 - 隐藏与显示
+      KinsfolkList: [
+        {
+          id: '1',
+          text: '父母'
+        },
+        {
+          id: '2',
+          text: '配偶父母'
+        },
+        {
+          id: '3',
+          text: '配偶'
+        },
+        {
+          id: '4',
+          text: '子女'
+        }
+      ],
+      kinsfolkTxt: '请选择'
     }
   },
   methods: {
+
     // --------------------------公用数据解析处理---------------------------
     // 初始化表单流程数据
     load () {
@@ -387,6 +480,15 @@ export default {
           })
         }
       }
+      console.log('this.formData----------------')
+      console.log(this.flowData)
+
+      params.departmentType = this.flowData.currentPerson.departmentType
+      params.departmentBizType = this.flowData.currentPerson.departmentBizType
+      console.log(params)
+
+      // params.departmentType = this.formData.departmentType
+      // params.departmentBizType = this.formData.departmentBizType
       return params
     },
     parseBizData () {
@@ -486,7 +588,10 @@ export default {
           note: this.jsonData.reason,
           id: this.jsonData.dataId,
           saveType: this.jsonData.saveType,
-          dates: JSON.stringify(this.jsonData.dateList)
+          dates: JSON.stringify(this.jsonData.dateList),
+          relativeType: this.jsonData.kinsfolkId,
+          cityName: this.jsonData.areaNameTxt,
+          cityValue: this.jsonData.provId
         }).then(res => {
           resolve(res)
         })
@@ -506,7 +611,10 @@ export default {
           url: JSON.stringify(this.jsonData.fileViewLists),
           // id: this.jsonData.dataId,
           saveType: this.jsonData.saveType,
-          dates: JSON.stringify(this.jsonData.dateList)
+          dates: JSON.stringify(this.jsonData.dateList),
+          relativeType: this.jsonData.kinsfolkId,
+          cityName: this.jsonData.areaNameTxt,
+          cityValue: this.jsonData.provId
         }).then(res => {
           resolve(res)
         })
@@ -514,6 +622,31 @@ export default {
     },
     // 提交按钮
     async commitFun () {
+      console.log(this.jsonData.duration, typeof this.jsonData.duration)
+
+      if (!this.jsonData.reason) {
+        // 请假理由哦
+        this.$toast(
+          {
+            message: '请假理由不能为空'
+          })
+        return
+      }
+      if (this.jsonData.leaveTypeId == '8' && !this.jsonData.kinsfolkId) {
+        this.$toast(
+          {
+            message: '请假理由不能为空'
+          })
+        return
+      }
+
+      if (!parseInt(this.jsonData.duration)) {
+        this.$toast(
+          {
+            message: '请选择请假日期'
+          })
+        return
+      }
       console.log(this.jsonData)
       // HttpEhr.getNextNode({
       //   dates: JSON.stringify(this.jsonData.dateList)
@@ -663,8 +796,27 @@ export default {
         console.log(this.jsonData)
       }
     },
-    // 连选--确定日期选择，时间格式化并显示在页面上
+    // 确定日期选择，时间格式化并显示在页面上
     confirmPicker (value) {
+      const date = value
+      const y = date.getFullYear()
+      let m = date.getMonth() + 1
+      let d = date.getDate()
+      m = m < 10 ? '0' + m : m
+      d = d < 10 ? '0' + d : d
+      const newTime = `${y}-${m}-${d}`
+      if (this.datePicker) {
+        this.jsonData.endTime = newTime
+      } else {
+        this.jsonData.startTime = newTime
+      }
+      this.isPopShow = false
+      // if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1' || this.jsonData.leaveTypeId != '5' && this.jsonData.leaveTypeId != '8') {
+      this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
+      // }
+    },
+    // 连选--确定日期选择，时间格式化并显示在页面上  -- 连选组件用的
+    confirmPicker_2 (value) {
       const [start, end] = value
       this.jsonData.startTime = this.formatDate(start)
       this.jsonData.endTime = this.formatDate(end)
@@ -729,21 +881,43 @@ export default {
       this.jsonData.leaveTypeId = item.id
       this.isPopShowType = false
       this.showDateConpFun()
-      // return
-      // if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1' && this.jsonData.leaveTypeId != '5') {
-      //   this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
-      // }
+      this.jsonData.duration = 0
+      this.jsonData.dateList = []
+      this.dateArr = []
+      if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1' && this.jsonData.leaveTypeId != '5') {
+        this.jsonData.startTime = '请选择'
+        this.jsonData.endTime = '请选择'
+      }
     },
     // 关闭请假类型下拉选
     onCancel () {
       this.isPopShowType = false
     },
+    // 打开亲属关系下拉选
+    openKinsfolk () {
+      if (this.dataType == '2') return
+      this.isKinsfolkShowType = true
+    },
+    // 确定亲属类型
+    okKinsfolk (item) {
+      this.kinsfolkTxt = item.text
+      this.jsonData.kinsfolkId = item.id
+      this.isKinsfolkShowType = false
+    },
+    // 打开亲属关系下拉选
+    cancelKinsfolk () {
+      this.isKinsfolkShowType = false
+    },
     // 计算时间开始,结束日期差
     DateMinus (start, end) {
-      var sdate = new Date(start)
-      var now = new Date(end)
-      var days = now.getTime() - sdate.getTime()
-      var day = parseInt(days / (1000 * 60 * 60 * 24))
+      const newstart = new Date(start)
+      const now = new Date(end)
+      const days = now.getTime() - newstart.getTime()
+      const day = parseInt(days / (1000 * 60 * 60 * 24))
+      console.log(isNaN(day))
+      if (isNaN(day)) {
+        return 0
+      }
       if (day < 0) {
         this.$toast('开始日期不能大于结束时间')
         return
@@ -757,6 +931,8 @@ export default {
       this.jsonData.duration = this.itemData.sum // 时长
       this.jsonData.reason = this.itemData.note // 理由
       this.jsonData.leaveTypeId = this.itemData.type // 请假类型
+      this.jsonData.areaNameTxt = this.itemData.cityName // 省名称
+      this.jsonData.provId = this.itemData.cityValue // 省id
       this.jsonData.fileViewLists = JSON.parse(this.itemData.url)
       const newObj = this.columns.find((item) => { return item.id == this.itemData.type })
       this.leaveTypetxt = newObj.text // 请假类型
@@ -801,9 +977,70 @@ export default {
       }
       console.log(year + ',' + month + ',' + '1')
       this.minDate = new Date(year, month - 1, 1)
+    },
+    // 判断日期是否连选
+    runningDays (arr_days) {
+      // const arr_days = [
+      //   '2018-02-28 10:00:00',
+      //   '2018-02-29 10:00:01', // 闰月
+      //   '2018-03-01 10:00:02', // 跨月
+      //   '2018-03-02 10:00:03'
+      // ]
+      // 先排序，再转时间戳
+      const days = arr_days.sort().map((d, i) => {
+        const dt = new Date(d)
+        dt.setDate(dt.getDate() + 4 - i) // 处理为相同日期
+
+        // 去除时、分、秒、毫秒
+        dt.setHours(0)
+        dt.setMinutes(0)
+        dt.setSeconds(0)
+        dt.setMilliseconds(0)
+
+        return +dt
+      })
+
+      let ret = true
+
+      days.forEach(d => {
+        if (days[0] !== d) {
+          ret = false
+        }
+      })
+
+      return ret
+    },
+    // 打开省份下拉选
+    openAreaShow () {
+      this.showArea = !this.showArea
+    },
+    // 确定省份
+    AreaConfirm (el) {
+      this.showArea = !this.showArea
+      // let areaName = ''
+      // for (var i = 0; i < value.length; i++) {
+      //   areaName = areaName + value[i].name + ' '
+      // }
+      this.jsonData.areaNameTxt = el.text
+      this.jsonData.provId = el.value
+    },
+    // 获取省份列表
+    getProvList () {
+      HttpEhr.getProvList({
+        type: 'md-sap-zone'
+      }).then(res => {
+        this.areaList = res.data
+        if (this.provId) {
+          this.defaultIndex = this.areaList.findIndex(fruit => fruit.value == this.provId)
+        }
+      })
     }
+    // getIndex () {
+    //   const index = this.areaList.findIndex(fruit => fruit.value === '060')
+    // }
   },
   mounted () {
+    // console.log(this.runningDays())
     this.urlInit()
     this.itemData = this.$route.query.itemData || {}
     this.dataType = this.$route.query.flag || '0'
@@ -829,8 +1066,10 @@ export default {
       this.setVal()
     }
     document.title = this.title
+    this.getProvList()
     this.leaveApplyDetail()
     this.getFirstDay()
+
     // console.log(this.$route.query.id)
     // console.log('this.jsonData.dataId====' + this.jsonData.dataId)
     // console.log('this.jsonData.formType----' + this.jsonData.formType)

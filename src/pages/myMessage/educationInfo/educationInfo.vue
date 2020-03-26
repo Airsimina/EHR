@@ -10,12 +10,12 @@
         <div class="lis-box">
           <div class="lis-row lis-name">起止时间</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.beginDate}} - {{item.endDate}}</div>
+          <div class="lis-row lis-value">{{item.beginDate}} ~ {{item.endDate}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">教育类型</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.eduTypeTxt}}</div>
+          <div class="lis-row lis-value">{{item.eduCertTxt}}</div>
         </div>
         <!-- <div class="lis-box">
           <div class="lis-row lis-name">说明</div>
@@ -28,19 +28,19 @@
           <div class="lis-row lis-value">{{item.eduSubTypeTxt}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">机构/地点</div>
+          <div class="lis-row lis-name">学校</div>
           <span>:</span>
           <div class="lis-row lis-value">{{item.schoolName}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">国家代码</div>
+          <div class="lis-row lis-name">国家名称</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.country}}</div>
+          <div class="lis-row lis-value">{{item.countryTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">学历证书</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.eduCertTxt}}</div>
+          <div class="lis-row lis-value">{{item.eduTypeTxt}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">学位证书</div>

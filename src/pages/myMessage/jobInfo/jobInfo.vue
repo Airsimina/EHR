@@ -25,7 +25,7 @@
         <div class="lis-box">
           <div class="lis-row lis-name">公司</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.companyName}}</div>
+          <div class="lis-row lis-value">{{item.afCompanyName}}</div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">职位</div>

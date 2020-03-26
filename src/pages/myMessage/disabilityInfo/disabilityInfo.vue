@@ -33,7 +33,7 @@
           <div class="lis-row lis-value">{{item.disabilityPart}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">城鉴定机构</div>
+          <div class="lis-row lis-name">鉴定机构</div>
           <span>:</span>
           <div class="lis-row lis-value">{{item.accreditingBody}}</div>
         </div>

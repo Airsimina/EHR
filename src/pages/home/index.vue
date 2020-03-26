@@ -24,7 +24,7 @@
         <div class="icon-text">{{item.iconText}}</div>
       </div>
     </div>
-    <div class=people-container
+    <div class="people-container"
          v-show="false">
       <div class="people-title">人事管理</div>
       <div class="single"
@@ -35,6 +35,13 @@
              :src="item.iconUrl">
         <div class="icon-text">{{item.iconText}}</div>
       </div>
+      <!-- <div>111</div> -->
+    </div>
+    <div class="people-container nodata-box"
+         v-show="true">
+      <div class="img-bg">
+      </div>
+      <div class="txt">更多功能敬请期待</div>
     </div>
   </div>
 </template>
@@ -103,7 +110,7 @@ export default {
     }
   },
   mounted () {
-    console.log('1621更新')
+    console.log('0325更新完成')
     this.init()
     document.title = '首页'
   },
@@ -147,6 +154,9 @@ export default {
         this.util.setSession('sessionData', { userId: this.userId })
       } else {
         // this.userId = '00049904'
+
+        // this.userId = '80001247' // wangdan
+
         this.userId = '00000345'
       }
       this.util.setSession('sessionData', { userId: this.userId })
@@ -298,11 +308,28 @@ export default {
     margin-top: 0.2rem;
     background: #fff;
     font-size: 0.24rem;
-    padding: 0.59rem 0.4rem 0 0.4rem;
+    padding: 0.59rem 0.4rem 0.4rem 0.4rem;
     box-sizing: border-box;
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+    // display: flex;
+    // justify-content: flex-start;
+    // flex-wrap: wrap;
+    // border: 1px solid red;
+    &.nodata-box {
+      padding-bottom: 2.5rem;
+    }
+    .img-bg {
+      width: 70%;
+      height: 3rem;
+      margin: auto;
+      background: url("./../../../static/img/home_bg2.png") 0 0 no-repeat;
+      background-size: 100% 100%;
+    }
+    .txt {
+      color: rgba(102, 102, 102, 1);
+      text-align: center;
+      line-height: 1rem;
+      font-size: 0.28rem;
+    }
     .people-title {
       color: #111111;
       font-size: 0.36rem;

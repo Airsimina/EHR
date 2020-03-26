@@ -4,7 +4,8 @@
     <div class="wrap-1">
       <cardMyMessage :title="title"
                      :keyName="keyName"
-                     :userNumber="userNumber"></cardMyMessage>
+                     :userNumber="userNumber"
+                     :numberData="numberData"></cardMyMessage>
       <div class="cantainer">
         <div class="box">
           <div class="lis">
@@ -23,14 +24,25 @@
               <span>{{endTime}}</span>
             </div>
           </div>
-          <!-- <div class="lis">
+          <div class="lis"
+               v-if="dates.length>0">
             <div class="lis-f">
-              <div class="div-name-1">请假具体日期</div>
+              <div class="div-name-1">请假日期</div>
             </div>
             <div class="lis-r">
-              <span>{{dates}}</span>
+              <!-- <span>{{JSON.stringify(dates)}}</span> -->
+              <span>{{dates.toString()}}</span>
             </div>
-          </div> -->
+          </div>
+          <div class="lis"
+               v-if="cityName">
+            <div class="lis-f">
+              <div class="div-name-1">省份</div>
+            </div>
+            <div class="lis-r">
+              <span>{{cityName}}</span>
+            </div>
+          </div>
           <div class="lis">
             <div class="lis-f">
               <div class="div-name-1">请假时长</div>
@@ -89,13 +101,16 @@
         </div>
       </div>
       <!-- 底部按钮 -->
-      <div class="footer-box">
-        <div class="btn edit-btn">
+      <div class="footer-box"
+           v-if="editFlag=='1' || removeFlag=='1'">
+        <div class="btn edit-btn"
+             v-show="editFlag!='2'">
           <span @click="editFun('1')"
                 class="btn xj-btn"
                 :class="{'forbid':editFlag=='2'}">修改</span>
         </div>
         <div class="btn xj-btn"
+             v-show="removeFlag!='2'"
              :class="{'forbid':removeFlag=='2'}">
           <span @click="editFun('2')">销假</span>
         </div>
@@ -116,9 +131,11 @@ export default {
   props: {},
   data () {
     return {
+
       userNumber: '',
       title: '',
       keyName: '请假类型',
+      numberData: '',
       flowHiComments: [], // 流程
       imgList: [], // 图片集合
       startTime: '',
@@ -130,7 +147,9 @@ export default {
       dataId: '', // 数据id
       dataType: '', // 1:请假 2:销假
       itemData: {},
-      dates: ''
+      dates: [],
+      cityName: '',
+      cityValue: ''
     }
   },
   methods: {
@@ -167,15 +186,18 @@ export default {
       }).then(res => {
         this.flowHiComments = res.data.flowData.flowMobileHiComments
         this.itemData = res.data.formData
+        this.numberData = this.itemData.numberData
         this.dataType = this.itemData.dataType
         this.startTime = this.itemData.startDate
         this.endTime = this.itemData.endDate
         this.numDay = this.itemData.sum
         this.reason = this.itemData.note
-        this.dates = JSON.stringify(this.itemData.datas)
+        this.dates = JSON.parse(this.itemData.dates).length > 0 ? JSON.parse(this.itemData.dates) : []
         this.imgList = JSON.parse(this.itemData.url)
         this.editFlag = this.itemData.editFlag
         this.removeFlag = this.itemData.removeFlag
+        this.cityName = this.itemData.cityName == '请选择省份' ? '' : this.itemData.cityName
+        this.cityValue = this.itemData.cityValue
       })
     },
     // 图片预览

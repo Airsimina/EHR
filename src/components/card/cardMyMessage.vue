@@ -7,6 +7,11 @@
           <div class="card-row card-name">{{keyName}} :</div>
           <div class="card-row card-value">{{userNumber}}</div>
         </div>
+        <div class="card-lis"
+             v-if="numberData">
+          <div class="card-row card-name">表单编号:</div>
+          <div class="card-row card-value">{{numberData}}</div>
+        </div>
       </div>
       <slot></slot>
     </div>
@@ -25,6 +30,10 @@ export default {
       default: ''
     },
     userNumber: {
+      type: [String, Number],
+      default: ''
+    },
+    numberData: {
       type: [String, Number],
       default: ''
     }

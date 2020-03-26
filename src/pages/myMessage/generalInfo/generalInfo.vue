@@ -83,9 +83,34 @@
           <div class="lis-row lis-value">{{item.ability}}</div>
         </div>
         <div class="lis-box">
+          <div class="lis-row lis-name">英语水平</div>
+          <span>:</span>
+          <div class="lis-row lis-value">{{item.englishLevel}}</div>
+        </div>
+        <div class="lis-box">
+          <div class="lis-row lis-name">首次参加工作时间</div>
+          <span>:</span>
+          <div class="lis-row lis-value">{{item.joinWorkDate}}</div>
+        </div>
+        <div class="lis-box">
+          <div class="lis-row lis-name">加入本公司时间</div>
+          <span>:</span>
+          <div class="lis-row lis-value">{{item.joinDate}}</div>
+        </div>
+        <div class="lis-box">
+          <div class="lis-row lis-name">是否有海外工作经验</div>
+          <span>:</span>
+          <div class="lis-row lis-value">{{item.isAbroadExp=='1' ?'有':'无'}}</div>
+        </div>
+        <div class="lis-box">
+          <div class="lis-row lis-name">是否可以调动</div>
+          <span>:</span>
+          <div class="lis-row lis-value">{{item.isTransfer=='1' ?'是':'无'}}</div>
+        </div>
+        <div class="lis-box">
           <div class="lis-row lis-name">是否服过兵役</div>
           <span>:</span>
-          <div class="lis-row lis-value">{{item.isNationalService}}</div>
+          <div class="lis-row lis-value">{{item.isNationalService=='1' ?'有':'无'}}</div>
         </div>
       </div>
     </div>

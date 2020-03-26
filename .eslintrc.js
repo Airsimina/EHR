@@ -15,7 +15,7 @@ module.exports = {
     ],
     // required to lint *.vue files
     plugins: [
-        "vue"
+        'vue'
     ],
     // add your custom rules here
     rules: {

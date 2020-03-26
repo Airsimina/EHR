@@ -32,6 +32,11 @@
               <span class="name">请假时长 :</span>
               <span class="val">{{item.sum}}/天</span>
             </div>
+            <div class="sublis"
+                 v-if="JSON.parse(item.dates).length>0">
+              <span class="name">请假日期 :</span>
+              <span class="val">{{JSON.parse(item.dates).toString()}}</span>
+            </div>
           </div>
           <!-- 1 同意 2 审核中 3 驳回 -->
           <div class="title-status"
@@ -136,8 +141,8 @@ export default {
     },
     // 默认时间
     initTime () {
-      this.jsonData.endTime = this.util.setDefaultTime(2)
-      this.jsonData.startTime = this.util.setDefaultTime(2)
+      this.jsonData.endTime = this.util.setDefaultTime(2, 'add')
+      this.jsonData.startTime = this.util.setDefaultTime(2, 'minus')
     },
     // 获取状态文本
     getStatusTxt (type) {

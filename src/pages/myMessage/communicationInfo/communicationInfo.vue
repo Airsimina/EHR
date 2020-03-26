@@ -12,7 +12,7 @@
         <div class="lis-row lis-value">{{item.phoneTypeTxt}}</div>
       </div>
       <div class="lis-box">
-        <div class="lis-row lis-name">识别号</div>
+        <div class="lis-row lis-name">号码</div>
         <span>:</span>
         <div class="lis-row lis-value">{{item.phoneNum}}</div>
       </div>

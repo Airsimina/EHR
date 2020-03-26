@@ -66,6 +66,10 @@ export default {
     // 图片上传 -lxs
     multiUpload: function (payLoad = {}) {
         return HXpost('/cap-bpm/attach/upload.do', payLoad)
+    },
+    // 获取省份 -lxs
+    getProvList: function (payLoad = {}) {
+        return HXpost('/ehr/api/vacation/getVacationTypeList.do', payLoad)
     }
 
 }
