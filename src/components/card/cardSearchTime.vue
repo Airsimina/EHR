@@ -156,10 +156,11 @@ export default {
             height: 0.6rem;
             line-height: 0.6rem;
             text-align: center;
-            background: rgba(250, 250, 250, 1);
+            background: rgb(241, 238, 238);
             opacity: 1;
             border-radius: 30px;
-            color: #999999;
+            color: #333;
+            font-size: 0.28rem;
           }
         }
       }
