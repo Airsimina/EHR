@@ -77,6 +77,7 @@
                               format="yyyy-MM-dd"
                               value-format="yyyy-MM-dd"
                               @change="clickElPicker"
+                              :default-value='defaultValue'
                               placeholder="选择一个或多个日期">
               </el-date-picker>
               <!-- <div class="icon-jt"></div> -->
@@ -316,6 +317,7 @@ export default {
       title: '',
       showDateConp: false, // true 连选 false 多选
       dateArr: [],
+      defaultValue: '', // default-value
       getBranchData: {},
       minDate: new Date(), // :min-date="minDate"
       maxDate: new Date(2100, 0, 1),
@@ -937,6 +939,9 @@ export default {
       const newObj = this.columns.find((item) => { return item.id == this.itemData.type })
       this.leaveTypetxt = newObj.text // 请假类型
       this.jsonData.dateList = JSON.parse(this.itemData.dates) // 多选日期
+      if (this.jsonData.dateList) {
+        this.defaultValue = this.jsonData.dateList[0]
+      }
       this.showDateConpFun()
     },
     // 获取环境地址
@@ -1077,19 +1082,23 @@ export default {
   }
 }
 </script>
-
+<style>
+.el-icon-arrow-left::before,
+.el-icon-arrow-right:before {
+  right: 0.6rem;
+  position: relative;
+  font-size: 0.35rem;
+  display: block;
+}
+.el-icon-arrow-left::before {
+  right: -0.6rem;
+}
+.el-icon-d-arrow-left:before,
+.el-icon-d-arrow-right:before {
+  font-size: 0.35rem;
+}
+</style>
 <style lang="scss" scoped>
-// .lis-r.el-picker {
-//   box-sizing: border-box;
-//   margin-left: 0.1rem;
-//   bottom: 0.07rem;
-//   .el-date-editor.el-input,
-//   .el-date-editor.el-input__inner {
-//     border: 1px solid rgb(226, 14, 14);
-//     border: none;
-//     width: 95%;
-//   }
-// }
 .leaveRequest {
   font-size: 0.24rem;
   .wrap-1 {
@@ -1144,7 +1153,25 @@ export default {
                 // border: none;
                 width: 95%;
               }
+              .el-picker-panel.el-date-picker.el-popper {
+                border: 1px solid red !important;
+              }
             }
+            el-date-picker {
+              border: 1px solid red !important;
+            }
+            // .el-picker-panel.el-date-picker.el-popper
+            //   .el-picker-panel__body-wrapper
+            //   .el-picker-panel__body
+            //   .el-date-picker__header
+            //   .el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left::before {
+            //   content: "";
+            //   right: -25px;
+            //   border: 1px solid red !important;
+            //   position: relative;
+            //   font-size: 0.28rem;
+            //   display: block;
+            // }
             .div-val-1 {
               font-size: 0.28rem;
               color: #999;
