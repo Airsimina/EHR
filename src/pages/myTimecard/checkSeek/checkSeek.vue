@@ -76,8 +76,8 @@
                 <span class="val">{{subItem.sum}}/天</span>
               </div>
               <div class="sublis">
-                <span class="name">请假时长 :</span>
-                <span class="val">{{JSON.parse(subItem.dates).toString()}}</span>
+                <span class="name">请假日期 :</span>
+                <span class="val">{{subItem.dates}}</span>
               </div>
             </div>
           </div>
