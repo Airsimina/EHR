@@ -1097,6 +1097,15 @@ export default {
 .el-icon-d-arrow-right:before {
   font-size: 0.35rem;
 }
+.el-picker-panel.el-date-picker.el-popper {
+  left: 0.4rem !important;
+}
+.popper__arrow {
+  left: 3rem !important;
+}
+.el-popper[x-placement^="bottom"] .popper__arrow:after {
+  /* margin-left: 1.2rem; */
+}
 </style>
 <style lang="scss" scoped>
 .leaveRequest {
@@ -1160,18 +1169,6 @@ export default {
             el-date-picker {
               border: 1px solid red !important;
             }
-            // .el-picker-panel.el-date-picker.el-popper
-            //   .el-picker-panel__body-wrapper
-            //   .el-picker-panel__body
-            //   .el-date-picker__header
-            //   .el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left::before {
-            //   content: "";
-            //   right: -25px;
-            //   border: 1px solid red !important;
-            //   position: relative;
-            //   font-size: 0.28rem;
-            //   display: block;
-            // }
             .div-val-1 {
               font-size: 0.28rem;
               color: #999;
