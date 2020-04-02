@@ -29,12 +29,12 @@
               <span class="val">{{item.endDate}}</span>
             </div>
             <div class="sublis">
-              <span class="name">请假时长 :</span>
+              <span class="name">{{item.status == 4 ? '销假时长':'请假时长'}} :</span>
               <span class="val">{{item.sum}}/天</span>
             </div>
             <div class="sublis"
                  v-if="JSON.parse(item.dates).length>0">
-              <span class="name">请假日期 :</span>
+              <span class="name">{{item.status == 4 ? '销假时长':'请假日期'}} :</span>
               <span class="val">{{JSON.parse(item.dates).toString()}}</span>
             </div>
           </div>

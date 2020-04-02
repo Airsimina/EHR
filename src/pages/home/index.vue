@@ -3,13 +3,15 @@
     <div class="top">
       <div class="commission-card-container">
         <div class="commission-card">
-          <div class="single-card">
+          <div class="single-card"
+               @click="toDb">
             <div class="number">{{awaitNum}}</div>
             <div class="discribe">我的代办（个）</div>
           </div>
-          <div class="single-card">
+          <div class="single-card"
+               @click="toNj">
             <div class="number">{{vacationNum}}</div>
-            <div class="discribe">假期余额（天）</div>
+            <div class="discribe">年假余额（天）</div>
           </div>
         </div>
       </div>
@@ -41,7 +43,7 @@
          v-show="true">
       <div class="img-bg">
       </div>
-      <div class="txt">更多功能敬请期待</div>
+      <!-- <div class="txt">更多功能敬请期待</div> -->
     </div>
   </div>
 </template>
@@ -112,9 +114,19 @@ export default {
   mounted () {
     console.log('0325更新完成')
     this.init()
+    this.initOAurl()
     document.title = '首页'
   },
   methods: {
+    toDb () {
+      console.log(this.OAurl)
+      window.location.href = this.OAurl
+    },
+    toNj () {
+      this.$router.push({
+        name: 'annualResidue'
+      })
+    },
     // 获取代办个数
     getTaskCount () {
       return new Promise((resolve, reject) => {
@@ -155,10 +167,11 @@ export default {
       } else {
         // this.userId = '00049904'
 
-        // this.userId = '80001247' // wangdan
+        this.userId = '80001247' // wangdan
 
         // this.userId = '00000345'
-        this.userId = '00025013'
+        // this.userId = '00025013'
+
         // this.userId = '00004028'
       }
       this.util.setSession('sessionData', { userId: this.userId })
@@ -172,10 +185,9 @@ export default {
         this.awaitNum = res.data
       })
     },
-    // 跳转
-    transmitFun (item) {
-      console.log(this.buildType + '环境')
+    initOAurl () {
       const isShowBackStr = encodeURIComponent(`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
+      console.log(this.buildType + '环境')
       switch (this.buildType.toUpperCase()) {
         case 'PRO':
           this.OAurl = ''
@@ -194,7 +206,30 @@ export default {
           this.OAurl = 'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
           break
       }
-      console.log(this.OAurl)
+    },
+    // 跳转
+    transmitFun (item) {
+      // console.log(this.buildType + '环境')
+      // const isShowBackStr = encodeURIComponent(`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
+      // switch (this.buildType.toUpperCase()) {
+      //   case 'PRO':
+      //     this.OAurl = ''
+      //     break
+      //   case 'PRE':
+      //     this.OAurl = ''
+      //     break
+      //   case 'Q3':
+      //     this.OAurl = 'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
+      //     break
+      //   case 'PRO_DEV':
+      //     this.OAurl = 'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
+      //     break
+      //   default:
+      //     // dev
+      //     this.OAurl = 'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
+      //     break
+      // }
+      // console.log(this.OAurl)
       if (item.path == 'commission') {
         window.location.href = this.OAurl
         return
