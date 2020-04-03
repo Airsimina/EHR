@@ -347,7 +347,8 @@ export default {
           text: '子女'
         }
       ],
-      kinsfolkTxt: '请选择'
+      kinsfolkTxt: '请选择',
+      xjFlag: false
     }
   },
   methods: {
@@ -631,8 +632,8 @@ export default {
     },
     // 提交按钮
     async commitFun () {
-      console.log(this.dataType, this.jsonData.saveType)
-
+      console.log((this.dataType == '0' || this.dataType == '1') && this.xjFlag)
+      console.log(this.dataType == '2' && this.xjFlag)
       console.log(this.jsonData.duration, typeof this.jsonData.duration)
       // return
       if (!this.jsonData.reason) {
@@ -706,7 +707,7 @@ export default {
           this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()] = nextNodePerson.sysUsername || ''
         }
       })
-      if (this.dataType == '0' || this.dataType == '1') {
+      if ((this.dataType == '0' || this.dataType == '1') && this.xjFlag) {
         await this.addAndEditVacation().then(res => {
           if (res.code == 0) {
             this.$toast.success({
@@ -715,7 +716,7 @@ export default {
             this.$router.push({ name: 'applyRecord' })
           }
         })
-      } else if (this.dataType == '2') {
+      } else if (this.dataType == '2' && this.xjFlag) {
         await this.removeVacation().then(res => {
           if (res.code == 0) {
             this.$toast.success({
@@ -1057,6 +1058,10 @@ export default {
     // console.log(this.runningDays())
     this.urlInit()
     this.itemData = this.$route.query.itemData || {}
+    // 销假修改
+    if (this.itemData.dataType == 1) {
+      this.xjFlag = true
+    }
     this.dataType = this.$route.query.flag || '0'
     // 本地 this.dataType 0:新增 1:修改 2:销假
     // 提交接口 saveType 1、销假 新增提交 2、修改提交
