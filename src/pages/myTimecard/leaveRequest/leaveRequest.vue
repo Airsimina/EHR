@@ -27,7 +27,7 @@
             </div>
           </div>
           <div class="lis"
-               v-show="showDateConp">
+               v-show="showDateConp && dataType==0">
             <div class="lis-f xh">
               <div class="div-name-1">开始时间</div>
             </div>
@@ -38,7 +38,7 @@
             </div>
           </div>
           <div class="lis"
-               v-show="showDateConp">
+               v-show="showDateConp && dataType==0">
             <div class="lis-f xh">
               <div class="div-name-1">结束时间</div>
             </div>
@@ -63,10 +63,10 @@
               <div class="icon-jt"></div>
             </div>
           </div> -->
-          <div v-show="!showDateConp"
+          <div v-show="!showDateConp && dataType==0"
                class="lis">
             <div class="lis-f xh">
-              <div class="div-name-1">{{this.dataType=='2'?'销假日期' : '请假日期'}}</div>
+              <div class="div-name-1">请假日期</div>
             </div>
             <div class="lis-r el-picker">
               <el-date-picker ref="datesRef"
@@ -83,6 +83,29 @@
               <!-- <div class="icon-jt"></div> -->
             </div>
           </div>
+          <div v-show="dataType!=0"
+               class="lis">
+            <div class="lis-f xh">
+              <!-- <div class="div-name-1">{{this.dataType=='2'?'销假日期2' : '请假日期2'}}</div> -->
+              <div class="div-name-1">请假日期2</div>
+
+            </div>
+            <div class="lis-r el-picker">
+              <el-date-picker ref="datesRef"
+                              type="dates"
+                              size="mini"
+                              v-model="dateArr"
+                              :editable="false"
+                              format="yyyy-MM-dd"
+                              value-format="yyyy-MM-dd"
+                              :default-value='defaultValue'
+                              @change="clickElPicker2"
+                              placeholder="选择一个或多个日期">
+              </el-date-picker>
+              <!-- <div class="icon-jt"></div> -->
+            </div>
+          </div>
+
           <div class="lis"
                v-if="jsonData.leaveTypeId=='6' || jsonData.leaveTypeId=='7'">
             <div class="lis-f xh">
@@ -96,10 +119,21 @@
           </div>
           <div class="lis">
             <div class="lis-f">
-              <div class="div-name-1">{{this.dataType=='2'?'销假时长' : '请假时长'}}</div>
+              <div class="div-name-1">请假时长</div>
             </div>
             <div class="lis-r">
               <div class="div-val-1">{{jsonData.duration}}</div>
+              <span class="dw">/天</span>
+            </div>
+
+          </div>
+          <div class="lis"
+               v-show="dataType!=0">
+            <div class="lis-f">
+              <div class="div-name-1">销假时长2</div>
+            </div>
+            <div class="lis-r">
+              <div class="div-val-1">{{jsonData.duration_xj}}</div>
               <!-- <input type="number"
                      :disabled="(jsonData.leaveTypeId != '3' && jsonData.leaveTypeId != '1'&& jsonData.leaveTypeId != '5')"
                      class="input-time"
@@ -136,7 +170,7 @@
             </div>
           </div>
           <div class="lis">
-            <div class="lis-f">
+            <div class="lis-f xh">
               <div class="div-name-1">{{this.dataType=='2'?'销假事由' : '请假理由'}}</div>
             </div>
             <div class="lis-r">
@@ -260,6 +294,8 @@ export default {
       jsonData: {
         leaveTypeId: '3', // 请假类型id
         duration: 0, // 请假时长
+        duration_xj: 0, // 销假时长
+        duration_xj_list: [], // 销假的日期 置灰的日期
         reason: '', // 理由
         startTime: '' || '请选择', // 开始时间
         endTime: '' || '请选择', // 结束时间,
@@ -324,6 +360,7 @@ export default {
       title: '',
       showDateConp: false, // true 连选 false 多选
       dateArr: [],
+      OldDateArr: [], // 元数据
       defaultValue: '', // default-value
       getBranchData: {},
       minDate: new Date(), // :min-date="minDate"
@@ -615,13 +652,13 @@ export default {
           remId: this.$route.query.id, // 原请假id
           startDate: this.jsonData.startTime,
           endDate: this.jsonData.endTime,
-          sum: this.jsonData.duration,
+          sum: this.jsonData.duration_xj,
           note: this.jsonData.reason,
           flowData: JSON.stringify(this.flowContext),
           url: JSON.stringify(this.jsonData.fileViewLists),
           // id: this.jsonData.dataId,
           saveType: this.jsonData.saveType,
-          dates: JSON.stringify(this.jsonData.dateList),
+          dates: JSON.stringify(this.jsonData.duration_xj_list),
           relativeType: this.jsonData.kinsfolkId,
           cityName: this.jsonData.areaNameTxt,
           cityValue: this.jsonData.provId
@@ -632,7 +669,9 @@ export default {
     },
     // 提交按钮
     async commitFun () {
-      console.log((this.dataType == '0' || this.dataType == '1') && this.xjFlag)
+      console.log((this.dataType == '0' || this.dataType == '1') || !this.xjFlag)
+      console.log(this.dataType, this.xjFlag)
+      // return
       console.log(this.dataType == '2' && this.xjFlag)
       console.log(this.jsonData.duration, typeof this.jsonData.duration)
       // return
@@ -707,7 +746,7 @@ export default {
           this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()] = nextNodePerson.sysUsername || ''
         }
       })
-      if ((this.dataType == '0' || this.dataType == '1') && this.xjFlag) {
+      if ((this.dataType == '0' || this.dataType == '1') || !this.xjFlag) {
         await this.addAndEditVacation().then(res => {
           if (res.code == 0) {
             this.$toast.success({
@@ -837,7 +876,7 @@ export default {
       console.log(this.jsonData)
     },
     // 多选--确定日历
-    clickElPicker: function () {
+    clickElPicker () {
       // this.jsonData.dateList = this.dateArr ? this.dateArr.join() : []
       this.jsonData.dateList = this.dateArr
       if (this.dateArr.length == 1) {
@@ -852,6 +891,11 @@ export default {
       this.jsonData.startTime = this.strDateFormat(Math.min(...newArr))
       this.jsonData.endTime = this.strDateFormat(Math.max(...newArr))
       console.log('this.jsonData.dateList-----' + this.jsonData.dateList)
+    },
+    clickElPicker2 () {
+      console.log(this.dateArr)
+      this.jsonData.duration_xj_list = this.filterFun(this.OldDateArr, this.dateArr)
+      this.jsonData.duration_xj = this.jsonData.duration_xj_list.length
     },
     // 时间戳转字符串日期
     strDateFormat (timestamp) {
@@ -949,6 +993,10 @@ export default {
       const newObj = this.columns.find((item) => { return item.id == this.itemData.type })
       this.leaveTypetxt = newObj.text // 请假类型
       this.jsonData.dateList = JSON.parse(this.itemData.dates) // 多选日期
+      this.dateArr = JSON.parse(this.itemData.dates).length > 0 ? JSON.parse(this.itemData.dates) : []
+      this.OldDateArr = JSON.parse(this.itemData.dates).length > 0 ? JSON.parse(this.itemData.dates) : []
+
+      this.defaultValue = this.dateArr[0]
       if (this.jsonData.dateList) {
         this.defaultValue = this.jsonData.dateList[0]
       }
@@ -1049,10 +1097,22 @@ export default {
           this.defaultIndex = this.areaList.findIndex(fruit => fruit.value == this.provId)
         }
       })
-    }
+    },
     // getIndex () {
     //   const index = this.areaList.findIndex(fruit => fruit.value === '060')
     // }
+    filterFun (OldList, newList) {
+      // OldList, newList
+      // OldList 元数据, newList 选后数据
+      // const OldList = ['1', '2', '3', '5', '4', '6'] // 元数据
+      // const newList = ['1', '2', '3', '4'] // 选后数据
+      const c = [...newList, ...OldList]
+      const d = new Set(c)
+      const e = Array.from(d)
+      const f = [...e.filter(_ => !newList.includes(_)), ...e.filter(_ => !OldList.includes(_))]
+      console.log(f)// [5, 6]
+      return f
+    }
   },
   mounted () {
     // console.log(this.runningDays())
