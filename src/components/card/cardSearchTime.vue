@@ -128,7 +128,7 @@ export default {
         m = 12
         y = y - 1
       } else {
-        m = m - 3
+        m = m - 1
       }
       m = m < 10 ? '0' + m : m
       if (type == 1) {

@@ -6,7 +6,7 @@
         <div class="box">
           <div class="title">{{this.title}}</div>
           <div class="lis">
-            <div class="lis-f">
+            <div class="lis-f xh">
               <div class="div-name-1"> {{this.dataType=='2'?'销假类型' : '请假类型'}}</div>
             </div>
             <div class="lis-r"
@@ -17,7 +17,7 @@
           </div>
           <div class="lis"
                v-if="jsonData.leaveTypeId=='8'">
-            <div class="lis-f">
+            <div class="lis-f xh">
               <div class="div-name-1">亲属关系</div>
             </div>
             <div class="lis-r"
@@ -28,7 +28,7 @@
           </div>
           <div class="lis"
                v-show="showDateConp">
-            <div class="lis-f">
+            <div class="lis-f xh">
               <div class="div-name-1">开始时间</div>
             </div>
             <div class="lis-r"
@@ -39,7 +39,7 @@
           </div>
           <div class="lis"
                v-show="showDateConp">
-            <div class="lis-f">
+            <div class="lis-f xh">
               <div class="div-name-1">结束时间</div>
             </div>
             <div class="lis-r"
@@ -65,7 +65,7 @@
           </div> -->
           <div v-show="!showDateConp"
                class="lis">
-            <div class="lis-f">
+            <div class="lis-f xh">
               <div class="div-name-1">{{this.dataType=='2'?'销假日期' : '请假日期'}}</div>
             </div>
             <div class="lis-r el-picker">
@@ -85,8 +85,8 @@
           </div>
           <div class="lis"
                v-if="jsonData.leaveTypeId=='6' || jsonData.leaveTypeId=='7'">
-            <div class="lis-f">
-              <div class="div-name-1"> 请选择省份</div>
+            <div class="lis-f xh">
+              <div class="div-name-1">选择省份</div>
             </div>
             <div class="lis-r"
                  @click="openAreaShow">
@@ -140,10 +140,17 @@
               <div class="div-name-1">{{this.dataType=='2'?'销假事由' : '请假理由'}}</div>
             </div>
             <div class="lis-r">
-              <input type="text"
+              <!-- <input type="text"
                      class="input-time liy"
                      placeholder="请输入请假事由"
-                     v-model="jsonData.reason"></div>
+                     v-model="jsonData.reason">-->
+              <textarea placeholder="请输入请假事由"
+                        type="text"
+                        id=""
+                        maxlength="100"
+                        v-model="jsonData.reason"
+                        rows="3"></textarea>
+            </div>
           </div>
           <!-- <van-cell v-model="carmodel" title="省/市/区" value="" @click="show = true"></van-cell> -->
         </div>
@@ -708,7 +715,7 @@ export default {
             this.$router.push({ name: 'applyRecord' })
           }
         })
-      } else if (this.dataType == '2' || this.dataType == '2') {
+      } else if (this.dataType == '2') {
         await this.removeVacation().then(res => {
           if (res.code == 0) {
             this.$toast.success({
@@ -1154,6 +1161,10 @@ export default {
               text-align: justify;
               min-width: 1.2rem;
             }
+            &.xh::before {
+              content: "* ";
+              color: red;
+            }
           }
           .lis-r {
             flex: 5;
@@ -1202,6 +1213,14 @@ export default {
               &::-webkit-input-placeholder {
                 color: #999;
               }
+            }
+            textarea {
+              width: 100%;
+              box-sizing: border-box;
+              border: 1px solid #eee;
+              padding: 0.1rem;
+              margin: 0;
+              border-radius: 0.1rem;
             }
 
             span {
