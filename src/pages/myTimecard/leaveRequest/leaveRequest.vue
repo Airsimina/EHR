@@ -87,8 +87,8 @@
                class="lis">
             <div class="lis-f xh">
               <!-- <div class="div-name-1">{{this.dataType=='2'?'销假日期2' : '请假日期2'}}</div> -->
-              <div class="div-name-1">请假日期2</div>
-
+              <div class="div-name-1">请假日期</div>
+              <!-- 请假日期2 -->
             </div>
             <div class="lis-r el-picker">
               <el-date-picker ref="datesRef"
@@ -130,7 +130,8 @@
           <div class="lis"
                v-show="dataType!=0">
             <div class="lis-f">
-              <div class="div-name-1">销假时长2</div>
+              <div class="div-name-1">销假时长</div>
+              <!-- 销假时长2 -->
             </div>
             <div class="lis-r">
               <div class="div-val-1">{{jsonData.duration_xj}}</div>
@@ -385,7 +386,8 @@ export default {
         }
       ],
       kinsfolkTxt: '请选择',
-      xjFlag: false
+      xjFlag: false,
+      toType: '1' // 1 调用请假接口  2  调用销假接口
     }
   },
   methods: {
@@ -555,6 +557,7 @@ export default {
       }).then(res => {
         // resolve(res)
         this.flowData = res.data.flowData
+        this.toType = res.data.formData.toType
         this.load()
       })
       // })
@@ -746,7 +749,8 @@ export default {
           this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()] = nextNodePerson.sysUsername || ''
         }
       })
-      if ((this.dataType == '0' || this.dataType == '1') || !this.xjFlag) {
+      // if ((this.dataType == '0' || this.dataType == '1') || !this.xjFlag) {
+      if (this.toType == '1') {
         await this.addAndEditVacation().then(res => {
           if (res.code == 0) {
             this.$toast.success({
@@ -755,7 +759,8 @@ export default {
             this.$router.push({ name: 'applyRecord' })
           }
         })
-      } else if (this.dataType == '2' && this.xjFlag) {
+        // } else if (this.dataType == '2' && this.xjFlag) {
+      } else if (this.toType == '2') {
         await this.removeVacation().then(res => {
           if (res.code == 0) {
             this.$toast.success({
@@ -1119,9 +1124,9 @@ export default {
     this.urlInit()
     this.itemData = this.$route.query.itemData || {}
     // 销假修改
-    if (this.itemData.dataType == 1) {
-      this.xjFlag = true
-    }
+    // if (this.itemData.dataType == 1) {
+    //   this.xjFlag = true
+    // }
     this.dataType = this.$route.query.flag || '0'
     // 本地 this.dataType 0:新增 1:修改 2:销假
     // 提交接口 saveType 1、销假 新增提交 2、修改提交
