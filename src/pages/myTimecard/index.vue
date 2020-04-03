@@ -62,7 +62,7 @@ export default {
           path: 'checkSeek',
           icon: 'kqcx'
         }, {
-          name: '假期余额',
+          name: '年假余额',
           path: 'annualResidue',
           icon: 'jqye'
         }

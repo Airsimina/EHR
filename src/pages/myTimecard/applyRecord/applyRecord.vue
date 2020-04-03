@@ -157,7 +157,7 @@ export default {
   },
   created () {
     if (this.$route.query.icon == 'qjtzsq') {
-      document.title = '假期调整申请'
+      document.title = '请假调整申请'
       this.pageTypeVal = '2'
       this.jsonData.status = '3'
     } else {

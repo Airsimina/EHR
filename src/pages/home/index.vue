@@ -78,7 +78,7 @@ export default {
           // },
           {
             iconUrl: require('../../../static/img/kzm.png'),
-            iconText: '审批',
+            iconText: '我的已办',
             path: 'commission'
           }
         ],
@@ -165,13 +165,9 @@ export default {
         this.userId = urlId.substring(0, urlId.length - 6)
         this.util.setSession('sessionData', { userId: this.userId })
       } else {
-        // this.userId = '00049904'
-
         this.userId = '80001247' // wangdan
-
         // this.userId = '00000345'
         // this.userId = '00025013'
-
         // this.userId = '00004028'
       }
       this.util.setSession('sessionData', { userId: this.userId })
