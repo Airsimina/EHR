@@ -76,8 +76,8 @@
                               :editable="false"
                               format="yyyy-MM-dd"
                               value-format="yyyy-MM-dd"
-                              @change="clickElPicker"
                               :default-value='defaultValue'
+                              @change="clickElPicker"
                               placeholder="选择一个或多个日期">
               </el-date-picker>
               <!-- <div class="icon-jt"></div> -->
@@ -1181,12 +1181,6 @@ export default {
                 // border: none;
                 width: 95%;
               }
-              .el-picker-panel.el-date-picker.el-popper {
-                border: 1px solid red !important;
-              }
-            }
-            el-date-picker {
-              border: 1px solid red !important;
             }
             .div-val-1 {
               font-size: 0.28rem;

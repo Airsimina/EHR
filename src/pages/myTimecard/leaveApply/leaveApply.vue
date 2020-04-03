@@ -29,9 +29,30 @@
             <div class="lis-f">
               <div class="div-name-1">请假日期</div>
             </div>
-            <div class="lis-r">
+            <div class="lis-r el-picker">
               <!-- <span>{{JSON.stringify(dates)}}</span> -->
-              <span>{{dates.toString()}}</span>
+              <!-- <span>{{dates.toString()}}</span> -->
+              <!-- <el-date-picker ref="datesRef"
+                              type="dates"
+                              size="mini"
+                              v-model="dateArr"
+                              readonly
+                              :editable="false"
+                              format="yyyy-MM-dd"
+                              value-format="yyyy-MM-dd"
+                              :default-value='defaultValue'
+                              @change="clickElPicker"> </el-date-picker> -->
+              <el-date-picker ref="datesRef"
+                              type="dates"
+                              size="mini"
+                              v-model="dateArr"
+                              :editable="false"
+                              format="yyyy-MM-dd"
+                              value-format="yyyy-MM-dd"
+                              :default-value='defaultValue'>
+              </el-date-picker>
+              <!-- <span class="val"
+                    @click.stop="look(item)">查看</span> -->
             </div>
           </div>
           <div class="lis"
@@ -131,7 +152,9 @@ export default {
   props: {},
   data () {
     return {
-
+      dateArr: ['2020-04-03'],
+      defaultValue: '',
+      // ------------------
       userNumber: '',
       title: '',
       keyName: '请假类型',
@@ -193,6 +216,8 @@ export default {
         this.numDay = this.itemData.sum
         this.reason = this.itemData.note
         this.dates = JSON.parse(this.itemData.dates).length > 0 ? JSON.parse(this.itemData.dates) : []
+        this.dateArr = JSON.parse(this.itemData.dates).length > 0 ? JSON.parse(this.itemData.dates) : []
+        this.defaultValue = this.dateArr[0]
         this.imgList = JSON.parse(this.itemData.url)
         this.editFlag = this.itemData.editFlag
         this.removeFlag = this.itemData.removeFlag
@@ -266,6 +291,13 @@ export default {
           .lis-r {
             flex: 5;
             position: relative;
+            &.el-picker {
+              .el-date-editor.el-input,
+              .el-date-editor.el-input__inner {
+                border: 1px solid transparent;
+                width: 95%;
+              }
+            }
             .div-val-1 {
               font-size: 0.3rem;
               color: #999;

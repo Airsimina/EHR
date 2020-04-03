@@ -35,20 +35,7 @@
             <div class="sublis"
                  v-if="JSON.parse(item.dates).length>0">
               <span class="name">{{item.status == 4 ? '销假时长':'请假日期'}} :</span>
-              <span class="val">{{JSON.parse(item.dates).toString()}}</span>
-              <!-- <el-date-picker ref="datesRef"
-                              type="dates"
-                              size="mini"
-                              v-model="dateArr"
-                              readonly
-                              :editable="false"
-                              format="yyyy-MM-dd"
-                              value-format="yyyy-MM-dd"
-                              @change="clickElPicker"
-                              :default-value='defaultValue'
-                              placeholder=""> </el-date-picker> -->
-              <!-- <span class="val"
-                    @click.stop="look(item)">查看</span> -->
+              <span class="val one">{{JSON.parse(item.dates).toString()}}</span>
             </div>
           </div>
           <!-- 1 同意 2 审核中 3 驳回 -->
@@ -77,9 +64,6 @@ export default {
   props: {},
   data () {
     return {
-      dateArr: ['2020-04-03'],
-      defaultValue: '',
-      // ------------------
       pageTypeVal: '1', // 1:我的申请 2:假期调整申请
       dataList: [],
       jsonData: {
@@ -96,27 +80,6 @@ export default {
     }
   },
   methods: {
-    // 多选--确定日历
-    clickElPicker: function () {
-      // this.jsonData.dateList = this.dateArr ? this.dateArr.join() : []
-      return
-      this.jsonData.dateList = this.dateArr
-      if (this.dateArr.length == 1) {
-        this.jsonData.startTime = this.dateArr[0]
-        this.jsonData.endTime = this.dateArr[0]
-      }
-      this.jsonData.duration = this.dateArr.length
-      const newArr = []
-      this.dateArr.forEach(element => {
-        newArr.push(new Date(element).getTime())
-      })
-      this.jsonData.startTime = this.strDateFormat(Math.min(...newArr))
-      this.jsonData.endTime = this.strDateFormat(Math.max(...newArr))
-      console.log('this.jsonData.dateList-----' + this.jsonData.dateList)
-    },
-    look (item) {
-      console.log(item.dates)
-    },
     // 详情
     recordMoreFun (itemData) {
       this.$router.push({
@@ -206,7 +169,6 @@ export default {
     this.getApplyRecordList()
   },
   mounted () {
-    this.clickElPicker()
     // 测试数据
   }
 }
@@ -273,6 +235,13 @@ export default {
             &.val {
               color: #666666;
               flex: 3;
+            }
+            // 文本超出
+            &.one {
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              word-break: break-all;
             }
             &.color-b {
               color: #5576ab;
