@@ -901,6 +901,7 @@ export default {
       console.log(this.dateArr)
       this.jsonData.duration_xj_list = this.filterFun(this.OldDateArr, this.dateArr)
       this.jsonData.duration_xj = this.jsonData.duration_xj_list.length
+      this.jsonData.duration = this.dateArr.length
     },
     // 时间戳转字符串日期
     strDateFormat (timestamp) {
