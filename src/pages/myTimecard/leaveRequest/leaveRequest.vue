@@ -624,8 +624,10 @@ export default {
     },
     // 提交按钮
     async commitFun () {
-      console.log(this.jsonData.duration, typeof this.jsonData.duration)
+      console.log(this.dataType, this.jsonData.saveType)
 
+      console.log(this.jsonData.duration, typeof this.jsonData.duration)
+      // return
       if (!this.jsonData.reason) {
         // 请假理由哦
         this.$toast(
@@ -706,7 +708,7 @@ export default {
             this.$router.push({ name: 'applyRecord' })
           }
         })
-      } else if (this.dataType == '2') {
+      } else if (this.dataType == '2' || this.dataType == '2') {
         await this.removeVacation().then(res => {
           if (res.code == 0) {
             this.$toast.success({
@@ -1082,6 +1084,7 @@ export default {
   }
 }
 </script>
+
 <style>
 .el-icon-arrow-left::before,
 .el-icon-arrow-right:before {
