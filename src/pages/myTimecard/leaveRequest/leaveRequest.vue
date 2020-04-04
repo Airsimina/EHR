@@ -87,7 +87,7 @@
                class="lis">
             <div class="lis-f xh">
               <!-- <div class="div-name-1">{{this.dataType=='2'?'销假日期2' : '请假日期2'}}</div> -->
-              <div class="div-name-1">请假日期2</div>
+              <div class="div-name-1">请假日期</div>
               <!-- 请假日期2 -->
             </div>
             <div class="lis-r el-picker">
