@@ -27,7 +27,7 @@
             </div>
           </div>
           <div class="lis"
-               v-show="showDateConp && dataType==0">
+               v-show="showDateConp && (dataType==0|| dataType==1)">
             <div class="lis-f xh">
               <div class="div-name-1">开始时间</div>
             </div>
@@ -38,7 +38,7 @@
             </div>
           </div>
           <div class="lis"
-               v-show="showDateConp && dataType==0">
+               v-show="showDateConp && (dataType==0|| dataType==1)">
             <div class="lis-f xh">
               <div class="div-name-1">结束时间</div>
             </div>
@@ -63,7 +63,7 @@
               <div class="icon-jt"></div>
             </div>
           </div> -->
-          <div v-show="!showDateConp && dataType==0"
+          <div v-show="!showDateConp && (dataType==0|| dataType==1)"
                class="lis">
             <div class="lis-f xh">
               <div class="div-name-1">请假日期</div>
@@ -83,11 +83,11 @@
               <!-- <div class="icon-jt"></div> -->
             </div>
           </div>
-          <div v-show="dataType!=0"
+          <div v-show="dataType==2"
                class="lis">
             <div class="lis-f xh">
               <!-- <div class="div-name-1">{{this.dataType=='2'?'销假日期2' : '请假日期2'}}</div> -->
-              <div class="div-name-1">请假日期</div>
+              <div class="div-name-1">请假日期2</div>
               <!-- 请假日期2 -->
             </div>
             <div class="lis-r el-picker">
@@ -128,7 +128,7 @@
 
           </div>
           <div class="lis"
-               v-show="dataType!=0">
+               v-show="dataType==2">
             <div class="lis-f">
               <div class="div-name-1">销假时长</div>
               <!-- 销假时长2 -->
@@ -901,7 +901,7 @@ export default {
       console.log(this.dateArr)
       this.jsonData.duration_xj_list = this.filterFun(this.OldDateArr, this.dateArr)
       this.jsonData.duration_xj = this.jsonData.duration_xj_list.length
-      this.jsonData.duration = this.dateArr.length
+      // this.jsonData.duration = this.dateArr.length
     },
     // 时间戳转字符串日期
     strDateFormat (timestamp) {
