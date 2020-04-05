@@ -6,7 +6,7 @@
           <div class="single-card"
                @click="toDb">
             <div class="number">{{awaitNum}}</div>
-            <div class="discribe">我的代办（个）</div>
+            <div class="discribe">我的待办（个）</div>
           </div>
           <div class="single-card"
                @click="toNj">
@@ -165,11 +165,11 @@ export default {
         this.userId = urlId.substring(0, urlId.length - 6)
         this.util.setSession('sessionData', { userId: this.userId })
       } else {
-        this.userId = '80001247' // wangdan
+        // this.userId = '80001247' // wangdan
         // this.userId = '00000345'
         // this.userId = '00025013'
         // this.userId = '00004028'
-        // this.userId = '90016244'
+        this.userId = '90016244'
       }
       this.util.setSession('sessionData', { userId: this.userId })
       await this.annualResidue().then(res => {
