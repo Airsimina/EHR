@@ -8,20 +8,6 @@
       :style="{ 'max-height': '80%' }"
     >
       <div class="layout">
-        <div class="title">
-          <span class="title-text" v-if="operateType === 'handover'">我的转办</span>
-          <div v-if="operateType === 'append'" class="append-title">
-            <span
-              :class="[
-                appendActiveTitleIndex == index ? 'title-text' : 'normal-title'
-              ]"
-              v-for="(item, index) in titleArray"
-              :key="index"
-              @click="handleAppendLabelClick(item, index)"
-            >{{ item.label }}</span>
-          </div>
-          <div class="close" @click="handleLayoutClose"></div>
-        </div>
         <div class="search-box">
           <input
             @focusout="inputBlur"
@@ -345,13 +331,13 @@ export default {
       this.selectQuery.orgId=item.id
       this.selectPeopleQuery.deptId=item.id
       myHttp.getOrgChildren(this.selectQuery).then(res => {
-        if(res.code==200) {
+        if(res.code==0) {
           this.company=res.data
         }
       })
       myHttp.getPersonList(this.selectPeopleQuery).then(res => {
-        if(res.code==200) {
-          this.companyPerson=res.data
+        if(res.code==0) {
+          this.companyPerson=res.data.rows
         }
       })
     },

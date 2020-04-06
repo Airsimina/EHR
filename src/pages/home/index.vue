@@ -3,13 +3,13 @@
     <div class="top">
       <div class="commission-card-container">
         <div class="commission-card">
-          <div class="single-card">
+          <div class="single-card" @click="toDb">
             <div class="number">{{awaitNum}}</div>
-            <div class="discribe">我的代办（个）</div>
+            <div class="discribe">我的待办（个）</div>
           </div>
-          <div class="single-card">
+          <div class="single-card" @click="toNj">
             <div class="number">{{vacationNum}}</div>
-            <div class="discribe">假期余额（天）</div>
+            <div class="discribe">年假余额（天）</div>
           </div>
         </div>
       </div>
@@ -40,7 +40,7 @@
     </div>
     <div class="people-container nodata-box" v-show="true">
       <div class="img-bg"></div>
-      <div class="txt">更多功能敬请期待</div>
+      <!-- <div class="txt">更多功能敬请期待</div> -->
     </div>
   </div>
 </template>
@@ -49,7 +49,7 @@
 import HttpEhr from '@requestPool/index.js'
 
 export default {
-  data () {
+  data() {
     return {
       jsonData: {
         list_a: [
@@ -75,7 +75,7 @@ export default {
           // },
           {
             iconUrl: require('../../../static/img/kzm.png'),
-            iconText: '审批',
+            iconText: '我的已办',
             path: 'commission'
           }
         ],
@@ -108,15 +108,25 @@ export default {
       OAurl: ''
     }
   },
-  mounted () {
+  mounted() {
     console.log('0325更新完成')
     this.init()
-    document.title = '首页'
+    this.initOAurl()
+    document.title='首页'
   },
   methods: {
+    toDb() {
+      console.log(this.OAurl)
+      window.location.href=this.OAurl
+    },
+    toNj() {
+      this.$router.push({
+        name: 'annualResidue'
+      })
+    },
     // 获取代办个数
-    getTaskCount () {
-      return new Promise((resolve, reject) => {
+    getTaskCount() {
+      return new Promise((resolve,reject) => {
         HttpEhr.getTaskCount({
           userId: this.userId
         }
@@ -126,8 +136,8 @@ export default {
       })
     },
     // 获取用户
-    getLoginUserName () {
-      return new Promise((resolve, reject) => {
+    getLoginUserName() {
+      return new Promise((resolve,reject) => {
         HttpEhr.getLoginUserName({
           userId: this.userId
         }
@@ -137,66 +147,86 @@ export default {
       })
     },
     // 获取年假余额
-    annualResidue () {
-      return new Promise((resolve, reject) => {
+    annualResidue() {
+      return new Promise((resolve,reject) => {
         HttpEhr.annualResidue({ userId: this.userId }).then(res => {
           resolve(res)
         })
       })
     },
     // 获取userId  设置年假
-    async init () {
+    async init() {
       // 判断是不是打包环境获取userId
-      if (this.buildType !== 'dev') {
-        const urlId = location.href.split('?')[1].split('=')[1]
-        this.userId = urlId.substring(0, urlId.length - 6)
-        this.util.setSession('sessionData', { userId: this.userId })
+      if(this.buildType!=='dev') {
+        const urlId=location.href.split('?')[1].split('=')[1]
+        this.userId=urlId.substring(0,urlId.length-6)
+        this.util.setSession('sessionData',{ userId: this.userId })
       } else {
-        // this.userId = '00049904'
-
         // this.userId = '80001247' // wangdan
 
-        this.userId = '00005886'
+        this.userId='00004021'
       }
-      this.util.setSession('sessionData', { userId: this.userId })
+      this.util.setSession('sessionData',{ userId: this.userId })
       await this.annualResidue().then(res => {
-        this.vacationNum = res.data.surplus
+        this.vacationNum=res.data.surplus
       })
       await this.getLoginUserName().then(res => {
-        this.util.setSession('sysUsername', { sysUsername: res.data.sysUsername })
+        this.util.setSession('sysUsername',{ sysUsername: res.data.sysUsername })
       })
       await this.getTaskCount().then(res => {
-        this.awaitNum = res.data
+        this.awaitNum=res.data
       })
     },
-    // 跳转
-    transmitFun (item) {
-      console.log(this.buildType + '环境')
-      const isShowBackStr = encodeURIComponent(`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
-      switch (this.buildType.toUpperCase()) {
+    initOAurl() {
+      const isShowBackStr=encodeURIComponent(`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
+      console.log(this.buildType+'环境')
+      switch(this.buildType.toUpperCase()) {
         case 'PRO':
-          this.OAurl = ''
+          this.OAurl=''
           break
         case 'PRE':
-          this.OAurl = ''
+          this.OAurl=''
           break
         case 'Q3':
-          this.OAurl = 'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
+          this.OAurl='http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack='+isShowBackStr
           break
         case 'PRO_DEV':
-          this.OAurl = 'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
+          this.OAurl='http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack='+isShowBackStr
           break
         default:
           // dev
-          this.OAurl = 'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
+          this.OAurl='http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack='+isShowBackStr
           break
       }
-      console.log(this.OAurl)
-      if (item.path == 'commission') {
-        window.location.href = this.OAurl
+    },
+    // 跳转
+    transmitFun(item) {
+      // console.log(this.buildType + '环境')
+      // const isShowBackStr = encodeURIComponent(`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
+      // switch (this.buildType.toUpperCase()) {
+      //   case 'PRO':
+      //     this.OAurl = ''
+      //     break
+      //   case 'PRE':
+      //     this.OAurl = ''
+      //     break
+      //   case 'Q3':
+      //     this.OAurl = 'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
+      //     break
+      //   case 'PRO_DEV':
+      //     this.OAurl = 'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
+      //     break
+      //   default:
+      //     // dev
+      //     this.OAurl = 'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
+      //     break
+      // }
+      // console.log(this.OAurl)
+      if(item.path=='commission') {
+        window.location.href=this.OAurl
         return
       }
-      if (!item.path) {
+      if(!item.path) {
         this.$toast(
           {
             message: '敬请期待',

@@ -65,8 +65,13 @@ export default {
       // width: 0.2rem;
       z-index: 120;
       color: #fff;
-      font-size: 0.3rem;
+      font-size: 0.33rem;
       letter-spacing: 0.05rem;
+      // font-weight: bold;
+      border: 1px solid rgb(127, 143, 233);
+      border-radius: 0.3rem;
+      padding: 0.05rem 0.2rem;
+      box-shadow: 0px 5px 25px rgba(253, 253, 253, 0.158);
     }
     .top {
       background: url("../../../static/img/top-bg.png") 0 0 no-repeat;

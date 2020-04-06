@@ -29,13 +29,13 @@
               <span class="val">{{item.endDate}}</span>
             </div>
             <div class="sublis">
-              <span class="name">请假时长 :</span>
+              <span class="name">{{item.status == 4 ? '销假时长':'请假时长'}} :</span>
               <span class="val">{{item.sum}}/天</span>
             </div>
             <div class="sublis"
                  v-if="JSON.parse(item.dates).length>0">
-              <span class="name">请假日期 :</span>
-              <span class="val">{{JSON.parse(item.dates).toString()}}</span>
+              <span class="name">{{item.status == 4 ? '销假时长':'请假日期'}} :</span>
+              <span class="val one">{{JSON.parse(item.dates).toString()}}</span>
             </div>
           </div>
           <!-- 1 同意 2 审核中 3 驳回 -->
@@ -157,7 +157,7 @@ export default {
   },
   created () {
     if (this.$route.query.icon == 'qjtzsq') {
-      document.title = '假期调整申请'
+      document.title = '请假调整申请'
       this.pageTypeVal = '2'
       this.jsonData.status = '3'
     } else {
@@ -169,7 +169,6 @@ export default {
     this.getApplyRecordList()
   },
   mounted () {
-
     // 测试数据
   }
 }
@@ -236,6 +235,13 @@ export default {
             &.val {
               color: #666666;
               flex: 3;
+            }
+            // 文本超出
+            &.one {
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              word-break: break-all;
             }
             &.color-b {
               color: #5576ab;
