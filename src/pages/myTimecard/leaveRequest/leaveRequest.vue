@@ -4,47 +4,40 @@
     <div class="wrap-1">
       <div class="cantainer">
         <div class="box">
-          <div class="title">{{this.title}}</div>
+          <div class="title">{{ this.title }}</div>
           <div class="lis">
             <div class="lis-f">
-              <div class="div-name-1"> {{this.dataType=='2'?'销假类型' : '请假类型'}}</div>
+              <div class="div-name-1">{{ this.dataType == "2" ? "销假类型" : "请假类型" }}</div>
             </div>
-            <div class="lis-r"
-                 @click="openPopShowType">
-              <div class="div-val-1">{{leaveTypetxt}}</div>
-              <div :class="{'icon-jt' :this.dataType!='2'}"></div>
+            <div class="lis-r" @click="openPopShowType">
+              <div class="div-val-1">{{ leaveTypetxt }}</div>
+              <div :class="{ 'icon-jt': this.dataType != '2' }"></div>
             </div>
           </div>
-          <div class="lis"
-               v-if="jsonData.leaveTypeId=='8'">
+          <div class="lis" v-if="jsonData.leaveTypeId == '8'">
             <div class="lis-f">
               <div class="div-name-1">亲属关系</div>
             </div>
-            <div class="lis-r"
-                 @click="openKinsfolk">
-              <div class="div-val-1">{{kinsfolkTxt}}</div>
-              <div :class="{'icon-jt' :this.dataType!='2'}"></div>
+            <div class="lis-r" @click="openKinsfolk">
+              <div class="div-val-1">{{ kinsfolkTxt }}</div>
+              <div :class="{ 'icon-jt': this.dataType != '2' }"></div>
             </div>
           </div>
-          <div class="lis"
-               v-show="showDateConp">
+          <div class="lis" v-show="showDateConp">
             <div class="lis-f">
               <div class="div-name-1">开始时间</div>
             </div>
-            <div class="lis-r"
-                 @click="showDatePicker(0)">
-              <div class="div-val-1">{{jsonData.startTime}}</div>
+            <div class="lis-r" @click="showDatePicker(0)">
+              <div class="div-val-1">{{ jsonData.startTime }}</div>
               <div class="icon-jt"></div>
             </div>
           </div>
-          <div class="lis"
-               v-show="showDateConp">
+          <div class="lis" v-show="showDateConp">
             <div class="lis-f">
               <div class="div-name-1">结束时间</div>
             </div>
-            <div class="lis-r"
-                 @click="showDatePicker(1)">
-              <div class="div-val-1">{{jsonData.endTime}}</div>
+            <div class="lis-r" @click="showDatePicker(1)">
+              <div class="div-val-1">{{ jsonData.endTime }}</div>
               <div class="icon-jt"></div>
             </div>
           </div>
@@ -62,105 +55,108 @@
               </div>
               <div class="icon-jt"></div>
             </div>
-          </div> -->
-          <div v-show="!showDateConp"
-               class="lis">
+          </div>-->
+          <div v-show="!showDateConp" class="lis">
             <div class="lis-f">
-              <div class="div-name-1">{{this.dataType=='2'?'销假日期' : '请假日期'}}</div>
+              <div class="div-name-1">{{ this.dataType == "2" ? "销假日期" : "请假日期" }}</div>
             </div>
             <div class="lis-r el-picker">
-              <el-date-picker ref="datesRef"
-                              type="dates"
-                              size="mini"
-                              v-model="dateArr"
-                              :editable="false"
-                              format="yyyy-MM-dd"
-                              value-format="yyyy-MM-dd"
-                              @change="clickElPicker"
-                              placeholder="选择一个或多个日期">
-              </el-date-picker>
+              <el-date-picker
+                ref="datesRef"
+                type="dates"
+                size="mini"
+                v-model="dateArr"
+                :editable="false"
+                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
+                @change="clickElPicker"
+                placeholder="选择一个或多个日期"
+              ></el-date-picker>
               <!-- <div class="icon-jt"></div> -->
             </div>
           </div>
-          <div class="lis"
-               v-if="jsonData.leaveTypeId=='6' || jsonData.leaveTypeId=='7'">
+          <div class="lis" v-if="jsonData.leaveTypeId == '6' || jsonData.leaveTypeId == '7'">
             <div class="lis-f">
-              <div class="div-name-1"> 请选择省份</div>
+              <div class="div-name-1">请选择省份</div>
             </div>
-            <div class="lis-r"
-                 @click="openAreaShow">
-              <div class="div-val-1">{{jsonData.areaNameTxt}}</div>
-              <div :class="{'icon-jt' :this.dataType!='2'}"></div>
+            <div class="lis-r" @click="openAreaShow">
+              <div class="div-val-1">{{ jsonData.areaNameTxt }}</div>
+              <div :class="{ 'icon-jt': this.dataType != '2' }"></div>
             </div>
           </div>
           <div class="lis">
             <div class="lis-f">
-              <div class="div-name-1">{{this.dataType=='2'?'销假时长' : '请假时长'}}</div>
+              <div class="div-name-1">{{ this.dataType == "2" ? "销假时长" : "请假时长" }}</div>
             </div>
             <div class="lis-r">
-              <div class="div-val-1">{{jsonData.duration}}</div>
+              <div class="div-val-1">{{ jsonData.duration }}</div>
               <!-- <input type="number"
                      :disabled="(jsonData.leaveTypeId != '3' && jsonData.leaveTypeId != '1'&& jsonData.leaveTypeId != '5')"
                      class="input-time"
                      :placeholder="(jsonData.leaveTypeId == '3' || jsonData.leaveTypeId == '1'|| jsonData.leaveTypeId == '5')  ? '请输入时长' :'0'"
-                     v-model="jsonData.duration"> -->
+              v-model="jsonData.duration">-->
               <span class="dw">/天</span>
             </div>
-
           </div>
-          <div class="lis"
-               v-if="this.dataType!='2'">
+          <div class="lis" v-if="this.dataType != '2'">
             <div class="lis-f">
               <div class="div-name-1">图片</div>
             </div>
             <div class="lis-r">
-              <div class="img-box"
-                   v-for="(item,index) in jsonData.fileViewLists"
-                   :key="index">
-                <div class="icon-close"
-                     @click="delImg(index)"></div>
-                <img :src="item"
-                     @click="viewImg(index)"
-                     alt="">
+              <div class="img-box" v-for="(item, index) in jsonData.fileViewLists" :key="index">
+                <div class="icon-close" @click="delImg(index)"></div>
+                <img :src="item" @click="viewImg(index)" alt />
               </div>
-              <div class="upload-box img-box"
-                   v-if="jsonData.fileViewLists.length<9">
-                <van-uploader :preview-size="55"
-                              v-if="jsonData.fileViewLists.length<9"
-                              multiple
-                              :after-read="afterRead"
-                              @delete="delImg"
-                              :max-count="9"></van-uploader>
+              <div class="upload-box img-box" v-if="jsonData.fileViewLists.length < 9">
+                <van-uploader
+                  :preview-size="55"
+                  v-if="jsonData.fileViewLists.length < 9"
+                  multiple
+                  :after-read="afterRead"
+                  @delete="delImg"
+                  :max-count="9"
+                ></van-uploader>
               </div>
             </div>
           </div>
           <div class="lis">
             <div class="lis-f">
-              <div class="div-name-1">{{this.dataType=='2'?'销假事由' : '请假理由'}}</div>
+              <div class="div-name-1">{{ this.dataType == "2" ? "销假事由" : "请假理由" }}</div>
             </div>
             <div class="lis-r">
-              <input type="text"
-                     class="input-time liy"
-                     placeholder="请输入请假事由"
-                     v-model="jsonData.reason"></div>
+              <input
+                type="text"
+                class="input-time liy"
+                placeholder="请输入请假事由"
+                v-model="jsonData.reason"
+              />
+            </div>
           </div>
+          <audit-select-person
+            :assingersSelectList="assingersSelectList"
+            v-if="isShowAudit"
+            :newAssingersSelectList="newAssingersSelectList"
+          ></audit-select-person>
           <!-- <van-cell v-model="carmodel" title="省/市/区" value="" @click="show = true"></van-cell> -->
         </div>
       </div>
     </div>
-    <div class="commit-btn"
-         @click="commitFun">提交</div>
+    <div class="commit-btn" @click="commitFun">提交</div>
     <!-- 开始 结束时间 -->
-    <van-popup v-model="isPopShow"
-               close-icon-position="top-left"
-               position="bottom"
-               :style="{ height: '40%' }">
-      <van-datetime-picker v-model="currentDate"
-                           @cancel="cancelPicker"
-                           @confirm="confirmPicker"
-                           type="date"
-                           :title="popupTitle"
-                           :formatter="formatter" />
+    <van-popup
+      v-model="isPopShow"
+      close-icon-position="top-left"
+      position="bottom"
+      :style="{ height: '40%' }"
+    >
+      <van-datetime-picker
+        v-model="currentDate"
+        @cancel="cancelPicker"
+        @confirm="confirmPicker"
+        type="date"
+        :title="popupTitle"
+        :formatter="formatter"
+      />
     </van-popup>
     <!-- <van-calendar v-model="isPopShow"
                   :min-date="minDate"
@@ -168,59 +164,75 @@
                   type="range"
                   color="#79a2f9"
                   @cancel="cancelPicker"
-                  @confirm="confirmPicker" /> -->
+    @confirm="confirmPicker" />-->
     <!-- 类型 -->
-    <van-popup v-model="isPopShowType"
-               close-icon-position="top-left"
-               position="bottom"
-               :style="{ height: '40%' }">
-      <van-picker show-toolbar
-                  position="right"
-                  :columns="columns"
-                  title="选择请假类型"
-                  @cancel="onCancel"
-                  @confirm="onConfirm" />
+    <van-popup
+      v-model="isPopShowType"
+      close-icon-position="top-left"
+      position="bottom"
+      :style="{ height: '40%' }"
+    >
+      <van-picker
+        show-toolbar
+        position="right"
+        :columns="columns"
+        title="选择请假类型"
+        @cancel="onCancel"
+        @confirm="onConfirm"
+      />
     </van-popup>
     <!-- 直系亲属关系 -->
-    <van-popup v-model="isKinsfolkShowType"
-               close-icon-position="top-left"
-               position="bottom"
-               :style="{ height: '40%' }">
-      <van-picker show-toolbar
-                  position="right"
-                  :columns="KinsfolkList"
-                  title="选择请假类型"
-                  @cancel="cancelKinsfolk"
-                  @confirm="okKinsfolk" />
+    <van-popup
+      v-model="isKinsfolkShowType"
+      close-icon-position="top-left"
+      position="bottom"
+      :style="{ height: '40%' }"
+    >
+      <van-picker
+        show-toolbar
+        position="right"
+        :columns="KinsfolkList"
+        title="选择请假类型"
+        @cancel="cancelKinsfolk"
+        @confirm="okKinsfolk"
+      />
     </van-popup>
     <!-- 省市区 -->
-    <van-popup v-model="showArea"
-               position="bottom">
+    <van-popup v-model="showArea" position="bottom">
       <!-- <van-area :area-list="areaList"
                 :columns-num="1"
                 @change="onChange"
                 @confirm="AreaConfirm"
                 @cancel="showArea = false"
-                :value="provId" /> -->
-      <van-picker :columns="areaList"
-                  show-toolbar
-                  title=""
-                  :default-index='defaultIndex'
-                  @cancel="showArea = false"
-                  @confirm="AreaConfirm" />
+      :value="provId" />-->
+      <van-picker
+        :columns="areaList"
+        show-toolbar
+        title
+        :default-index="defaultIndex"
+        @cancel="showArea = false"
+        @confirm="AreaConfirm"
+      />
     </van-popup>
-
   </div>
 </template>
 
 <script>
 import HttpEhr from '@requestPool/index.js'
+import auditSelectPerson from '@components/auditSelectPerson/index.vue'
+
 // import util from '../../../util/util.js'
 // import testdata from '../../../testJson/from.js'
 import { ImagePreview } from 'vant'
 export default {
-  data () {
+  components: {
+    auditSelectPerson
+  },
+  data() {
     return {
+      newAssingersSelectList: [],
+      isShowAudit: false,
+      activeNames: ['0'],
       showArea: false,
       areaList: [],
       defaultIndex: 2, // 默认选中下标
@@ -230,7 +242,8 @@ export default {
       flowMessages: [],
       oNodeButtons: [],
       flowData: {}, // 流程数据
-      flowContext: { // 流程内容
+      flowContext: {
+        // 流程内容
         assigners: {},
         preAssigners: {},
         processVar: {},
@@ -253,8 +266,8 @@ export default {
         leaveTypeId: '3', // 请假类型id
         duration: 0, // 请假时长
         reason: '', // 理由
-        startTime: '' || '请选择', // 开始时间
-        endTime: '' || '请选择', // 结束时间,
+        startTime: ''||'请选择', // 开始时间
+        endTime: ''||'请选择', // 结束时间,
         dataId: '', // 原请假id  修改 , 销假用
         editType: '', // 默认空,修改:2
         // 图片集合
@@ -265,11 +278,11 @@ export default {
         formType: '1', // 1:新增 1:修改 2:销假
         dateList: [], // 多选的日期
         kinsfolkId: '', // 亲属关系id
-        areaNameTxt: '' || '请选择省份',
+        areaNameTxt: ''||'请选择省份',
         provId: '' // 省id
       },
       dataType: '1', // 0:新增 1:修改 2:销假
-      leaveTypetxt: '事假' || '请选择', // 请假类型文字
+      leaveTypetxt: '事假'||'请选择', // 请假类型文字
       popupTitle: '', // 时间选择title
       currentDate: new Date(),
       datePicker: 0, // 用于判断哪个选择器的显示与隐藏
@@ -318,7 +331,7 @@ export default {
       dateArr: [],
       getBranchData: {},
       minDate: new Date(), // :min-date="minDate"
-      maxDate: new Date(2100, 0, 1),
+      maxDate: new Date(2100,0,1),
       isKinsfolkShowType: false, // 亲属关系 - 隐藏与显示
       KinsfolkList: [
         {
@@ -338,110 +351,162 @@ export default {
           text: '子女'
         }
       ],
-      kinsfolkTxt: '请选择'
+      kinsfolkTxt: '请选择',
+      assingersSelectList: [] // 下拉框预选人员
     }
   },
   methods: {
-
     // --------------------------公用数据解析处理---------------------------
     // 初始化表单流程数据
-    load () {
-      const classifyHangup = '[HANGUP]'
-      const flowData = this.flowData
-      const cacheFlowVar = this.cacheFlowVar
-      const flowNodesData = this.flowNodesData
-      const flowMessages = this.initDefMessages() // yinh
-      const oNodeButtons = this.oNodeButtons
-      if (flowData.currentPerson && flowData.currentPerson.id) cacheFlowVar.personId = flowData.currentPerson.id // yinh
-      if (flowData.loginUsername) cacheFlowVar.loginUsername = flowData.loginUsername
-      if (flowData.flowKeyId) cacheFlowVar.flowKeyId = flowData.flowKeyId || ''
-      if (flowData.formId) cacheFlowVar.formId = flowData.formId || ''
-      if (flowData.dataId) cacheFlowVar.dataId = flowData.dataId || ''
-      if (Object.keys(flowData).length) cacheFlowVar.flowDefId = flowData.flowBase.id // yinh
-      if (!flowData.firstNode || flowData.firstNode === 'startEvent') cacheFlowVar.firstNode = flowData.flowNodes[0].id // yinh
-      if (flowData.currentNode.nodeId) {
-        cacheFlowVar.nodeId = flowData.currentNode.nodeId
-      } else if (flowData.flowInst.currentNodeId) {
-        cacheFlowVar.nodeId = flowData.flowInst.currentNodeId
+    load() {
+      const classifyHangup='[HANGUP]'
+      const flowData=this.flowData
+      const cacheFlowVar=this.cacheFlowVar
+      const flowNodesData=this.flowNodesData
+      const flowMessages=this.initDefMessages() // yinh
+      const oNodeButtons=this.oNodeButtons
+      if(flowData.currentPerson&&flowData.currentPerson.id) {
+        cacheFlowVar.personId=flowData.currentPerson.id
+      } // yinh
+      if(flowData.loginUsername) {
+        cacheFlowVar.loginUsername=flowData.loginUsername
       }
-      if (flowData.isNewFlow) {
-        cacheFlowVar.nodeId = cacheFlowVar.firstNode || ''
+      if(flowData.flowKeyId) cacheFlowVar.flowKeyId=flowData.flowKeyId||''
+      if(flowData.formId) cacheFlowVar.formId=flowData.formId||''
+      if(flowData.dataId) cacheFlowVar.dataId=flowData.dataId||''
+      if(Object.keys(flowData).length) {
+        cacheFlowVar.flowDefId=flowData.flowBase.id
+      } // yinh
+      if(!flowData.firstNode||flowData.firstNode==='startEvent') {
+        cacheFlowVar.firstNode=flowData.flowNodes[0].id
+      } // yinh
+      if(flowData.currentNode.nodeId) {
+        cacheFlowVar.nodeId=flowData.currentNode.nodeId
+      } else if(flowData.flowInst.currentNodeId) {
+        cacheFlowVar.nodeId=flowData.flowInst.currentNodeId
+      }
+      if(flowData.isNewFlow) {
+        cacheFlowVar.nodeId=cacheFlowVar.firstNode||''
       } else {
-        cacheFlowVar.instId = flowData.flowInst.actInstId || ''
-        cacheFlowVar.proRunId = flowData.flowInst.proRunId || ''
+        cacheFlowVar.instId=flowData.flowInst.actInstId||''
+        cacheFlowVar.proRunId=flowData.flowInst.proRunId||''
       }
-      flowData.flowNodes.forEach((item, i) => {
-        flowNodesData[item.id] = item
+      flowData.flowNodes.forEach((item,i) => {
+        flowNodesData[item.id]=item
       })
-      if (flowData.currentTask && flowData.currentTask.id) {
-        cacheFlowVar.taskUserId = flowData.currentTask.id || ''
-        cacheFlowVar.executionId = flowData.currentTask.actExecutionId || ''
+      if(flowData.currentTask&&flowData.currentTask.id) {
+        cacheFlowVar.taskUserId=flowData.currentTask.id||''
+        cacheFlowVar.executionId=flowData.currentTask.actExecutionId||''
 
         // 流程权限控制button
-        const lastOptType = flowData.currentTask.lastOperateType
-        if (lastOptType == 'authorize') {
-          oNodeButtons.authorize = false // 授权任务，不允许再授权
-          oNodeButtons.handover = false // 授权任务，不允许再转办
-        } else if (lastOptType == 'handover') {
-          oNodeButtons.authorize = false // 转办任务，不允许再授权
-          oNodeButtons.handover = false // 转办任务，不允许再转办
-        } else if (lastOptType == 'append') {
-          oNodeButtons.append = false // 加签任务，不允许再加签
+        const lastOptType=flowData.currentTask.lastOperateType
+        if(lastOptType=='authorize') {
+          oNodeButtons.authorize=false // 授权任务，不允许再授权
+          oNodeButtons.handover=false // 授权任务，不允许再转办
+        } else if(lastOptType=='handover') {
+          oNodeButtons.authorize=false // 转办任务，不允许再授权
+          oNodeButtons.handover=false // 转办任务，不允许再转办
+        } else if(lastOptType=='append') {
+          oNodeButtons.append=false // 加签任务，不允许再加签
         }
-        if (flowData.currentTask.classify == classifyHangup) {
-          oNodeButtons.hangup = false
+        if(flowData.currentTask.classify==classifyHangup) {
+          oNodeButtons.hangup=false
         }
       }
-      this.cacheFlowVar = cacheFlowVar
-      this.flowMessages = flowMessages
-      this.oNodeButtons = oNodeButtons
+      this.cacheFlowVar=cacheFlowVar
+      this.flowMessages=flowMessages
+      this.oNodeButtons=oNodeButtons
       this.initFlowContext()
+      this.getSelectAssinerList()
+    },
+    async getSelectAssinerList() {
+      const res=await this.getAssignersList()
+      this.assingersSelectList=res.data.nodeAssigners
+      this.isShowAudit=true
     },
     // 初始化提示文本
-    initDefMessages () {
-      const personName = this.flowData.currentPerson
-      const applyerName = this.flowData.flowInst ? this.flowData.flowInst.applyerName : ''
-      const applyerStr = applyerName && applyerName != personName ? ('(' + applyerName + '的)') : ''
-      const flowName = this.flowData.flowBase.name
-      const flowMessages = {
-        submit: personName + this.getButtonText('submit') + '了' + applyerStr + flowName + '，请处理',
-        reject: personName + this.getButtonText('reject') + '了您的' + applyerStr + flowName + '，请查阅',
-        restart: personName + this.getButtonText('restart') + '了您的' + applyerStr + flowName + '，请查阅',
-        append: personName + this.getButtonText('append') + '给您了' + applyerStr + flowName + '，请处理',
-        handover: personName + '将' + applyerStr + flowName + '转交给您' + '，请处理',
-        notify: personName + this.getButtonText('notify') + '您及时处理' + applyerStr + flowName + '，请查阅',
-        deliver: personName + '传给您的' + applyerStr + flowName + '，请查阅',
-        authorize: personName + '授权您处理' + applyerStr + flowName + '，请查阅',
-        jump: personName + '将' + applyerStr + flowName + '跳转给您，请处理',
-        replace: personName + '将' + applyerStr + flowName + '处理人替换为您，请处理'
+    initDefMessages() {
+      const personName=this.flowData.currentPerson
+      const applyerName=this.flowData.flowInst
+        ? this.flowData.flowInst.applyerName
+        :''
+      const applyerStr=
+        applyerName&&applyerName!=personName
+          ? '('+applyerName+'的)'
+          :''
+      const flowName=this.flowData.flowBase.name
+      const flowMessages={
+        submit:
+          personName+
+          this.getButtonText('submit')+
+          '了'+
+          applyerStr+
+          flowName+
+          '，请处理',
+        reject:
+          personName+
+          this.getButtonText('reject')+
+          '了您的'+
+          applyerStr+
+          flowName+
+          '，请查阅',
+        restart:
+          personName+
+          this.getButtonText('restart')+
+          '了您的'+
+          applyerStr+
+          flowName+
+          '，请查阅',
+        append:
+          personName+
+          this.getButtonText('append')+
+          '给您了'+
+          applyerStr+
+          flowName+
+          '，请处理',
+        handover:
+          personName+'将'+applyerStr+flowName+'转交给您'+'，请处理',
+        notify:
+          personName+
+          this.getButtonText('notify')+
+          '您及时处理'+
+          applyerStr+
+          flowName+
+          '，请查阅',
+        deliver: personName+'传给您的'+applyerStr+flowName+'，请查阅',
+        authorize:
+          personName+'授权您处理'+applyerStr+flowName+'，请查阅',
+        jump: personName+'将'+applyerStr+flowName+'跳转给您，请处理',
+        replace:
+          personName+'将'+applyerStr+flowName+'处理人替换为您，请处理'
       }
       return flowMessages
     },
-    getButtonText (type) {
-      let text = ''
-      switch (type) {
+    getButtonText(type) {
+      let text=''
+      switch(type) {
         case 'submit':
-          text = '提交'
+          text='提交'
           break
         case 'reject':
-          text = '驳回'
+          text='驳回'
           break
         case 'restart':
-          text = '强制驳回'
+          text='强制驳回'
           break
         case 'append':
-          text = '加签'
+          text='加签'
           break
         case 'notify':
-          text = '转办'
+          text='转办'
           break
         default:
           break
       }
       return text
     },
-    initFlowContext () {
-      this.flowContext = {
+    initFlowContext() {
+      this.flowContext={
         ...this.flowContext,
         flowDefId: this.cacheFlowVar.flowDefId,
         flowKeyId: this.cacheFlowVar.flowKeyId,
@@ -451,29 +516,30 @@ export default {
         executionId: this.cacheFlowVar.executionId,
         dataId: this.cacheFlowVar.dataId,
         formId: this.cacheFlowVar.formId,
-        proRunId: this.cacheFlowVar.proRunId ? this.cacheFlowVar.proRunId : ''
+        proRunId: this.cacheFlowVar.proRunId? this.cacheFlowVar.proRunId:''
       }
     },
     // 获取页面数据
-    getProcessParams (useBizData) {
-      const params = {}
-      let formFields = this.flowData.flowBase.bizDataRule || ''
-      if (formFields) {
-        formFields = JSON.parse(formFields)
-        if (Array.isArray(formFields)) {
-          let bizData = {}
-          if (useBizData) {
-            bizData = this.parseBizData()
+    getProcessParams(useBizData) {
+      const params={}
+      let formFields=this.flowData.flowBase.bizDataRule||''
+      if(formFields) {
+        formFields=JSON.parse(formFields)
+        if(Array.isArray(formFields)) {
+          let bizData={}
+          if(useBizData) {
+            bizData=this.parseBizData()
           }
-          formFields.forEach((item, i) => {
-            if (item.propertyName) {
-              if (this.formData[item.propertyName]) {
-                params[item.propertyName] = this.formData[item.propertyName] || ''
+          formFields.forEach((item,i) => {
+            if(item.propertyName) {
+              if(this.formData[item.propertyName]) {
+                params[item.propertyName]=
+                  this.formData[item.propertyName]||''
               } else {
-                params[item.propertyName] = bizData[item.propertyName] || ''
+                params[item.propertyName]=bizData[item.propertyName]||''
                 // em.bizDataKey && bizData[em.bizDataKey] 存在
-                if (item.bizDataKey && bizData[item.bizDataKey]) {
-                  params[item.propertyName] = bizData[item.bizDataKey]
+                if(item.bizDataKey&&bizData[item.bizDataKey]) {
+                  params[item.propertyName]=bizData[item.bizDataKey]
                 }
               }
             }
@@ -483,22 +549,22 @@ export default {
       console.log('this.formData----------------')
       console.log(this.flowData)
 
-      params.departmentType = this.flowData.currentPerson.departmentType
-      params.departmentBizType = this.flowData.currentPerson.departmentBizType
+      params.departmentType=this.flowData.currentPerson.departmentType
+      params.departmentBizType=this.flowData.currentPerson.departmentBizType
       console.log(params)
 
       // params.departmentType = this.formData.departmentType
       // params.departmentBizType = this.formData.departmentBizType
       return params
     },
-    parseBizData () {
-      let params = {}
-      params = { ...this.formData }
+    parseBizData() {
+      let params={}
+      params={ ...this.formData }
       return params
     },
     // -------------------------表单数据处理----------------------------
     // 1. form.do
-    leaveApplyDetail () {
+    leaveApplyDetail() {
       // return new Promise((resolve, reject) => {
       HttpEhr.leaveApplyDetail({
         userId: this.util.getSession('sessionData').userId,
@@ -507,14 +573,14 @@ export default {
         formType: this.jsonData.formType
       }).then(res => {
         // resolve(res)
-        this.flowData = res.data.flowData
+        this.flowData=res.data.flowData
         this.load()
       })
       // })
     },
     // 2. 分支接口
-    getBranch () {
-      return new Promise((resolve, reject) => {
+    getBranch() {
+      return new Promise((resolve,reject) => {
         HttpEhr.getBranch({
           userId: this.util.getSession('sessionData').userId,
           type: this.jsonData.leaveTypeId,
@@ -525,33 +591,31 @@ export default {
       })
     },
     // 3.获取审批人信息
-    getAssignersList () {
-      const params = {
-        flowDefId: this.cacheFlowVar.flowDefId || '',
-        instId: this.cacheFlowVar.instId || '',
-        proRunId: this.cacheFlowVar.proRunId || ''
+    getAssignersList() {
+      const params={
+        flowDefId: this.cacheFlowVar.flowDefId||'',
+        instId: this.cacheFlowVar.instId||'',
+        proRunId: this.cacheFlowVar.proRunId||''
       }
-      params.paramMap = { ...this.getProcessParams(true) }
-      params.paramMap.theFirstTrial = this.getBranchData.theFirstTrial
-      params.paramMap.inCharge = this.getBranchData.inCharge
+      params.paramMap={ ...this.getProcessParams(true) }
+      params.paramMap.theFirstTrial=this.getBranchData.theFirstTrial
+      params.paramMap.inCharge=this.getBranchData.inCharge
       console.log(params.paramMap)
-      const data = {
+      const data={
         loginUsername: this.cacheFlowVar.loginUsername,
         personId: this.cacheFlowVar.personId,
         formData: params
       }
-      return new Promise((resolve, reject) => {
-        HttpEhr.getAssignersList(
-          data
-        ).then(res => {
+      return new Promise((resolve,reject) => {
+        HttpEhr.getAssignersList(data).then(res => {
           resolve(res)
         })
       })
     },
     // 4. 获取下一节点
-    getNextNode () {
-      return new Promise((resolve, reject) => {
-        if (JSON.stringify(this.flowContext.processVar) == '{}') {
+    getNextNode() {
+      return new Promise((resolve,reject) => {
+        if(JSON.stringify(this.flowContext.processVar)=='{}') {
           delete this.flowContext.processVar
           console.log(this.flowContext)
         }
@@ -575,10 +639,10 @@ export default {
       })
     },
     // 5.请假申请提交/修改
-    addAndEditVacation () {
-      return new Promise((resolve, reject) => {
+    addAndEditVacation() {
+      return new Promise((resolve,reject) => {
         HttpEhr.addAndEditVacation({
-          userId: this.util.getSession('sessionData').userId || '',
+          userId: this.util.getSession('sessionData').userId||'',
           type: this.jsonData.leaveTypeId,
           startDate: this.jsonData.startTime,
           endDate: this.jsonData.endTime,
@@ -598,10 +662,10 @@ export default {
       })
     },
     // 6.销假
-    removeVacation () {
-      return new Promise((resolve, reject) => {
+    removeVacation() {
+      return new Promise((resolve,reject) => {
         HttpEhr.removeVacation({
-          userId: this.util.getSession('sessionData').userId || '',
+          userId: this.util.getSession('sessionData').userId||'',
           remId: this.$route.query.id, // 原请假id
           startDate: this.jsonData.startTime,
           endDate: this.jsonData.endTime,
@@ -621,30 +685,27 @@ export default {
       })
     },
     // 提交按钮
-    async commitFun () {
-      console.log(this.jsonData.duration, typeof this.jsonData.duration)
+    async commitFun() {
+      console.log(this.jsonData.duration,typeof this.jsonData.duration)
 
-      if (!this.jsonData.reason) {
+      if(!this.jsonData.reason) {
         // 请假理由哦
-        this.$toast(
-          {
-            message: '请假理由不能为空'
-          })
+        this.$toast({
+          message: '请假理由不能为空'
+        })
         return
       }
-      if (this.jsonData.leaveTypeId == '8' && !this.jsonData.kinsfolkId) {
-        this.$toast(
-          {
-            message: '请假理由不能为空'
-          })
+      if(this.jsonData.leaveTypeId=='8'&&!this.jsonData.kinsfolkId) {
+        this.$toast({
+          message: '请假理由不能为空'
+        })
         return
       }
 
-      if (!parseInt(this.jsonData.duration)) {
-        this.$toast(
-          {
-            message: '请选择请假日期'
-          })
+      if(!parseInt(this.jsonData.duration)) {
+        this.$toast({
+          message: '请选择请假日期'
+        })
         return
       }
       console.log(this.jsonData)
@@ -654,59 +715,69 @@ export default {
       // })
       // return
       await this.getBranch().then(res => {
-        if (res.data) {
-          this.getBranchData = res.data
-          Object.assign(this.flowContext.processParams, res.data)
+        if(res.data) {
+          this.getBranchData=res.data
+          Object.assign(this.flowContext.processParams,res.data)
         }
       })
       await this.getAssignersList().then(res => {
-        this.assigners = res.data
+        this.assigners=res.data
         this.assigners.nodeAssigners.forEach(item => {
-          if (item.nodeAssignerPersons.length != 0) {
-            this.flowContext.preAssigners[item.nodeId] = {
-              assignerId: item.nodeAssignerPersons[0].sysUsername || '',
-              assignerName: item.nodeAssignerPersons[0].name || ''
+          if(item.nodeAssignerPersons.length!=0) {
+            this.flowContext.preAssigners[item.nodeId]={
+              assignerId: item.nodeAssignerPersons[0].sysUsername||'',
+              assignerName: item.nodeAssignerPersons[0].name||''
             }
           } else {
-            this.flowContext.preAssigners[item.nodeId] = {
+            this.flowContext.preAssigners[item.nodeId]={
               assignerId: '',
               assignerName: ''
             }
           }
         })
       })
-      await this.getNextNode().then(res => {
-        this.nextNodeData = res.data
-        // 用nextNode里的id取出assigners的当前环节处理人
-        const nextNodeAssigner = this.assigners.nodeAssigners.find((assigner) => {
-          return assigner.nodeId.toLowerCase() == this.nextNodeData[0].id.toLowerCase()
-        })
-        // console.log(nextNodeAssigner)
-        // 当存在多个处理人时 用defaultShow 取出默认处理人
-        const nextNodePerson = nextNodeAssigner.nodeAssignerPersons[nextNodeAssigner.defaultShow]
-        // console.log(nextNodePerson)
+      this.assigners.nodeAssigners=this.newAssingersSelectList
+      console.log('nodeAssigners',this.assigners.nodeAssigners)
+      debugger
 
-        this.flowContext.nextNodeId = this.nextNodeData[0].id
-        this.flowContext.flowMessage = ''
-        this.flowContext.flowComment = ''
-        if (!nextNodePerson) {
-          this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()] = ''
+      await this.getNextNode().then(res => {
+        this.nextNodeData=res.data
+        // 用nextNode里的id取出assigners的当前环节处理人
+        console.log('this.assigners.nodeAssigners',this.assigners.nodeAssigners)
+        const nextNodeAssigner=this.assigners.nodeAssigners.find(assigner => {
+          return (
+            assigner.nodeId.toLowerCase()==
+            this.nextNodeData[0].id.toLowerCase()
+          )
+        })
+        console.log('nextNodeAssigner',nextNodeAssigner)
+        // 当存在多个处理人时 用defaultShow 取出默认处理人
+        const nextNodePerson=
+          nextNodeAssigner.nodeAssignerPersons[nextNodeAssigner.defaultShow]
+        // console.log(nextNodePerson)
+        this.flowContext.nextNodeId=this.nextNodeData[0].id
+        this.flowContext.flowMessage=''
+        this.flowContext.flowComment=''
+        if(!nextNodePerson) {
+          this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()]=
+            ''
         } else {
-          this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()] = nextNodePerson.sysUsername || ''
+          this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()]=
+            nextNodePerson.sysUsername||''
         }
       })
-      if (this.dataType == '0' || this.dataType == '1') {
+      if(this.dataType=='0'||this.dataType=='1') {
         await this.addAndEditVacation().then(res => {
-          if (res.code == 0) {
+          if(res.code==0) {
             this.$toast.success({
               message: '提交成功'
             })
             this.$router.push({ name: 'applyRecord' })
           }
         })
-      } else if (this.dataType == '2') {
+      } else if(this.dataType=='2') {
         await this.removeVacation().then(res => {
-          if (res.code == 0) {
+          if(res.code==0) {
             this.$toast.success({
               message: '销假成功'
             })
@@ -717,269 +788,296 @@ export default {
     },
 
     // 图片上传 读取完成后的回调函数
-    async afterRead (e) {
-      const jsonData = new FormData()
-      if (e && e.length) { // 判断是否是多图上传 多图则循环添加进去
+    async afterRead(e) {
+      const jsonData=new FormData()
+      if(e&&e.length) {
+        // 判断是否是多图上传 多图则循环添加进去
         e.forEach(item => {
-          jsonData.append('loginUsername', this.util.getSession('sysUsername').sysUsername)
-          jsonData.append('file', item.file)// 第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
+          jsonData.append(
+            'loginUsername',
+            this.util.getSession('sysUsername').sysUsername
+          )
+          jsonData.append('file',item.file) // 第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
         })
       } else {
-        jsonData.append('loginUsername', this.util.getSession('sysUsername').sysUsername)
-        jsonData.append('file', e.file)
+        jsonData.append(
+          'loginUsername',
+          this.util.getSession('sysUsername').sysUsername
+        )
+        jsonData.append('file',e.file)
       }
       await HttpEhr.multiUpload(jsonData).then(res => {
-        const newList = []
+        const newList=[]
         res.data.forEach(element => {
-          const url = `${this.serverUrl}/cap-bpm/attach/download.do?id=${element.id}&loginUsername=${this.util.getSession('sysUsername').sysUsername || 'huaxin'}`
+          const url=`${this.serverUrl}/cap-bpm/attach/download.do?id=${
+            element.id
+            }&loginUsername=${this.util.getSession('sysUsername').sysUsername||
+            'huaxin'}`
           newList.push(url)
         })
-        this.jsonData.fileViewLists = [...this.jsonData.fileViewLists, ...newList]
+        this.jsonData.fileViewLists=[
+          ...this.jsonData.fileViewLists,
+          ...newList
+        ]
         // http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=2a0df3e74c2c495fbe80198c85f0cf7a&loginUsername=wangw
       })
     },
     // 图片删除
-    delImg (index) {
-      this.jsonData.fileViewLists.splice(index, 1)
+    delImg(index) {
+      this.jsonData.fileViewLists.splice(index,1)
     },
     // 图片预览
-    viewImg (index) {
-      ImagePreview(
-        {
-          images: this.jsonData.fileViewLists,
-          startPosition: index
-        }
-      )
+    viewImg(index) {
+      ImagePreview({
+        images: this.jsonData.fileViewLists,
+        startPosition: index
+      })
     },
     // 打开时间选择器 0: 开始 1: 结束
-    showDatePicker (picker) {
+    showDatePicker(picker) {
       // if (this.dataType == '2') return
-      this.isPopShow = true
-      this.datePicker = picker
-      if (this.datePicker) {
-        this.popupTitle = '选择结束日期'
+      this.isPopShow=true
+      this.datePicker=picker
+      if(this.datePicker) {
+        this.popupTitle='选择结束日期'
       } else {
-        this.popupTitle = '选择开始日期'
+        this.popupTitle='选择开始日期'
       }
     },
-    formatDate (date) {
-      const y = date.getFullYear()
-      let m = date.getMonth() + 1
-      let d = date.getDate()
-      m = m < 10 ? '0' + m : m
-      d = d < 10 ? '0' + d : d
-      const newTime = `${y}-${m}-${d}`
+    formatDate(date) {
+      const y=date.getFullYear()
+      let m=date.getMonth()+1
+      let d=date.getDate()
+      m=m<10? '0'+m:m
+      d=d<10? '0'+d:d
+      const newTime=`${y}-${m}-${d}`
       return newTime
     },
     // 控制显示多选还是连选组件
-    showDateConpFun () {
+    showDateConpFun() {
       // 1 年休,3 事假,5 婚假,8 丧假 ----多选
-      if (this.jsonData.leaveTypeId == '1' ||
-        this.jsonData.leaveTypeId == '3' ||
-        this.jsonData.leaveTypeId == '5' ||
-        this.jsonData.leaveTypeId == '8') {
-        this.showDateConp = false
-        if (this.jsonData.dateList.length > 0) {
+      if(
+        this.jsonData.leaveTypeId=='1'||
+        this.jsonData.leaveTypeId=='3'||
+        this.jsonData.leaveTypeId=='5'||
+        this.jsonData.leaveTypeId=='8'
+      ) {
+        this.showDateConp=false
+        if(this.jsonData.dateList.length>0) {
           // this.dateArr = JSON.parse(this.jsonData.dateList)
-          this.dateArr = this.jsonData.dateList
+          this.dateArr=this.jsonData.dateList
         }
         console.log('多选')
         console.log(this.jsonData)
-      } else if (this.jsonData.leaveTypeId == '2' ||
+      } else if(
+        this.jsonData.leaveTypeId=='2'||
         // 2 病假,4 工伤假,6 产假,7 护理假 ----连选
-        this.jsonData.leaveTypeId == '4' ||
-        this.jsonData.leaveTypeId == '6' ||
-        this.jsonData.leaveTypeId == '7') {
-        this.showDateConp = true
-        this.jsonData.dateList = []
+        this.jsonData.leaveTypeId=='4'||
+        this.jsonData.leaveTypeId=='6'||
+        this.jsonData.leaveTypeId=='7'
+      ) {
+        this.showDateConp=true
+        this.jsonData.dateList=[]
         console.log('连选')
         console.log(this.jsonData)
       }
     },
     // 确定日期选择，时间格式化并显示在页面上
-    confirmPicker (value) {
-      const date = value
-      const y = date.getFullYear()
-      let m = date.getMonth() + 1
-      let d = date.getDate()
-      m = m < 10 ? '0' + m : m
-      d = d < 10 ? '0' + d : d
-      const newTime = `${y}-${m}-${d}`
-      if (this.datePicker) {
-        this.jsonData.endTime = newTime
+    confirmPicker(value) {
+      const date=value
+      const y=date.getFullYear()
+      let m=date.getMonth()+1
+      let d=date.getDate()
+      m=m<10? '0'+m:m
+      d=d<10? '0'+d:d
+      const newTime=`${y}-${m}-${d}`
+      if(this.datePicker) {
+        this.jsonData.endTime=newTime
       } else {
-        this.jsonData.startTime = newTime
+        this.jsonData.startTime=newTime
       }
-      this.isPopShow = false
+      this.isPopShow=false
       // if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1' || this.jsonData.leaveTypeId != '5' && this.jsonData.leaveTypeId != '8') {
-      this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
+      this.jsonData.duration=this.DateMinus(
+        this.jsonData.startTime,
+        this.jsonData.endTime
+      )
       // }
     },
     // 连选--确定日期选择，时间格式化并显示在页面上  -- 连选组件用的
-    confirmPicker_2 (value) {
-      const [start, end] = value
-      this.jsonData.startTime = this.formatDate(start)
-      this.jsonData.endTime = this.formatDate(end)
-      this.jsonData.duration = this.DateMinus(this.jsonData.startTime, this.jsonData.endTime)
-      this.isPopShow = false
+    confirmPicker_2(value) {
+      const [start,end]=value
+      this.jsonData.startTime=this.formatDate(start)
+      this.jsonData.endTime=this.formatDate(end)
+      this.jsonData.duration=this.DateMinus(
+        this.jsonData.startTime,
+        this.jsonData.endTime
+      )
+      this.isPopShow=false
       console.log(this.jsonData)
     },
     // 多选--确定日历
-    clickElPicker: function () {
+    clickElPicker: function() {
       // this.jsonData.dateList = this.dateArr ? this.dateArr.join() : []
-      this.jsonData.dateList = this.dateArr
-      if (this.dateArr.length == 1) {
-        this.jsonData.startTime = this.dateArr[0]
-        this.jsonData.endTime = this.dateArr[0]
+      this.jsonData.dateList=this.dateArr
+      if(this.dateArr.length==1) {
+        this.jsonData.startTime=this.dateArr[0]
+        this.jsonData.endTime=this.dateArr[0]
       }
-      this.jsonData.duration = this.dateArr.length
-      const newArr = []
+      this.jsonData.duration=this.dateArr.length
+      const newArr=[]
       this.dateArr.forEach(element => {
         newArr.push(new Date(element).getTime())
       })
-      this.jsonData.startTime = this.strDateFormat(Math.min(...newArr))
-      this.jsonData.endTime = this.strDateFormat(Math.max(...newArr))
-      console.log('this.jsonData.dateList-----' + this.jsonData.dateList)
+      this.jsonData.startTime=this.strDateFormat(Math.min(...newArr))
+      this.jsonData.endTime=this.strDateFormat(Math.max(...newArr))
+      console.log('this.jsonData.dateList-----'+this.jsonData.dateList)
     },
     // 时间戳转字符串日期
-    strDateFormat (timestamp) {
-      var time = new Date(timestamp) // 先将时间戳转为Date对象，然后才能使用Date的方法
-      var year = time.getFullYear()
-      var month = time.getMonth() + 1 // 月份是从0开始的
-      var day = time.getDate()
+    strDateFormat(timestamp) {
+      var time=new Date(timestamp) // 先将时间戳转为Date对象，然后才能使用Date的方法
+      var year=time.getFullYear()
+      var month=time.getMonth()+1 // 月份是从0开始的
+      var day=time.getDate()
       // add0()方法在后面定义
-      return year + '-' + this.add0(month) + '-' + this.add0(day)
+      return year+'-'+this.add0(month)+'-'+this.add0(day)
     },
     // 补0
-    add0 (m) {
-      return m < 10 ? '0' + m : m
+    add0(m) {
+      return m<10? '0'+m:m
     },
     // 关闭日历选择
-    cancelPicker () {
-      this.isPopShow = false
-      this.datePicker = ''
+    cancelPicker() {
+      this.isPopShow=false
+      this.datePicker=''
     },
     // 格式化选择器日期
-    formatter (type, value) {
-      if (type === 'year') {
+    formatter(type,value) {
+      if(type==='year') {
         return `${value}年`
-      } else if (type === 'month') {
+      } else if(type==='month') {
         return `${value}月`
-      } else if (type === 'day') {
+      } else if(type==='day') {
         return `${value}日`
       }
       return value
     },
     // 打开请假类型下拉选
-    openPopShowType () {
-      if (this.dataType == '2') return
-      this.isPopShowType = true
+    openPopShowType() {
+      if(this.dataType=='2') return
+      this.isPopShowType=true
     },
     // 确认请假类型选择
-    onConfirm (item, index) {
-      this.leaveTypetxt = item.text
-      this.jsonData.leaveTypeId = item.id
-      this.isPopShowType = false
+    onConfirm(item,index) {
+      this.leaveTypetxt=item.text
+      this.jsonData.leaveTypeId=item.id
+      this.isPopShowType=false
       this.showDateConpFun()
-      this.jsonData.duration = 0
-      this.jsonData.dateList = []
-      this.dateArr = []
-      if (this.jsonData.leaveTypeId != '3' && this.jsonData.leaveTypeId != '1' && this.jsonData.leaveTypeId != '5') {
-        this.jsonData.startTime = '请选择'
-        this.jsonData.endTime = '请选择'
+      this.jsonData.duration=0
+      this.jsonData.dateList=[]
+      this.dateArr=[]
+      if(
+        this.jsonData.leaveTypeId!='3'&&
+        this.jsonData.leaveTypeId!='1'&&
+        this.jsonData.leaveTypeId!='5'
+      ) {
+        this.jsonData.startTime='请选择'
+        this.jsonData.endTime='请选择'
       }
     },
     // 关闭请假类型下拉选
-    onCancel () {
-      this.isPopShowType = false
+    onCancel() {
+      this.isPopShowType=false
     },
     // 打开亲属关系下拉选
-    openKinsfolk () {
-      if (this.dataType == '2') return
-      this.isKinsfolkShowType = true
+    openKinsfolk() {
+      if(this.dataType=='2') return
+      this.isKinsfolkShowType=true
     },
     // 确定亲属类型
-    okKinsfolk (item) {
-      this.kinsfolkTxt = item.text
-      this.jsonData.kinsfolkId = item.id
-      this.isKinsfolkShowType = false
+    okKinsfolk(item) {
+      this.kinsfolkTxt=item.text
+      this.jsonData.kinsfolkId=item.id
+      this.isKinsfolkShowType=false
     },
     // 打开亲属关系下拉选
-    cancelKinsfolk () {
-      this.isKinsfolkShowType = false
+    cancelKinsfolk() {
+      this.isKinsfolkShowType=false
     },
     // 计算时间开始,结束日期差
-    DateMinus (start, end) {
-      const newstart = new Date(start)
-      const now = new Date(end)
-      const days = now.getTime() - newstart.getTime()
-      const day = parseInt(days / (1000 * 60 * 60 * 24))
+    DateMinus(start,end) {
+      const newstart=new Date(start)
+      const now=new Date(end)
+      const days=now.getTime()-newstart.getTime()
+      const day=parseInt(days/(1000*60*60*24))
       console.log(isNaN(day))
-      if (isNaN(day)) {
+      if(isNaN(day)) {
         return 0
       }
-      if (day < 0) {
+      if(day<0) {
         this.$toast('开始日期不能大于结束时间')
         return
       }
-      return day + 1
+      return day+1
     },
     // 赋值传递参数
-    setVal () {
-      this.jsonData.startTime = this.itemData.startDate
-      this.jsonData.endTime = this.itemData.endDate
-      this.jsonData.duration = this.itemData.sum // 时长
-      this.jsonData.reason = this.itemData.note // 理由
-      this.jsonData.leaveTypeId = this.itemData.type // 请假类型
-      this.jsonData.areaNameTxt = this.itemData.cityName // 省名称
-      this.jsonData.provId = this.itemData.cityValue // 省id
-      this.jsonData.fileViewLists = JSON.parse(this.itemData.url)
-      const newObj = this.columns.find((item) => { return item.id == this.itemData.type })
-      this.leaveTypetxt = newObj.text // 请假类型
-      this.jsonData.dateList = JSON.parse(this.itemData.dates) // 多选日期
+    setVal() {
+      this.jsonData.startTime=this.itemData.startDate
+      this.jsonData.endTime=this.itemData.endDate
+      this.jsonData.duration=this.itemData.sum // 时长
+      this.jsonData.reason=this.itemData.note // 理由
+      this.jsonData.leaveTypeId=this.itemData.type // 请假类型
+      this.jsonData.areaNameTxt=this.itemData.cityName // 省名称
+      this.jsonData.provId=this.itemData.cityValue // 省id
+      this.jsonData.fileViewLists=JSON.parse(this.itemData.url)
+      const newObj=this.columns.find(item => {
+        return item.id==this.itemData.type
+      })
+      this.leaveTypetxt=newObj.text // 请假类型
+      this.jsonData.dateList=JSON.parse(this.itemData.dates) // 多选日期
       this.showDateConpFun()
     },
     // 获取环境地址
-    urlInit () {
+    urlInit() {
       // console.log(this.util.getSession('sysUsername').sysUsername)
       // console.log(this.buildType + '环境-1111')
-      switch (this.buildType.toUpperCase()) {
+      switch(this.buildType.toUpperCase()) {
         case 'PRO':
-          this.serverUrl = ''
+          this.serverUrl=''
           break
         case 'PRE':
-          this.serverUrl = ''
+          this.serverUrl=''
           break
         case 'Q3':
           // http://hafdev.hxoadev.com/cap-bpm/attach/download.do?id=2a0df3e74c2c495fbe80198c85f0cf7a&loginUsername=wangw
           // const url = `${this.serverUrl}/cap-bpm/attach/download.do?id=${element.id}&loginUsername=${this.util.getSession('sysUsername').sysUsername || 'huaxin'}`
           // http://mobq.huaxincem.com/cap-bpm/attach/download.do?id=2a0df3e74c2c495fbe80198c85f0cf7a&loginUsername=yeliangjun_hq
-          this.serverUrl = 'http://mob.huaxincem.com'
+          this.serverUrl='http://mob.huaxincem.com'
           break
         case 'PRO_DEV':
-          this.serverUrl = 'http://mob.huaxincem.com'
+          this.serverUrl='http://mob.huaxincem.com'
           break
         default:
           // dev
-          this.serverUrl = 'http://mobq.huaxincem.com'
+          this.serverUrl='http://mobq.huaxincem.com'
           break
       }
       console.log(this.serverUrl)
     },
     // 获取上月第一天
-    getFirstDay () {
-      const nowdays = new Date()
-      let year = nowdays.getFullYear()
-      let month = nowdays.getMonth()
-      if (month == 0) {
-        month = 12
-        year = year - 1
+    getFirstDay() {
+      const nowdays=new Date()
+      let year=nowdays.getFullYear()
+      let month=nowdays.getMonth()
+      if(month==0) {
+        month=12
+        year=year-1
       }
-      console.log(year + ',' + month + ',' + '1')
-      this.minDate = new Date(year, month - 1, 1)
+      console.log(year+','+month+','+'1')
+      this.minDate=new Date(year,month-1,1)
     },
     // 判断日期是否连选
-    runningDays (arr_days) {
+    runningDays(arr_days) {
       // const arr_days = [
       //   '2018-02-28 10:00:00',
       //   '2018-02-29 10:00:01', // 闰月
@@ -987,9 +1085,9 @@ export default {
       //   '2018-03-02 10:00:03'
       // ]
       // 先排序，再转时间戳
-      const days = arr_days.sort().map((d, i) => {
-        const dt = new Date(d)
-        dt.setDate(dt.getDate() + 4 - i) // 处理为相同日期
+      const days=arr_days.sort().map((d,i) => {
+        const dt=new Date(d)
+        dt.setDate(dt.getDate()+4-i) // 处理为相同日期
 
         // 去除时、分、秒、毫秒
         dt.setHours(0)
@@ -1000,38 +1098,40 @@ export default {
         return +dt
       })
 
-      let ret = true
+      let ret=true
 
       days.forEach(d => {
-        if (days[0] !== d) {
-          ret = false
+        if(days[0]!==d) {
+          ret=false
         }
       })
 
       return ret
     },
     // 打开省份下拉选
-    openAreaShow () {
-      this.showArea = !this.showArea
+    openAreaShow() {
+      this.showArea=!this.showArea
     },
     // 确定省份
-    AreaConfirm (el) {
-      this.showArea = !this.showArea
+    AreaConfirm(el) {
+      this.showArea=!this.showArea
       // let areaName = ''
       // for (var i = 0; i < value.length; i++) {
       //   areaName = areaName + value[i].name + ' '
       // }
-      this.jsonData.areaNameTxt = el.text
-      this.jsonData.provId = el.value
+      this.jsonData.areaNameTxt=el.text
+      this.jsonData.provId=el.value
     },
     // 获取省份列表
-    getProvList () {
+    getProvList() {
       HttpEhr.getProvList({
         type: 'md-sap-zone'
       }).then(res => {
-        this.areaList = res.data
-        if (this.provId) {
-          this.defaultIndex = this.areaList.findIndex(fruit => fruit.value == this.provId)
+        this.areaList=res.data
+        if(this.provId) {
+          this.defaultIndex=this.areaList.findIndex(
+            fruit => fruit.value==this.provId
+          )
         }
       })
     }
@@ -1039,33 +1139,33 @@ export default {
     //   const index = this.areaList.findIndex(fruit => fruit.value === '060')
     // }
   },
-  mounted () {
+  mounted() {
     // console.log(this.runningDays())
     this.urlInit()
-    this.itemData = this.$route.query.itemData || {}
-    this.dataType = this.$route.query.flag || '0'
+    this.itemData=this.$route.query.itemData||{}
+    this.dataType=this.$route.query.flag||'0'
     // 本地 this.dataType 0:新增 1:修改 2:销假
     // 提交接口 saveType 1、销假 新增提交 2、修改提交
-    if (this.dataType == '0') {
+    if(this.dataType=='0') {
       // 新增
-      this.title = '请假申请'
-      this.jsonData.saveType = '1'
-    } else if (this.dataType == '1') {
+      this.title='请假申请'
+      this.jsonData.saveType='1'
+    } else if(this.dataType=='1') {
       // 修改
-      this.title = '请假申请'
-      this.jsonData.saveType = '2'
-      this.jsonData.editType = '2'
+      this.title='请假申请'
+      this.jsonData.saveType='2'
+      this.jsonData.editType='2'
       // 数据id
-      this.jsonData.dataId = this.$route.query.id || ''
+      this.jsonData.dataId=this.$route.query.id||''
       this.setVal()
-    } else if (this.dataType == '2') {
+    } else if(this.dataType=='2') {
       // 销假
-      this.title = '假期申请调整'
-      this.jsonData.saveType = '1'
-      this.jsonData.formType = '2'
+      this.title='假期申请调整'
+      this.jsonData.saveType='1'
+      this.jsonData.formType='2'
       this.setVal()
     }
-    document.title = this.title
+    document.title=this.title
     this.getProvList()
     this.leaveApplyDetail()
     this.getFirstDay()

@@ -15,32 +15,31 @@
       </div>
     </div>
     <div class="container">
-      <div class="single"
-           @click="transmitFun(item)"
-           v-for="(item,index) in jsonData.list_a"
-           :key="index">
-        <img class="single-icon"
-             :src="item.iconUrl">
+      <div
+        class="single"
+        @click="transmitFun(item)"
+        v-for="(item,index) in jsonData.list_a"
+        :key="index"
+      >
+        <img class="single-icon" :src="item.iconUrl" />
         <div class="icon-text">{{item.iconText}}</div>
       </div>
     </div>
-    <div class="people-container"
-         v-show="false">
+    <div class="people-container" v-show="false">
       <div class="people-title">人事管理</div>
-      <div class="single"
-           @click="transmitFun(item)"
-           v-for="(item,index) in jsonData.list_b"
-           :key="index">
-        <img class="single-icon"
-             :src="item.iconUrl">
+      <div
+        class="single"
+        @click="transmitFun(item)"
+        v-for="(item,index) in jsonData.list_b"
+        :key="index"
+      >
+        <img class="single-icon" :src="item.iconUrl" />
         <div class="icon-text">{{item.iconText}}</div>
       </div>
       <!-- <div>111</div> -->
     </div>
-    <div class="people-container nodata-box"
-         v-show="true">
-      <div class="img-bg">
-      </div>
+    <div class="people-container nodata-box" v-show="true">
+      <div class="img-bg"></div>
       <div class="txt">更多功能敬请期待</div>
     </div>
   </div>
@@ -157,7 +156,7 @@ export default {
 
         // this.userId = '80001247' // wangdan
 
-        this.userId = '00000345'
+        this.userId = '00005886'
       }
       this.util.setSession('sessionData', { userId: this.userId })
       await this.annualResidue().then(res => {
