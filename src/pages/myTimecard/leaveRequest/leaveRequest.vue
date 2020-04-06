@@ -771,7 +771,13 @@ export default {
         }
       })
       await this.getAssignersList().then(res => {
-        console.log('newAssingersSelectList',this.newAssingersSelectList)
+        this.newAssingersSelectList.forEach((item,index) => {
+          if(!item.assignerId) {
+            this.$toast({
+              message: '请选择审批人员'
+            })
+          }
+        })
         this.assigners=res.data
         this.assigners.nodeAssigners.forEach((item,index) => {
           this.flowContext.preAssigners[item.nodeId]={
@@ -779,13 +785,6 @@ export default {
             assignerName: this.newAssingersSelectList[index].assignerName||''
           }
         })
-      })
-      this.flowContext.nodeAssigners.forEach((item,index) => {
-        if(!item.assignerId) {
-          this.$toast({
-            message: '请选择审批人员'
-          })
-        }
       })
 
       await this.getNextNode().then(res => {
