@@ -103,8 +103,8 @@ export default {
     // 默认时间
     initTime () {
       this.endTime = this.getdate(1)
-      this.startTime = this.getdate(1)
-      this.startTimeVal = this.getdate(2)
+      this.startTime = this.getdate_2(1)
+      this.startTimeVal = this.getdate_2(2)
       this.endTimeVal = this.getdate(2)
     },
     // 获取默认时间
@@ -112,6 +112,24 @@ export default {
       const date = new Date()
       var y = date.getFullYear()
       var m = date.getMonth() + 1
+      m = m < 10 ? '0' + m : m
+      if (type == 1) {
+        return `${y}年${m}月`
+      } else {
+        return `${y}-${m}`
+      }
+    },
+    // 获取默认时间
+    getdate_2 (type) {
+      const date = new Date()
+      var y = date.getFullYear()
+      var m = date.getMonth() + 1
+      if (m == 1) {
+        m = 12
+        y = y - 1
+      } else {
+        m = m - 1
+      }
       m = m < 10 ? '0' + m : m
       if (type == 1) {
         return `${y}年${m}月`
@@ -156,10 +174,11 @@ export default {
             height: 0.6rem;
             line-height: 0.6rem;
             text-align: center;
-            background: rgba(250, 250, 250, 1);
+            background: rgb(241, 238, 238);
             opacity: 1;
             border-radius: 30px;
-            color: #999999;
+            color: #333;
+            font-size: 0.28rem;
           }
         }
       }

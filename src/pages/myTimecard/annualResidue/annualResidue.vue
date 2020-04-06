@@ -58,7 +58,7 @@ export default {
   },
   created () { },
   mounted () {
-    document.title = '假勤余额'
+    document.title = '年假余额'
     this.annualResidue()
   }
 }

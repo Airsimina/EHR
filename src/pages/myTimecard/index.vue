@@ -62,22 +62,24 @@ export default {
           path: 'checkSeek',
           icon: 'kqcx'
         }, {
-          name: '假期余额',
+          name: '年假余额',
           path: 'annualResidue',
           icon: 'jqye'
-        }, {
-          name: '加班申请',
-          path: '',
-          icon: 'jbsq'
-        }, {
-          name: '出差申请',
-          path: '',
-          icon: 'ccsq'
-        }, {
-          name: '排班管理',
-          path: '',
-          icon: 'pbgl'
         }
+        // {
+        //   name: '加班申请',
+        //   path: '',
+        //   icon: 'jbsq'
+        // },
+        // {
+        //   name: '出差申请',
+        //   path: '',
+        //   icon: 'ccsq'
+        // }, {
+        //   name: '排班管理',
+        //   path: '',
+        //   icon: 'pbgl'
+        // }
       ]
     }
   },
@@ -85,11 +87,11 @@ export default {
     // 跳转
     jumpFun (item, index) {
       if (!item.path) {
-        this.$toast(
-          {
-            message: '敬请期待',
-            icon: 'like-o'
-          })
+        // this.$toast(
+        //   {
+        //     message: '敬请期待',
+        //     icon: 'like-o'
+        //   })
         return
       }
       this.$router.push({

@@ -120,8 +120,40 @@ export default {
     },
     // 默认时间
     initTime () {
-      this.endTime = this.util.setDefaultTime(2)
-      this.startTime = this.util.setDefaultTime(2)
+      // this.endTime = this.util.setDefaultTime(2)
+      // this.startTime = this.util.setDefaultTime(2)
+      this.endTime = this.getdate(2)
+      this.startTime = this.getdate_2(2)
+    },
+    // 获取默认时间
+    getdate (type) {
+      const date = new Date()
+      var y = date.getFullYear()
+      var m = date.getMonth() + 1
+      m = m < 10 ? '0' + m : m
+      if (type == 1) {
+        return `${y}年${m}月`
+      } else {
+        return `${y}-${m}`
+      }
+    },
+    // 获取默认时间
+    getdate_2 (type) {
+      const date = new Date()
+      var y = date.getFullYear()
+      var m = date.getMonth() + 1
+      if (m == 1) {
+        m = 12
+        y = y - 1
+      } else {
+        m = m - 1
+      }
+      m = m < 10 ? '0' + m : m
+      if (type == 1) {
+        return `${y}年${m}月`
+      } else {
+        return `${y}-${m}`
+      }
     },
     // 汇总展开
     collect () {
