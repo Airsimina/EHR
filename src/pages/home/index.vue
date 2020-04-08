@@ -164,8 +164,8 @@ export default {
       } else {
         // this.userId = '80001247' // wangdan
 
-        this.userId='00004021' // 多个审批人
-        // this.userId='90016244'
+        // this.userId='00004021' // 多个审批人
+        this.userId='80002116'
       }
       this.util.setSession('sessionData',{ userId: this.userId })
       await this.annualResidue().then(res => {

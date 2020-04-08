@@ -660,7 +660,6 @@ export default {
         instId: this.cacheFlowVar.instId||'',
         proRunId: this.cacheFlowVar.proRunId||''
       }
-      console.log('getBranchData',this.getBranchData)
       params.paramMap={ ...this.getProcessParams(true) }
       params.paramMap.theFirstTrial=this.getBranchData.theFirstTrial
       params.paramMap.inCharge=this.getBranchData.inCharge
