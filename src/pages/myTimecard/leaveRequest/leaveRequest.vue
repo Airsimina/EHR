@@ -172,6 +172,13 @@
               ></textarea>
             </div>
           </div>
+          <van-button
+            type="primary"
+            size="small"
+            color="#518cf1"
+            round
+            @click="handleShowAuditPerson"
+          >显示审批人员</van-button>
           <audit-select-person
             :assingersSelectList="assingersSelectList"
             v-if="isShowAudit"
@@ -401,6 +408,15 @@ export default {
     }
   },
   methods: {
+    handleShowAuditPerson() {
+      if(!this.jsonData.duration) {
+        this.$toast({
+          message: '请填写请假时长'
+        })
+      } else {
+        this.getSelectAssinerList()
+      }
+    },
     // --------------------------公用数据解析处理---------------------------
     // 初始化表单流程数据
     load() {
@@ -462,7 +478,7 @@ export default {
       this.flowMessages=flowMessages
       this.oNodeButtons=oNodeButtons
       this.initFlowContext()
-      this.getSelectAssinerList()
+      // this.getSelectAssinerList()
     },
     async getSelectAssinerList() {
       const res=await this.getAssignersList()
@@ -632,17 +648,19 @@ export default {
           type: this.jsonData.leaveTypeId,
           sum: this.jsonData.duration
         }).then(res => {
-          resolve(res)
+          resolve(res.data)
         })
       })
     },
     // 3.获取审批人信息
-    getAssignersList() {
+    async getAssignersList() {
+      this.getBranchData=await this.getBranch()
       const params={
         flowDefId: this.cacheFlowVar.flowDefId||'',
         instId: this.cacheFlowVar.instId||'',
         proRunId: this.cacheFlowVar.proRunId||''
       }
+      console.log('getBranchData',this.getBranchData)
       params.paramMap={ ...this.getProcessParams(true) }
       params.paramMap.theFirstTrial=this.getBranchData.theFirstTrial
       params.paramMap.inCharge=this.getBranchData.inCharge
@@ -665,6 +683,8 @@ export default {
           delete this.flowContext.processVar
           console.log(this.flowContext)
         }
+        Object.assign(this.flowContext.processParams,this.getBranchData)
+
         HttpEhr.getNextNode({
           personId: this.cacheFlowVar.personId,
           flowContext: this.flowContext
@@ -778,6 +798,7 @@ export default {
             })
           }
         })
+        console.log('this.newAssingersSelectList',this.newAssingersSelectList)
         this.assigners=res.data
         this.assigners.nodeAssigners.forEach((item,index) => {
           this.flowContext.preAssigners[item.nodeId]={
@@ -790,7 +811,6 @@ export default {
       await this.getNextNode().then(res => {
         this.nextNodeData=res.data
         // 用nextNode里的id取出assigners的当前环节处理人
-        console.log('this.assigners.nodeAssigners',this.assigners.nodeAssigners)
         const nextNodeAssigner=this.assigners.nodeAssigners.find(assigner => {
           return (
             assigner.nodeId.toLowerCase()==
@@ -801,7 +821,7 @@ export default {
         // 当存在多个处理人时 用defaultShow 取出默认处理人
         const nextNodePerson=
           nextNodeAssigner.nodeAssignerPersons[nextNodeAssigner.defaultShow]
-        // console.log(nextNodePerson)
+
         this.flowContext.nextNodeId=this.nextNodeData[0].id
         this.flowContext.flowMessage=''
         this.flowContext.flowComment=''

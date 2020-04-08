@@ -98,6 +98,12 @@ export default {
       default: function() {
         return []
       }
+    },
+    jsonData: {
+      type: Object,
+      default: function() {
+        return {}
+      }
     }
   },
   mounted() {
@@ -121,7 +127,6 @@ export default {
       this.selectIndex=index
       this.selectPersonList=persons
       this.isSelect=true
-      console.log('persons',this.selectPersonList)
     },
     // 更换申请人时触发的方法
     handleSelectConfig(value) {
@@ -163,7 +168,6 @@ export default {
           }]
         } else {
           item.chooseNameModifyAssignerPerson=[item.nodeAssignerPersons[0]]
-          console.log('chooseNameModifyAssignerPerson',item.chooseNameModifyAssignerPerson)
           const ModifyAssignerName=this.getShowName(item.chooseNameModifyAssignerPerson)
           item.showModifyAssignerName=ModifyAssignerName
           item.assignerName=item.chooseNameModifyAssignerPerson[0].name
