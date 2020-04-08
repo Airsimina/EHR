@@ -829,7 +829,10 @@ export default {
             }
             console.log(this.jsonData);
             console.log(this.jsonData.duration_xj_list.length);
-            if (this.jsonData.duration_xj_list.length < 1) {
+            if (
+                this.jsonData.duration_xj_list.length < 1 &&
+                this.dataType == "2"
+            ) {
                 this.$toast({
                     message: "请选择请假日期"
                 });
