@@ -48,7 +48,10 @@
                 <div class="lis-box">
                     <div class="lis-row lis-name">学制</div>
                     <span>:</span>
-                    <div class="lis-row lis-value">{{item.eduPeriod}}({{item.periodUnitTxt}})</div>
+                    <div class="lis-row lis-value">
+                        {{item.eduPeriod}}
+                        <span v-if="item.periodUnitTxt">({{item.periodUnitTxt}})</span>
+                    </div>
                 </div>
                 <div class="lis-box">
                     <div class="lis-row lis-name">专业</div>
