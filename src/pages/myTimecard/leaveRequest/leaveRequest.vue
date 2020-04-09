@@ -673,8 +673,15 @@ export default {
     },
     // 2. 分支接口
     getBranch() {
+      let formType='1' // 请假
+      if(this.dataType==0||this.dataType==1) {
+        formType=1
+      } else if(this.dataType==2) {
+        formType=2
+      }
       return new Promise((resolve,reject) => {
         HttpEhr.getBranch({
+          formType,
           userId: this.util.getSession('sessionData').userId,
           type: this.jsonData.leaveTypeId,
           sum: this.jsonData.duration
@@ -786,9 +793,6 @@ export default {
     },
     // 提交按钮
     async commitFun() {
-      console.log(
-        this.dataType=='0'||this.dataType=='1'||!this.xjFlag
-      )
       if(!this.isShowAudit) {
         this.$toast({
           message: '请先查看审批人员信息'
