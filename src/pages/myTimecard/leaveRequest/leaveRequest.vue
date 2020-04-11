@@ -886,24 +886,33 @@ export default {
             )
           }
         )
-        console.log('nextNodeAssigner',nextNodeAssigner)
         // 当存在多个处理人时 用defaultShow 取出默认处理人
+        console.log('nextNodeAssigner',nextNodeAssigner)
+
         const nextNodePerson=
           nextNodeAssigner.nodeAssignerPersons[
           nextNodeAssigner.defaultShow
           ]
+        console.log('nextNodePerson',nextNodePerson)
 
         this.flowContext.nextNodeId=this.nextNodeData[0].id
         this.flowContext.flowMessage=''
         this.flowContext.flowComment=''
-        if(!nextNodePerson) {
-          this.flowContext.assigners[
-            this.nextNodeData[0].id.toLowerCase()
-          ]=''
-        } else {
-          this.flowContext.assigners[
-            this.nextNodeData[0].id.toLowerCase()
-          ]=nextNodePerson.sysUsername||''
+        // if(!nextNodePerson) {
+        //   this.flowContext.assigners[
+        //     this.nextNodeData[0].id.toLowerCase()
+        //   ]=''
+        // } else {
+        //   this.flowContext.assigners[
+        //     this.nextNodeData[0].id.toLowerCase()
+        //   ]=nextNodePerson.sysUsername||''
+        // }
+        // 获取下一个节点人的信息
+        const nextTask=this.nextNodeData[0].id.toLowerCase()
+        for(const key in this.flowContext.preAssigners) {
+          if(key==nextTask) {
+            this.flowContext.assigners=this.flowContext.preAssigners[key].assignerId
+          }
         }
       })
       // if ((this.dataType == '0' || this.dataType == '1') || !this.xjFlag) {

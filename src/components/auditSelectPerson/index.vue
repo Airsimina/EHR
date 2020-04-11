@@ -27,7 +27,7 @@
                 color="#518cf1"
                 @click="handleChoosePerson(index)"
               >选择</van-button>
-              <!-- <van-button
+              <van-button
                 slot="button"
                 size="mini"
                 type="primary"
@@ -38,7 +38,7 @@
                 color="#518cf1"
                 v-if="item.chooseNameModifyAssignerPerson[0].sysUsername"
                 @click="handleAddPerson(index)"
-              ></van-button>-->
+              ></van-button>
               <van-button
                 slot="button"
                 size="mini"
