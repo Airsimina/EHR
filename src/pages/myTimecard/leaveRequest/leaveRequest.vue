@@ -1072,6 +1072,7 @@ export default {
     // 多选--确定日历
     clickElPicker() {
       // this.jsonData.dateList = this.dateArr ? this.dateArr.join() : []
+      this.isShowAudit=false
       this.jsonData.dateList=this.dateArr
       if(this.dateArr.length==1) {
         this.jsonData.startTime=this.dateArr[0]
@@ -1088,6 +1089,7 @@ export default {
     },
     clickElPicker2() {
       console.log(this.dateArr)
+      this.isShowAudit=false
       this.jsonData.duration_xj_list=this.filterFun(
         this.OldDateArr,
         this.dateArr
