@@ -911,7 +911,7 @@ export default {
         const nextTask=this.nextNodeData[0].id.toLowerCase()
         for(const key in this.flowContext.preAssigners) {
           if(key==nextTask) {
-            this.flowContext.assigners=this.flowContext.preAssigners[key].assignerId
+            this.flowContext.assigners[key]=this.flowContext.preAssigners[key].assignerId
           }
         }
       })
