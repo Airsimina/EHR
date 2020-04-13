@@ -111,7 +111,6 @@ export default {
     }
   },
   mounted () {
-    console.log('0325更新完成')
     this.init()
     this.initOAurl()
     document.title = '首页'
@@ -185,31 +184,32 @@ export default {
         `http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`
       )
       console.log(BUILD_TYPE + '环境')
-      switch (BUILD_TYPE) {
-        case 'PRO':
-          this.OAurl = 'http://pesm.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
-            isShowBackStr
-          break
-        case 'PRE':
-          this.OAurl = ''
-          break
-        case 'Q3':
-          this.OAurl =
-            'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
-            isShowBackStr
-          break
-        case 'PRO_DEV':
-          this.OAurl =
-            'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
-            isShowBackStr
-          break
-        default:
-          // dev
-          this.OAurl =
-            'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
-            isShowBackStr
-          break
-      }
+      this.OAurl = `http://pesm.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=${isShowBackStr}`
+      // switch (BUILD_TYPE) {
+      //   case 'PRO':
+      //     this.OAurl = 'http://pesm.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
+      //       isShowBackStr
+      //     break
+      //   case 'PRE':
+      //     this.OAurl = ''
+      //     break
+      //   case 'Q3':
+      //     this.OAurl =
+      //       'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
+      //       isShowBackStr
+      //     break
+      //   case 'PRO_DEV':
+      //     this.OAurl =
+      //       'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
+      //       isShowBackStr
+      //     break
+      //   default:
+      //     // dev
+      //     this.OAurl =
+      //       'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
+      //       isShowBackStr
+      //     break
+      // }
       console.log("OAurl", this.OAurl)
     },
     // 跳转
