@@ -100,8 +100,8 @@
           </div>
 
           <div class="lis" v-if="jsonData.leaveTypeId=='6' || jsonData.leaveTypeId=='7'">
-            <div class="lis-f xh">
-              <div class="div-name-1">选择省份</div>
+            <div class="lis-f xh" style="display:flex">
+              <div class="div-name-1">选择保险缴纳省份</div>
             </div>
             <div class="lis-r" @click="openAreaShow">
               <div class="div-val-1">{{ jsonData.areaNameTxt }}</div>
@@ -155,7 +155,7 @@
           </div>
           <div class="lis">
             <div class="lis-f xh">
-              <div class="div-name-1">{{this.dataType=='2'?'销假事由' : '请假理由'}}</div>
+              <div class="div-name-1">{{this.dataType=='2'?'销假事由' : '请假事由'}}</div>
             </div>
             <div class="lis-r">
               <!-- <input type="text"
@@ -172,6 +172,13 @@
               ></textarea>
             </div>
           </div>
+          <van-button
+            type="primary"
+            size="small"
+            color="#518cf1"
+            round
+            @click="handleShowAuditPerson"
+          >显示审批人员</van-button>
           <audit-select-person
             :assingersSelectList="assingersSelectList"
             v-if="isShowAudit"
@@ -401,6 +408,15 @@ export default {
     }
   },
   methods: {
+    handleShowAuditPerson() {
+      if(!this.jsonData.duration) {
+        this.$toast({
+          message: '请填写请假时长'
+        })
+      } else {
+        this.getSelectAssinerList()
+      }
+    },
     // --------------------------公用数据解析处理---------------------------
     // 初始化表单流程数据
     load() {
@@ -416,7 +432,7 @@ export default {
       if(flowData.loginUsername) {
         cacheFlowVar.loginUsername=flowData.loginUsername
       }
-      if(flowData.flowKeyId) cacheFlowVar.flowKeyId=flowData.flowKeyId||''
+      if(flowData.flowKeyId) { cacheFlowVar.flowKeyId=flowData.flowKeyId||'' }
       if(flowData.formId) cacheFlowVar.formId=flowData.formId||''
       if(flowData.dataId) cacheFlowVar.dataId=flowData.dataId||''
       if(Object.keys(flowData).length) {
@@ -441,7 +457,8 @@ export default {
       })
       if(flowData.currentTask&&flowData.currentTask.id) {
         cacheFlowVar.taskUserId=flowData.currentTask.id||''
-        cacheFlowVar.executionId=flowData.currentTask.actExecutionId||''
+        cacheFlowVar.executionId=
+          flowData.currentTask.actExecutionId||''
 
         // 流程权限控制button
         const lastOptType=flowData.currentTask.lastOperateType
@@ -462,7 +479,7 @@ export default {
       this.flowMessages=flowMessages
       this.oNodeButtons=oNodeButtons
       this.initFlowContext()
-      this.getSelectAssinerList()
+      // this.getSelectAssinerList()
     },
     async getSelectAssinerList() {
       const res=await this.getAssignersList()
@@ -510,7 +527,12 @@ export default {
           flowName+
           '，请处理',
         handover:
-          personName+'将'+applyerStr+flowName+'转交给您'+'，请处理',
+          personName+
+          '将'+
+          applyerStr+
+          flowName+
+          '转交给您'+
+          '，请处理',
         notify:
           personName+
           this.getButtonText('notify')+
@@ -518,12 +540,30 @@ export default {
           applyerStr+
           flowName+
           '，请查阅',
-        deliver: personName+'传给您的'+applyerStr+flowName+'，请查阅',
+        deliver:
+          personName+
+          '传给您的'+
+          applyerStr+
+          flowName+
+          '，请查阅',
         authorize:
-          personName+'授权您处理'+applyerStr+flowName+'，请查阅',
-        jump: personName+'将'+applyerStr+flowName+'跳转给您，请处理',
+          personName+
+          '授权您处理'+
+          applyerStr+
+          flowName+
+          '，请查阅',
+        jump:
+          personName+
+          '将'+
+          applyerStr+
+          flowName+
+          '跳转给您，请处理',
         replace:
-          personName+'将'+applyerStr+flowName+'处理人替换为您，请处理'
+          personName+
+          '将'+
+          applyerStr+
+          flowName+
+          '处理人替换为您，请处理'
       }
       return flowMessages
     },
@@ -561,7 +601,9 @@ export default {
         executionId: this.cacheFlowVar.executionId,
         dataId: this.cacheFlowVar.dataId,
         formId: this.cacheFlowVar.formId,
-        proRunId: this.cacheFlowVar.proRunId? this.cacheFlowVar.proRunId:''
+        proRunId: this.cacheFlowVar.proRunId
+          ? this.cacheFlowVar.proRunId
+          :''
       }
     },
     // 获取页面数据
@@ -581,10 +623,15 @@ export default {
                 params[item.propertyName]=
                   this.formData[item.propertyName]||''
               } else {
-                params[item.propertyName]=bizData[item.propertyName]||''
+                params[item.propertyName]=
+                  bizData[item.propertyName]||''
                 // em.bizDataKey && bizData[em.bizDataKey] 存在
-                if(item.bizDataKey&&bizData[item.bizDataKey]) {
-                  params[item.propertyName]=bizData[item.bizDataKey]
+                if(
+                  item.bizDataKey&&
+                  bizData[item.bizDataKey]
+                ) {
+                  params[item.propertyName]=
+                    bizData[item.bizDataKey]
                 }
               }
             }
@@ -626,23 +673,32 @@ export default {
     },
     // 2. 分支接口
     getBranch() {
+      let formType='1' // 请假
+      if(this.dataType==0||this.dataType==1) {
+        formType=1
+      } else if(this.dataType==2) {
+        formType=2
+      }
       return new Promise((resolve,reject) => {
         HttpEhr.getBranch({
+          formType,
           userId: this.util.getSession('sessionData').userId,
           type: this.jsonData.leaveTypeId,
           sum: this.jsonData.duration
         }).then(res => {
-          resolve(res)
+          resolve(res.data)
         })
       })
     },
     // 3.获取审批人信息
-    getAssignersList() {
+    async getAssignersList() {
+      this.getBranchData=await this.getBranch()
       const params={
         flowDefId: this.cacheFlowVar.flowDefId||'',
         instId: this.cacheFlowVar.instId||'',
         proRunId: this.cacheFlowVar.proRunId||''
       }
+      console.log('getBranchData',this.getBranchData)
       params.paramMap={ ...this.getProcessParams(true) }
       params.paramMap.theFirstTrial=this.getBranchData.theFirstTrial
       params.paramMap.inCharge=this.getBranchData.inCharge
@@ -665,6 +721,11 @@ export default {
           delete this.flowContext.processVar
           console.log(this.flowContext)
         }
+        Object.assign(
+          this.flowContext.processParams,
+          this.getBranchData
+        )
+
         HttpEhr.getNextNode({
           personId: this.cacheFlowVar.personId,
           flowContext: this.flowContext
@@ -732,22 +793,32 @@ export default {
     },
     // 提交按钮
     async commitFun() {
-      console.log((this.dataType=='0'||this.dataType=='1')||!this.xjFlag)
+      if(!this.isShowAudit) {
+        this.$toast({
+          message: '请先查看审批人员信息'
+        })
+        return
+      }
       console.log(this.dataType,this.xjFlag)
       // return
       console.log(this.dataType=='2'&&this.xjFlag)
       console.log(this.jsonData.duration,typeof this.jsonData.duration)
+      console.log(this.jsonData.duration_xj_list.length)
       // return
       if(!this.jsonData.reason) {
-        // 请假理由哦
+        // 请假事由哦
+        let message='请假事由不能为空'
+        if(this.dataType=='2') {
+          message='销假事由不能为空'
+        }
         this.$toast({
-          message: '请假理由不能为空'
+          message: message
         })
         return
       }
       if(this.jsonData.leaveTypeId=='8'&&!this.jsonData.kinsfolkId) {
         this.$toast({
-          message: '请假理由不能为空'
+          message: '请假事由不能为空'
         })
         return
       }
@@ -759,6 +830,16 @@ export default {
         return
       }
       console.log(this.jsonData)
+      console.log(this.jsonData.duration_xj_list.length)
+      if(
+        this.jsonData.duration_xj_list.length<1&&
+        this.dataType=='2'
+      ) {
+        this.$toast({
+          message: '请选择请假日期'
+        })
+        return
+      }
       // HttpEhr.getNextNode({
       //   dates: JSON.stringify(this.jsonData.dateList)
       // }).then(res => {
@@ -778,11 +859,18 @@ export default {
             })
           }
         })
+        console.log(
+          'this.newAssingersSelectList',
+          this.newAssingersSelectList
+        )
         this.assigners=res.data
         this.assigners.nodeAssigners.forEach((item,index) => {
           this.flowContext.preAssigners[item.nodeId]={
-            assignerId: this.newAssingersSelectList[index].assignerId||'',
-            assignerName: this.newAssingersSelectList[index].assignerName||''
+            assignerId:
+              this.newAssingersSelectList[index].assignerId||'',
+            assignerName:
+              this.newAssingersSelectList[index].assignerName||
+              ''
           }
         })
       })
@@ -790,27 +878,41 @@ export default {
       await this.getNextNode().then(res => {
         this.nextNodeData=res.data
         // 用nextNode里的id取出assigners的当前环节处理人
-        console.log('this.assigners.nodeAssigners',this.assigners.nodeAssigners)
-        const nextNodeAssigner=this.assigners.nodeAssigners.find(assigner => {
-          return (
-            assigner.nodeId.toLowerCase()==
-            this.nextNodeData[0].id.toLowerCase()
-          )
-        })
-        console.log('nextNodeAssigner',nextNodeAssigner)
+        const nextNodeAssigner=this.assigners.nodeAssigners.find(
+          assigner => {
+            return (
+              assigner.nodeId.toLowerCase()==
+              this.nextNodeData[0].id.toLowerCase()
+            )
+          }
+        )
         // 当存在多个处理人时 用defaultShow 取出默认处理人
+        console.log('nextNodeAssigner',nextNodeAssigner)
+
         const nextNodePerson=
-          nextNodeAssigner.nodeAssignerPersons[nextNodeAssigner.defaultShow]
-        // console.log(nextNodePerson)
+          nextNodeAssigner.nodeAssignerPersons[
+          nextNodeAssigner.defaultShow
+          ]
+        console.log('nextNodePerson',nextNodePerson)
+
         this.flowContext.nextNodeId=this.nextNodeData[0].id
         this.flowContext.flowMessage=''
         this.flowContext.flowComment=''
-        if(!nextNodePerson) {
-          this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()]=
-            ''
-        } else {
-          this.flowContext.assigners[this.nextNodeData[0].id.toLowerCase()]=
-            nextNodePerson.sysUsername||''
+        // if(!nextNodePerson) {
+        //   this.flowContext.assigners[
+        //     this.nextNodeData[0].id.toLowerCase()
+        //   ]=''
+        // } else {
+        //   this.flowContext.assigners[
+        //     this.nextNodeData[0].id.toLowerCase()
+        //   ]=nextNodePerson.sysUsername||''
+        // }
+        // 获取下一个节点人的信息
+        const nextTask=this.nextNodeData[0].id.toLowerCase()
+        for(const key in this.flowContext.preAssigners) {
+          if(key==nextTask) {
+            this.flowContext.assigners[key]=this.flowContext.preAssigners[key].assignerId
+          }
         }
       })
       // if ((this.dataType == '0' || this.dataType == '1') || !this.xjFlag) {
@@ -858,10 +960,12 @@ export default {
       await HttpEhr.multiUpload(jsonData).then(res => {
         const newList=[]
         res.data.forEach(element => {
-          const url=`${this.serverUrl}/cap-bpm/attach/download.do?id=${
+          const url=`${
+            this.serverUrl
+            }/cap-bpm/attach/download.do?id=${
             element.id
-            }&loginUsername=${this.util.getSession('sysUsername').sysUsername||
-            'huaxin'}`
+            }&loginUsername=${this.util.getSession('sysUsername')
+              .sysUsername||'huaxin'}`
           newList.push(url)
         })
         this.jsonData.fileViewLists=[
@@ -968,6 +1072,7 @@ export default {
     // 多选--确定日历
     clickElPicker() {
       // this.jsonData.dateList = this.dateArr ? this.dateArr.join() : []
+      this.isShowAudit=false
       this.jsonData.dateList=this.dateArr
       if(this.dateArr.length==1) {
         this.jsonData.startTime=this.dateArr[0]
@@ -984,7 +1089,11 @@ export default {
     },
     clickElPicker2() {
       console.log(this.dateArr)
-      this.jsonData.duration_xj_list=this.filterFun(this.OldDateArr,this.dateArr)
+      this.isShowAudit=false
+      this.jsonData.duration_xj_list=this.filterFun(
+        this.OldDateArr,
+        this.dateArr
+      )
       this.jsonData.duration_xj=this.jsonData.duration_xj_list.length
       // this.jsonData.duration = this.dateArr.length
     },
@@ -1085,11 +1194,19 @@ export default {
       this.jsonData.areaNameTxt=this.itemData.cityName // 省名称
       this.jsonData.provId=this.itemData.cityValue // 省id
       this.jsonData.fileViewLists=JSON.parse(this.itemData.url)
-      const newObj=this.columns.find((item) => { return item.id==this.itemData.type })
+      const newObj=this.columns.find(item => {
+        return item.id==this.itemData.type
+      })
       this.leaveTypetxt=newObj.text // 请假类型
       this.jsonData.dateList=JSON.parse(this.itemData.dates) // 多选日期
-      this.dateArr=JSON.parse(this.itemData.dates).length>0? JSON.parse(this.itemData.dates):[]
-      this.OldDateArr=JSON.parse(this.itemData.dates).length>0? JSON.parse(this.itemData.dates):[]
+      this.dateArr=
+        JSON.parse(this.itemData.dates).length>0
+          ? JSON.parse(this.itemData.dates)
+          :[]
+      this.OldDateArr=
+        JSON.parse(this.itemData.dates).length>0
+          ? JSON.parse(this.itemData.dates)
+          :[]
 
       this.defaultValue=this.dateArr[0]
       if(this.jsonData.dateList) {
@@ -1206,8 +1323,11 @@ export default {
       const c=[...newList,...OldList]
       const d=new Set(c)
       const e=Array.from(d)
-      const f=[...e.filter(_ => !newList.includes(_)),...e.filter(_ => !OldList.includes(_))]
-      console.log(f)// [5, 6]
+      const f=[
+        ...e.filter(_ => !newList.includes(_)),
+        ...e.filter(_ => !OldList.includes(_))
+      ]
+      console.log(f) // [5, 6]
       return f
     }
   },
@@ -1316,10 +1436,11 @@ export default {
           }
           .lis-f {
             flex: 2;
+            margin-right: 0.2rem;
             .div-name-1 {
               font-size: 0.28rem;
               color: #666666;
-              text-align-last: justify;
+              // text-align-last: justify;
               text-align: justify;
               min-width: 1.2rem;
             }

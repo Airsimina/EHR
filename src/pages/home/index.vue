@@ -129,8 +129,7 @@ export default {
       return new Promise((resolve,reject) => {
         HttpEhr.getTaskCount({
           userId: this.userId
-        }
-        ).then(res => {
+        }).then(res => {
           resolve(res)
         })
       })
@@ -140,8 +139,7 @@ export default {
       return new Promise((resolve,reject) => {
         HttpEhr.getLoginUserName({
           userId: this.userId
-        }
-        ).then(res => {
+        }).then(res => {
           resolve(res)
         })
       })
@@ -164,21 +162,26 @@ export default {
       } else {
         // this.userId = '80001247' // wangdan
 
-        this.userId='00004021'
+        this.userId='80002116' // 多个审批人
+        // this.userId='90016244'
       }
       this.util.setSession('sessionData',{ userId: this.userId })
       await this.annualResidue().then(res => {
         this.vacationNum=res.data.surplus
       })
       await this.getLoginUserName().then(res => {
-        this.util.setSession('sysUsername',{ sysUsername: res.data.sysUsername })
+        this.util.setSession('sysUsername',{
+          sysUsername: res.data.sysUsername
+        })
       })
       await this.getTaskCount().then(res => {
         this.awaitNum=res.data
       })
     },
     initOAurl() {
-      const isShowBackStr=encodeURIComponent(`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
+      const isShowBackStr=encodeURIComponent(
+        `http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`
+      )
       console.log(this.buildType+'环境')
       switch(this.buildType.toUpperCase()) {
         case 'PRO':
@@ -188,14 +191,20 @@ export default {
           this.OAurl=''
           break
         case 'Q3':
-          this.OAurl='http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack='+isShowBackStr
+          this.OAurl=
+            'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack='+
+            isShowBackStr
           break
         case 'PRO_DEV':
-          this.OAurl='http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack='+isShowBackStr
+          this.OAurl=
+            'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack='+
+            isShowBackStr
           break
         default:
           // dev
-          this.OAurl='http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack='+isShowBackStr
+          this.OAurl=
+            'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack='+
+            isShowBackStr
           break
       }
     },
@@ -227,11 +236,10 @@ export default {
         return
       }
       if(!item.path) {
-        this.$toast(
-          {
-            message: '敬请期待',
-            icon: 'like-o'
-          })
+        this.$toast({
+          message: '敬请期待',
+          icon: 'like-o'
+        })
         return
       }
       this.$router.push({
@@ -242,7 +250,6 @@ export default {
       })
     }
   }
-
 }
 </script>
 

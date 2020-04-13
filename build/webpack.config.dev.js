@@ -4,8 +4,8 @@ const webpack = require("webpack");
 const merge = require("webpack-merge");
 const baseConfig = require("./webpack.config.base");
 
-// const HOST = 'localhost'
-const HOST = "192.168.0.106";
+const HOST = 'localhost'
+//const HOST = "192.168.0.106";
 
 const PORT = 8099;
 
@@ -37,7 +37,7 @@ module.exports = merge(baseConfig, {
             "/api": {
                 // target: 'http://hafdev.hxoadev.com', //设置你调用的接口域名和端口号 别忘了加http 内网
                 // target: 'http://app.huaxincem.com', //设置你调用的接口域名和端口号 别忘了加http 生产
-                target: "http://mobq.huaxincem.com", // 设置你调用的接口域名和端口号 别忘了加http q3
+                target: "http://mob.huaxincem.com", // 设置你调用的接口域名和端口号 别忘了加http q3
 
                 changeOrigin: true,
                 pathRewrite: {
