@@ -184,7 +184,7 @@ export default {
       const isShowBackStr = encodeURIComponent(
         `http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`
       )
-      console.log(this.buildType + '环境')
+      console.log(BUILD_TYPE + '环境')
       switch (BUILD_TYPE) {
         case 'PRO':
           this.OAurl = 'http://pesm.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
