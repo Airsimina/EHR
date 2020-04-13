@@ -1370,6 +1370,11 @@ export default {
     // console.log('this.jsonData.dataId====' + this.jsonData.dataId)
     // console.log('this.jsonData.formType----' + this.jsonData.formType)
     // console.log(this.jsonData.saveType)
+  },
+  watch: {
+    leaveTypetxt(newValue,OldVale) {
+      this.isShowAudit=false
+    }
   }
 }
 </script>
