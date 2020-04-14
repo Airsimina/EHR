@@ -152,9 +152,9 @@ export default {
     },
 
     init() {
-      // 深拷贝传入进来的数组
+      // 清空数组
       if(this.newAssingersSelectList.length>0) {
-        return
+        this.newAssingersSelectList.splice(0,this.newAssingersSelectList.length)
       }
       this.assingersSelectList.forEach((item,index) => {
         this.newAssingersSelectList.push(item)
