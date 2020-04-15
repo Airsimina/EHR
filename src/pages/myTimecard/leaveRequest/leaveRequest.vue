@@ -133,7 +133,10 @@
             </div>
           </div>
           <div class="lis" v-if="this.dataType != '2'">
-            <div class="lis-f">
+            <div
+              class="lis-f"
+              :class="[jsonData.leaveTypeId == '7'|| jsonData.leaveTypeId == '2'? 'xh':'']"
+            >
               <div class="div-name-1">图片</div>
             </div>
             <div class="lis-r">
@@ -793,17 +796,20 @@ export default {
     },
     // 提交按钮
     async commitFun() {
+      if(this.jsonData.leaveTypeId=='2'||this.jsonData.leaveTypeId=='7') {
+        if(this.jsonData.fileViewLists.length==0) {
+          this.$toast({
+            message: '请上传图片'
+          })
+          return
+        }
+      }
       if(!this.isShowAudit) {
         this.$toast({
           message: '请先查看审批人员信息'
         })
         return
       }
-      console.log(this.dataType,this.xjFlag)
-      // return
-      console.log(this.dataType=='2'&&this.xjFlag)
-      console.log(this.jsonData.duration,typeof this.jsonData.duration)
-      console.log(this.jsonData.duration_xj_list.length)
       // return
       if(!this.jsonData.reason) {
         // 请假事由哦
