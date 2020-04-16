@@ -135,7 +135,7 @@
           <div class="lis" v-if="this.dataType != '2'">
             <div
               class="lis-f"
-              :class="[jsonData.leaveTypeId == '7'|| jsonData.leaveTypeId == '2'? 'xh':'']"
+              :class="[jsonData.leaveTypeId == '7'|| jsonData.leaveTypeId == '2'|| jsonData.leaveTypeId == '4'|| jsonData.leaveTypeId == '5'|| jsonData.leaveTypeId == '6'? 'xh':'']"
             >
               <div class="div-name-1">图片</div>
             </div>
@@ -796,10 +796,55 @@ export default {
     },
     // 提交按钮
     async commitFun() {
-      if(this.jsonData.leaveTypeId=='2'||this.jsonData.leaveTypeId=='7') {
+      // if(this.jsonData.leaveTypeId=='2'||this.jsonData.leaveTypeId=='7') {
+      //   if(this.jsonData.fileViewLists.length==0) {
+      //     this.$toast({
+      //       message: '请上传图片'
+      //     })
+      //     return
+      //   }
+      // }
+      // 产假
+      if(this.jsonData.leaveTypeId=='6') {
         if(this.jsonData.fileViewLists.length==0) {
           this.$toast({
-            message: '请上传图片'
+            message: '产假需要上传本人结婚证，身份证，出院小结（可后期补充'
+          })
+          return
+        }
+      }
+      // 婚假
+      if(this.jsonData.leaveTypeId=='5') {
+        if(this.jsonData.fileViewLists.length==0) {
+          this.$toast({
+            message: '婚假需要上传本人结婚证，身份证。'
+          })
+          return
+        }
+      }
+      // 工伤假
+      if(this.jsonData.leaveTypeId=='4') {
+        if(this.jsonData.fileViewLists.length==0) {
+          this.$toast({
+            message: '工伤假需要上传工伤相关证明材料。'
+          })
+          return
+        }
+      }
+      // 护理假
+      if(this.jsonData.leaveTypeId=='7') {
+        if(this.jsonData.fileViewLists.length==0) {
+          this.$toast({
+            message: '护理假需要上传本人结婚证，身份证，出院小结（可后期补充)。'
+          })
+          return
+        }
+      }
+      // 病假
+      if(this.jsonData.leaveTypeId=='2') {
+        if(this.jsonData.fileViewLists.length==0) {
+          this.$toast({
+            message: '病假请上传生病证明（可后期补充)。'
           })
           return
         }
