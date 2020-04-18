@@ -166,8 +166,8 @@ export default {
         messagesArray.forEach(function(item,index) {
           var itemArray=item.split('=')
           messageObj[itemArray[0]]=itemArray[1]
-          this.userId=messageObj.userId
         })
+        this.userId=messageObj.userId
         // 存userId
       } else {
         // this.userId = '80001247' // wangdan
