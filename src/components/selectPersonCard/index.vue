@@ -1,68 +1,64 @@
 <template>
   <div id="turnToPerson">
-    <van-popup v-model="isShow"
-               @close="handleLayoutClose"
-               round
-               position="bottom"
-               :style="{ 'max-height': '80%' }">
+    <van-popup
+      v-model="isShow"
+      @close="handleLayoutClose"
+      round
+      position="bottom"
+      :style="{ 'max-height': '80%' }"
+    >
       <div class="layout">
         <div class="search-box">
-          <input @focusout="inputBlur"
-                 class="search-input"
-                 v-model="myValue"
-                 :placeholder="placeholdertext"
-                 @keyup.enter="onSearch" />
-          <div class="search-icon"
-               @click.stop="onSearch"></div>
+          <input
+            @focusout="inputBlur"
+            class="search-input"
+            v-model="myValue"
+            :placeholder="placeholdertext"
+            @keyup.enter="onSearch"
+          />
+          <div class="search-icon" @click.stop="onSearch"></div>
         </div>
-        <div class="tab-box"
-             v-if="!isSearch">
-          <div class="tab-item"
-               :class="{ active: tabIndex === 1 }"
-               @click="changeTab(1)">股份公司</div>
-          <div class="tab-item"
-               :class="{ active: tabIndex === 2 }"
-               @click="changeTab(2)">上级部门</div>
-          <div class="tab-item"
-               :class="{ active: tabIndex === 3 }"
-               @click="changeTab(3)">我的部门</div>
+        <div class="tab-box" v-if="!isSearch">
+          <div class="tab-item" :class="{ active: tabIndex === 1 }" @click="changeTab(1)">股份公司</div>
+          <div class="tab-item" :class="{ active: tabIndex === 3 }" @click="changeTab(3)">我的部门</div>
         </div>
-        <div class="company-box"
-             v-show="tabIndex === 1"
-             v-if="!isSearch">
+        <div class="company-box" v-show="tabIndex === 1" v-if="!isSearch">
           <div class="my-select">
             <div class="value-box">
-              <div class="first"
-                   :class="{ blue: !item.id }"
-                   @click="changeCompanyTab(item, index)"
-                   v-for="(item, index) in companyDataAry"
-                   :key="index">{{ item.name }}</div>
-              <div v-show="showCompanyPerson"
-                   class="first">人员</div>
+              <div
+                class="first"
+                :class="{ blue: !item.id }"
+                @click="changeCompanyTab(item, index)"
+                v-for="(item, index) in companyDataAry"
+                :key="index"
+              >{{ item.name }}</div>
+              <div v-show="showCompanyPerson" class="first">人员</div>
             </div>
           </div>
           <div class="option-box-layout">
             <div class="my-option-box">
-              <div class="my-option"
-                   v-for="(item, index) in company"
-                   :key="index"
-                   @click="selectCompanyAndPeople(item)"
-                   :class="{ blue: companyData.id === item.id }">
+              <div
+                class="my-option"
+                v-for="(item, index) in company"
+                :key="index"
+                @click="selectCompanyAndPeople(item)"
+                :class="{ blue: companyData.id === item.id }"
+              >
                 <span class="name">{{ item.name }}</span>
               </div>
             </div>
             <div class="my-option-box">
               <van-radio-group v-model="selectName">
                 <van-cell-group>
-                  <van-cell class="radio-name"
-                            :title="item.name + ' ' + item.unno"
-                            clickable
-                            @click="radio = item.sysUsername"
-                            v-for="(item, index) in companyPerson"
-                            :key="index">
-                    <van-radio slot="right-icon"
-                               class="my-radio"
-                               :name="item.sysUsername" />
+                  <van-cell
+                    class="radio-name"
+                    :title="item.name + ' ' + item.unno"
+                    clickable
+                    @click="radio = item.sysUsername"
+                    v-for="(item, index) in companyPerson"
+                    :key="index"
+                  >
+                    <van-radio slot="right-icon" class="my-radio" :name="item.sysUsername" />
                   </van-cell>
                 </van-cell-group>
               </van-radio-group>
@@ -70,43 +66,44 @@
           </div>
         </div>
 
-        <div class="higher-level"
-             v-show="tabIndex === 2"
-             v-if="!isSearch">
+        <div class="higher-level" v-show="tabIndex === 2" v-if="!isSearch">
           <div class="my-select">
             <div class="value-box">
-              <div class="first"
-                   :class="{ blue: !item.id }"
-                   @click="changeCompanyTab(item, index)"
-                   v-for="(item, index) in companyDataAry"
-                   :key="index">{{ item.text }}</div>
-              <div v-show="showCompanyPerson"
-                   class="first">人员</div>
+              <div
+                class="first"
+                :class="{ blue: !item.id }"
+                @click="changeCompanyTab(item, index)"
+                v-for="(item, index) in companyDataAry"
+                :key="index"
+              >{{ item.text }}</div>
+              <div v-show="showCompanyPerson" class="first">人员</div>
             </div>
           </div>
           <div class="option-box-layout">
             <div class="my-option-box">
-              <div class="my-option"
-                   v-for="(item, index) in company"
-                   :key="index"
-                   @click="selectCompanyAndPeople(item)"
-                   :class="{ blue: companyData.id === item.id }">
+              <div
+                class="my-option"
+                v-for="(item, index) in company"
+                :key="index"
+                @click="selectCompanyAndPeople(item)"
+                :class="{ blue: companyData.id === item.id }"
+              >
                 <span class="name">{{ item.text }}</span>
               </div>
             </div>
             <div class="my-option-box">
               <van-radio-group v-model="selectName">
                 <van-cell-group icon-size="30">
-                  <van-cell class="radio-name"
-                            :title="item.name + ' ' + item.unno"
-                            clickable
-                            @click="radio = item.sysUsername"
-                            v-for="(item, index) in companyPerson"
-                            :key="index">
+                  <van-cell
+                    class="radio-name"
+                    :title="item.name + ' ' + item.unno"
+                    clickable
+                    @click="radio = item.sysUsername"
+                    v-for="(item, index) in companyPerson"
+                    :key="index"
+                  >
                     <template #right-icon>
-                      <van-radio slot="right-icon"
-                                 class="my-radio"
-                                 :name="item.sysUsername" />
+                      <van-radio slot="right-icon" class="my-radio" :name="item.sysUsername" />
                     </template>
                   </van-cell>
                 </van-cell-group>
@@ -115,38 +112,40 @@
           </div>
         </div>
 
-        <div class="my-department-three"
-             v-show="tabIndex === 3"
-             v-if="!isSearch">
+        <div class="my-department-three" v-show="tabIndex === 3" v-if="!isSearch">
           <div>
             <van-radio-group v-model="selectName">
               <van-cell-group>
-                <van-cell class="radio-name"
-                          :title="item.name + ' ' + item.unno"
-                          clickable
-                          @click="radio = item.sysUsername"
-                          v-for="(item, index) in companyPerson"
-                          :key="index">
+                <van-cell
+                  class="radio-name"
+                  :title="item.name + ' ' + item.unno"
+                  clickable
+                  @click="radio = item.sysUsername"
+                  v-for="(item, index) in companyPerson"
+                  :key="index"
+                >
                   <div class="single_person_item"></div>
-                  <van-radio slot="right-icon"
-                             class="my-radio"
-                             :name="item.sysUsername" />
+                  <van-radio slot="right-icon" class="my-radio" :name="item.sysUsername" />
                 </van-cell>
               </van-cell-group>
             </van-radio-group>
           </div>
         </div>
-        <loadMoreList class="search-container"
-                      @load="handleLoad"
-                      ref="dataList"
-                      :finished="finished"
-                      v-if="isSearch">
+        <loadMoreList
+          class="search-container"
+          @load="handleLoad"
+          ref="dataList"
+          :finished="finished"
+          v-if="isSearch"
+        >
           <van-radio-group v-model="selectName">
             <van-cell-group :icon-size="iconSize">
-              <van-cell clickable
-                        @click="radio = item.sysUsername"
-                        v-for="(item, index) in allPerson"
-                        :key="index">
+              <van-cell
+                clickable
+                @click="radio = item.sysUsername"
+                v-for="(item, index) in allPerson"
+                :key="index"
+              >
                 <div class="single-select-person">
                   <span class="text-style">{{ item.text }}</span>
                   <span class="text-style">{{ item.unno }}</span>
@@ -156,18 +155,14 @@
                     }}
                   </span>
                 </div>
-                <van-radio class="my-radio"
-                           slot="right-icon"
-                           :name="item.sysUsername" />
+                <van-radio class="my-radio" slot="right-icon" :name="item.sysUsername" />
               </van-cell>
             </van-cell-group>
           </van-radio-group>
         </loadMoreList>
         <div class="btn-box">
-          <div class="btn config"
-               @click="handleCertainPerson">确认</div>
-          <div class="btn cancel"
-               @click="handleLayoutClose">取消</div>
+          <div class="btn config" @click="handleCertainPerson">确认</div>
+          <div class="btn cancel" @click="handleLayoutClose">取消</div>
         </div>
       </div>
     </van-popup>
@@ -184,6 +179,10 @@ export default {
     loadMoreList
   },
   props: {
+    departmentId: { // 获取的组织
+      type: String,
+      default: ''
+    },
     // 显示转办探矿
     value: {
       type: Boolean,
@@ -194,7 +193,7 @@ export default {
       default: 'append'
     }
   },
-  data () {
+  data() {
     return {
       iconSize: 30,
       titleArray: [
@@ -220,7 +219,24 @@ export default {
       companyPerson: [],
       myDepartmentPerson: [],
       // （二级tab 数据）
-      companyDataAry: [{}],
+      companyDataAry: [{
+        id: 'O00000001',
+        type: 'O',
+        code: 'O00000001',
+        unno: '00000001',
+        lockedStatus: 0,
+        deleteStatus: 0,
+        name: '华新水泥股份有限公司',
+        extId: 'O00000001',
+        extName: '华新水泥股份有限公司',
+        refId: 'ComOrg',
+        childrenCount: 33,
+        reportPersonNum: null,
+        personNum: null,
+        personLists: null,
+        parCapOrganization: null,
+        brotherCapOrganization: null
+      }],
       higherLevelDataAry: [{}],
       myDepartmentDataAry: [{}],
       // 股份公司
@@ -300,215 +316,235 @@ export default {
       isSearch: false,
       allPerson: [],
       searchObj: {
-        page: 0,
-        rows: 20,
-        searchKey: ''
+        pageNum: 0,
+        pageSize: 20,
+        searchKey: '',
+        orgaId: ''
       },
       finished: false
     }
   },
   watch: {
-    value: function (val, oldVal) {
-      this.isShow = val
-      this.$emit('input', val)
-      if (!val) this.reset()
+    value: function(val,oldVal) {
+      this.isShow=val
+      this.$emit('input',val)
+      if(!val) this.reset()
     },
-    isShow: function (val) {
+    isShow: function(val) {
       this.changeTab(1)
     }
   },
-  mounted () {
+  mounted() {
+    console.log('departmentId',this.departmentId)
     this.changeTab(1)
     // if (this.operateType == '') {
     // }
   },
   methods: {
-    handleAppendLabelClick (item, index) {
-      this.appendType = item.value
-      this.appendActiveTitleIndex = index
+    handleAppendLabelClick(item,index) {
+      this.appendType=item.value
+      this.appendActiveTitleIndex=index
     },
     // 选择公司tab
-    changeCompanyTab (item, index) {
-      this.selectName = null
-      this.tabFlag = true
-      this.changeTabIndex = index
-      this.selectQuery.orgId = item.id
-      this.selectPeopleQuery.deptId = item.id
+    changeCompanyTab(item,index) {
+      this.selectName=null
+      this.tabFlag=true
+      this.changeTabIndex=index
+      this.selectQuery.orgaId=item.id
+      this.selectPeopleQuery.orgaId=item.id
       myHttp.getOrgChildren(this.selectQuery).then(res => {
-        if (res.code == 0) {
-          this.company = res.data.childOrganization
+        if(res.code==0) {
+          this.company=res.data.childOrganization
         }
       })
       myHttp.getPersonList(this.selectPeopleQuery).then(res => {
-        if (res.code == 0) {
-          this.companyPerson = res.data.rows
+        if(res.code==0) {
+          this.companyPerson=res.data.rows
         }
       })
     },
-    selectCompanyAndPeople (item) {
-      this.selectQuery.orgId = item.id
-      this.selectPeopleQuery.deptId = item.id
+    selectCompanyAndPeople(item) {
+      this.selectQuery.orgaId=item.id
+      this.selectPeopleQuery.orgaId=item.id
       myHttp.getOrgChildren(this.selectQuery).then(res => {
-        if (res.code == 0) {
-          console.log('data', res.data)
-          this.company = res.data
+        if(res.code==0) {
+          console.log('data',res.data)
+          this.company=res.data.childOrganization
         }
       })
       myHttp.getPersonList(this.selectPeopleQuery).then(res => {
-        if (res.code == 0) {
-          this.companyPerson = res.data.rows
+        if(res.code==0) {
+          this.companyPerson=res.data.rows
         }
       })
-      if (!this.tabFlag) {
+      if(!this.tabFlag) {
+        console.log('this.companyDataAry',this.companyDataAry)
         this.companyDataAry.push(item)
       } else {
         this.companyDataAry.splice(
-          this.changeTabIndex + 1,
-          this.companyDataAry.length - 1
+          this.changeTabIndex+1,
+          this.companyDataAry.length-1
         )
         this.companyDataAry.push(item)
       }
-      this.tabFlag = false
+      this.tabFlag=false
     },
     // 选择股份公司人员
-    selectCompanyPerson (item) {
-      this.companyData = item
+    selectCompanyPerson(item) {
+      this.companyData=item
     },
     // 点击上级部门已选项
-    changeHigherLevelTab (item, index) { },
+    changeHigherLevelTab(item,index) { },
     // 选择上级部门项
-    selectHigherLevel (item, index) {
-      if (!item.hasChildren) {
-        this.showHigherLevelPerson = true // 删除空选项
-        this.higherLevelDataAry.splice(this.higherLevelDataAry.length - 1, 1)
+    selectHigherLevel(item,index) {
+      if(!item.hasChildren) {
+        this.showHigherLevelPerson=true // 删除空选项
+        this.higherLevelDataAry.splice(this.higherLevelDataAry.length-1,1)
         // 调用人员接口切换数据
-        this.higherLevelPerson = this.person
+        this.higherLevelPerson=this.person
       } else {
         // 调用组织接口切换数据
         // this.higherLevel
       }
       this.higherLevelDataAry.splice(
-        this.higherLevelDataAry.length - 1,
+        this.higherLevelDataAry.length-1,
         0,
         item
       )
     },
     // 选择上级部门人员
-    selectHigherLevelPerson (item) {
-      this.higherLevelData = item
+    selectHigherLevelPerson(item) {
+      this.higherLevelData=item
     },
-    changeMyDepartmentTab (item, index) {
-      const num = this.myDepartmentDataAry.length - index
-      this.myDepartmentDataAry.splice(index, num)
+    changeMyDepartmentTab(item,index) {
+      const num=this.myDepartmentDataAry.length-index
+      this.myDepartmentDataAry.splice(index,num)
       this.myDepartmentDataAry.push({})
-      this.showMyDepartmentPerson = false
+      this.showMyDepartmentPerson=false
       // this.myDepartment
     },
-    selectMyDepartment (item) {
-      if (!item.hasChildren) {
-        this.showMyDepartmentPerson = true
+    selectMyDepartment(item) {
+      if(!item.hasChildren) {
+        this.showMyDepartmentPerson=true
         // 删除空选项
-        this.myDepartmentDataAry.splice(this.myDepartmentDataAry.length - 1, 1)
+        this.myDepartmentDataAry.splice(this.myDepartmentDataAry.length-1,1)
         // 调用人员接口切换数据
-        this.myDepartmentPerson = this.person
+        this.myDepartmentPerson=this.person
       } else {
         // 调用组织接口切换数据
         // this.myDepartment
       }
       this.myDepartmentDataAry.splice(
-        this.myDepartmentDataAry.length - 1,
+        this.myDepartmentDataAry.length-1,
         0,
         item
       )
     },
     // 选择我的部门人员
-    selectMyDepartmentPerson (item) {
-      this.myDepartmentData = item
+    selectMyDepartmentPerson(item) {
+      this.myDepartmentData=item
     },
-    changeTab (index) {
-      this.tabIndex = index
-      this.selectObj.queryType = index
-      this.companyDataAry = []
-      this.selectName = null
+    changeTab(index) {
+      this.tabIndex=index
+      this.selectObj.queryType=index
+      this.companyDataAry=[{
+        id: 'O00000001',
+        type: 'O',
+        code: 'O00000001',
+        unno: '00000001',
+        lockedStatus: 0,
+        deleteStatus: 0,
+        name: '华新水泥股份有限公司',
+        extId: 'O00000001',
+        extName: '华新水泥股份有限公司',
+        refId: 'ComOrg',
+        childrenCount: 33,
+        reportPersonNum: null,
+        personNum: null,
+        personLists: null,
+        parCapOrganization: null,
+        brotherCapOrganization: null
+      }]
+      this.selectName=null
       // 调用接口
       myHttp.getOrgChildren(this.selectObj).then(res => {
-        if (res.code == 0) {
-          this.company = res.data.childOrganization
-          if (this.tabIndex == 3) {
-            this.selectPeopleQuery.orgId = this.company[0].id
+        if(res.code==0) {
+          this.company=res.data.childOrganization
+          if(this.tabIndex==3) {
+            this.selectPeopleQuery.orgaId=this.departmentId
             myHttp.getPersonList(this.selectPeopleQuery).then(res => {
-              if (res.code == 0) {
-                this.companyPerson = res.data.rows
+              if(res.code==0) {
+                this.companyPerson=res.data.rows
               }
             })
           }
         }
       })
     },
-    handleLayoutClose () {
-      this.tabIndex = 1
+    handleLayoutClose() {
+      this.tabIndex=1
       this.changeTab(1)
-      this.myValue = ''
-      this.$emit('input', false)
+      this.myValue=''
+      this.$emit('input',false)
     },
-    handleCertainPerson () {
-      if (!this.selectName) {
+    handleCertainPerson() {
+      if(!this.selectName) {
         Dialog.alert({
           message: '请选择人员！'
         })
       } else {
-        this.companyPerson.forEach((item, index) => {
-          if (item.sysUsername === this.selectName) {
-            this.$emit('config', item)
+        this.companyPerson.forEach((item,index) => {
+          if(item.sysUsername===this.selectName) {
+            this.$emit('config',item)
           }
         })
-        this.$emit('input', false)
+        this.$emit('input',false)
       }
     },
-    reset () {
-      this.selectName = null
-      this.isSearch = false
-      this.allPerson = []
-      this.companyPerson = []
+    reset() {
+      this.selectName=null
+      this.isSearch=false
+      this.allPerson=[]
+      this.companyPerson=[]
     },
-    onSearch () {
-      this.searchObj.page = 0
-      this.isSearch = true
-      this.allPerson = []
+    onSearch() {
+      this.searchObj.page=0
+      this.isSearch=true
+      this.allPerson=[]
       this.handleLoad()
     },
-    handleLoad () {
+    handleLoad() {
       this.searchObj.page++
-      this.searchObj.searchKey = this.myValue
+      this.searchObj.searchKey=this.myValue
 
       myHttp.getPersonList(this.searchObj).then(res => {
-        if (res.code == 200) {
-          this.allPerson = this.allPerson.concat(res.data.rows)
-          if (
-            res.data.totalItems === this.allPerson.length ||
-            res.data.totalItems < this.allPerson.length
+        if(res.code==200) {
+          this.allPerson=this.allPerson.concat(res.data.rows)
+          if(
+            res.data.totalItems===this.allPerson.length||
+            res.data.totalItems<this.allPerson.length
           ) {
-            this.finished = true
+            this.finished=true
           }
-          this.$refs.dataList.loading = false
+          this.$refs.dataList.loading=false
         }
       })
     },
-    inputBlur (e) {
+    inputBlur(e) {
       setTimeout(() => {
-        const scrollTop =
-          document.documentElement.scrollTop || document.body.scrollTop || 0
-        window.scrollTo(0, scrollTop)
-      }, 200)
+        const scrollTop=
+          document.documentElement.scrollTop||document.body.scrollTop||0
+        window.scrollTo(0,scrollTop)
+      },200)
     },
-    inputFocus (e) {
+    inputFocus(e) {
       console.log('22222')
       // 如果focus，则移除上一个输入框的timer
-      if (
-        e &&
-        e.target &&
-        e.target.tagName &&
-        e.target.tagName.toLowerCase() === 'input'
+      if(
+        e&&
+        e.target&&
+        e.target.tagName&&
+        e.target.tagName.toLowerCase()==='input'
       ) {
         clearTimeout(this.timer)
       }
@@ -708,6 +744,7 @@ export default {
       height: 5.8rem;
       background: #fff;
       padding: 0.2rem 0.4rem;
+      overflow: scroll;
     }
 
     .my-select {

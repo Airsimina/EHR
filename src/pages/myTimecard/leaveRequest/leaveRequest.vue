@@ -186,6 +186,7 @@
             :assingersSelectList="assingersSelectList"
             v-if="isShowAudit"
             :newAssingersSelectList="newAssingersSelectList"
+            :departmentId="departmentId"
           ></audit-select-person>
           <!-- <van-cell v-model="carmodel" title="省/市/区" value="" @click="show = true"></van-cell> -->
         </div>
@@ -280,6 +281,8 @@ export default {
   },
   data() {
     return {
+      divisionId: '',
+      departmentId: '',
       newAssingersSelectList: [],
       isShowAudit: false,
       activeNames: ['0'],
@@ -670,6 +673,8 @@ export default {
         // resolve(res)
         this.flowData=res.data.flowData
         this.toType=res.data.formData.toType
+        this.departmentId=res.data.formData.departmentId // 组织
+        this.divisionId=res.data.formData.divisionId // 获取审批组织需要的参数
         this.load()
       })
       // })
@@ -702,9 +707,7 @@ export default {
         proRunId: this.cacheFlowVar.proRunId||''
       }
       console.log('getBranchData',this.getBranchData)
-      params.paramMap={ ...this.getProcessParams(true) }
-      params.paramMap.theFirstTrial=this.getBranchData.theFirstTrial
-      params.paramMap.inCharge=this.getBranchData.inCharge
+      params.paramMap={ ...this.getProcessParams(true),theFirstTrial: this.getBranchData.theFirstTrial,inCharge: this.getBranchData.inCharge,divisionId: this.divisionId }
       console.log(params.paramMap)
       const data={
         loginUsername: this.cacheFlowVar.loginUsername,

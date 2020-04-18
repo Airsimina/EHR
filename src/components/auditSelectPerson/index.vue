@@ -71,7 +71,11 @@
         </van-cell-group>
       </van-collapse-item>
     </van-collapse>
-    <selectPersonCard v-model="showAuditPerson" @config="handleSelectConfig"></selectPersonCard>
+    <selectPersonCard
+      v-model="showAuditPerson"
+      @config="handleSelectConfig"
+      :departmentId="departmentId"
+    ></selectPersonCard>
     <van-popup v-model="isSelect" position="bottom">
       <van-picker
         :columns="selectPersonList"
@@ -114,6 +118,10 @@ export default {
       default: function() {
         return []
       }
+    },
+    departmentId: {
+      type: String,
+      default: ''
     },
     jsonData: {
       type: Object,

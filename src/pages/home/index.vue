@@ -105,7 +105,9 @@ export default {
       userId: '',
       awaitNum: '0',
       vacationNum: '0',
-      OAurl: ''
+      OAurl: '',
+      hxToken: '',
+      sid: ''
     }
   },
   mounted() {
@@ -155,16 +157,27 @@ export default {
     async init() {
       // 判断是不是打包环境获取userId
       if(this.buildType!=='dev') {
-        const urlId=location.href.split('?')[1].split('=')[1]
-        this.userId=urlId.substring(0,urlId.length-6)
-        this.util.setSession('sessionData',{ userId: this.userId })
+        // const urlId=location.href.split('?')[1].split('=')[1]
+        // this.userId=urlId.substring(0,urlId.length-6)
+        // this.util.setSession('sessionData',{ userId: this.userId })
+
+        var messagesArray=window.location.search.substring(1).split('&')
+        var messageObj={}
+        messagesArray.forEach(function(item,index) {
+          var itemArray=item.split('=')
+          messageObj[itemArray[0]]=itemArray[1]
+        })
+        // 存userId
+        window.sessionStorage.setItem('sessionData',messageObj)
       } else {
         // this.userId = '80001247' // wangdan
 
         this.userId='80002116' // 多个审批人
+        this.hxToken='796c0da34ede479aab31ad060da51d9f'
+        // this.sid='0e95012c436f45a39a3b4fe407c87aab'
         // this.userId='90016244'
       }
-      this.util.setSession('sessionData',{ userId: this.userId })
+      this.util.setSession('sessionData',{ userId: this.userId,hxToken: this.hxToken })
       await this.annualResidue().then(res => {
         this.vacationNum=res.data.surplus
       })
