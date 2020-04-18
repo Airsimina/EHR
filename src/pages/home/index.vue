@@ -168,16 +168,18 @@ export default {
           messageObj[itemArray[0]]=itemArray[1]
         })
         // 存userId
-        window.sessionStorage.setItem('sessionData',messageObj)
       } else {
         // this.userId = '80001247' // wangdan
-
-        this.userId='80002116' // 多个审批人
-        this.hxToken='796c0da34ede479aab31ad060da51d9f'
+        messageObj={
+          userId: '80002116',
+          hxToken: '796c0da34ede479aab31ad060da51d9f'
+        }
+        // this.userId='80002116' // 多个审批人
+        // this.hxToken='796c0da34ede479aab31ad060da51d9f'
         // this.sid='0e95012c436f45a39a3b4fe407c87aab'
         // this.userId='90016244'
       }
-      this.util.setSession('sessionData',{ userId: this.userId,hxToken: this.hxToken })
+      this.util.setSession('sessionData',messageObj)
       await this.annualResidue().then(res => {
         this.vacationNum=res.data.surplus
       })
