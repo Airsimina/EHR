@@ -166,6 +166,7 @@ export default {
         messagesArray.forEach(function(item,index) {
           var itemArray=item.split('=')
           messageObj[itemArray[0]]=itemArray[1]
+          this.userId=messageObj.userId
         })
         // 存userId
       } else {
@@ -174,7 +175,7 @@ export default {
           userId: '80002116',
           hxToken: '796c0da34ede479aab31ad060da51d9f'
         }
-        // this.userId='80002116' // 多个审批人
+        this.userId=messageObj.userId // 多个审批人
         // this.hxToken='796c0da34ede479aab31ad060da51d9f'
         // this.sid='0e95012c436f45a39a3b4fe407c87aab'
         // this.userId='90016244'
