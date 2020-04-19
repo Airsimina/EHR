@@ -210,9 +210,21 @@ export default {
       })
     },
     initOAurl() {
-      const isShowBackStr=encodeURIComponent(
-        `http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
-      )
+      let backStr=''
+      switch(BUILD_TYPE) {
+        case 'PRO':
+          backStr=`http://app.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
+          break
+        case 'Q3'
+          backStr=`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
+        default:
+          break
+        case 'PRO_DEV'
+          backStr=`http://mobq.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
+        default:
+          break
+      }
+      const isShowBackStr=encodeURIComponent(backStr)
       console.log(BUILD_TYPE+'环境')
       this.OAurl=`http://pesm.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=${isShowBackStr}`
       switch(BUILD_TYPE) {
