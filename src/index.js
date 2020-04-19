@@ -10,12 +10,13 @@ import $util from '../src/util/util.js'
 import axios from 'axios'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import './util/vconsole.js'
 
 Vue.use(ElementUI)
 Vue.prototype.axios = axios
 Vue.prototype.util = $util
-// 绑定repalceAll方法
-String.prototype.replaceAll = function (s1, s2) {
+    // 绑定repalceAll方法
+String.prototype.replaceAll = function(s1, s2) {
     return this.replace(new RegExp(s1, 'gm'), s2)
 }
 Vue.use(Vant)
@@ -23,8 +24,8 @@ Vue.prototype.buildType = BUILD_TYPE
 
 Vue.directive('clickOutside', {
     // 初始化指令
-    bind (el, binding, vnode) {
-        function clickHandler (e) {
+    bind(el, binding, vnode) {
+        function clickHandler(e) {
             // 这里判断点击的元素是否是本身，是本身，则返回
             if (el.contains(e.target)) {
                 return false
@@ -39,19 +40,19 @@ Vue.directive('clickOutside', {
         el.__vueClickOutside__ = clickHandler
         document.addEventListener('click', clickHandler)
     },
-    update () { },
-    unbind (el, binding) {
+    update() {},
+    unbind(el, binding) {
         // 解除事件监听
         document.removeEventListener('click', el.__vueClickOutside__)
         delete el.__vueClickOutside__
     }
 })
 Vue.directive('focus', {
-    inserted: function (el) {
-        el.focus()
-    }
-})
-// 遍历组件加载
+        inserted: function(el) {
+            el.focus()
+        }
+    })
+    // 遍历组件加载
 Vue.config.productionTip = false
 Vue.config.devtools = true
 new Vue({
