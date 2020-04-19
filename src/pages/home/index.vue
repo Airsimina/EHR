@@ -180,6 +180,7 @@ export default {
         //     messageObj[itemArray[0]]=itemArray[1]
         //   })
         // }
+        console.log('prodMessageObj',messageObj)
         this.userId=messageObj.userId
         this.hxToken=messageObj.hxToken
         // 存userId
