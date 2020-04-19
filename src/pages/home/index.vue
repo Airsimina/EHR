@@ -215,13 +215,14 @@ export default {
         case 'PRO':
           backStr=`http://app.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
           break
-        case 'Q3'
+        case 'Q3':
           backStr=`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
-        default:
           break
-        case 'PRO_DEV'
+        case 'PRO_DEV':
           backStr=`http://mobq.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
+          break
         default:
+          backStr=`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
           break
       }
       const isShowBackStr=encodeURIComponent(backStr)
