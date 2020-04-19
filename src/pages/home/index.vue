@@ -159,7 +159,7 @@ export default {
       let messageObj={}
       if(this.buildType!=='dev') {
         const sessionObj=this.util.getSession('sessionData')
-        if(sessionObj.userId&&sessionObj.hxToken) {
+        if(sessionObj&&sessionObj.userId&&sessionObj.hxToken) {
           messageObj=sessionObj
         } else {
           var messagesArray=window.location.search.substring(1).split('&')
