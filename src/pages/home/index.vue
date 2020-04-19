@@ -165,11 +165,11 @@ export default {
           messageObj[itemArray[0]]=itemArray[1]
         })
         if(messageObj.backehr) {
-          messageObj=this.util.getSession('sessionData')
+          messageObj=this.util.getSession('ehrSessionData')
         } else {
-          this.util.setSession('sessionData',messageObj)
+          this.util.setSession('ehrSessionData',messageObj)
         }
-        // const sessionObj=this.util.getSession('sessionData')
+        // const sessionObj=this.util.getSession('ehrSessionData')
         // if(sessionObj&&sessionObj.userId&&sessionObj.hxToken) {
         //   messageObj=sessionObj
         // } else {
@@ -196,7 +196,7 @@ export default {
         // this.sid='0e95012c436f45a39a3b4fe407c87aab'
         // this.userId='90016244'
       }
-      this.util.setSession('sessionData',messageObj)
+      this.util.setSession('ehrSessionData',messageObj)
       await this.annualResidue().then(res => {
         this.vacationNum=res.data.surplus
       })
