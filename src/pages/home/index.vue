@@ -156,17 +156,19 @@ export default {
     // 获取userId  设置年假
     async init() {
       // 判断是不是打包环境获取userId
+      let messageObj={}
       if(this.buildType!=='dev') {
-        // const urlId=location.href.split('?')[1].split('=')[1]
-        // this.userId=urlId.substring(0,urlId.length-6)
-        // this.util.setSession('sessionData',{ userId: this.userId })
+        const sessionObj=this.util.getSession('sessionData')
+        if(sessionObj.userId&&sessionObj.hxToken) {
+          messageObj=sessionObj
+        } else {
+          var messagesArray=window.location.search.substring(1).split('&')
 
-        var messagesArray=window.location.search.substring(1).split('&')
-        var messageObj={}
-        messagesArray.forEach(function(item,index) {
-          var itemArray=item.split('=')
-          messageObj[itemArray[0]]=itemArray[1]
-        })
+          messagesArray.forEach(function(item,index) {
+            var itemArray=item.split('=')
+            messageObj[itemArray[0]]=itemArray[1]
+          })
+        }
         this.userId=messageObj.userId
         // 存userId
       } else {
