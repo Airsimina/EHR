@@ -39,7 +39,7 @@ axios.interceptors.request.use(
         config => {
             store.commit('setLoading', true)
                 // store.commit('addLoading')
-            const sessionData = util.getSession('sessionData')
+            const sessionData = util.getSession('ehrSessionData')
             console.log('sessionData', sessionData)
             if (sessionData instanceof Object) {
                 config.headers = Object.assign(config.headers, sessionData)
