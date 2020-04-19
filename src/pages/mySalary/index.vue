@@ -2,38 +2,30 @@
   <div class="mySalary">
     <!-- 我的工资 -->
     <div class="wrap-1">
-      <cardSearchTime @searchTimeFun='searchTimeMySalaryFun'></cardSearchTime>
+      <cardSearchTime @searchTimeFun="searchTimeMySalaryFun"></cardSearchTime>
       <div class="cantainer">
         <!-- 汇总 -->
-        <div class="box"
-             v-show="sumSalary.length>0">
-          <div class="list-box-1"
-               @click="collect()">
+        <div class="box" v-show="sumSalary.length>0">
+          <div class="list-box-1" @click="collect()">
             <div class="box1-lis right-lis">
-              <div class="top">
-                {{this.titleTime}}</div>
+              <div class="top">{{this.titleTime}}</div>
               <!-- <div class="bottom">进账金额:10000.00元 </div> -->
             </div>
-            <div class="left-lis"
-                 :class="{'open':collectShow}"></div>
+            <div class="left-lis" :class="{'open':collectShow}"></div>
           </div>
-          <div class="list-data"
-               v-if="collectShow">
-            <div class="row-data"
-                 v-for="(item,index) in sumSalary"
-                 :key="index">
-              <span class="name"
-                    :class="{'bold':item.typeName=='应发工资'||item.typeName=='进账金额' }">{{item.typeName}}</span>
+          <div class="list-data" v-if="collectShow">
+            <div class="row-data" v-for="(item,index) in sumSalary" :key="index">
+              <span
+                class="name"
+                :class="{'bold':item.typeName=='应发工资'||item.typeName=='进账金额' }"
+              >{{item.typeName}}</span>
               <span class="val">{{item.value}}</span>
             </div>
           </div>
         </div>
         <!-- 单月 -->
-        <div class="box"
-             v-for="(item,index) in dataList"
-             :key="index">
-          <div class="list-box-1"
-               @click.stop="open(item,index)">
+        <div class="box" v-for="(item,index) in dataList" :key="index">
+          <div class="list-box-1" @click.stop="open(item,index)">
             <div class="box1-lis right-lis">
               <div class="top">
                 <!-- 月工资记录 -->
@@ -42,23 +34,20 @@
               </div>
               <!-- <div class="bottom">进账金额:10000.00元 </div> -->
             </div>
-            <div class="left-lis"
-                 :class="{'open':selIndex==index}"></div>
+            <div class="left-lis" :class="{'open':selIndex==index}"></div>
           </div>
-          <div class="list-data"
-               v-show="selIndex==index">
-            <div class="row-data"
-                 v-for="(item,index) in item.capSalaryList"
-                 :key="index">
-              <span class="name"
-                    :class="{'bold':item.typeName=='应发工资'||item.typeName=='进账金额' }">{{item.typeName}}</span>
+          <div class="list-data" v-show="selIndex==index">
+            <div class="row-data" v-for="(item,index) in item.capSalaryList" :key="index">
+              <span
+                class="name"
+                :class="{'bold':item.typeName=='应发工资'||item.typeName=='进账金额' }"
+              >{{item.typeName}}</span>
               <span class="val">{{item.value}}</span>
             </div>
           </div>
         </div>
         <!-- 空数据占位符 -->
-        <div class="no-data"
-             v-show="dataList.length==0">
+        <div class="no-data" v-show="dataList.length==0">
           <div class="img-box"></div>
           <div class="text">暂无数据~</div>
         </div>
@@ -73,7 +62,7 @@ import HttpEhr from '@requestPool/index.js'
 // import testmysalary from '../../testJson/mySalary.js'
 export default {
   components: { cardSearchTime },
-  data () {
+  data() {
     return {
       selIndex: -1, // 展开的下标
       dataList: [], // 单月数据集合
@@ -87,89 +76,89 @@ export default {
   methods: {
 
     // 获取我的工资列表
-    getMySalaryList () {
+    getMySalaryList() {
       HttpEhr.getMySalaryList({
-        userId: this.util.getSession('sessionData').userId || '',
+        userId: this.util.getSession('ehrSessionData').userId||'',
         // userId: '00025608',
         startDate: this.startTime,
         endDate: this.endTime
         // startDate: '2019-01',
         // endDate: '2019-04'
       }).then(res => {
-        this.titleTime = `${res.data.startDate.substr(0, 4)}年
-                ${res.data.startDate.substr(5, 2)}月 -
-                ${res.data.endDate.substr(0, 4)}年
-                ${res.data.endDate.substr(5, 2)}月汇总工资记录`
-        if (!res.data.detailData) {
-          this.dataList = []
+        this.titleTime=`${res.data.startDate.substr(0,4)}年
+                ${res.data.startDate.substr(5,2)}月 -
+                ${res.data.endDate.substr(0,4)}年
+                ${res.data.endDate.substr(5,2)}月汇总工资记录`
+        if(!res.data.detailData) {
+          this.dataList=[]
         } else {
-          this.dataList = res.data.detailData
+          this.dataList=res.data.detailData
         }
-        if (!res.data.sumSalary) {
-          this.sumSalary = []
+        if(!res.data.sumSalary) {
+          this.sumSalary=[]
         } else {
-          this.sumSalary = res.data.sumSalary
+          this.sumSalary=res.data.sumSalary
         }
       })
     },
     // 搜索方法
-    searchTimeMySalaryFun (timeData) {
-      this.startTime = timeData.startTime
-      this.endTime = timeData.endTime
+    searchTimeMySalaryFun(timeData) {
+      this.startTime=timeData.startTime
+      this.endTime=timeData.endTime
       this.getMySalaryList()
     },
     // 默认时间
-    initTime () {
+    initTime() {
       // this.endTime = this.util.setDefaultTime(2)
       // this.startTime = this.util.setDefaultTime(2)
-      this.endTime = this.getdate(2)
-      this.startTime = this.getdate_2(2)
+      this.endTime=this.getdate(2)
+      this.startTime=this.getdate_2(2)
     },
     // 获取默认时间
-    getdate (type) {
-      const date = new Date()
-      var y = date.getFullYear()
-      var m = date.getMonth() + 1
-      m = m < 10 ? '0' + m : m
-      if (type == 1) {
+    getdate(type) {
+      const date=new Date()
+      var y=date.getFullYear()
+      var m=date.getMonth()+1
+      m=m<10? '0'+m:m
+      if(type==1) {
         return `${y}年${m}月`
       } else {
         return `${y}-${m}`
       }
     },
     // 获取默认时间
-    getdate_2 (type) {
-      const date = new Date()
-      var y = date.getFullYear()
-      var m = date.getMonth() + 1
-      if (m == 1) {
-        m = 12
-        y = y - 1
+    getdate_2(type) {
+      const date=new Date()
+      var y=date.getFullYear()
+      var m=date.getMonth()+1
+      if(m==1) {
+        m=12
+        y=y-1
       } else {
-        m = m - 1
+        m=m-1
       }
-      m = m < 10 ? '0' + m : m
-      if (type == 1) {
+      m=m<10? '0'+m:m
+      if(type==1) {
         return `${y}年${m}月`
       } else {
         return `${y}-${m}`
       }
     },
     // 汇总展开
-    collect () {
-      this.collectShow = !this.collectShow
+    collect() {
+      this.collectShow=!this.collectShow
     },
     // 展开收起
-    open (item, index) {
-      if (this.selIndex == index) {
-        this.selIndex = -1
+    open(item,index) {
+      if(this.selIndex==index) {
+        this.selIndex=-1
         return
       }
-      this.selIndex = index
+      this.selIndex=index
     }
   },
-  mounted () {
-    document.title = '我的工资'
+  mounted() {
+    document.title='我的工资'
     this.initTime()
     this.getMySalaryList()
     // 测试数据

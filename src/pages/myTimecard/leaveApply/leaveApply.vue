@@ -128,9 +128,9 @@
 </template>
 
 <script>
-import cardMyMessage from "@components/card/cardMyMessage";
-import HttpEhr from "@requestPool/index.js";
-import { ImagePreview } from "vant";
+import cardMyMessage from '@components/card/cardMyMessage'
+import HttpEhr from '@requestPool/index.js'
+import { ImagePreview } from 'vant'
 // import util from '../../../util/util.js'
 
 export default {
@@ -138,114 +138,114 @@ export default {
   props: {},
   data() {
     return {
-      dateArr: ["2020-04-03"],
-      defaultValue: "",
+      dateArr: ['2020-04-03'],
+      defaultValue: '',
       // ------------------
-      userNumber: "",
-      title: "",
-      keyName: "请假类型",
-      numberData: "",
+      userNumber: '',
+      title: '',
+      keyName: '请假类型',
+      numberData: '',
       flowHiComments: [], // 流程
       imgList: [], // 图片集合
-      startTime: "",
-      endTime: "",
+      startTime: '',
+      endTime: '',
       numDay: 0, // 时长
-      status: "", //4销假
-      reason: "", // 理由
-      editFlag: "2", // 1、正常使用 2、无法使用
-      removeFlag: "2", // 1、正常使用 2、无法使用
-      dataId: "", // 数据id
-      dataType: "", // 1:请假 2:销假
+      status: '', // 4销假
+      reason: '', // 理由
+      editFlag: '2', // 1、正常使用 2、无法使用
+      removeFlag: '2', // 1、正常使用 2、无法使用
+      dataId: '', // 数据id
+      dataType: '', // 1:请假 2:销假
       itemData: {},
       dates: [],
-      cityName: "",
-      cityValue: ""
-    };
+      cityName: '',
+      cityValue: ''
+    }
   },
   methods: {
     getStatus(typeTxt) {
-      if(typeTxt=="提交") {
-        return "blue";
-      } else if(typeTxt=="未审核") {
-        return "grey";
-      } else if(typeTxt=="待审核") {
-        return "green";
-      } else if(typeTxt=="驳回") {
-        return "orange";
+      if(typeTxt=='提交') {
+        return 'blue'
+      } else if(typeTxt=='未审核') {
+        return 'grey'
+      } else if(typeTxt=='待审核') {
+        return 'green'
+      } else if(typeTxt=='驳回') {
+        return 'orange'
       }
     },
     // 1 修改和 2销假跳转
     editFun(flag) {
       if(
-        (flag=="1"&&this.editFlag=="1")||
-        (flag=="2"&&this.removeFlag=="1")
+        (flag=='1'&&this.editFlag=='1')||
+        (flag=='2'&&this.removeFlag=='1')
       ) {
         this.$router.push({
-          name: "leaveRequest",
+          name: 'leaveRequest',
           query: {
             id: this.dataId,
             flag: flag,
             itemData: this.itemData
           }
-        });
+        })
       }
     },
     // 获取详情数据
     leaveApplyDetail() {
       HttpEhr.leaveApplyDetail({
-        userId: this.util.getSession("sessionData").userId||"",
+        userId: this.util.getSession('ehrSessionData').userId||'',
         dataId: this.dataId,
         formType: this.dataType
       }).then(res => {
-        this.flowHiComments=res.data.flowData.flowMobileHiComments;
-        this.itemData=res.data.formData;
-        this.numberData=this.itemData.numberData;
-        this.dataType=this.itemData.dataType;
-        this.startTime=this.itemData.startDate;
-        this.endTime=this.itemData.endDate;
-        this.numDay=this.itemData.sum;
-        this.status=this.itemData.status;
-        this.reason=this.itemData.note;
+        this.flowHiComments=res.data.flowData.flowMobileHiComments
+        this.itemData=res.data.formData
+        this.numberData=this.itemData.numberData
+        this.dataType=this.itemData.dataType
+        this.startTime=this.itemData.startDate
+        this.endTime=this.itemData.endDate
+        this.numDay=this.itemData.sum
+        this.status=this.itemData.status
+        this.reason=this.itemData.note
         this.dates=
           JSON.parse(this.itemData.dates).length>0
             ? JSON.parse(this.itemData.dates)
-            :[];
+            :[]
         this.dateArr=
           JSON.parse(this.itemData.dates).length>0
             ? JSON.parse(this.itemData.dates)
-            :[];
-        this.defaultValue=this.dateArr[0];
-        this.imgList=JSON.parse(this.itemData.url);
-        this.editFlag=this.itemData.editFlag;
-        this.removeFlag=this.itemData.removeFlag;
+            :[]
+        this.defaultValue=this.dateArr[0]
+        this.imgList=JSON.parse(this.itemData.url)
+        this.editFlag=this.itemData.editFlag
+        this.removeFlag=this.itemData.removeFlag
         this.cityName=
-          this.itemData.cityName=="请选择省份"
-            ? ""
-            :this.itemData.cityName;
-        this.cityValue=this.itemData.cityValue;
-      });
+          this.itemData.cityName=='请选择省份'
+            ? ''
+            :this.itemData.cityName
+        this.cityValue=this.itemData.cityValue
+      })
     },
     // 图片预览
     viewImg(index) {
       ImagePreview({
         images: this.imgList,
         startPosition: index
-      });
+      })
     }
   },
   mounted() {
-    this.dataId=this.$route.query.id; // 数据id  原请假id
-    this.dataType=this.$route.query.dataType;
-    this.userNumber=this.util.getLeaveVal(this.$route.query.type);
-    if(this.dataType=="1") {
-      this.title="请假申请";
-    } else if(this.dataType=="2") {
-      this.title="请假调整申请";
+    this.dataId=this.$route.query.id // 数据id  原请假id
+    this.dataType=this.$route.query.dataType
+    this.userNumber=this.util.getLeaveVal(this.$route.query.type)
+    if(this.dataType=='1') {
+      this.title='请假申请'
+    } else if(this.dataType=='2') {
+      this.title='请假调整申请'
     }
-    document.title=this.title;
-    this.leaveApplyDetail();
+    document.title=this.title
+    this.leaveApplyDetail()
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

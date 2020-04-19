@@ -34,7 +34,7 @@
 import HttpEhr from '@requestPool/index.js'
 export default {
   props: {},
-  data () {
+  data() {
     return {
       fixationNum: '0', // 定额
       fulfillNum: '0', // 已休
@@ -44,21 +44,21 @@ export default {
   watch: {},
   computed: {},
   methods: {
-    annualResidue () {
+    annualResidue() {
       HttpEhr.annualResidue({
-        userId: this.util.getSession('sessionData').userId || '',
+        userId: this.util.getSession('ehrSessionData').userId||'',
         startDate: this.startTime,
         endtDate: this.endTime
       }).then(res => {
-        this.fixationNum = res.data.quota // 定
-        this.fulfillNum = res.data.cease // 已
-        this.residueNum = res.data.surplus // 剩
+        this.fixationNum=res.data.quota // 定
+        this.fulfillNum=res.data.cease // 已
+        this.residueNum=res.data.surplus // 剩
       })
     }
   },
-  created () { },
-  mounted () {
-    document.title = '年假余额'
+  created() { },
+  mounted() {
+    document.title='年假余额'
     this.annualResidue()
   }
 }

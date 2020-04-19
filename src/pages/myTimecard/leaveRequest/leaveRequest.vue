@@ -665,7 +665,7 @@ export default {
     leaveApplyDetail() {
       // return new Promise((resolve, reject) => {
       HttpEhr.leaveApplyDetail({
-        userId: this.util.getSession('sessionData').userId,
+        userId: this.util.getSession('ehrSessionData').userId,
         dataId: this.jsonData.dataId, // 销假和新增为空,修改要传值
         editType: this.jsonData.editType, // 修改专用
         formType: this.jsonData.formType
@@ -690,7 +690,7 @@ export default {
       return new Promise((resolve,reject) => {
         HttpEhr.getBranch({
           formType,
-          userId: this.util.getSession('sessionData').userId,
+          userId: this.util.getSession('ehrSessionData').userId,
           type: this.jsonData.leaveTypeId,
           sum: this.jsonData.duration
         }).then(res => {
@@ -755,7 +755,7 @@ export default {
     addAndEditVacation() {
       return new Promise((resolve,reject) => {
         HttpEhr.addAndEditVacation({
-          userId: this.util.getSession('sessionData').userId||'',
+          userId: this.util.getSession('ehrSessionData').userId||'',
           type: this.jsonData.leaveTypeId,
           startDate: this.jsonData.startTime,
           endDate: this.jsonData.endTime,
@@ -778,7 +778,7 @@ export default {
     removeVacation() {
       return new Promise((resolve,reject) => {
         HttpEhr.removeVacation({
-          userId: this.util.getSession('sessionData').userId||'',
+          userId: this.util.getSession('ehrSessionData').userId||'',
           remId: this.$route.query.id, // 原请假id
           startDate: this.jsonData.startTime,
           endDate: this.jsonData.endTime,

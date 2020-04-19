@@ -2,63 +2,53 @@
   <div class="mySalary">
     <!-- 考勤查询 -->
     <div class="wrap-1">
-      <cardSearchTime @searchTimeFun='searchTimeChSeFun'></cardSearchTime>
+      <cardSearchTime @searchTimeFun="searchTimeChSeFun"></cardSearchTime>
       <div class="cantainer">
         <!-- 汇总 -->
         <div class="box">
-          <div class="list-box-1"
-               @click="collect()">
+          <div class="list-box-1" @click="collect()">
             <div class="box1-lis right-lis">
               <div class="top">
                 {{this.startTime.substr(0,4)}}年
                 {{this.startTime.substr(5,3)}}月 -
                 {{this.endTime.substr(0,4)}}年
-                {{this.endTime.substr(5,3)}}月汇总考勤记录</div>
+                {{this.endTime.substr(5,3)}}月汇总考勤记录
+              </div>
             </div>
-            <div class="left-lis"
-                 :class="{'open':collectShow}"></div>
+            <div class="left-lis" :class="{'open':collectShow}"></div>
           </div>
           <!-- 总考勤展开记录 -->
-          <div class="list-data"
-               v-if="collectShow">
+          <div class="list-data" v-if="collectShow">
             <div class="sub-box">
-              <div class="grid-div"
-                   v-for="(item,index) in dataList_s"
-                   :key="index">
-                <div class="num"
-                     v-if="item.val!=0"
-                     :class="[item.color+'']">{{item.val}}</div>
-                <div class="num ccc"
-                     v-if="item.val==0">0</div>
+              <div class="grid-div" v-for="(item,index) in dataList_s" :key="index">
+                <div class="num" v-if="item.val!=0" :class="[item.color+'']">{{item.val}}</div>
+                <div class="num ccc" v-if="item.val==0">0</div>
                 <div class="name">{{item.name}}</div>
               </div>
             </div>
           </div>
         </div>
         <!-- 单月 -->
-        <div class="box"
-             v-for="(item,index) in dataList"
-             v-show="item.subList.length !=0"
-             :key="index">
-          <div class="list-box-1"
-               @click="open(item,index)">
+        <div
+          class="box"
+          v-for="(item,index) in dataList"
+          v-show="item.subList.length !=0"
+          :key="index"
+        >
+          <div class="list-box-1" @click="open(item,index)">
             <div class="box1-lis right-lis">
               <div class="top">
                 {{item.title.substr(0,4)}}年
-                {{item.title.substr(5,2)}}月考勤记录</div>
+                {{item.title.substr(5,2)}}月考勤记录
+              </div>
             </div>
-            <div class="left-lis"
-                 :class="{'open':selIndex==index}"></div>
+            <div class="left-lis" :class="{'open':selIndex==index}"></div>
           </div>
           <!-- 单月展开记录 -->
-          <div class="list-data"
-               v-if="selIndex==index">
+          <div class="list-data" v-if="selIndex==index">
             <!-- v-if="item.subList.length>0 && selIndex==index" -->
-            <div class="no-data"
-                 v-if="item.subList.length==0 && selIndex==index">暂无数据~</div>
-            <div class="row-data"
-                 v-for="(subItem,index) in item.subList"
-                 :key="index">
+            <div class="no-data" v-if="item.subList.length==0 && selIndex==index">暂无数据~</div>
+            <div class="row-data" v-for="(subItem,index) in item.subList" :key="index">
               <div class="sublis">
                 <span class="name">请假类型 :</span>
                 <span class="val color-b">{{getTypeTxt(subItem.type)}}</span>
@@ -96,7 +86,7 @@ import HttpEhr from '@requestPool/index.js'
 export default {
   components: { cardSearchTime },
   props: {},
-  data () {
+  data() {
     return {
       typeVal: '1', // 考勤记录查询
       collectShow: false, // 展开和收起
@@ -105,14 +95,14 @@ export default {
       dataList: [],
       // 总考勤数据集合
       dataList_s: [
-        { val: 0, color: 'c-1', name: '事假(天)' },
-        { val: 0, color: 'c-2', name: '病假(天)' },
-        { val: 0, color: 'c-3', name: '婚假(天)' },
-        { val: 0, color: 'c-4', name: '产假(天)' },
-        { val: 0, color: 'c-5', name: '丧假(天)' },
-        { val: 0, color: 'c-2', name: '年休假(天)' },
-        { val: 0, color: 'c-1', name: '工伤假(天)' },
-        { val: 0, color: 'c-5', name: '护理假(天)' }
+        { val: 0,color: 'c-1',name: '事假(天)' },
+        { val: 0,color: 'c-2',name: '病假(天)' },
+        { val: 0,color: 'c-3',name: '婚假(天)' },
+        { val: 0,color: 'c-4',name: '产假(天)' },
+        { val: 0,color: 'c-5',name: '丧假(天)' },
+        { val: 0,color: 'c-2',name: '年休假(天)' },
+        { val: 0,color: 'c-1',name: '工伤假(天)' },
+        { val: 0,color: 'c-5',name: '护理假(天)' }
       ],
       startTime: '',
       endTime: '',
@@ -130,102 +120,102 @@ export default {
   },
   methods: {
     // 汇总展开
-    collect () {
-      this.collectShow = !this.collectShow
+    collect() {
+      this.collectShow=!this.collectShow
     },
     // 展开
-    open (item, index) {
-      if (this.selIndex == index) {
-        this.selIndex = -1
+    open(item,index) {
+      if(this.selIndex==index) {
+        this.selIndex=-1
         return
       }
-      this.selIndex = index
+      this.selIndex=index
     },
     // 我的假勤列表
-    getcheckSeekList () {
+    getcheckSeekList() {
       HttpEhr.getcheckSeekList({
-        userId: this.util.getSession('sessionData').userId || '',
+        userId: this.util.getSession('ehrSessionData').userId||'',
         startDate: this.startTime,
         endDate: this.endTime
       }).then(res => {
-        this.formData = res.data.formData
+        this.formData=res.data.formData
         this.setVal()
-        this.dataList = res.data.list
+        this.dataList=res.data.list
       })
     },
     // 设置汇总考勤样式
-    setVal () {
-      this.dataList_s[0].val = this.formData.compassionateLeave // 事假
-      this.dataList_s[1].val = this.formData.sickLeave // 病假
-      this.dataList_s[2].val = this.formData.marriageLeave // 婚假
-      this.dataList_s[3].val = this.formData.maternityLeave // 产假
-      this.dataList_s[4].val = this.formData.funeralLeave // 丧假天数
-      this.dataList_s[5].val = this.formData.annualLeave// 年假
-      this.dataList_s[6].val = this.formData.injuryLeave // 工伤假
-      this.dataList_s[7].val = this.formData.nursingLeave // 护理假天数
+    setVal() {
+      this.dataList_s[0].val=this.formData.compassionateLeave // 事假
+      this.dataList_s[1].val=this.formData.sickLeave // 病假
+      this.dataList_s[2].val=this.formData.marriageLeave // 婚假
+      this.dataList_s[3].val=this.formData.maternityLeave // 产假
+      this.dataList_s[4].val=this.formData.funeralLeave // 丧假天数
+      this.dataList_s[5].val=this.formData.annualLeave// 年假
+      this.dataList_s[6].val=this.formData.injuryLeave // 工伤假
+      this.dataList_s[7].val=this.formData.nursingLeave // 护理假天数
     },
     // 搜索方法
-    searchTimeChSeFun (timeData) {
-      this.startTime = timeData.startTime
-      this.endTime = timeData.endTime
-      this.dataList = []
+    searchTimeChSeFun(timeData) {
+      this.startTime=timeData.startTime
+      this.endTime=timeData.endTime
+      this.dataList=[]
       this.getcheckSeekList()
     },
     // 获取默认时间
-    getdate (type) {
-      const date = new Date()
-      var y = date.getFullYear()
-      var m = date.getMonth() + 1
-      m = m < 10 ? '0' + m : m
-      if (type == 1) {
+    getdate(type) {
+      const date=new Date()
+      var y=date.getFullYear()
+      var m=date.getMonth()+1
+      m=m<10? '0'+m:m
+      if(type==1) {
         return `${y}年${m}月`
       } else {
         return `${y}-${m}`
       }
     },
     // 获取默认时间
-    getdate_2 (type) {
-      const date = new Date()
-      var y = date.getFullYear()
-      var m = date.getMonth() + 1
-      if (m == 1) {
-        m = 12
-        y = y - 1
+    getdate_2(type) {
+      const date=new Date()
+      var y=date.getFullYear()
+      var m=date.getMonth()+1
+      if(m==1) {
+        m=12
+        y=y-1
       } else {
-        m = m - 1
+        m=m-1
       }
-      m = m < 10 ? '0' + m : m
-      if (type == 1) {
+      m=m<10? '0'+m:m
+      if(type==1) {
         return `${y}年${m}月`
       } else {
         return `${y}-${m}`
       }
     },
-    getTypeTxt (type) {
-      if (type == '1') {
+    getTypeTxt(type) {
+      if(type=='1') {
         return '年休'
-      } else if (type == '2') {
+      } else if(type=='2') {
         return '病假'
-      } else if (type == '3') {
+      } else if(type=='3') {
         return '事假'
-      } else if (type == '4') {
+      } else if(type=='4') {
         return '工伤假'
-      } else if (type == '5') {
+      } else if(type=='5') {
         return '婚假'
-      } else if (type == '6') {
+      } else if(type=='6') {
         return '产假'
-      } else if (type == '7') {
+      } else if(type=='7') {
         return '护理假'
-      } else if (type == '8') {
+      } else if(type=='8') {
         return '丧假'
       }
     }
   },
-  created () { },
-  mounted () {
-    document.title = '考勤查询'
-    this.startTime = this.getdate_2(2)
-    this.endTime = this.getdate(2)
+  created() { },
+  mounted() {
+    document.title='考勤查询'
+    this.startTime=this.getdate_2(2)
+    this.endTime=this.getdate(2)
     // 测试数据
     // this.formData = checkData.formData
     // this.setVal(checkData.formData)
