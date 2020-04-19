@@ -158,18 +158,25 @@ export default {
       // 判断是不是打包环境获取userId
       let messageObj={}
       if(this.buildType!=='dev') {
-        const sessionObj=this.util.getSession('sessionData')
-        if(sessionObj&&sessionObj.userId&&sessionObj.hxToken) {
-          messageObj=sessionObj
-        } else {
-          var messagesArray=window.location.search.substring(1).split('&')
+        var messagesArray=window.location.search.substring(1).split('&')
 
-          messagesArray.forEach(function(item,index) {
-            var itemArray=item.split('=')
-            messageObj[itemArray[0]]=itemArray[1]
-          })
-        }
+        messagesArray.forEach(function(item,index) {
+          var itemArray=item.split('=')
+          messageObj[itemArray[0]]=itemArray[1]
+        })
+        // const sessionObj=this.util.getSession('sessionData')
+        // if(sessionObj&&sessionObj.userId&&sessionObj.hxToken) {
+        //   messageObj=sessionObj
+        // } else {
+        //   var messagesArray=window.location.search.substring(1).split('&')
+
+        //   messagesArray.forEach(function(item,index) {
+        //     var itemArray=item.split('=')
+        //     messageObj[itemArray[0]]=itemArray[1]
+        //   })
+        // }
         this.userId=messageObj.userId
+        this.hxToken=messageObj.hxToken
         // 存userId
       } else {
         // this.userId = '80001247' // wangdan
@@ -178,6 +185,7 @@ export default {
           hxToken: '796c0da34ede479aab31ad060da51d9f'
         }
         this.userId=messageObj.userId // 多个审批人
+        this.hxToken=messageObj.hxToken
         // this.hxToken='796c0da34ede479aab31ad060da51d9f'
         // this.sid='0e95012c436f45a39a3b4fe407c87aab'
         // this.userId='90016244'
@@ -197,7 +205,7 @@ export default {
     },
     initOAurl() {
       const isShowBackStr=encodeURIComponent(
-        `http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`
+        `http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
       )
       console.log(BUILD_TYPE+'环境')
       this.OAurl=`http://pesm.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=${isShowBackStr}`
