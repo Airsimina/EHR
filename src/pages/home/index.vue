@@ -164,6 +164,11 @@ export default {
           var itemArray=item.split('=')
           messageObj[itemArray[0]]=itemArray[1]
         })
+        if(messageObj.backehr) {
+          messageObj=this.util.getSession('sessionData')
+        } else {
+          this.util.setSession('sessionData',messageObj)
+        }
         // const sessionObj=this.util.getSession('sessionData')
         // if(sessionObj&&sessionObj.userId&&sessionObj.hxToken) {
         //   messageObj=sessionObj
