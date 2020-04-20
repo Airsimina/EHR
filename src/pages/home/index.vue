@@ -3,11 +3,13 @@
     <div class="top">
       <div class="commission-card-container">
         <div class="commission-card">
-          <div class="single-card" @click="toDb">
+          <div class="single-card"
+               @click="toDb">
             <div class="number">{{awaitNum}}</div>
             <div class="discribe">我的待办（个）</div>
           </div>
-          <div class="single-card" @click="toNj">
+          <div class="single-card"
+               @click="toNj">
             <div class="number">{{vacationNum}}</div>
             <div class="discribe">年假余额（天）</div>
           </div>
@@ -15,30 +17,30 @@
       </div>
     </div>
     <div class="container">
-      <div
-        class="single"
-        @click="transmitFun(item)"
-        v-for="(item,index) in jsonData.list_a"
-        :key="index"
-      >
-        <img class="single-icon" :src="item.iconUrl" />
+      <div class="single"
+           @click="transmitFun(item)"
+           v-for="(item,index) in jsonData.list_a"
+           :key="index">
+        <img class="single-icon"
+             :src="item.iconUrl" />
         <div class="icon-text">{{item.iconText}}</div>
       </div>
     </div>
-    <div class="people-container" v-show="false">
+    <div class="people-container"
+         v-show="false">
       <div class="people-title">人事管理</div>
-      <div
-        class="single"
-        @click="transmitFun(item)"
-        v-for="(item,index) in jsonData.list_b"
-        :key="index"
-      >
-        <img class="single-icon" :src="item.iconUrl" />
+      <div class="single"
+           @click="transmitFun(item)"
+           v-for="(item,index) in jsonData.list_b"
+           :key="index">
+        <img class="single-icon"
+             :src="item.iconUrl" />
         <div class="icon-text">{{item.iconText}}</div>
       </div>
       <!-- <div>111</div> -->
     </div>
-    <div class="people-container nodata-box" v-show="true">
+    <div class="people-container nodata-box"
+         v-show="true">
       <div class="img-bg"></div>
       <!-- <div class="txt">更多功能敬请期待</div> -->
     </div>
@@ -49,7 +51,7 @@
 import HttpEhr from '@requestPool/index.js'
 
 export default {
-  data() {
+  data () {
     return {
       jsonData: {
         list_a: [
@@ -110,24 +112,24 @@ export default {
       sid: ''
     }
   },
-  mounted() {
+  mounted () {
     this.init()
     this.initOAurl()
-    document.title='首页'
+    document.title = '首页'
   },
   methods: {
-    toDb() {
+    toDb () {
       console.log(this.OAurl)
-      window.location.href=this.OAurl
+      window.location.href = this.OAurl
     },
-    toNj() {
+    toNj () {
       this.$router.push({
         name: 'annualResidue'
       })
     },
     // 获取代办个数
-    getTaskCount() {
-      return new Promise((resolve,reject) => {
+    getTaskCount () {
+      return new Promise((resolve, reject) => {
         HttpEhr.getTaskCount({
           userId: this.userId
         }).then(res => {
@@ -136,8 +138,8 @@ export default {
       })
     },
     // 获取用户
-    getLoginUserName() {
-      return new Promise((resolve,reject) => {
+    getLoginUserName () {
+      return new Promise((resolve, reject) => {
         HttpEhr.getLoginUserName({
           userId: this.userId
         }).then(res => {
@@ -146,28 +148,28 @@ export default {
       })
     },
     // 获取年假余额
-    annualResidue() {
-      return new Promise((resolve,reject) => {
+    annualResidue () {
+      return new Promise((resolve, reject) => {
         HttpEhr.annualResidue({ userId: this.userId }).then(res => {
           resolve(res)
         })
       })
     },
     // 获取userId  设置年假
-    async init() {
+    async init () {
       // 判断是不是打包环境获取userId
-      let messageObj={}
-      if(this.buildType!=='dev') {
-        var messagesArray=window.location.search.substring(1).split('&')
+      let messageObj = {}
+      if (this.buildType !== 'dev') {
+        var messagesArray = window.location.search.substring(1).split('&')
 
-        messagesArray.forEach(function(item,index) {
-          var itemArray=item.split('=')
-          messageObj[itemArray[0]]=itemArray[1]
+        messagesArray.forEach(function (item, index) {
+          var itemArray = item.split('=')
+          messageObj[itemArray[0]] = itemArray[1]
         })
-        if(messageObj.backehr) {
-          messageObj=this.util.getSession('ehrSessionData')
+        if (messageObj.backehr) {
+          messageObj = this.util.getSession('ehrSessionData')
         } else {
-          this.util.setSession('ehrSessionData',messageObj)
+          this.util.setSession('ehrSessionData', messageObj)
         }
         // const sessionObj=this.util.getSession('ehrSessionData')
         // if(sessionObj&&sessionObj.userId&&sessionObj.hxToken) {
@@ -180,83 +182,83 @@ export default {
         //     messageObj[itemArray[0]]=itemArray[1]
         //   })
         // }
-        console.log('prodMessageObj',messageObj)
-        this.userId=messageObj.userId
-        this.hxToken=messageObj.hxToken
+        console.log('prodMessageObj', messageObj)
+        this.userId = messageObj.userId
+        this.hxToken = messageObj.hxToken
         // 存userId
       } else {
         // this.userId = '80001247' // wangdan
-        messageObj={
+        messageObj = {
           userId: '80002116',
-          hxToken: '796c0da34ede479aab31ad060da51d9f'
+          hxToken: '495cfb309a9d4aeb9172e10acf639e8c'
         }
-        this.userId=messageObj.userId // 多个审批人
-        this.hxToken=messageObj.hxToken
+        this.userId = messageObj.userId // 多个审批人
+        this.hxToken = messageObj.hxToken
         // this.hxToken='796c0da34ede479aab31ad060da51d9f'
         // this.sid='0e95012c436f45a39a3b4fe407c87aab'
         // this.userId='90016244'
       }
-      this.util.setSession('ehrSessionData',messageObj)
+      this.util.setSession('ehrSessionData', messageObj)
       await this.annualResidue().then(res => {
-        this.vacationNum=res.data.surplus
+        this.vacationNum = res.data.surplus
       })
       await this.getLoginUserName().then(res => {
-        this.util.setSession('sysUsername',{
+        this.util.setSession('sysUsername', {
           sysUsername: res.data.sysUsername
         })
       })
       await this.getTaskCount().then(res => {
-        this.awaitNum=res.data
+        this.awaitNum = res.data
       })
     },
-    initOAurl() {
-      let backStr=''
-      switch(BUILD_TYPE) {
+    initOAurl () {
+      let backStr = ''
+      switch (BUILD_TYPE) {
         case 'PRO':
-          backStr=`http://app.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
+          backStr = `http://app.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
           break
         case 'Q3':
-          backStr=`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
+          backStr = `http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
           break
         case 'PRO_DEV':
-          backStr=`http://mobq.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
+          backStr = `http://mobq.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
           break
         default:
-          backStr=`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
+          backStr = `http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
           break
       }
-      const isShowBackStr=encodeURIComponent(backStr)
-      console.log(BUILD_TYPE+'环境')
-      this.OAurl=`http://pesm.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=${isShowBackStr}`
-      switch(BUILD_TYPE) {
+      const isShowBackStr = encodeURIComponent(backStr)
+      console.log(BUILD_TYPE + '环境')
+      this.OAurl = `http://pesm.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=${isShowBackStr}`
+      switch (BUILD_TYPE) {
         case 'PRO':
-          this.OAurl='http://pesm.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack='+
+          this.OAurl = 'http://pesm.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
             isShowBackStr
           break
         case 'PRE':
-          this.OAurl=''
+          this.OAurl = ''
           break
         case 'Q3':
-          this.OAurl=
-            'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack='+
+          this.OAurl =
+            'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
             isShowBackStr
           break
         case 'PRO_DEV':
-          this.OAurl=
-            'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack='+
+          this.OAurl =
+            'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
             isShowBackStr
           break
         default:
           // dev
-          this.OAurl=
-            'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack='+
+          this.OAurl =
+            'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
             isShowBackStr
           break
       }
-      console.log('OAurl',this.OAurl)
+      console.log('OAurl', this.OAurl)
     },
     // 跳转
-    transmitFun(item) {
+    transmitFun (item) {
       // console.log(this.buildType + '环境')
       // const isShowBackStr = encodeURIComponent(`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
       // switch (this.buildType.toUpperCase()) {
@@ -278,11 +280,11 @@ export default {
       //     break
       // }
       // console.log(this.OAurl)
-      if(item.path=='commission') {
-        window.location.href=this.OAurl
+      if (item.path == 'commission') {
+        window.location.href = this.OAurl
         return
       }
-      if(!item.path) {
+      if (!item.path) {
         this.$toast({
           message: '敬请期待',
           icon: 'like-o'
