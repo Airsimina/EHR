@@ -213,7 +213,7 @@ export default {
       number: '123123',
       isShow: this.value,
       myValue: '',
-      placeholdertext: '输入你想输入的内容',
+      placeholdertext: '请输入人名或拼音',
       showCompanyPerson: false,
       showHigherLevelPerson: false,
       showMyDepartmentPerson: false,
