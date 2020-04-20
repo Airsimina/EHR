@@ -189,8 +189,8 @@ export default {
       } else {
         // this.userId = '80001247' // wangdan
         messageObj = {
-          userId: '80002116',
-          hxToken: '91ccfdea77b34b179c9a0af33328ed94'
+          userId: '00043990',
+          hxToken: 'token00043990'
         }
         this.userId = messageObj.userId // 多个审批人
         this.hxToken = messageObj.hxToken

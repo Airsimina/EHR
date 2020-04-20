@@ -302,6 +302,7 @@ export default {
         operateType: 'submit'
       },
       flowNodesData: [],
+      myFormData: {},
       formData: {
         dataList: [{}]
       },
@@ -638,11 +639,10 @@ export default {
           })
         }
       }
-      console.log('this.formData----------------')
-      console.log(this.flowData)
+      console.log('this.formData----------------', this.formData)
 
-      params.departmentType = this.formData.departmentType || this.flowData.currentPerson.departmentType
-      params.departmentBizType = this.formData.departmentBizType || this.flowData.currentPerson.departmentBizType
+      params.departmentType = this.myFormData.departmentType || this.flowData.currentPerson.departmentType
+      params.departmentBizType = this.myFormData.departmentBizType || this.flowData.currentPerson.departmentBizType
       console.log(params)
 
       // params.departmentType = this.formData.departmentType
@@ -665,10 +665,12 @@ export default {
         formType: this.jsonData.formType
       }).then(res => {
         // resolve(res)
+
         this.flowData = res.data.flowData
         this.toType = res.data.formData.toType
         this.departmentId = res.data.formData.departmentId // 组织
         this.divisionId = res.data.formData.divisionId // 获取审批组织需要的参数
+        this.myFormData = res.data.formData
         this.load()
       })
       // })
