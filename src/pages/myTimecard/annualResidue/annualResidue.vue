@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import HttpEhr from "@requestPool/index.js";
+import HttpEhr from "@requestPool/index.js"
 export default {
   props: {},
   data() {
@@ -47,7 +47,7 @@ export default {
       fulfillNum: "0", // 已休
       residueNum: "0", // 剩余
       lastBalanceNum: "0" // 上年结余
-    };
+    }
   },
   watch: {},
   computed: {},
@@ -58,20 +58,20 @@ export default {
         startDate: this.startTime,
         endtDate: this.endTime
       }).then(res => {
-        console.log("上年结余", res);
-        this.fixationNum = res.data.quota; // 定
-        this.lastBalanceNum = res.data.lastYear; // 上
-        this.fulfillNum = res.data.cease; // 已
-        this.residueNum = res.data.surplus; // 剩
-      });
+        console.log("上年结余", res)
+        this.fixationNum = res.data.quota // 定
+        this.lastBalanceNum = res.data.lastYear // 上
+        this.fulfillNum = res.data.cease // 已
+        this.residueNum = res.data.surplus // 剩
+      })
     }
   },
   created() {},
   mounted() {
-    document.title = "年假余额";
-    this.annualResidue();
+    document.title = "年假余额"
+    this.annualResidue()
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -57,8 +57,8 @@
 </template>
 
 <script>
-import tabApplyRecord from '@components/tabNav/tabApplyRecord'
-import HttpEhr from '@requestPool/index.js'
+import tabApplyRecord from "@components/tabNav/tabApplyRecord"
+import HttpEhr from "@requestPool/index.js"
 // import testapplyList from '../../../testJson/applyList.js'
 // import util from '../../../util/util.js'
 
@@ -67,13 +67,13 @@ export default {
   props: {},
   data() {
     return {
-      pageTypeVal: '1', // 1:我的申请 2:假期调整申请
+      pageTypeVal: "1", // 1:我的申请 2:假期调整申请
       dataList: [],
       jsonData: {
-        startDate: '',
-        endDate: '',
-        type: '1',
-        status: '2'
+        startDate: "",
+        endDate: "",
+        type: "1",
+        status: "2"
       },
       page: 1, // 当前页
       showCount: 10, // 当前页显示多少条
@@ -86,7 +86,7 @@ export default {
     // 详情
     recordMoreFun(itemData) {
       this.$router.push({
-        name: 'leaveApply',
+        name: "leaveApply",
         query: {
           id: itemData.id, // 数据id
           dataType: itemData.dataType, // 请假  销假
@@ -97,7 +97,7 @@ export default {
     // 获取我的申请列表数据
     getApplyRecordList() {
       HttpEhr.getApplyRecordList({
-        userId: this.util.getSession('ehrSessionData').userId||'',
+        userId: this.util.getSession("ehrSessionData").userId || "",
         startDate: this.jsonData.startTime,
         endDate: this.jsonData.endTime,
         type: this.jsonData.type,
@@ -105,30 +105,30 @@ export default {
         pageNum: this.page,
         showSize: this.showCount
       }).then(res => {
-        if(res.data.rows.length>0) {
-          this.dataList=this.dataList.concat(res.data.rows)
-          this.totalPage=res.data.pages
-          this.loading=false
-          this.finished=false
+        if (res.data.rows.length > 0) {
+          this.dataList = this.dataList.concat(res.data.rows)
+          this.totalPage = res.data.pages
+          this.loading = false
+          this.finished = false
         } else {
-          this.finished=true
-          this.loading=false
+          this.finished = true
+          this.loading = false
         }
       })
     },
     // 搜索
     classSearchFun(subData) {
       console.log(subData)
-      this.page=1
-      this.totalPage=-1
-      this.jsonData.startTime=subData.startTime
-      this.jsonData.endTime=subData.endTime
-      this.jsonData.type=subData.type
-      this.dataList=[]
-      if(this.$route.query.icon=='qjtzsq') {
-        this.jsonData.status='3'
+      this.page = 1
+      this.totalPage = -1
+      this.jsonData.startTime = subData.startTime
+      this.jsonData.endTime = subData.endTime
+      this.jsonData.type = subData.type
+      this.dataList = []
+      if (this.$route.query.icon == "qjtzsq") {
+        this.jsonData.status = "3"
       } else {
-        this.jsonData.status=subData.status
+        this.jsonData.status = subData.status
       }
       this.getApplyRecordList()
     },
@@ -144,29 +144,29 @@ export default {
     },
     // 默认时间
     initTime() {
-      this.jsonData.endTime=this.util.setDefaultTime(2,'add')
-      this.jsonData.startTime=this.util.setDefaultTime(2,'minus')
+      this.jsonData.endTime = this.util.setDefaultTime(2, "add")
+      this.jsonData.startTime = this.util.setDefaultTime(2, "minus")
     },
     // 获取状态文本
     getStatusTxt(type) {
-      if(type==3) {
-        return { txt: '同意',sty: 'ty' }
-      } else if(type==2) {
-        return { txt: '审批中',sty: 'spz' }
-      } else if(type==4) {
-        return { txt: '驳回',sty: 'bh' }
+      if (type == 3) {
+        return { txt: "同意", sty: "ty" }
+      } else if (type == 2) {
+        return { txt: "审批中", sty: "spz" }
+      } else if (type == 4) {
+        return { txt: "驳回", sty: "bh" }
       }
     }
   },
   created() {
-    if(this.$route.query.icon=='qjtzsq') {
-      document.title='请假调整申请'
-      this.pageTypeVal='2'
-      this.jsonData.status='3'
+    if (this.$route.query.icon == "qjtzsq") {
+      document.title = "请假调整申请"
+      this.pageTypeVal = "2"
+      this.jsonData.status = "3"
     } else {
-      document.title='我的申请'
-      this.pageTypeVal='1'
-      this.jsonData.status='2'
+      document.title = "我的申请"
+      this.pageTypeVal = "1"
+      this.jsonData.status = "2"
     }
     this.initTime()
     this.getApplyRecordList()
