@@ -14,6 +14,13 @@
           </div>
           <div class="sub-box">
             <div class="grid-div">
+              <!-- :class="{'ccc' :item.a=='0'}" -->
+              <div class="num">{{lastBalanceNum}}</div>
+              <div class="name">上年结余(天)</div>
+            </div>
+          </div>
+          <div class="sub-box">
+            <div class="grid-div">
               <div class="num">{{fulfillNum}}</div>
               <div class="name">本年已休(天)</div>
             </div>
@@ -31,37 +38,40 @@
 </template>
 
 <script>
-import HttpEhr from '@requestPool/index.js'
+import HttpEhr from "@requestPool/index.js";
 export default {
   props: {},
   data() {
     return {
-      fixationNum: '0', // 定额
-      fulfillNum: '0', // 已休
-      residueNum: '0' // 剩余
-    }
+      fixationNum: "0", // 定额
+      fulfillNum: "0", // 已休
+      residueNum: "0", // 剩余
+      lastBalanceNum: "0" // 上年结余
+    };
   },
   watch: {},
   computed: {},
   methods: {
     annualResidue() {
       HttpEhr.annualResidue({
-        userId: this.util.getSession('ehrSessionData').userId||'',
+        userId: this.util.getSession("ehrSessionData").userId || "",
         startDate: this.startTime,
         endtDate: this.endTime
       }).then(res => {
-        this.fixationNum=res.data.quota // 定
-        this.fulfillNum=res.data.cease // 已
-        this.residueNum=res.data.surplus // 剩
-      })
+        console.log("上年结余", res);
+        this.fixationNum = res.data.quota; // 定
+        this.lastBalanceNum = res.data.lastYear; // 上
+        this.fulfillNum = res.data.cease; // 已
+        this.residueNum = res.data.surplus; // 剩
+      });
     }
   },
-  created() { },
+  created() {},
   mounted() {
-    document.title='年假余额'
-    this.annualResidue()
+    document.title = "年假余额";
+    this.annualResidue();
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
