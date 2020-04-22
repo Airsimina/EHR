@@ -52,7 +52,7 @@
                 <van-cell-group>
                   <div v-for="(item, index) in companyPerson" :key="index">
                     <van-cell
-                      v-if="item.id !== 'P00000002'"
+                      v-if="item.departmentId !== 'O00000001'"
                       class="radio-name"
                       :title="item.name + ' ' + item.unno"
                       clickable

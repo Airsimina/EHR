@@ -78,8 +78,8 @@
 </template>
 
 <script>
-import cardSearchTime from '@components/card/cardSearchTime'
-import HttpEhr from '@requestPool/index.js'
+import cardSearchTime from "@components/card/cardSearchTime"
+import HttpEhr from "@requestPool/index.js"
 // import checkData from '../../../testJson/checkSeek.js'
 // import util from '../../../util/util.js'
 
@@ -88,86 +88,86 @@ export default {
   props: {},
   data() {
     return {
-      typeVal: '1', // 考勤记录查询
+      typeVal: "1", // 考勤记录查询
       collectShow: false, // 展开和收起
       selIndex: -1, // 展开的下标
       // 单月数据集合
       dataList: [],
       // 总考勤数据集合
       dataList_s: [
-        { val: 0,color: 'c-1',name: '事假(天)' },
-        { val: 0,color: 'c-2',name: '病假(天)' },
-        { val: 0,color: 'c-3',name: '婚假(天)' },
-        { val: 0,color: 'c-4',name: '产假(天)' },
-        { val: 0,color: 'c-5',name: '丧假(天)' },
-        { val: 0,color: 'c-2',name: '年休假(天)' },
-        { val: 0,color: 'c-1',name: '工伤假(天)' },
-        { val: 0,color: 'c-5',name: '护理假(天)' }
+        { val: 0, color: "c-1", name: "事假(天)" },
+        { val: 0, color: "c-2", name: "病假(天)" },
+        { val: 0, color: "c-3", name: "婚假(天)" },
+        { val: 0, color: "c-4", name: "产假(天)" },
+        { val: 0, color: "c-5", name: "丧假(天)" },
+        { val: 0, color: "c-2", name: "年休假(天)" },
+        { val: 0, color: "c-1", name: "工伤假(天)" },
+        { val: 0, color: "c-5", name: "护理假(天)" }
       ],
-      startTime: '',
-      endTime: '',
+      startTime: "",
+      endTime: "",
       formData: {
-        funeralLeave: '', // 丧假天数
-        nursingLeave: '', // 护理假天数
-        maternityLeave: '', // 产假
-        marriageLeave: '', // 婚假
-        injuryLeave: '', // 工伤假
-        compassionateLeave: '', // 事假
-        sickLeave: '', // 病假val:
-        annualLeave: '' // 年假
+        funeralLeave: "", // 丧假天数
+        nursingLeave: "", // 护理假天数
+        maternityLeave: "", // 产假
+        marriageLeave: "", // 婚假
+        injuryLeave: "", // 工伤假
+        compassionateLeave: "", // 事假
+        sickLeave: "", // 病假val:
+        annualLeave: "" // 年假
       }
     }
   },
   methods: {
     // 汇总展开
     collect() {
-      this.collectShow=!this.collectShow
+      this.collectShow = !this.collectShow
     },
     // 展开
-    open(item,index) {
-      if(this.selIndex==index) {
-        this.selIndex=-1
+    open(item, index) {
+      if (this.selIndex == index) {
+        this.selIndex = -1
         return
       }
-      this.selIndex=index
+      this.selIndex = index
     },
     // 我的假勤列表
     getcheckSeekList() {
       HttpEhr.getcheckSeekList({
-        userId: this.util.getSession('ehrSessionData').userId||'',
+        userId: this.util.getSession("ehrSessionData").userId || "",
         startDate: this.startTime,
         endDate: this.endTime
       }).then(res => {
-        this.formData=res.data.formData
+        this.formData = res.data.formData
         this.setVal()
-        this.dataList=res.data.list
+        this.dataList = res.data.list
       })
     },
     // 设置汇总考勤样式
     setVal() {
-      this.dataList_s[0].val=this.formData.compassionateLeave // 事假
-      this.dataList_s[1].val=this.formData.sickLeave // 病假
-      this.dataList_s[2].val=this.formData.marriageLeave // 婚假
-      this.dataList_s[3].val=this.formData.maternityLeave // 产假
-      this.dataList_s[4].val=this.formData.funeralLeave // 丧假天数
-      this.dataList_s[5].val=this.formData.annualLeave// 年假
-      this.dataList_s[6].val=this.formData.injuryLeave // 工伤假
-      this.dataList_s[7].val=this.formData.nursingLeave // 护理假天数
+      this.dataList_s[0].val = this.formData.compassionateLeave // 事假
+      this.dataList_s[1].val = this.formData.sickLeave // 病假
+      this.dataList_s[2].val = this.formData.marriageLeave // 婚假
+      this.dataList_s[3].val = this.formData.maternityLeave // 产假
+      this.dataList_s[4].val = this.formData.funeralLeave // 丧假天数
+      this.dataList_s[5].val = this.formData.annualLeave // 年假
+      this.dataList_s[6].val = this.formData.injuryLeave // 工伤假
+      this.dataList_s[7].val = this.formData.nursingLeave // 护理假天数
     },
     // 搜索方法
     searchTimeChSeFun(timeData) {
-      this.startTime=timeData.startTime
-      this.endTime=timeData.endTime
-      this.dataList=[]
+      this.startTime = timeData.startTime
+      this.endTime = timeData.endTime
+      this.dataList = []
       this.getcheckSeekList()
     },
     // 获取默认时间
     getdate(type) {
-      const date=new Date()
-      var y=date.getFullYear()
-      var m=date.getMonth()+1
-      m=m<10? '0'+m:m
-      if(type==1) {
+      const date = new Date()
+      var y = date.getFullYear()
+      var m = date.getMonth() + 1
+      m = m < 10 ? "0" + m : m
+      if (type == 1) {
         return `${y}年${m}月`
       } else {
         return `${y}-${m}`
@@ -175,47 +175,47 @@ export default {
     },
     // 获取默认时间
     getdate_2(type) {
-      const date=new Date()
-      var y=date.getFullYear()
-      var m=date.getMonth()+1
-      if(m==1) {
-        m=12
-        y=y-1
+      const date = new Date()
+      var y = date.getFullYear()
+      var m = date.getMonth() + 1
+      if (m == 1) {
+        m = 12
+        y = y - 1
       } else {
-        m=m-1
+        m = m - 1
       }
-      m=m<10? '0'+m:m
-      if(type==1) {
+      m = m < 10 ? "0" + m : m
+      if (type == 1) {
         return `${y}年${m}月`
       } else {
         return `${y}-${m}`
       }
     },
     getTypeTxt(type) {
-      if(type=='1') {
-        return '年休'
-      } else if(type=='2') {
-        return '病假'
-      } else if(type=='3') {
-        return '事假'
-      } else if(type=='4') {
-        return '工伤假'
-      } else if(type=='5') {
-        return '婚假'
-      } else if(type=='6') {
-        return '产假'
-      } else if(type=='7') {
-        return '护理假'
-      } else if(type=='8') {
-        return '丧假'
+      if (type == "1") {
+        return "年休"
+      } else if (type == "2") {
+        return "病假"
+      } else if (type == "3") {
+        return "事假"
+      } else if (type == "4") {
+        return "工伤假"
+      } else if (type == "5") {
+        return "婚假"
+      } else if (type == "6") {
+        return "产假"
+      } else if (type == "7") {
+        return "护理假"
+      } else if (type == "8") {
+        return "丧假"
       }
     }
   },
-  created() { },
+  created() {},
   mounted() {
-    document.title='考勤查询'
-    this.startTime=this.getdate_2(2)
-    this.endTime=this.getdate(2)
+    document.title = "考勤查询"
+    this.startTime = this.getdate_2(2)
+    this.endTime = this.getdate(2)
     // 测试数据
     // this.formData = checkData.formData
     // this.setVal(checkData.formData)
