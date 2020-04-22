@@ -90,14 +90,14 @@
 </template>
 
 <script>
-import selectPersonCard from '@components/selectPersonCard/index.vue'
+import selectPersonCard from "@components/selectPersonCard/index.vue"
 export default {
   components: {
     selectPersonCard
   },
   data() {
     return {
-      activeNames: ['0'],
+      activeNames: ["0"],
       showAuditPerson: false,
       addpersonIndex: null,
       isAdd: false,
@@ -121,7 +121,7 @@ export default {
     },
     departmentId: {
       type: String,
-      default: ''
+      default: ""
     },
     jsonData: {
       type: Object,
@@ -135,118 +135,169 @@ export default {
   },
   methods: {
     closeTagClass(index) {
-      if(index==0) return
+      if (index == 0) return
       else {
         return {
-          background: 'red'
+          background: "red"
         }
       }
     },
     handleSelectCancle() {
-      this.isSelect=false
+      this.isSelect = false
     },
     handlePersonConfirm(selectPerson) {
-      this.newAssingersSelectList[this.selectIndex].chooseNameModifyAssignerPerson.splice(0,1,selectPerson)
-      const ModifyAssignerName=this.getShowName(this.newAssingersSelectList[this.selectIndex].chooseNameModifyAssignerPerson)
-      this.newAssingersSelectList[this.selectIndex].showModifyAssignerName=ModifyAssignerName
-      this.newAssingersSelectList[this.selectIndex].assignerName=this.newAssingersSelectList[this.selectIndex].chooseNameModifyAssignerPerson[0].name
-      this.newAssingersSelectList[this.selectIndex].assignerId=this.newAssingersSelectList[this.selectIndex].chooseNameModifyAssignerPerson[0].sysUsername
+      this.newAssingersSelectList[
+        this.selectIndex
+      ].chooseNameModifyAssignerPerson.splice(0, 1, selectPerson)
+      const ModifyAssignerName = this.getShowName(
+        this.newAssingersSelectList[this.selectIndex]
+          .chooseNameModifyAssignerPerson
+      )
+      this.newAssingersSelectList[
+        this.selectIndex
+      ].showModifyAssignerName = ModifyAssignerName
+      this.newAssingersSelectList[
+        this.selectIndex
+      ].assignerName = this.newAssingersSelectList[
+        this.selectIndex
+      ].chooseNameModifyAssignerPerson[0].name
+      this.newAssingersSelectList[
+        this.selectIndex
+      ].assignerId = this.newAssingersSelectList[
+        this.selectIndex
+      ].chooseNameModifyAssignerPerson[0].sysUsername
 
-      this.isSelect=false
+      this.isSelect = false
     },
     // 对审批人大于两个人的人员进行选择
-    handleChooselocalPerson(persons,index) {
-      this.selectIndex=index
-      this.selectPersonList=persons
-      this.isSelect=true
+    handleChooselocalPerson(persons, index) {
+      this.selectIndex = index
+      this.selectPersonList = persons
+      this.isSelect = true
     },
     // 更换申请人时触发的方法
     handleSelectConfig(value) {
-      console.log('value',value)
-      if(!this.isAdd) {
-        this.newAssingersSelectList[this.addpersonIndex].chooseNameModifyAssignerPerson.splice(0,1,value)
+      console.log("value", value)
+      if (!this.isAdd) {
+        this.newAssingersSelectList[
+          this.addpersonIndex
+        ].chooseNameModifyAssignerPerson.splice(0, 1, value)
       } else {
-        this.newAssingersSelectList[this.addpersonIndex].chooseNameModifyAssignerPerson.push(value)
+        this.newAssingersSelectList[
+          this.addpersonIndex
+        ].chooseNameModifyAssignerPerson.push(value)
       }
       // 设置传入的assignerId
-      let assignerId=''
-      this.newAssingersSelectList[this.addpersonIndex].chooseNameModifyAssignerPerson.forEach((item,index) => {
-        assignerId+=`${item.sysUsername},`
+      let assignerId = ""
+      this.newAssingersSelectList[
+        this.addpersonIndex
+      ].chooseNameModifyAssignerPerson.forEach((item, index) => {
+        assignerId += `${item.sysUsername},`
       })
-      this.newAssingersSelectList[this.addpersonIndex].assignerId=assignerId.substring(0,assignerId.length-1)
+      this.newAssingersSelectList[
+        this.addpersonIndex
+      ].assignerId = assignerId.substring(0, assignerId.length - 1)
       // 设置传入进来的assignerName
-      let assignerName=''
-      this.newAssingersSelectList[this.addpersonIndex].chooseNameModifyAssignerPerson.forEach((item,index) => {
-        assignerName+=`${item.name},`
+      let assignerName = ""
+      this.newAssingersSelectList[
+        this.addpersonIndex
+      ].chooseNameModifyAssignerPerson.forEach((item, index) => {
+        assignerName += `${item.name},`
       })
-      this.newAssingersSelectList[this.addpersonIndex].assignerName=assignerName.substring(0,assignerName.length-1)
-      this.newAssingersSelectList[this.addpersonIndex].showModifyAssignerName=this.getShowName(this.newAssingersSelectList[this.addpersonIndex].chooseNameModifyAssignerPerson)
+      this.newAssingersSelectList[
+        this.addpersonIndex
+      ].assignerName = assignerName.substring(0, assignerName.length - 1)
+      this.newAssingersSelectList[
+        this.addpersonIndex
+      ].showModifyAssignerName = this.getShowName(
+        this.newAssingersSelectList[this.addpersonIndex]
+          .chooseNameModifyAssignerPerson
+      )
     },
 
     init() {
       // 清空数组
-      if(this.newAssingersSelectList.length>0) {
-        this.newAssingersSelectList.splice(0,this.newAssingersSelectList.length)
+      if (this.newAssingersSelectList.length > 0) {
+        this.newAssingersSelectList.splice(
+          0,
+          this.newAssingersSelectList.length
+        )
       }
-      this.assingersSelectList.forEach((item,index) => {
+      this.assingersSelectList.forEach((item, index) => {
         this.newAssingersSelectList.push(item)
       })
-      this.newAssingersSelectList.forEach((item,index) => {
-        if(item.nodeAssignerPersons&&item.nodeAssignerPersons.length===0) {
-          item.chooseNameModifyAssignerPerson=[{
-            sysUsername: '',
-            name: '',
-            id: ''
-          }]
+      this.newAssingersSelectList.forEach((item, index) => {
+        if (item.nodeAssignerPersons && item.nodeAssignerPersons.length === 0) {
+          item.chooseNameModifyAssignerPerson = [
+            {
+              sysUsername: "",
+              name: "",
+              id: ""
+            }
+          ]
         } else {
-          item.chooseNameModifyAssignerPerson=[item.nodeAssignerPersons[0]]
-          const ModifyAssignerName=this.getShowName(item.chooseNameModifyAssignerPerson)
-          item.showModifyAssignerName=ModifyAssignerName
-          item.assignerName=item.chooseNameModifyAssignerPerson[0].name
-          item.assignerId=item.chooseNameModifyAssignerPerson[0].sysUsername
+          item.chooseNameModifyAssignerPerson = [item.nodeAssignerPersons[0]]
+          const ModifyAssignerName = this.getShowName(
+            item.chooseNameModifyAssignerPerson
+          )
+          item.showModifyAssignerName = ModifyAssignerName
+          item.assignerName = item.chooseNameModifyAssignerPerson[0].name
+          item.assignerId = item.chooseNameModifyAssignerPerson[0].sysUsername
         }
       })
-      console.log('newAssingersSelectList',this.newAssingersSelectList)
+      console.log("newAssingersSelectList", this.newAssingersSelectList)
     },
     getShowName(modifyAssignerPersons) {
-      let showName=''
-      modifyAssignerPersons.forEach((item,index) => {
-        showName+=`${item.name},`
+      let showName = ""
+      modifyAssignerPersons.forEach((item, index) => {
+        showName += `${item.name},`
       })
-      showName=showName.substring(0,showName.length-1)
+      showName = showName.substring(0, showName.length - 1)
       return showName
     },
     handleChoosePerson(index) {
-      this.showAuditPerson=true
-      this.addpersonIndex=index // 向数组里面添加选择审批的人
-      this.isAdd=false
+      this.showAuditPerson = true
+      this.addpersonIndex = index // 向数组里面添加选择审批的人
+      this.isAdd = false
     },
     handleAddPerson(index) {
-      this.isAdd=true
-      this.showAuditPerson=true
-      this.addpersonIndex=index // 向数组里面添加选择审批的人
+      this.isAdd = true
+      this.showAuditPerson = true
+      this.addpersonIndex = index // 向数组里面添加选择审批的人
     },
-    handleTagClose(index,singleIndex) {
-      const chooseNameModifyAssignerPerson=this.newAssingersSelectList[index].chooseNameModifyAssignerPerson
-      chooseNameModifyAssignerPerson.splice(singleIndex,1)
-      this.$set(this.newAssingersSelectList[index],'chooseNameModifyAssignerPerson',chooseNameModifyAssignerPerson)
+    handleTagClose(index, singleIndex) {
+      const chooseNameModifyAssignerPerson = this.newAssingersSelectList[index]
+        .chooseNameModifyAssignerPerson
+      chooseNameModifyAssignerPerson.splice(singleIndex, 1)
+      this.$set(
+        this.newAssingersSelectList[index],
+        "chooseNameModifyAssignerPerson",
+        chooseNameModifyAssignerPerson
+      )
       // 设置传入的assignerId
-      let assignerId=''
-      this.newAssingersSelectList[this.addpersonIndex].chooseNameModifyAssignerPerson.forEach((item,index) => {
-        assignerId+=`${item.sysUsername},`
+      let assignerId = ""
+      this.newAssingersSelectList[
+        this.addpersonIndex
+      ].chooseNameModifyAssignerPerson.forEach((item, index) => {
+        assignerId += `${item.sysUsername},`
       })
-      this.newAssingersSelectList[this.addpersonIndex].assignerId=assignerId.substring(0,assignerId.length-1)
+      this.newAssingersSelectList[
+        this.addpersonIndex
+      ].assignerId = assignerId.substring(0, assignerId.length - 1)
       // 设置传入进来的assignerName
-      let assignerName=''
-      this.newAssingersSelectList[this.addpersonIndex].chooseNameModifyAssignerPerson.forEach((item,index) => {
-        assignerName+=`${item.name},`
+      let assignerName = ""
+      this.newAssingersSelectList[
+        this.addpersonIndex
+      ].chooseNameModifyAssignerPerson.forEach((item, index) => {
+        assignerName += `${item.name},`
       })
-      this.newAssingersSelectList[this.addpersonIndex].assignerName=assignerName.substring(0,assignerName.length-1)
-      console.log('newAssingersSelectList',this.newAssingersSelectList)
+      this.newAssingersSelectList[
+        this.addpersonIndex
+      ].assignerName = assignerName.substring(0, assignerName.length - 1)
+      console.log("newAssingersSelectList", this.newAssingersSelectList)
       this.$forceUpdate()
     }
   }
-
 }
 </script>
 

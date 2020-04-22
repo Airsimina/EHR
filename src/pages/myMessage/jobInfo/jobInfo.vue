@@ -4,9 +4,7 @@
       <span>职位信息</span>
     </div>
     <div v-if="jsonDataList.length>0">
-      <div class="list-box"
-           v-for="(item,index) in jsonDataList"
-           :key="index">
+      <div class="list-box" v-for="(item,index) in jsonDataList" :key="index">
         <div class="lis-box">
           <div class="lis-row lis-name">事业部/中心</div>
           <span>:</span>
@@ -73,25 +71,25 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import '../../../style/tabList.scss'
+import { mapGetters } from "vuex"
+import "../../../style/tabList.scss"
 export default {
   components: {},
   props: {},
-  data () {
+  data() {
     return {
-      str: '职业信息测试数据',
+      str: "职业信息测试数据",
       jsonDataList: []
     }
   },
   watch: {},
   computed: {
     ...mapGetters({
-      infoData: 'getInfoData'
+      infoData: "getInfoData"
     })
   },
   methods: {},
-  mounted () {
+  mounted() {
     if (!this.infoData[0].dataList) {
       this.jsonDataList = [{}]
       return
