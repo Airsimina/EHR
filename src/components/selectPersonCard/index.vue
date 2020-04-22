@@ -50,16 +50,17 @@
             <div class="my-option-box">
               <van-radio-group v-model="selectName">
                 <van-cell-group>
-                  <van-cell
-                    class="radio-name"
-                    :title="item.name + ' ' + item.unno"
-                    clickable
-                    @click="radio = item.sysUsername"
-                    v-for="(item, index) in companyPerson"
-                    :key="index"
-                  >
-                    <van-radio slot="right-icon" class="my-radio" :name="item.sysUsername" />
-                  </van-cell>
+                  <div v-for="(item, index) in companyPerson" :key="index">
+                    <van-cell
+                      v-if="item.id !== 'P00000002'"
+                      class="radio-name"
+                      :title="item.name + ' ' + item.unno"
+                      clickable
+                      @click="radio = item.sysUsername"
+                    >
+                      <van-radio slot="right-icon" class="my-radio" :name="item.sysUsername" />
+                    </van-cell>
+                  </div>
                 </van-cell-group>
               </van-radio-group>
             </div>
@@ -362,6 +363,7 @@ export default {
       myHttp.getPersonList(this.selectPeopleQuery).then(res => {
         if (res.code == 0) {
           this.companyPerson = res.data.rows
+          console.log("this.companyPerson", this.companyPerson)
         }
       })
     },
