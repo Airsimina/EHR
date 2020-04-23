@@ -39,7 +39,11 @@
       <!-- <div>111</div> -->
     </div>
     <div class="people-container nodata-box" v-show="true">
-      <div class="img-bg"></div>
+      <!-- <div class="img-bg"></div> -->
+      <div class="no-data">
+        <div class="img-box"></div>
+        <div class="text">更多功能敬请期待</div>
+      </div>
       <!-- <div class="txt">更多功能敬请期待</div> -->
     </div>
   </div>
@@ -401,12 +405,38 @@ export default {
     &.nodata-box {
       padding-bottom: 2.5rem;
     }
-    .img-bg {
+    /* .img-bg {
       width: 70%;
       height: 3rem;
       margin: auto;
       background: url("./../../../static/img/home_bg2.png") 0 0 no-repeat;
       background-size: 100% 100%;
+    } */
+    .no-data {
+      font-size: 0.24rem;
+      width: 100%;
+      position: absolute;
+      height: 8.8rem;
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0px 0.1rem 0.45rem rgba(0, 0, 0, 0.02);
+      border-radius: 0.2rem;
+      position: relative;
+      .img-box {
+        width: 2.2rem;
+        height: 1.7rem;
+        position: relative;
+        top: 3.18rem;
+        margin: auto;
+        background: url("./../../../static/img/home_bg2.png") 0 0 no-repeat;
+        background-size: 100% 100%;
+      }
+      .text {
+        color: #999999;
+        font-size: 0.3rem;
+        text-align: center;
+        position: relative;
+        top: 3.45rem;
+      }
     }
     .txt {
       color: rgba(102, 102, 102, 1);
