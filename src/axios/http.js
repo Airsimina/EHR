@@ -22,7 +22,7 @@ switch (BUILD_TYPE) {
         baseUrl = 'PRE'
         break
     case 'Q3':
-        baseUrl = ''
+        baseUrl = 'http://mob.huaxincem.com'
         break
     case 'PRO_DEV':
         baseUrl = '/'
