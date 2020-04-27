@@ -14,37 +14,38 @@
         </div>
       </div>
     </div>
-    <div class="container">
-      <div
-        class="single"
-        @click="transmitFun(item)"
-        v-for="(item,index) in jsonData.list_a"
-        :key="index"
-      >
-        <img class="single-icon" :src="item.iconUrl" />
-        <div class="icon-text">{{item.iconText}}</div>
+    <div class="bg">
+      <div class="container">
+        <div
+          class="single"
+          @click="transmitFun(item)"
+          v-for="(item,index) in jsonData.list_a"
+          :key="index"
+        >
+          <img class="single-icon" :src="item.iconUrl" />
+          <div class="icon-text">{{item.iconText}}</div>
+        </div>
       </div>
-    </div>
-    <div class="people-container" v-show="false">
-      <div class="people-title">人事管理</div>
-      <div
-        class="single"
-        @click="transmitFun(item)"
-        v-for="(item,index) in jsonData.list_b"
-        :key="index"
-      >
-        <img class="single-icon" :src="item.iconUrl" />
-        <div class="icon-text">{{item.iconText}}</div>
+      <div class="people-container" v-show="false">
+        <div class="people-title">人事管理</div>
+        <div
+          class="single"
+          @click="transmitFun(item)"
+          v-for="(item,index) in jsonData.list_b"
+          :key="index"
+        >
+          <img class="single-icon" :src="item.iconUrl" />
+          <div class="icon-text">{{item.iconText}}</div>
+        </div>
+        <!-- <div>111</div> -->
       </div>
-      <!-- <div>111</div> -->
-    </div>
-    <div class="people-container nodata-box" v-show="true">
-      <!-- <div class="img-bg"></div> -->
-      <div class="no-data">
-        <div class="img-box"></div>
-        <div class="text">更多功能敬请期待</div>
+      <div class="people-container nodata-box" v-show="true">
+        <!-- <div class="img-bg"></div> -->
+        <div class="no-data">
+          <div class="img-box"></div>
+        </div>
+        <!-- <div class="txt">更多功能敬请期待</div> -->
       </div>
-      <!-- <div class="txt">更多功能敬请期待</div> -->
     </div>
   </div>
 </template>
@@ -164,7 +165,7 @@ export default {
       if (this.buildType !== "dev") {
         var messagesArray = window.location.search.substring(1).split("&")
 
-        messagesArray.forEach(function(item, index) {
+        messagesArray.forEach(function (item, index) {
           var itemArray = item.split("=")
           messageObj[itemArray[0]] = itemArray[1]
         })
@@ -191,8 +192,8 @@ export default {
       } else {
         // this.userId = '80001247' // wangdan
         messageObj = {
-          userId: "00043990",
-          hxToken: "token00043990"
+          userId: "00004273",
+          hxToken: "dfdc1c1296444f5a8a7725307c42481a"
         }
         this.userId = messageObj.userId // 多个审批人
         this.hxToken = messageObj.hxToken
@@ -307,6 +308,8 @@ export default {
 
 <style lang='scss' scoped>
 .home {
+  height: 100vh;
+  background: #fff;
   .top {
     background: url("../../../static/img/top-bg.png") 0 0 no-repeat;
     background-size: 100% 100%;
@@ -367,10 +370,13 @@ export default {
       }
     }
   }
+  .bg {
+    background: #f3f7fa;
+  }
   .container {
     width: 100%;
     background: rgba(255, 255, 255, 1);
-    padding: 3.59rem 0.4rem 0 0.4rem;
+    padding: 3.5rem 0.4rem 0.9rem 0.4rem;
     box-sizing: border-box;
     display: flex;
     justify-content: flex-start;
@@ -393,18 +399,14 @@ export default {
     }
   }
   .people-container {
-    margin-top: 0.2rem;
     background: #fff;
     font-size: 0.24rem;
-    padding: 0.59rem 0.4rem 0.4rem 0.4rem;
     box-sizing: border-box;
+    margin-top: 0.3rem;
     // display: flex;
     // justify-content: flex-start;
     // flex-wrap: wrap;
     // border: 1px solid red;
-    &.nodata-box {
-      padding-bottom: 2.5rem;
-    }
     /* .img-bg {
       width: 70%;
       height: 3rem;
@@ -415,27 +417,14 @@ export default {
     .no-data {
       font-size: 0.24rem;
       width: 100%;
-      position: absolute;
-      height: 8.8rem;
-      background: rgba(255, 255, 255, 1);
-      box-shadow: 0px 0.1rem 0.45rem rgba(0, 0, 0, 0.02);
-      border-radius: 0.2rem;
-      position: relative;
+      padding: 0.76rem 0 1.37rem 0;
       .img-box {
-        width: 2.2rem;
-        height: 1.7rem;
+        width: 3.26rem;
+        height: 3.02rem;
         position: relative;
-        top: 3.18rem;
-        margin: auto;
-        background: url("./../../../static/img/home_bg2.png") 0 0 no-repeat;
+        margin: 0 auto;
+        background: url("./../../../static/img/no-data.png") 0 0 no-repeat;
         background-size: 100% 100%;
-      }
-      .text {
-        color: #999999;
-        font-size: 0.3rem;
-        text-align: center;
-        position: relative;
-        top: 3.45rem;
       }
     }
     .txt {
