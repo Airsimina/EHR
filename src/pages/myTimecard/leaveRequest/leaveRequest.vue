@@ -984,7 +984,7 @@ export default {
         res.data.forEach(element => {
           const url = `${this.serverUrl}/cap-bpm/attach/download.do?id=${
             element.id
-          }&loginUsername=${this.util.getSession("sysUsername").sysUsername ||
+            }&loginUsername=${this.util.getSession("sysUsername").sysUsername ||
             "huaxin"}`
           newList.push(url)
         })
@@ -1240,7 +1240,7 @@ export default {
       // console.log(this.buildType + '环境-1111')
       switch (this.buildType.toUpperCase()) {
         case "PRO":
-          this.serverUrl = ""
+          this.serverUrl = "http://app.huaxincem.com"
           break
         case "PRE":
           this.serverUrl = ""
