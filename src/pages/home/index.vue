@@ -191,9 +191,11 @@ export default {
         // 存userId
       } else {
         // this.userId = '80001247' // wangdan
+        // userId: "80000135", // zhaojin
+
         messageObj = {
           userId: "00004273",
-          hxToken: "dfdc1c1296444f5a8a7725307c42481a"
+          hxToken: "b9ecf3d2b1084abca94588275704b138"
         }
         this.userId = messageObj.userId // 多个审批人
         this.hxToken = messageObj.hxToken
