@@ -379,6 +379,10 @@ export default {
         {
           id: "8",
           text: "丧假"
+        },
+        {
+          id: "9",
+          text: "哺乳假"
         }
       ],
       itemData: {}, // 传过来的表单数据
@@ -1044,10 +1048,11 @@ export default {
         console.log(this.jsonData)
       } else if (
         this.jsonData.leaveTypeId == "2" ||
-        // 2 病假,4 工伤假,6 产假,7 护理假 ----连选
+        // 2 病假,4 工伤假,6 产假,7 护理假，9 哺乳假 ----连选
         this.jsonData.leaveTypeId == "4" ||
         this.jsonData.leaveTypeId == "6" ||
-        this.jsonData.leaveTypeId == "7"
+        this.jsonData.leaveTypeId == "7" ||
+        this.jsonData.leaveTypeId == "9"
       ) {
         this.showDateConp = true
         this.jsonData.dateList = []
