@@ -142,26 +142,30 @@ export default {
     })
   },
   mounted() {
-    if (!this.infoData[0].dataList) {
-      this.jsonDataList = [{}]
-      return
-    }
-    this.jsonDataList = this.infoData[0].dataList
-    let leaderIdAry = []
-    let leaderNameAry = []
-    if (this.jsonDataList[0].leaderId) {
-      leaderIdAry = this.jsonDataList[0].leaderId.split(",")
-      leaderNameAry = this.jsonDataList[0].leaderName.split(",")
-    }
-    for (let i in leaderIdAry) {
-      this.personAry.push({
-        leaderId: leaderIdAry[i],
-        leaderName: leaderNameAry[i]
-      })
-    }
-    this.cachePersonAry = JSON.parse(JSON.stringify(this.personAry))
+    this.getForm()
+    this.setPerson()
   },
   methods: {
+    setPerson() {
+      if (!this.infoData[0].dataList) {
+        this.jsonDataList = [{}]
+        return
+      }
+      this.jsonDataList = this.infoData[0].dataList
+      let leaderIdAry = []
+      let leaderNameAry = []
+      if (this.jsonDataList[0].leaderId) {
+        leaderIdAry = this.jsonDataList[0].leaderId.split(",")
+        leaderNameAry = this.jsonDataList[0].leaderName.split(",")
+      }
+      for (let i in leaderIdAry) {
+        this.personAry.push({
+          leaderId: leaderIdAry[i],
+          leaderName: leaderNameAry[i]
+        })
+      }
+      this.cachePersonAry = JSON.parse(JSON.stringify(this.personAry))
+    },
     async save() {
       if (this.personAry.length == 0) {
         this.$toast({
@@ -183,32 +187,13 @@ export default {
       this.formData.dataList[0].leaderId = leaderId
       this.formData.dataList[0].leaderName = leaderName
 
-
       await this.getAssignersList()
-      const nextNodes = await this.getNextNode()
+      await this.getNextNode()
 
-      let nextNodeId = nextNodes[0].id
-      let nextNodePerson = {}
-      this.cacheFlowVar["nextNodeId"] = nextNodeId
-
-      if (nextNodeId === "EndEvent") {
-        this.cacheFlowVar["nextNodeId"] = "FirstNode"
-        nextNodePerson = {
-          assignerName: this.flowData.flowInst.applyerName,
-          assignerId: this.flowData.flowInst.applyerId
-        }
-      } else {
-        const preAssigners = this.flowContext["preAssigners"] || {}
-        if (Object.keys(preAssigners).length === 0) {
-          this.$toast({ message: "下一环节处理人不存在" })
-          return false
-        }
-        nextNodePerson = preAssigners[nextNodeId] || {}
-      }
 
       this.flowContext["operateType"] = "submit"
       this.flowContext["nextNodeId"] = this.cacheFlowVar["nextNodeId"]
-      this.flowContext["assigners"][this.cacheFlowVar["nextNodeId"]] = nextNodePerson.assignerId || ""
+      this.flowContext["assigners"][this.cacheFlowVar["nextNodeId"]] = this.nextNodePerson.assignerId || ""
 
       let flowContext = { ...this.flowData, ...this.flowContext }
       const data = {
@@ -255,9 +240,31 @@ export default {
           flowContext: this.flowContext
         }).then(res => {
           this.cacheFlowVar["nextNodes"] = res.data
+          this.processNextNode()
           resolve(res.data)
         })
       })
+    },
+    processNextNode() {
+      let nextNodeId = this.cacheFlowVar["nextNodes"][0].id
+      let nextNodePerson = {}
+      this.cacheFlowVar["nextNodeId"] = nextNodeId
+
+      if (nextNodeId === "EndEvent") {
+        this.cacheFlowVar["nextNodeId"] = "FirstNode"
+        nextNodePerson = {
+          assignerName: this.flowData.flowInst.applyerName,
+          assignerId: this.flowData.flowInst.applyerId
+        }
+      } else {
+        const preAssigners = this.flowContext["preAssigners"] || {}
+        if (Object.keys(preAssigners).length === 0) {
+          this.$toast({ message: "下一环节处理人不存在" })
+          return false
+        }
+        nextNodePerson = preAssigners[nextNodeId] || {}
+      }
+      this.nextNodePerson = nextNodePerson
     },
     // 加工preAssinger
     processPreAssigner() {
@@ -350,9 +357,7 @@ export default {
       }
       this.flowContext.processParams = this.getProcessParams()
     },
-    showEditFn() {
-      this.showEdit = true
-      this.personAry = JSON.parse(JSON.stringify(this.cachePersonAry))
+    getForm() {
       HttpEhr.getAfPerson({ "afPersonId": this.util.getSession("ehrSessionData").userId || "" })
         .then(res => {
           this.departmentId = res.data.formData.dataList[0] && res.data.formData.dataList[0].afDepartmentId
@@ -360,6 +365,10 @@ export default {
           this.flowData = res.data.flowData
           this.load()
         })
+    },
+    showEditFn() {
+      this.showEdit = true
+      this.personAry = JSON.parse(JSON.stringify(this.cachePersonAry))
     },
     handleSelectConfig(value) {
       this.personAry.push({
@@ -453,6 +462,9 @@ export default {
   .van-dialog__footer--buttons {
     justify-content: center;
     padding: 0.6rem 0;
+  }
+  .disable {
+    opacity: 0.5;
   }
 }
 </style>
