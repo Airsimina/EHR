@@ -54,7 +54,8 @@
           <div class="lis-row lis-name">直接上级</div>
           <span>:</span>
           <div class="lis-row lis-value">{{item.leaderName}}</div>
-          <div class="edit-box" @click="showEditFn"></div>
+          <div class="edit-box disable" v-if="formData.afStatus == 1"></div>
+          <div class="edit-box" v-else @click="showEditFn"></div>
         </div>
         <div class="lis-box">
           <div class="lis-row lis-name">手机话费报销额度</div>
@@ -206,7 +207,10 @@ export default {
         if (res.code == 0)
           this.$toast.success({
             message: "提交成功，正在审批中",
-            duration: 1500
+            duration: 1500,
+            onClose: () => {
+              this.getForm()
+            }
           })
       })
     },
