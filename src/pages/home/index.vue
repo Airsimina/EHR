@@ -194,8 +194,8 @@ export default {
         // userId: "80000135", // zhaojin
         // 00004273
         messageObj = {
-          userId: "00028193",
-          hxToken: "token00028193"
+          userId: "00004273",
+          hxToken: "token00004273"
         }
         this.userId = messageObj.userId // 多个审批人
         this.hxToken = messageObj.hxToken
