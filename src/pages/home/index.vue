@@ -3,11 +3,13 @@
     <div class="top">
       <div class="commission-card-container">
         <div class="commission-card">
-          <div class="single-card" @click="toDb">
+          <div class="single-card"
+               @click="toDb">
             <div class="number">{{awaitNum}}</div>
             <div class="discribe">我的待办（个）</div>
           </div>
-          <div class="single-card" @click="toNj">
+          <div class="single-card"
+               @click="toNj">
             <div class="number">{{vacationNum}}</div>
             <div class="discribe">年假余额（天）</div>
           </div>
@@ -16,30 +18,30 @@
     </div>
     <div class="bg">
       <div class="container">
-        <div
-          class="single"
-          @click="transmitFun(item)"
-          v-for="(item,index) in jsonData.list_a"
-          :key="index"
-        >
-          <img class="single-icon" :src="item.iconUrl" />
+        <div class="single"
+             @click="transmitFun(item)"
+             v-for="(item,index) in jsonData.list_a"
+             :key="index">
+          <img class="single-icon"
+               :src="item.iconUrl" />
           <div class="icon-text">{{item.iconText}}</div>
         </div>
       </div>
-      <div class="people-container" v-show="false">
+      <div class="people-container"
+           v-show="false">
         <div class="people-title">人事管理</div>
-        <div
-          class="single"
-          @click="transmitFun(item)"
-          v-for="(item,index) in jsonData.list_b"
-          :key="index"
-        >
-          <img class="single-icon" :src="item.iconUrl" />
+        <div class="single"
+             @click="transmitFun(item)"
+             v-for="(item,index) in jsonData.list_b"
+             :key="index">
+          <img class="single-icon"
+               :src="item.iconUrl" />
           <div class="icon-text">{{item.iconText}}</div>
         </div>
         <!-- <div>111</div> -->
       </div>
-      <div class="people-container nodata-box" v-show="true">
+      <div class="people-container nodata-box"
+           v-show="true">
         <!-- <div class="img-bg"></div> -->
         <div class="no-data">
           <div class="img-box"></div>
@@ -54,7 +56,7 @@
 import HttpEhr from "@requestPool/index.js"
 
 export default {
-  data() {
+  data () {
     return {
       jsonData: {
         list_a: [
@@ -115,23 +117,23 @@ export default {
       sid: ""
     }
   },
-  mounted() {
+  mounted () {
     this.init()
     this.initOAurl()
     document.title = "首页"
   },
   methods: {
-    toDb() {
+    toDb () {
       console.log(this.OAurl)
       window.location.href = this.OAurl
     },
-    toNj() {
+    toNj () {
       this.$router.push({
         name: "annualResidue"
       })
     },
     // 获取代办个数
-    getTaskCount() {
+    getTaskCount () {
       return new Promise((resolve, reject) => {
         HttpEhr.getTaskCount({
           userId: this.userId
@@ -141,7 +143,7 @@ export default {
       })
     },
     // 获取用户
-    getLoginUserName() {
+    getLoginUserName () {
       return new Promise((resolve, reject) => {
         HttpEhr.getLoginUserName({
           userId: this.userId
@@ -151,7 +153,7 @@ export default {
       })
     },
     // 获取年假余额
-    annualResidue() {
+    annualResidue () {
       return new Promise((resolve, reject) => {
         HttpEhr.annualResidue({ userId: this.userId }).then(res => {
           resolve(res)
@@ -159,7 +161,7 @@ export default {
       })
     },
     // 获取userId  设置年假
-    async init() {
+    async init () {
       // 判断是不是打包环境获取userId
       let messageObj = {}
       if (this.buildType !== "dev") {
@@ -216,7 +218,7 @@ export default {
         this.awaitNum = res.data
       })
     },
-    initOAurl() {
+    initOAurl () {
       let backStr = ""
       switch (BUILD_TYPE) {
         case "PRO":
@@ -264,7 +266,7 @@ export default {
       console.log("OAurl", this.OAurl)
     },
     // 跳转
-    transmitFun(item) {
+    transmitFun (item) {
       // console.log(this.buildType + '环境')
       // const isShowBackStr = encodeURIComponent(`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
       // switch (this.buildType.toUpperCase()) {

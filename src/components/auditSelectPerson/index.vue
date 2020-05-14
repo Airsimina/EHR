@@ -14,77 +14,64 @@
             <div class="my-single-cell">
               <div class="cell-name">{{item.nodeName}}:</div>
               <div class="cell-content">
-                <div
-                  class="single-cell-content"
-                  v-for="(tagItem,tagIndex) in item.chooseNameModifyAssignerPerson"
-                  :key="tagIndex"
-                >
-                  <van-tag
-                    type="primary"
-                    :key="tagIndex"
-                    :closeable="tagIndex > 0"
-                    color="#ffffff"
-                    text-color="rgb(81, 140, 241)"
-                    plain
-                    @close="handleTagClose(index,tagIndex)"
-                  >{{tagItem.name}}</van-tag>
+                <div class="single-cell-content"
+                     v-for="(tagItem,tagIndex) in item.chooseNameModifyAssignerPerson"
+                     :key="tagIndex">
+                  <van-tag type="primary"
+                           :key="tagIndex"
+                           :closeable="tagIndex > 0"
+                           color="#ffffff"
+                           text-color="rgb(81, 140, 241)"
+                           plain
+                           @close="handleTagClose(index,tagIndex)">{{tagItem.name}}</van-tag>
                 </div>
               </div>
               <div class="button-container">
-                <van-button
-                  slot="button"
-                  size="mini"
-                  type="primary"
-                  v-if="!item.chooseNameModifyAssignerPerson[0].sysUsername"
-                  hairline
-                  plain
-                  round
-                  color="#518cf1"
-                  @click="handleChoosePerson(index)"
-                >选择</van-button>
-                <van-button
-                  slot="button"
-                  size="mini"
-                  type="primary"
-                  round
-                  plain
-                  icon="plus"
-                  hairline
-                  color="#518cf1"
-                  v-if="item.chooseNameModifyAssignerPerson[0].sysUsername&&item.nodeName =='N+1'"
-                  @click="handleAddPerson(index)"
-                ></van-button>
-                <van-button
-                  slot="button"
-                  size="mini"
-                  type="primary"
-                  v-if="item.nodeAssignerPersons.length>1"
-                  hairline
-                  plain
-                  round
-                  color="#518cf1"
-                  @click="handleChooselocalPerson(item.nodeAssignerPersons,index)"
-                >选择</van-button>
+                <van-button slot="button"
+                            size="mini"
+                            type="primary"
+                            v-if="!item.chooseNameModifyAssignerPerson[0].sysUsername"
+                            hairline
+                            plain
+                            round
+                            color="#518cf1"
+                            @click="handleChoosePerson(index)">选择</van-button>
+                <van-button slot="button"
+                            size="mini"
+                            type="primary"
+                            round
+                            plain
+                            icon="plus"
+                            hairline
+                            color="#518cf1"
+                            v-if="item.chooseNameModifyAssignerPerson[0].sysUsername&&item.nodeName =='N+1'"
+                            @click="handleAddPerson(index)"></van-button>
+                <van-button slot="button"
+                            size="mini"
+                            type="primary"
+                            v-if="item.nodeAssignerPersons.length>1"
+                            hairline
+                            plain
+                            round
+                            color="#518cf1"
+                            @click="handleChooselocalPerson(item.nodeAssignerPersons,index)">选择</van-button>
               </div>
             </div>
           </template>
         </van-cell-group>
       </van-collapse-item>
     </van-collapse>
-    <selectPersonCard
-      v-model="showAuditPerson"
-      @config="handleSelectConfig"
-      :departmentId="departmentId"
-    ></selectPersonCard>
-    <van-popup v-model="isSelect" position="bottom">
-      <van-picker
-        :columns="selectPersonList"
-        value-key="name"
-        title="审批人选择"
-        show-toolbar
-        @cancle="handleSelectCancle"
-        @confirm="handlePersonConfirm"
-      />
+    <selectPersonCard v-model="showAuditPerson"
+                      @config="handleSelectConfig"
+                      :departmentId="departmentId"></selectPersonCard>
+    <van-popup v-model="isSelect"
+               position="bottom">
+      <van-picker :columns="selectPersonList"
+                  value-key="name"
+                  title="审批人选择"
+                  show-toolbar
+                  @cancle="handleSelectCancle"
+                  @confirm="handlePersonConfirm" />
     </van-popup>
   </div>
 </template>
@@ -95,8 +82,9 @@ export default {
   components: {
     selectPersonCard
   },
-  data() {
+  data () {
     return {
+      userId: this.util.getSession("ehrSessionData").userId || "",
       activeNames: ["0"],
       showAuditPerson: false,
       addpersonIndex: null,
@@ -109,13 +97,13 @@ export default {
   props: {
     assingersSelectList: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     newAssingersSelectList: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -125,16 +113,17 @@ export default {
     },
     jsonData: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }
   },
-  mounted() {
+  mounted () {
     this.init()
+    console.log(this.userId)
   },
   methods: {
-    closeTagClass(index) {
+    closeTagClass (index) {
       if (index == 0) return
       else {
         return {
@@ -142,10 +131,10 @@ export default {
         }
       }
     },
-    handleSelectCancle() {
+    handleSelectCancle () {
       this.isSelect = false
     },
-    handlePersonConfirm(selectPerson) {
+    handlePersonConfirm (selectPerson) {
       this.newAssingersSelectList[
         this.selectIndex
       ].chooseNameModifyAssignerPerson.splice(0, 1, selectPerson)
@@ -170,14 +159,27 @@ export default {
       this.isSelect = false
     },
     // 对审批人大于两个人的人员进行选择
-    handleChooselocalPerson(persons, index) {
+    handleChooselocalPerson (persons, index) {
       this.selectIndex = index
       this.selectPersonList = persons
       this.isSelect = true
     },
     // 更换申请人时触发的方法
-    handleSelectConfig(value) {
-      console.log("value", value)
+    handleSelectConfig (value) {
+      if (value.unno == this.userId) {
+        this.$toast({
+          message: "不能选择自己为审批人"
+        })
+        return
+      }
+      for (let item of this.newAssingersSelectList[0].chooseNameModifyAssignerPerson) {
+        if (value.id == item.id) {
+          this.$toast({
+            message: "不能重复选择审批人"
+          })
+          return
+        }
+      }
       if (!this.isAdd) {
         this.newAssingersSelectList[
           this.addpersonIndex
@@ -215,7 +217,7 @@ export default {
       )
     },
 
-    init() {
+    init () {
       // 清空数组
       if (this.newAssingersSelectList.length > 0) {
         this.newAssingersSelectList.splice(
@@ -247,7 +249,7 @@ export default {
       })
       console.log("newAssingersSelectList", this.newAssingersSelectList)
     },
-    getShowName(modifyAssignerPersons) {
+    getShowName (modifyAssignerPersons) {
       let showName = ""
       modifyAssignerPersons.forEach((item, index) => {
         showName += `${item.name},`
@@ -255,17 +257,17 @@ export default {
       showName = showName.substring(0, showName.length - 1)
       return showName
     },
-    handleChoosePerson(index) {
+    handleChoosePerson (index) {
       this.showAuditPerson = true
       this.addpersonIndex = index // 向数组里面添加选择审批的人
       this.isAdd = false
     },
-    handleAddPerson(index) {
+    handleAddPerson (index) {
       this.isAdd = true
       this.showAuditPerson = true
       this.addpersonIndex = index // 向数组里面添加选择审批的人
     },
-    handleTagClose(index, singleIndex) {
+    handleTagClose (index, singleIndex) {
       const chooseNameModifyAssignerPerson = this.newAssingersSelectList[index]
         .chooseNameModifyAssignerPerson
       chooseNameModifyAssignerPerson.splice(singleIndex, 1)
