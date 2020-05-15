@@ -196,8 +196,8 @@ export default {
         // userId: "80000135", // zhaojin
         // 00004273
         messageObj = {
-          userId: "00004273",
-          hxToken: "token00004273"
+          userId: "00000128",
+          hxToken: "token00000128"
         }
         this.userId = messageObj.userId // 多个审批人
         this.hxToken = messageObj.hxToken
@@ -213,6 +213,7 @@ export default {
         this.util.setSession("sysUsername", {
           sysUsername: res.data.sysUsername
         })
+        this.util.setSession("userInfo", res.data)
       })
       await this.getTaskCount().then(res => {
         this.awaitNum = res.data

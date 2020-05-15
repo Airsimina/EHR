@@ -1381,11 +1381,13 @@ export default {
       this.setVal()
     }
     document.title = this.title
-
-    // this.columns.push({
-    //   id: "10",
-    //   text: "产后事假"
-    // })
+    let userInfo = this.util.getSession("userInfo")
+    if (userInfo.companyName.indexOf("西藏") > -1) {
+      this.columns.push({
+        id: "10",
+        text: "产后事假"
+      })
+    }
     this.getProvList()
     this.leaveApplyDetail()
     this.getFirstDay()

@@ -1,29 +1,29 @@
 /* eslint-disable no-new,no-extend-native,no-undef */
-import Vue from 'vue'
-import App from './index.vue'
-import router from './router'
-import './style/variable.scss'
-import Vant from 'vant'
-import 'vant/lib/index.css'
-import store from './store/index'
-import $util from '../src/util/util.js'
-import axios from 'axios'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import './util/vconsole.js'
-import './globFilter/index.js'
+import Vue from "vue"
+import App from "./index.vue"
+import router from "./router"
+import "./style/variable.scss"
+import Vant from "vant"
+import "vant/lib/index.css"
+import store from "./store/index"
+import $util from "@util/util.js"
+import axios from "axios"
+import ElementUI from "element-ui"
+import "element-ui/lib/theme-chalk/index.css"
+import "./util/vconsole.js"
+import "./globFilter/index.js"
 
 Vue.use(ElementUI)
 Vue.prototype.axios = axios
 Vue.prototype.util = $util
 // 绑定repalceAll方法
 String.prototype.replaceAll = function (s1, s2) {
-    return this.replace(new RegExp(s1, 'gm'), s2)
+    return this.replace(new RegExp(s1, "gm"), s2)
 }
 Vue.use(Vant)
 Vue.prototype.buildType = BUILD_TYPE
 
-Vue.directive('clickOutside', {
+Vue.directive("clickOutside", {
     // 初始化指令
     bind (el, binding, vnode) {
         function clickHandler (e) {
@@ -39,16 +39,16 @@ Vue.directive('clickOutside', {
         }
         // 给当前元素绑定个私有变量，方便在unbind中可以解除事件监听
         el.__vueClickOutside__ = clickHandler
-        document.addEventListener('click', clickHandler)
+        document.addEventListener("click", clickHandler)
     },
     update () { },
     unbind (el, binding) {
         // 解除事件监听
-        document.removeEventListener('click', el.__vueClickOutside__)
+        document.removeEventListener("click", el.__vueClickOutside__)
         delete el.__vueClickOutside__
     }
 })
-Vue.directive('focus', {
+Vue.directive("focus", {
     inserted: function (el) {
         el.focus()
     }
@@ -60,4 +60,4 @@ new Vue({
     router,
     store,
     render: h => h(App)
-}).$mount('#app')
+}).$mount("#app")

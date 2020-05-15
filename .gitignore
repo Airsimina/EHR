@@ -59,10 +59,8 @@ typings/
 
 # next.js build output
 .next
-<<<<<<< HEAD
-=======
 
 #built files
 dist
 .vscode
->>>>>>> 00eb5efce3512754327eabff67aa8f2d60c0d9d9
+jsconfig.json
