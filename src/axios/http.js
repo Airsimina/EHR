@@ -19,7 +19,7 @@ switch (BUILD_TYPE) {
         baseUrl = "http://app.huaxincem.com"
         break
     case "PRE":
-        baseUrl = "http://pesmpre.huaxincem.com"
+        baseUrl = "http://apppre.huaxincem.com"
         break
     case "Q3":
         baseUrl = "http://mob.huaxincem.com"
@@ -75,7 +75,7 @@ axios.interceptors.response.use(response => {
     })
 })
 
-function HXget(url, params = {}) {
+function HXget (url, params = {}) {
     return new Promise((resolve, reject) => {
         axios
             .get(url, {
@@ -92,7 +92,7 @@ function HXget(url, params = {}) {
 
 // url [请求的url地址]
 // params [请求时携带的参数]
-function HXpost(url, params = {}) {
+function HXpost (url, params = {}) {
     return new Promise((resolve, reject) => {
         axios
             .post(url, params)
