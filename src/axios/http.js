@@ -19,7 +19,7 @@ switch (BUILD_TYPE) {
         baseUrl = "http://app.huaxincem.com"
         break
     case "PRE":
-        baseUrl = "PRE"
+        baseUrl = "http://pesmpre.huaxincem.com"
         break
     case "Q3":
         baseUrl = "http://mob.huaxincem.com"

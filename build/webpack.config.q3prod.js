@@ -44,14 +44,14 @@ module.exports = merge(baseConfig, {
                     }
                 }
             ]
-        }, ]
+        },]
     },
     plugins: [
         new MiniCssExtractPlugin({
             filename: 'main.css'
         }),
         new webpack.DefinePlugin({
-            BUILD_TYPE:JSON.stringify("Q3")
+            BUILD_TYPE: JSON.stringify("Q3")
         })
     ]
 })

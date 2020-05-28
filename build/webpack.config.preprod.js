@@ -24,7 +24,6 @@ module.exports = merge(baseConfig, {
             use: [
                 'vue-style-loader',
                 'css-loader',
-                'sass-loader',
                 {
                     loader: 'postcss-loader',
                     options: {
@@ -37,16 +36,22 @@ module.exports = merge(baseConfig, {
                             }),
                         ]
                     }
+                },
+                {
+                    loader: "sass-loader",
+                    options: {
+                        sourceMap: true
+                    }
                 }
             ]
-        }, ]
+        },]
     },
     plugins: [
         new MiniCssExtractPlugin({
             filename: 'main.css'
         }),
         new webpack.DefinePlugin({
-            BUILD_TYPE:JSON.stringify("PRE")
+            BUILD_TYPE: JSON.stringify("PRE")
         })
     ]
 })
