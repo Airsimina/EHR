@@ -5,13 +5,11 @@
     </div>
     <div class="list-box">
       <div class="lis-box">
-        <div class="lis-row lis-name">是否办理特保</div>
-        <span>:</span>
+        <div class="lis-row lis-name">是否办理特保:</div>
         <div class="lis-row lis-value">{{str}}</div>
       </div>
       <div class="lis-box">
-        <div class="lis-row lis-name">是否办理节育</div>
-        <span>:</span>
+        <div class="lis-row lis-name">是否办理节育:</div>
         <div class="lis-row lis-value">{{str}}</div>
       </div>
     </div>

@@ -2,61 +2,42 @@
   <div class="leaveApply">
     <!-- 请假申请详情 -->
     <div class="wrap-1">
-      <cardMyMessage
-        :title="title"
-        :keyName="keyName"
-        :userNumber="userNumber"
-        :numberData="numberData"
-      ></cardMyMessage>
+      <!-- <cardMyMessage :title="title" :keyName="keyName" :userNumber="userNumber" :numberData="numberData"></cardMyMessage> -->
+      <div class="item-title">
+        <img src="../../../../static/img/qjxq.png" alt />
+      </div>
       <div class="cantainer">
-        <div class="box">
+        <div class="item-info">
+          <div class="item-top">
+            <div class="item-avatar">
+              <van-image width="0.68rem" height="0.71rem" radius="10" fit="cover" :src="idPhoto" />
+            </div>
+            <div class="item-post">
+              <p>{{afPersonName}}-{{dataType=='1' ? '请假':'假期调整'}}</p>
+              <p class="item-date">{{createDate}}</p>
+            </div>
+          </div>
+          <div :class="'item-status ' + getStatusTxt(status).sty">{{getStatusTxt(status).txt}}</div>
+          <!-- 请假类型1、年休2、病假3、事假4、工伤假5、婚假6、产假7、护理假8、丧假 -->
+          <div class="item-type">表单编号：{{id}}</div>
+          <div class="item-type">请假类型：{{util.getLeaveVal(type)}}</div>
+          <div class="item-type">所属部门：{{afDepartmentName}}</div>
+          <div class="item-type">开始时间：{{startTime}}</div>
+          <div class="item-type">结束时间：{{endTime}}</div>
+          <div class="item-type">{{dataType == "2" ? '销假时长：':'请假时长：'}}{{numDay}}天</div>
+          <div class="item-type">请假事由：{{reason}}</div>
           <div class="lis">
             <div class="lis-f">
-              <div class="div-name-1">开始时间</div>
+              <div class="div-name-1">图&emsp;&emsp;片：</div>
             </div>
             <div class="lis-r">
-              <span>{{startTime}}</span>
+              <div class="img-box" v-for="(item,index) in imgList" :key="index">
+                <img :src="item" @click="viewImg(index)" alt />
+              </div>
             </div>
           </div>
-          <div class="lis">
-            <div class="lis-f">
-              <div class="div-name-1">结束时间</div>
-            </div>
-            <div class="lis-r">
-              <span>{{endTime}}</span>
-            </div>
-          </div>
-          <div class="lis" v-if="dates.length>0">
-            <div class="lis-f">
-              <div class="div-name-1">{{dataType == "2" ? '销假日期':'请假日期'}}</div>
-            </div>
-            <div class="lis-r el-picker">
-              <!-- <span>{{JSON.stringify(dates)}}</span> -->
-              <!-- <span>{{dates.toString()}}</span> -->
-              <!-- <el-date-picker ref="datesRef"
-                              type="dates"
-                              size="mini"
-                              v-model="dateArr"
-                              readonly
-                              :editable="false"
-                              format="yyyy-MM-dd"
-                              value-format="yyyy-MM-dd"
-                              :default-value='defaultValue'
-              @change="clickElPicker"> </el-date-picker>-->
-              <el-date-picker
-                ref="datesRef"
-                type="dates"
-                size="mini"
-                v-model="dateArr"
-                :editable="false"
-                format="yyyy-MM-dd"
-                value-format="yyyy-MM-dd"
-                :default-value="defaultValue"
-              ></el-date-picker>
-              <!-- <span class="val"
-              @click.stop="look(item)">查看</span>-->
-            </div>
-          </div>
+        </div>
+        <!-- <div class="box">
           <div class="lis" v-if="cityName">
             <div class="lis-f">
               <div class="div-name-1">保险缴纳省份</div>
@@ -65,36 +46,33 @@
               <span>{{cityName}}</span>
             </div>
           </div>
-          <div class="lis">
+          <div class="lis" v-if="dates.length>0">
             <div class="lis-f">
-              <div class="div-name-1">{{dataType == "2" ? '销假时长':'请假时长'}}</div>
+              <div class="div-name-1">{{dataType == "2" ? '销假日期':'请假日期'}}</div>
             </div>
-            <div class="lis-r">
-              <span>{{numDay}} 天</span>
+            <div class="lis-r el-picker">
+              <span>{{JSON.stringify(dates)}}</span>
+              <span>{{dates.toString()}}</span>
+              <el-date-picker
+                ref="datesRef"
+                type="dates"
+                size="mini"
+                v-model="dateArr"
+                readonly
+                :editable="false"
+                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
+                :default-value="defaultValue"
+                @change="clickElPicker"
+              ></el-date-picker>
+              <el-date-picker ref="datesRef" type="dates" size="mini" v-model="dateArr" :editable="false" format="yyyy-MM-dd" value-format="yyyy-MM-dd" :default-value="defaultValue"></el-date-picker>
+              <span class="val" @click.stop="look(item)">查看</span>
             </div>
           </div>
-          <div class="lis">
-            <div class="lis-f">
-              <div class="div-name-1">图片</div>
-            </div>
-            <div class="lis-r">
-              <div class="img-box" v-for="(item,index) in imgList" :key="index">
-                <img :src="item" @click="viewImg(index)" alt />
-              </div>
-            </div>
-          </div>
-          <div class="lis">
-            <div class="lis-f">
-              <div class="div-name-1">请假事由</div>
-            </div>
-            <div class="lis-r">
-              <span>{{reason}}</span>
-            </div>
-          </div>
-        </div>
+        </div>-->
       </div>
       <div class="lis-title">
-        <span>审批流程</span>
+        <img src="../../../../static/img/splc.png" alt />
       </div>
       <!-- 流程区域 -->
       <div class="flow-box">
@@ -128,24 +106,26 @@
 </template>
 
 <script>
-import cardMyMessage from '@components/card/cardMyMessage'
 import HttpEhr from '@requestPool/index.js'
 import { ImagePreview } from 'vant'
 // import util from '../../../util/util.js'
 
 export default {
-  components: { cardMyMessage },
   props: {},
-  data() {
+  data () {
     return {
       dateArr: ['2020-04-03'],
       defaultValue: '',
       // ------------------
+      id: '',
+      afPersonName: '',
+      afDepartmentName: '', // 部门
       userNumber: '',
       title: '',
       keyName: '请假类型',
       numberData: '',
       flowHiComments: [], // 流程
+      idPhoto: '', // 头像
       imgList: [], // 图片集合
       startTime: '',
       endTime: '',
@@ -156,29 +136,42 @@ export default {
       removeFlag: '2', // 1、正常使用 2、无法使用
       dataId: '', // 数据id
       dataType: '', // 1:请假 2:销假
+      type: '',
       itemData: {},
       dates: [],
       cityName: '',
-      cityValue: ''
+      cityValue: '',
+      createDate: ''
     }
   },
   methods: {
-    getStatus(typeTxt) {
-      if(typeTxt=='提交') {
+    getStatus (typeTxt) {
+      if (typeTxt == '提交') {
         return 'blue'
-      } else if(typeTxt=='未审核') {
+      } else if (typeTxt == '未审核') {
         return 'grey'
-      } else if(typeTxt=='待审核') {
+      } else if (typeTxt == '待审核') {
         return 'green'
-      } else if(typeTxt=='驳回') {
+      } else if (typeTxt == '驳回') {
         return 'orange'
       }
     },
+
+    // 获取状态文本
+    getStatusTxt (type) {
+      if (type == 3) {
+        return { txt: '已通过', sty: 'ytg' }
+      } else if (type == 2) {
+        return { txt: '审批中', sty: 'spz' }
+      } else {
+        return { txt: '被驳回', sty: 'bbh' }
+      }
+    },
     // 1 修改和 2销假跳转
-    editFun(flag) {
-      if(
-        (flag=='1'&&this.editFlag=='1')||
-        (flag=='2'&&this.removeFlag=='1')
+    editFun (flag) {
+      if (
+        (flag == '1' && this.editFlag == '1') ||
+        (flag == '2' && this.removeFlag == '1')
       ) {
         this.$router.push({
           name: 'leaveRequest',
@@ -191,58 +184,64 @@ export default {
       }
     },
     // 获取详情数据
-    leaveApplyDetail() {
+    leaveApplyDetail () {
       HttpEhr.leaveApplyDetail({
-        userId: this.util.getSession('ehrSessionData').userId||'',
+        userId: this.util.getSession('ehrSessionData').userId || '',
         dataId: this.dataId,
         formType: this.dataType
       }).then(res => {
-        this.flowHiComments=res.data.flowData.flowMobileHiComments
-        this.itemData=res.data.formData
-        this.numberData=this.itemData.numberData
-        this.dataType=this.itemData.dataType
-        this.startTime=this.itemData.startDate
-        this.endTime=this.itemData.endDate
-        this.numDay=this.itemData.sum
-        this.status=this.itemData.status
-        this.reason=this.itemData.note
-        this.dates=
-          JSON.parse(this.itemData.dates).length>0
+        this.flowHiComments = res.data.flowData.flowMobileHiComments
+        this.itemData = res.data.formData
+        this.id = this.itemData.id
+        this.numberData = this.itemData.numberData
+        this.dataType = this.itemData.dataType
+        this.type = this.itemData.type
+        this.startTime = this.itemData.startDate
+        this.endTime = this.itemData.endDate
+        this.numDay = this.itemData.sum
+        this.status = this.itemData.status
+        this.reason = this.itemData.note
+        this.dates =
+          JSON.parse(this.itemData.dates).length > 0
             ? JSON.parse(this.itemData.dates)
-            :[]
-        this.dateArr=
-          JSON.parse(this.itemData.dates).length>0
+            : []
+        this.dateArr =
+          JSON.parse(this.itemData.dates).length > 0
             ? JSON.parse(this.itemData.dates)
-            :[]
-        this.defaultValue=this.dateArr[0]
-        this.imgList=JSON.parse(this.itemData.url)
-        this.editFlag=this.itemData.editFlag
-        this.removeFlag=this.itemData.removeFlag
-        this.cityName=
-          this.itemData.cityName=='请选择省份'
+            : []
+        this.defaultValue = this.dateArr[0]
+        this.imgList = JSON.parse(this.itemData.url)
+        this.editFlag = this.itemData.editFlag
+        this.removeFlag = this.itemData.removeFlag
+        this.cityName =
+          this.itemData.cityName == '请选择省份'
             ? ''
-            :this.itemData.cityName
-        this.cityValue=this.itemData.cityValue
+            : this.itemData.cityName
+        this.cityValue = this.itemData.cityValue
+        this.idPhoto = this.util.getSession('userInfo').idPhoto
+        this.createDate = this.itemData.createDate
+        this.afPersonName = this.itemData.afPersonName
+        this.afDepartmentName = this.itemData.afDepartmentName
       })
     },
     // 图片预览
-    viewImg(index) {
+    viewImg (index) {
       ImagePreview({
         images: this.imgList,
         startPosition: index
       })
     }
   },
-  mounted() {
-    this.dataId=this.$route.query.id // 数据id  原请假id
-    this.dataType=this.$route.query.dataType
-    this.userNumber=this.util.getLeaveVal(this.$route.query.type)
-    if(this.dataType=='1') {
-      this.title='请假申请'
-    } else if(this.dataType=='2') {
-      this.title='请假调整申请'
+  mounted () {
+    this.dataId = this.$route.query.id // 数据id  原请假id
+    this.dataType = this.$route.query.dataType
+    this.userNumber = this.util.getLeaveVal(this.$route.query.type)
+    if (this.dataType == '1') {
+      this.title = '请假申请'
+    } else if (this.dataType == '2') {
+      this.title = '请假调整申请'
     }
-    document.title=this.title
+    document.title = this.title
     this.leaveApplyDetail()
   }
 }
@@ -253,23 +252,79 @@ export default {
   font-size: 0.24rem;
   .wrap-1 {
     font-size: 0.24rem;
-    position: absolute;
     padding: 0 0.4rem;
     width: 100%;
     box-sizing: border-box;
+    background: #f4f6f9;
+    z-index: 200;
+    position: relative;
     .card-box {
       z-index: 101;
     }
+    .item-title {
+      width: 1.25rem;
+      height: 0.33rem;
+      padding-top: 0.2rem;
+    }
     .cantainer {
       position: relative;
-      margin-top: 2.5rem;
-      .box {
-        position: relative;
-        padding: 0.5rem 0.6rem;
+      padding-top: 0.4rem;
+      z-index: 200;
+      .item-info {
         background: #fff;
-        border-radius: 0.2rem;
+        padding: 0.3rem 0.4rem;
+        border-radius: 10px;
+        position: relative;
+        .item-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .item-status {
+          font-size: 0.24rem;
+          padding: 0.07rem 0.22rem;
+          border-radius: 0 10px 0 10px;
+          color: #fff;
+          position: absolute;
+          top: 0;
+          right: 0;
+          &.ytg {
+            background: linear-gradient(to left, #7584f8 0, #57d1da 100%);
+          }
+          &.spz {
+            background: linear-gradient(to left, #7ab87c 0, #91c68e 100%);
+          }
+          &.bbh {
+            background: linear-gradient(to left, #e7b191 0, #eecc87 100%);
+          }
+        }
+        .item-post {
+          font-size: 0.28rem;
+          font-weight: 700;
+          width: 100%;
+          padding-left: 0.2rem;
+          .item-date {
+            font-size: 0.24rem;
+            color: #999;
+            padding-top: 0.1rem;
+            font-weight: normal;
+          }
+        }
+        .item-type {
+          padding-top: 0.2rem;
+          font-size: 0.24rem;
+          color: #999;
+        }
+        .item-time {
+          padding-top: 0.1rem;
+          font-size: 0.24rem;
+          color: #999;
+          span {
+            color: #438aea;
+          }
+        }
         .lis {
-          padding: 0.15rem 0;
+          padding-top: 0.15rem;
           position: relative;
           display: flex;
           div {
@@ -278,12 +333,10 @@ export default {
           .lis-f {
             flex: 2;
             .div-name-1 {
-              font-size: 0.28rem;
-              color: #111111;
-              font-weight: bold;
+              color: #999;
+              font-size: 0.24rem;
               text-align-last: justify;
               text-align: justify;
-              min-width: 1.2rem;
             }
           }
           .lis-r {
@@ -297,13 +350,13 @@ export default {
               }
             }
             .div-val-1 {
-              font-size: 0.3rem;
+              font-size: 0.24rem;
               color: #999;
             }
             span {
               display: inline-block;
               color: #999;
-              font-size: 0.3rem;
+              font-size: 0.24rem;
             }
             .img-box {
               box-sizing: border-box;
@@ -319,12 +372,17 @@ export default {
           }
         }
       }
+      .box {
+        position: relative;
+        padding: 0.5rem 0.6rem;
+        background: #fff;
+        border-radius: 0.2rem;
+      }
     }
     .lis-title {
-      font-size: 0.32rem;
-      font-weight: bold;
-      margin-bottom: 0.4rem;
-      margin-top: 0.4rem;
+      width: 1.25rem;
+      height: 0.33rem;
+      padding-top: 0.2rem;
       position: relative;
       span {
         display: inline-block;

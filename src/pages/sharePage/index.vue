@@ -1,12 +1,11 @@
 <template>
   <div class="sharePage">
     <div class="my-message-wrap">
-      <div class="top">
-      </div>
-      <span class="back"
-            @click="$router.go(-1)"></span>
-      <span class="home"
-            @click="goHome">首页</span>
+      <div class="top"></div>
+      <span class="back" v-show="false" @click="$router.go(-1)"></span>
+      <span class="home" @click="goHome">
+        <img src="../../../static/img/home.png" />
+      </span>
       <router-view></router-view>
     </div>
   </div>
@@ -45,7 +44,7 @@ export default {
     position: relative;
     margin: 0;
     padding: 0;
-    margin-top: 2rem;
+    // margin-top: 0.4rem;
     .back {
       display: inline-block;
       position: fixed;
@@ -53,35 +52,45 @@ export default {
       left: 0.3rem;
       width: 0.2rem;
       height: 0.4rem;
-      background: url("../../../static/img/bank.png") 0 0 no-repeat;
-      background-size: 100% 100%;
+      // background: url("../../../static/img/bank.png") 0 0 no-repeat;
+      // background-size: 100% 100%;
       z-index: 120;
     }
     .home {
       display: inline-block;
       position: fixed;
-      top: 0.2rem;
-      right: 0.4rem;
+      bottom: 1.4rem;
+      right: 0.3rem;
       // width: 0.2rem;
-      z-index: 120;
-      color: #fff;
-      font-size: 0.33rem;
-      letter-spacing: 0.05rem;
+      z-index: 220;
       // font-weight: bold;
-      border: 1px solid rgb(127, 143, 233);
-      border-radius: 0.3rem;
-      padding: 0.05rem 0.2rem;
-      box-shadow: 0px 5px 25px rgba(253, 253, 253, 0.158);
+      // border: 1px solid rgba(95, 148, 244, 1);
+      // border-radius: 50%;
+      // padding: 0.1rem 0.32rem 0.18rem;
+      // background: rgba(95, 148, 244, 1);
+      // box-shadow: 0px 5px 25px rgba(95, 148, 244, 1);
+      width: 0.9rem;
+      height: 0.9rem;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+      p {
+        color: #fff;
+        font-size: 0.24rem;
+        letter-spacing: 0.02rem;
+      }
     }
     .top {
-      background: url("../../../static/img/top-bg.png") 0 0 no-repeat;
-      background-size: 100% 100%;
-      height: 2.9rem;
+      background: #5775ad;
+      // background: url("../../../static/img/top-bg.png") 0 0 no-repeat;
+      // background-size: 100% 100%;
+      height: 1.9rem;
       width: 100%;
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 100;
+      z-index: 200;
     }
   }
 }

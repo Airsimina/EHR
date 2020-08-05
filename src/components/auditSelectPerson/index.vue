@@ -1,91 +1,58 @@
 <template>
   <div>
-    <van-collapse v-model="activeNames">
-      <van-collapse-item name="1">
-        <template #title>
-          <div>
-            审批人员
-            <van-icon name="question-o" />
+    <template v-for="(item,index) in newAssingersSelectList">
+      <div class="my-single-cell" :key="index">
+        <div class="cell-name">{{item.nodeName}}：</div>
+        <div class="cell-content">
+          <div class="single-cell-content" v-for="(tagItem,tagIndex) in item.chooseNameModifyAssignerPerson" :key="tagIndex">
+            <van-tag type="primary" :key="tagIndex" :closeable="tagIndex > 0" color="#ffffff" text-color="rgb(81, 140, 241)" plain @close="handleTagClose(index,tagIndex)">{{tagItem.name}}</van-tag>
           </div>
-        </template>
-
-        <van-cell-group>
-          <template v-for="(item,index) in newAssingersSelectList">
-            <div class="my-single-cell">
-              <div class="cell-name">{{item.nodeName}}:</div>
-              <div class="cell-content">
-                <div class="single-cell-content"
-                     v-for="(tagItem,tagIndex) in item.chooseNameModifyAssignerPerson"
-                     :key="tagIndex">
-                  <van-tag type="primary"
-                           :key="tagIndex"
-                           :closeable="tagIndex > 0"
-                           color="#ffffff"
-                           text-color="rgb(81, 140, 241)"
-                           plain
-                           @close="handleTagClose(index,tagIndex)">{{tagItem.name}}</van-tag>
-                </div>
-              </div>
-              <div class="button-container">
-                <van-button slot="button"
-                            size="mini"
-                            type="primary"
-                            v-if="!item.chooseNameModifyAssignerPerson[0].sysUsername"
-                            hairline
-                            plain
-                            round
-                            color="#518cf1"
-                            @click="handleChoosePerson(index)">选择</van-button>
-                <van-button slot="button"
-                            size="mini"
-                            type="primary"
-                            round
-                            plain
-                            icon="plus"
-                            hairline
-                            color="#518cf1"
-                            v-if="item.chooseNameModifyAssignerPerson[0].sysUsername&&item.nodeName =='N+1'"
-                            @click="handleAddPerson(index)"></van-button>
-                <van-button slot="button"
-                            size="mini"
-                            type="primary"
-                            v-if="item.nodeAssignerPersons.length>1"
-                            hairline
-                            plain
-                            round
-                            color="#518cf1"
-                            @click="handleChooselocalPerson(item.nodeAssignerPersons,index)">选择</van-button>
-              </div>
-            </div>
-          </template>
-        </van-cell-group>
-      </van-collapse-item>
-    </van-collapse>
-    <selectPersonCard v-model="showAuditPerson"
-                      @config="handleSelectConfig"
-                      :departmentId="departmentId"></selectPersonCard>
-    <van-popup v-model="isSelect"
-               position="bottom">
-      <van-picker :columns="selectPersonList"
-                  value-key="name"
-                  title="审批人选择"
-                  show-toolbar
-                  @cancle="handleSelectCancle"
-                  @confirm="handlePersonConfirm" />
+        </div>
+        <div class="button-container">
+          <van-button slot="button" size="mini" type="primary" v-if="!item.chooseNameModifyAssignerPerson[0].sysUsername" hairline plain round color="#518cf1" @click="handleChoosePerson(index)">选择</van-button>
+          <van-button
+            slot="button"
+            size="mini"
+            type="primary"
+            round
+            plain
+            icon="plus"
+            hairline
+            color="#518cf1"
+            v-if="item.chooseNameModifyAssignerPerson[0].sysUsername&&item.nodeName =='N+1'"
+            @click="handleAddPerson(index)"
+          ></van-button>
+          <van-button
+            slot="button"
+            size="mini"
+            type="primary"
+            v-if="item.nodeAssignerPersons.length>1"
+            hairline
+            plain
+            round
+            color="#518cf1"
+            @click="handleChooselocalPerson(item.nodeAssignerPersons,index)"
+          >选择</van-button>
+        </div>
+      </div>
+    </template>
+    <selectPersonCard v-model="showAuditPerson" @config="handleSelectConfig" :departmentId="departmentId"></selectPersonCard>
+    <van-popup v-model="isSelect" position="bottom">
+      <van-picker :columns="selectPersonList" value-key="name" title="审批人选择" show-toolbar @cancle="handleSelectCancle" @confirm="handlePersonConfirm" />
     </van-popup>
   </div>
 </template>
 
 <script>
-import selectPersonCard from "@components/selectPersonCard/index.vue"
+import selectPersonCard from '@components/selectPersonCard/index.vue'
 export default {
   components: {
     selectPersonCard
   },
   data () {
     return {
-      userId: this.util.getSession("ehrSessionData").userId || "",
-      activeNames: ["0"],
+      userId: this.util.getSession('ehrSessionData').userId || '',
+      activeNames: ['0'],
       showAuditPerson: false,
       addpersonIndex: null,
       isAdd: false,
@@ -109,7 +76,7 @@ export default {
     },
     departmentId: {
       type: String,
-      default: ""
+      default: ''
     },
     jsonData: {
       type: Object,
@@ -127,7 +94,7 @@ export default {
       if (index == 0) return
       else {
         return {
-          background: "red"
+          background: 'red'
         }
       }
     },
@@ -168,14 +135,14 @@ export default {
     handleSelectConfig (value) {
       if (value.unno == this.userId) {
         this.$toast({
-          message: "不能选择自己为审批人"
+          message: '不能选择自己为审批人'
         })
         return
       }
       for (let item of this.newAssingersSelectList[0].chooseNameModifyAssignerPerson) {
         if (value.id == item.id) {
           this.$toast({
-            message: "不能重复选择审批人"
+            message: '不能重复选择审批人'
           })
           return
         }
@@ -190,7 +157,7 @@ export default {
         ].chooseNameModifyAssignerPerson.push(value)
       }
       // 设置传入的assignerId
-      let assignerId = ""
+      let assignerId = ''
       this.newAssingersSelectList[
         this.addpersonIndex
       ].chooseNameModifyAssignerPerson.forEach((item, index) => {
@@ -200,7 +167,7 @@ export default {
         this.addpersonIndex
       ].assignerId = assignerId.substring(0, assignerId.length - 1)
       // 设置传入进来的assignerName
-      let assignerName = ""
+      let assignerName = ''
       this.newAssingersSelectList[
         this.addpersonIndex
       ].chooseNameModifyAssignerPerson.forEach((item, index) => {
@@ -232,9 +199,9 @@ export default {
         if (item.nodeAssignerPersons && item.nodeAssignerPersons.length === 0) {
           item.chooseNameModifyAssignerPerson = [
             {
-              sysUsername: "",
-              name: "",
-              id: ""
+              sysUsername: '',
+              name: '',
+              id: ''
             }
           ]
         } else {
@@ -247,10 +214,10 @@ export default {
           item.assignerId = item.chooseNameModifyAssignerPerson[0].sysUsername
         }
       })
-      console.log("newAssingersSelectList", this.newAssingersSelectList)
+      console.log('newAssingersSelectList', this.newAssingersSelectList)
     },
     getShowName (modifyAssignerPersons) {
-      let showName = ""
+      let showName = ''
       modifyAssignerPersons.forEach((item, index) => {
         showName += `${item.name},`
       })
@@ -273,11 +240,11 @@ export default {
       chooseNameModifyAssignerPerson.splice(singleIndex, 1)
       this.$set(
         this.newAssingersSelectList[index],
-        "chooseNameModifyAssignerPerson",
+        'chooseNameModifyAssignerPerson',
         chooseNameModifyAssignerPerson
       )
       // 设置传入的assignerId
-      let assignerId = ""
+      let assignerId = ''
       this.newAssingersSelectList[
         this.addpersonIndex
       ].chooseNameModifyAssignerPerson.forEach((item, index) => {
@@ -287,7 +254,7 @@ export default {
         this.addpersonIndex
       ].assignerId = assignerId.substring(0, assignerId.length - 1)
       // 设置传入进来的assignerName
-      let assignerName = ""
+      let assignerName = ''
       this.newAssingersSelectList[
         this.addpersonIndex
       ].chooseNameModifyAssignerPerson.forEach((item, index) => {
@@ -296,7 +263,7 @@ export default {
       this.newAssingersSelectList[
         this.addpersonIndex
       ].assignerName = assignerName.substring(0, assignerName.length - 1)
-      console.log("newAssingersSelectList", this.newAssingersSelectList)
+      console.log('newAssingersSelectList', this.newAssingersSelectList)
       this.$forceUpdate()
     }
   }
@@ -321,10 +288,13 @@ export default {
   color: #323233;
   font-size: 0.28rem;
   display: flex;
+  &:nth-child(n + 2) {
+    border-top: none;
+  }
   .cell-name {
     font-size: 0.28rem;
     color: #323233;
-    width: 1.2rem;
+    min-width: 1.4rem;
   }
   .cell-content {
     overflow-x: scroll;
@@ -333,6 +303,7 @@ export default {
     justify-content: flex-start;
     position: relative;
     white-space: nowrap;
+    padding-left: 0.1rem;
     .single-cell-content {
       margin-right: 0.3rem;
     }

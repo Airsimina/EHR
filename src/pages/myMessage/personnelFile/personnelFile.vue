@@ -5,23 +5,19 @@
     </div>
     <div class="list-box">
       <div class="lis-box">
-        <div class="lis-row lis-name">档案编号</div>
-        <span>:</span>
+        <div class="lis-row lis-name">档案编号:</div>
         <div class="lis-row lis-value">{{str}}</div>
       </div>
       <div class="lis-box">
-        <div class="lis-row lis-name">档案所在地点</div>
-        <span>:</span>
+        <div class="lis-row lis-name">档案所在地点:</div>
         <div class="lis-row lis-value">{{str}}</div>
       </div>
       <div class="lis-box">
-        <div class="lis-row lis-name">档案来源</div>
-        <span>:</span>
+        <div class="lis-row lis-name">档案来源:</div>
         <div class="lis-row lis-value">{{str}}</div>
       </div>
       <div class="lis-box">
-        <div class="lis-row lis-name">历史档案存放单位</div>
-        <span>:</span>
+        <div class="lis-row lis-name">历史档案存放单位:</div>
         <div class="lis-row lis-value">{{str}}</div>
       </div>
     </div>

@@ -3,25 +3,17 @@
     <!-- 我的假勤 -->
     <div class="wrap-1">
       <div class="card-box">
-        <div class="nav"
-             @click="jumpFun(item)"
-             v-for="(item ,index) in navList"
-             :key="index">
-          <div class="icon "
-               :class="`${item.icon}`"></div>
+        <div class="nav" @click="jumpFun(item)" v-for="(item ,index) in navList" :key="index">
+          <div class="icon" :class="`${item.icon}`"></div>
           <div class="text">{{item.name}}</div>
         </div>
       </div>
       <div class="cantainer">
         <div class="list-box">
-          <div class="lis"
-               :class="`${item.icon}`"
-               @click="jumpFun(item,index)"
-               v-for="(item ,index) in menuList"
-               :key="index">
+          <div class="lis" :class="`${item.icon}`" @click="jumpFun(item,index)" v-for="(item ,index) in menuList" :key="index">
             <span>{{item.name}}</span>
             <!-- <span class="s-color"
-                  v-if="index==3">(剩余5天)</span> -->
+            v-if="index==3">(剩余5天)</span>-->
           </div>
         </div>
       </div>
@@ -114,9 +106,8 @@ export default {
   .wrap-1 {
     font-size: 0.24rem;
     position: relative;
-    margin: 0 0.4rem;
-    margin-top: 2rem;
-    z-index: 110;
+    margin: 0.2rem 0.4rem;
+    z-index: 200;
     .card-box {
       font-size: 0.24rem;
       padding: 0.4rem 0;

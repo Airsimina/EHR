@@ -1,234 +1,81 @@
 <template>
   <div class="home">
-    <div class="top">
-      <div class="commission-card-container">
-        <div class="commission-card">
-          <div class="single-card"
-               @click="toDb">
-            <div class="number">{{awaitNum}}</div>
-            <div class="discribe">我的待办（个）</div>
+    <router-view></router-view>
+    <div class="footer">
+      <div class="single-bg">
+        <template v-for="(item,index) in jsonData.list_c">
+          <div :class="'single' + (item.path === $route.name ? ' active' : '')" @click="transmitFun(item)" :key="index">
+            <img class="single-icon" :src="item.path === $route.name ? item.iconUrl2 : item.iconUrl1" />
+            <div class="icon-text">{{item.iconText}}</div>
           </div>
-          <div class="single-card"
-               @click="toNj">
-            <div class="number">{{vacationNum}}</div>
-            <div class="discribe">年假余额（天）</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="bg">
-      <div class="container">
-        <div class="single"
-             @click="transmitFun(item)"
-             v-for="(item,index) in jsonData.list_a"
-             :key="index">
-          <img class="single-icon"
-               :src="item.iconUrl" />
-          <div class="icon-text">{{item.iconText}}</div>
-        </div>
-      </div>
-      <div class="people-container"
-           v-show="false">
-        <div class="people-title">人事管理</div>
-        <div class="single"
-             @click="transmitFun(item)"
-             v-for="(item,index) in jsonData.list_b"
-             :key="index">
-          <img class="single-icon"
-               :src="item.iconUrl" />
-          <div class="icon-text">{{item.iconText}}</div>
-        </div>
-        <!-- <div>111</div> -->
-      </div>
-      <div class="people-container nodata-box"
-           v-show="true">
-        <!-- <div class="img-bg"></div> -->
-        <div class="no-data">
-          <div class="img-box"></div>
-        </div>
-        <!-- <div class="txt">更多功能敬请期待</div> -->
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import HttpEhr from "@requestPool/index.js"
+import HttpEhr from '@requestPool/index.js'
 
 export default {
   data () {
     return {
       jsonData: {
-        list_a: [
+        list_c: [
           {
-            iconUrl: require("../../../static/img/myMessage.png"),
-            iconText: "我的信息",
-            path: "myMessage"
+            iconUrl1: require('../../../static/img/service.png'),
+            iconUrl2: require('../../../static/img/service-c.png'),
+            iconText: '服务台',
+            path: 'home'
           },
           {
-            iconUrl: require("../../../static/img/money.png"),
-            iconText: "我的工资",
-            path: "mySalary"
+            iconUrl1: require('../../../static/img/daiban.png'),
+            iconUrl2: require('../../../static/img/daiban-c.png'),
+            iconText: '待办',
+            path: 'backlog'
           },
           {
-            iconUrl: require("../../../static/img/check.png"),
-            iconText: "我的假勤",
-            path: "myTimecard"
-          },
-          // {
-          //   iconUrl: require('../../../static/img/text.png'),
-          //   iconText: '我的的异动',
-          //   path: ''
-          // },
-          {
-            iconUrl: require("../../../static/img/kzm.png"),
-            iconText: "我的已办",
-            path: "commission"
-          }
-        ],
-        list_b: [
-          {
-            iconUrl: require("../../../static/img/people.png"),
-            iconText: "员工信息",
-            path: ""
-          },
-          {
-            iconUrl: require("../../../static/img/card.png"),
-            iconText: "员工薪酬",
-            path: ""
-          },
-          {
-            iconUrl: require("../../../static/img/personcard.png"),
-            iconText: "员工考勤",
-            path: ""
-          },
-          {
-            iconUrl: require("../../../static/img/list.png"),
-            iconText: "员工异动",
-            path: ""
+            iconUrl1: require('../../../static/img/add.png'),
+            iconUrl2: require('../../../static/img/add-c.png'),
+            iconText: '申请',
+            path: 'apply'
           }
         ]
       },
-      userId: "",
-      awaitNum: "0",
-      vacationNum: "0",
-      OAurl: "",
-      hxToken: "",
-      sid: ""
+      userId: '',
+      awaitNum: '0',
+      vacationNum: '0',
+      OAurl: '',
+      hxToken: '',
+      sid: '',
+      userInfo: {}
     }
   },
   mounted () {
-    this.init()
     this.initOAurl()
-    document.title = "首页"
+    document.title = '首页'
   },
   methods: {
     toDb () {
       console.log(this.OAurl)
-      window.location.href = this.OAurl
-    },
-    toNj () {
+      // window.location.href = this.OAurl
       this.$router.push({
-        name: "annualResidue"
-      })
-    },
-    // 获取代办个数
-    getTaskCount () {
-      return new Promise((resolve, reject) => {
-        HttpEhr.getTaskCount({
-          userId: this.userId
-        }).then(res => {
-          resolve(res)
-        })
-      })
-    },
-    // 获取用户
-    getLoginUserName () {
-      return new Promise((resolve, reject) => {
-        HttpEhr.getLoginUserName({
-          userId: this.userId
-        }).then(res => {
-          resolve(res)
-        })
-      })
-    },
-    // 获取年假余额
-    annualResidue () {
-      return new Promise((resolve, reject) => {
-        HttpEhr.annualResidue({ userId: this.userId }).then(res => {
-          resolve(res)
-        })
-      })
-    },
-    // 获取userId  设置年假
-    async init () {
-      // 判断是不是打包环境获取userId
-      let messageObj = {}
-      if (this.buildType !== "dev") {
-        var messagesArray = window.location.search.substring(1).split("&")
-
-        messagesArray.forEach(function (item, index) {
-          var itemArray = item.split("=")
-          messageObj[itemArray[0]] = itemArray[1]
-        })
-        if (messageObj.backehr) {
-          messageObj = this.util.getSession("ehrSessionData")
-        } else {
-          this.util.setSession("ehrSessionData", messageObj)
+        path: '/backlog',
+        query: {
+          src: this.OAurl
         }
-        // const sessionObj=this.util.getSession('ehrSessionData')
-        // if(sessionObj&&sessionObj.userId&&sessionObj.hxToken) {
-        //   messageObj=sessionObj
-        // } else {
-        //   var messagesArray=window.location.search.substring(1).split('&')
-
-        //   messagesArray.forEach(function(item,index) {
-        //     var itemArray=item.split('=')
-        //     messageObj[itemArray[0]]=itemArray[1]
-        //   })
-        // }
-        console.log("prodMessageObj", messageObj)
-        this.userId = messageObj.userId
-        this.hxToken = messageObj.hxToken
-        // 存userId
-      } else {
-        // this.userId = '80001247' // wangdan
-        // userId: "80000135", // zhaojin
-        // 00004273
-        messageObj = {
-          userId: "00000128",
-          hxToken: "token00000128"
-        }
-        this.userId = messageObj.userId // 多个审批人
-        this.hxToken = messageObj.hxToken
-        // this.hxToken='796c0da34ede479aab31ad060da51d9f'
-        // this.sid='0e95012c436f45a39a3b4fe407c87aab'
-        // this.userId='90016244'
-      }
-      this.util.setSession("ehrSessionData", messageObj)
-      await this.annualResidue().then(res => {
-        this.vacationNum = res.data.surplus
-      })
-      await this.getLoginUserName().then(res => {
-        this.util.setSession("sysUsername", {
-          sysUsername: res.data.sysUsername
-        })
-        this.util.setSession("userInfo", res.data)
-      })
-      await this.getTaskCount().then(res => {
-        this.awaitNum = res.data
       })
     },
     initOAurl () {
-      let backStr = ""
+      let backStr = ''
       switch (BUILD_TYPE) {
-        case "PRO":
+        case 'PRO':
           backStr = `http://app.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
           break
-        case "Q3":
+        case 'Q3':
           backStr = `http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
           break
-        case "PRO_DEV":
+        case 'PRO_DEV':
           backStr = `http://mobq.huaxincem.com/ehr/mobile/?userId=${this.userId}&hxToken=${this.hxToken}#/home`
           break
         default:
@@ -236,72 +83,44 @@ export default {
           break
       }
       const isShowBackStr = encodeURIComponent(backStr)
-      console.log(BUILD_TYPE + "环境")
+      console.log(BUILD_TYPE + '环境')
       this.OAurl = `http://pesm.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=${isShowBackStr}`
       switch (BUILD_TYPE) {
-        case "PRO":
+        case 'PRO':
           this.OAurl =
-            "http://pesm.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=" +
+            'http://pesm.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
             isShowBackStr
           break
-        case "PRE":
-          this.OAurl = ""
+        case 'PRE':
+          this.OAurl = ''
           break
-        case "Q3":
+        case 'Q3':
           this.OAurl =
-            "http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=" +
+            'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
             isShowBackStr
           break
-        case "PRO_DEV":
+        case 'PRO_DEV':
           this.OAurl =
-            "http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=" +
+            'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
             isShowBackStr
           break
         default:
           // dev
           this.OAurl =
-            "http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=" +
+            'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' +
             isShowBackStr
           break
       }
-      console.log("OAurl", this.OAurl)
+      console.log('OAurl', this.OAurl)
     },
     // 跳转
     transmitFun (item) {
-      // console.log(this.buildType + '环境')
-      // const isShowBackStr = encodeURIComponent(`http://mob.huaxincem.com/ehr/mobile/?userId=${this.userId}#/home`)
-      // switch (this.buildType.toUpperCase()) {
-      //   case 'PRO':
-      //     this.OAurl = ''
-      //     break
-      //   case 'PRE':
-      //     this.OAurl = ''
-      //     break
-      //   case 'Q3':
-      //     this.OAurl = 'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
-      //     break
-      //   case 'PRO_DEV':
-      //     this.OAurl = 'http://mob.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
-      //     break
-      //   default:
-      //     // dev
-      //     this.OAurl = 'http://mobq.huaxincem.com/appPI/weixinQY/oauth2/home.do?WXQY_REQUEST=1&isShowBack=' + isShowBackStr
-      //     break
-      // }
-      // console.log(this.OAurl)
-      if (item.path == "commission") {
-        window.location.href = this.OAurl
-        return
-      }
-      if (!item.path) {
-        this.$toast({
-          message: "敬请期待",
-          icon: "like-o"
-        })
+      if (item.path == 'backlog' || item.path == 'sq') {
+        this.toDb()
         return
       }
       this.$router.push({
-        name: "sharePage",
+        name: 'sharePage',
         query: {
           pagePath: item.path
         }
@@ -313,152 +132,59 @@ export default {
 
 <style lang='scss' scoped>
 .home {
-  height: 100vh;
-  background: #fff;
-  .top {
-    background: url("../../../static/img/top-bg.png") 0 0 no-repeat;
-    background-size: 100% 100%;
-    height: 2.9rem;
+  height: 100%;
+  // background: #f9f9fb;
+  // .single-bg {
+  //   .single {
+  //     padding-top: 0.29rem;
+  //     width: 25%;
+  //     height: 1.6rem;
+  //     .icon-text {
+  //       color: rgba(51, 51, 51, 1);
+  //       margin-top: 0.15rem;
+  //       width: 100%;
+  //     }
+  //     .single-icon {
+  //       width: 0.9rem;
+  //       height: 0.9rem;
+  //     }
+  //   }
+  // }
+  .footer {
     width: 100%;
+    height: 1.2rem;
+    background: #fff;
     position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
-    .commission-card-container {
-      position: absolute;
-      width: 100%;
-      padding: 0 0.2rem;
-      height: 1.52rem;
-      box-sizing: border-box;
-      bottom: -0.15rem;
-      .commission-card {
-        width: 100%;
-        background: rgba(255, 255, 255, 1);
+    bottom: 0;
+    box-sizing: border-box;
+    .single-bg {
+      height: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      .single {
+        padding-top: 0.18rem;
+        width: 33.3%;
         height: 100%;
-        box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.05);
-        opacity: 1;
-        border-radius: 10px;
-        display: flex;
-        justify-content: flex-start;
-        .single-card {
-          width: 50%;
-          position: relative;
-          text-align: center;
-          &:first-child {
-            &::before {
-              content: "";
-              width: 1px;
-              height: 0.8rem;
-              position: absolute;
-              right: 0;
-              top: 0.23rem;
-              background: #ccc;
-              opacity: 0.3;
-            }
+        text-align: center;
+        &.active {
+          .icon-text {
+            color: rgba(68, 119, 190, 1);
           }
-          .number {
-            font-size: 0.6rem;
-            line-height: 0.44rem;
-            color: rgba(51, 51, 51, 1);
-            margin-top: 0.4rem;
-            font-family: "DINPro-Medium";
-          }
-          .discribe {
-            font-weight: 400;
-            line-height: 0.22rem;
-            font-size: 0.24rem;
-            margin-top: 0.2rem;
-            color: rgba(153, 153, 153, 1);
-            margin-left: 0.3rem;
+          .single-icon {
+            color: rgba(68, 119, 190, 1);
           }
         }
-      }
-    }
-  }
-  .bg {
-    background: #f3f7fa;
-  }
-  .container {
-    width: 100%;
-    background: rgba(255, 255, 255, 1);
-    padding: 3.5rem 0.4rem 0.9rem 0.4rem;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    .single {
-      padding-top: 0.29rem;
-      width: 25%;
-      height: 1.6rem;
-      text-align: center;
-      .icon-text {
-        color: rgba(51, 51, 51, 1);
-        font-size: 0.24rem;
-        margin-top: 0.15rem;
-        width: 100%;
-      }
-      .single-icon {
-        width: 0.9rem;
-        height: 0.9rem;
-      }
-    }
-  }
-  .people-container {
-    background: #fff;
-    font-size: 0.24rem;
-    box-sizing: border-box;
-    margin-top: 0.3rem;
-    // display: flex;
-    // justify-content: flex-start;
-    // flex-wrap: wrap;
-    // border: 1px solid red;
-    /* .img-bg {
-      width: 70%;
-      height: 3rem;
-      margin: auto;
-      background: url("./../../../static/img/home_bg2.png") 0 0 no-repeat;
-      background-size: 100% 100%;
-    } */
-    .no-data {
-      font-size: 0.24rem;
-      width: 100%;
-      padding: 0.76rem 0 1.37rem 0;
-      .img-box {
-        width: 3.26rem;
-        height: 3.02rem;
-        position: relative;
-        margin: 0 auto;
-        background: url("./../../../static/img/no-data.png") 0 0 no-repeat;
-        background-size: 100% 100%;
-      }
-    }
-    .txt {
-      color: rgba(102, 102, 102, 1);
-      text-align: center;
-      line-height: 1rem;
-      font-size: 0.28rem;
-    }
-    .people-title {
-      color: #111111;
-      font-size: 0.36rem;
-      // font-weight: bold;
-      width: 100%;
-      margin-bottom: 0.2rem;
-    }
-    .single {
-      padding-top: 0.29rem;
-      width: 25%;
-      height: 1.6rem;
-      text-align: center;
-      .icon-text {
-        color: rgba(51, 51, 51, 1);
-        font-size: 0.24rem;
-        margin-top: 0.15rem;
-        width: 100%;
-      }
-      .single-icon {
-        width: 0.9rem;
-        height: 0.9rem;
+        .single-icon {
+          width: 0.36rem;
+          height: 0.36rem;
+          color: rgba(153, 153, 153, 1);
+        }
+        .icon-text {
+          font-size: 0.24rem;
+          color: rgba(51, 51, 51, 1);
+          margin-top: 0.08rem;
+        }
       }
     }
   }

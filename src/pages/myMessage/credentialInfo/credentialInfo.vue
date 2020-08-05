@@ -5,18 +5,15 @@
     </div>
     <div class="list-box">
       <div class="lis-box">
-        <div class="lis-row lis-name">证书名称</div>
-        <span>:</span>
+        <div class="lis-row lis-name">证书名称:</div>
         <div class="lis-row lis-value">{{str}}</div>
       </div>
       <div class="lis-box">
-        <div class="lis-row lis-name">颁发机构</div>
-        <span>:</span>
+        <div class="lis-row lis-name">颁发机构:</div>
         <div class="lis-row lis-value">{{str}}</div>
       </div>
       <div class="lis-box">
-        <div class="lis-row lis-name">获得日期</div>
-        <span>:</span>
+        <div class="lis-row lis-name">获得日期:</div>
         <div class="lis-row lis-value">{{str}}</div>
       </div>
     </div>

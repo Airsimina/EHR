@@ -6,122 +6,90 @@
     <div v-if="jsonDataList.length>0">
       <div class="list-box" v-for="(item,index) in jsonDataList" :key="index">
         <div class="lis-box">
-          <div class="lis-row lis-name">事业部/中心</div>
-          <span>:</span>
+          <div class="lis-row lis-name">事业部/中心:</div>
           <div class="lis-row lis-value">{{item.orgCompanyName}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">所在单位</div>
-          <span>:</span>
+          <div class="lis-row lis-name">所在单位:</div>
           <div class="lis-row lis-value">{{item.afDivisionName}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">所在部门</div>
-          <span>:</span>
+          <div class="lis-row lis-name">所在部门:</div>
           <div class="lis-row lis-value">{{item.afDepartmentName}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">公司</div>
-          <span>:</span>
+          <div class="lis-row lis-name">公司:</div>
           <div class="lis-row lis-value">{{item.afCompanyName}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">职位</div>
-          <span>:</span>
+          <div class="lis-row lis-name">职位:</div>
           <div class="lis-row lis-value">{{item.afPositionName}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">成本中心</div>
-          <span>:</span>
+          <div class="lis-row lis-name">成本中心:</div>
           <div class="lis-row lis-value">{{item.costCenterName}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">岗级</div>
-          <span>:</span>
+          <div class="lis-row lis-name">岗级:</div>
           <div class="lis-row lis-value">{{item.postLevelName}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">人级</div>
-          <span>:</span>
+          <div class="lis-row lis-name">人级:</div>
           <div class="lis-row lis-value">{{item.personLevelTxt}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">差旅级别</div>
-          <span>:</span>
+          <div class="lis-row lis-name">差旅级别:</div>
           <div class="lis-row lis-value">{{item.extInfo8}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">直接上级</div>
-          <span>:</span>
-          <div class="lis-row lis-value">{{item.leaderName}}</div>
-          <div class="edit-box disable" v-if="formData.afStatus == 1"></div>
-          <div class="edit-box" v-else @click="showEditFn"></div>
+          <div class="lis-row lis-name">直接上级:</div>
+          <div class="lis-row lis-value">
+            {{item.leaderName}}
+            <!-- <div class="edit-box disable" v-if="formData.afStatus == 1"></div>
+            <div class="edit-box" v-else @click="showEditFn"></div>-->
+          </div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">手机话费报销额度</div>
-          <span>:</span>
+          <div class="lis-row lis-name">手机话费报销额度:</div>
           <div class="lis-row lis-value">{{item.quotaStandard}}</div>
         </div>
         <div class="lis-box">
-          <div class="lis-row lis-name">报销比例</div>
-          <span>:</span>
+          <div class="lis-row lis-name">报销比例:</div>
           <div class="lis-row lis-value">{{item.reimbursementRate}}</div>
         </div>
       </div>
     </div>
-    <van-dialog
-      v-model="showEdit"
-      @close="close"
-      @cancel="save"
-      title="修改直接上级"
-      show-cancel-button
-      confirm-button-text="取消"
-      cancel-button-text="提交"
-      class="edit-superior"
-    >
+    <van-dialog v-model="showEdit" @close="close" @cancel="save" title="修改直接上级" show-cancel-button confirm-button-text="取消" cancel-button-text="提交" class="edit-superior">
       <div class="con">
         <div class="txt">直接上级：</div>
         <div class="person-box">
-          <van-tag
-            class="person-tag"
-            plain
-            closeable
-            size="medium"
-            type="primary"
-            v-for="(el,index) in personAry"
-            :key="index"
-            @close="del(index)"
-          >{{el.leaderName}}</van-tag>
+          <van-tag class="person-tag" plain closeable size="medium" type="primary" v-for="(el,index) in personAry" :key="index" @close="del(index)">{{el.leaderName}}</van-tag>
         </div>
         <div class="select-btn" @click="showPerson">选择上级</div>
       </div>
     </van-dialog>
-    <selectPersonCard
-      v-model="isShowPerson"
-      @config="handleSelectConfig"
-      :departmentId="departmentId"
-    ></selectPersonCard>
+    <selectPersonCard v-model="isShowPerson" @config="handleSelectConfig" :departmentId="departmentId"></selectPersonCard>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import "../../../style/tabList.scss"
-import HttpEhr from "@requestPool/index.js"
-import selectPersonCard from "@components/selectPersonCard/index.vue"
+import { mapGetters } from 'vuex'
+import '../../../style/tabList.scss'
+import HttpEhr from '@requestPool/index.js'
+import selectPersonCard from '@components/selectPersonCard/index.vue'
 
 export default {
   components: { selectPersonCard },
   props: {},
-  data() {
+  data () {
     return {
-      str: "职业信息测试数据",
+      str: '职业信息测试数据',
       jsonDataList: [],
       showEdit: false,
       personAry: [],
       cachePersonAry: [],
       isShowPerson: false,
-      departmentId: "",
+      departmentId: '',
       formData: {}, //表单数据
       flowData: {}, // 流程数据
       cacheFlowVar: {}, // 缓存流程数据
@@ -132,22 +100,22 @@ export default {
         subProcessVar: {},
         processVar: {},
         processParams: {},
-        operateType: ""
+        operateType: ''
       },
     }
   },
   watch: {},
   computed: {
     ...mapGetters({
-      infoData: "getInfoData"
+      infoData: 'getInfoData'
     })
   },
-  mounted() {
+  mounted () {
     this.getForm()
     this.setPerson()
   },
   methods: {
-    setPerson() {
+    setPerson () {
       if (!this.infoData[0].dataList) {
         this.jsonDataList = [{}]
         return
@@ -156,8 +124,8 @@ export default {
       let leaderIdAry = []
       let leaderNameAry = []
       if (this.jsonDataList[0].leaderId) {
-        leaderIdAry = this.jsonDataList[0].leaderId.split(",")
-        leaderNameAry = this.jsonDataList[0].leaderName.split(",")
+        leaderIdAry = this.jsonDataList[0].leaderId.split(',')
+        leaderNameAry = this.jsonDataList[0].leaderName.split(',')
       }
       for (let i in leaderIdAry) {
         this.personAry.push({
@@ -167,10 +135,10 @@ export default {
       }
       this.cachePersonAry = JSON.parse(JSON.stringify(this.personAry))
     },
-    async save() {
+    async save () {
       if (this.personAry.length == 0) {
         this.$toast({
-          message: "请至少选择一个直接上级",
+          message: '请至少选择一个直接上级',
           duration: 1500,
           onClose: () => {
             this.showEdit = true
@@ -178,13 +146,13 @@ export default {
         })
         return
       }
-      let leaderId = ""
-      let leaderName = ""
+      let leaderId = ''
+      let leaderName = ''
       for (let i in this.personAry) {
-        leaderId += i == 0 ? this.personAry[i].leaderId : "," + this.personAry[i].leaderId
-        leaderName += i == 0 ? this.personAry[i].leaderName : "," + this.personAry[i].leaderName
+        leaderId += i == 0 ? this.personAry[i].leaderId : ',' + this.personAry[i].leaderId
+        leaderName += i == 0 ? this.personAry[i].leaderName : ',' + this.personAry[i].leaderName
       }
-      this.formData.dataList[0].afType = "02"
+      this.formData.dataList[0].afType = '02'
       this.formData.dataList[0].leaderId = leaderId
       this.formData.dataList[0].leaderName = leaderName
 
@@ -192,13 +160,13 @@ export default {
       await this.getNextNode()
 
 
-      this.flowContext["operateType"] = "submit"
-      this.flowContext["nextNodeId"] = this.cacheFlowVar["nextNodeId"]
-      this.flowContext["assigners"][this.cacheFlowVar["nextNodeId"]] = this.nextNodePerson.assignerId || ""
+      this.flowContext['operateType'] = 'submit'
+      this.flowContext['nextNodeId'] = this.cacheFlowVar['nextNodeId']
+      this.flowContext['assigners'][this.cacheFlowVar['nextNodeId']] = this.nextNodePerson.assignerId || ''
 
       let flowContext = { ...this.flowData, ...this.flowContext }
       const data = {
-        userId: this.util.getSession("ehrSessionData").userId || "",
+        userId: this.util.getSession('ehrSessionData').userId || '',
         flowData: flowContext,
         formData: this.formData
       }
@@ -206,7 +174,7 @@ export default {
       HttpEhr.saveLeader(data).then(res => {
         if (res.code == 0)
           this.$toast.success({
-            message: "提交成功，正在审批中",
+            message: '提交成功，正在审批中',
             duration: 1500,
             onClose: () => {
               this.getForm()
@@ -214,11 +182,11 @@ export default {
           })
       })
     },
-    getAssignersList() {
+    getAssignersList () {
       const params = {
-        flowDefId: this.cacheFlowVar.flowDefId || "",
-        instId: this.cacheFlowVar.instId || "",
-        proRunId: this.cacheFlowVar.proRunId || "",
+        flowDefId: this.cacheFlowVar.flowDefId || '',
+        instId: this.cacheFlowVar.instId || '',
+        proRunId: this.cacheFlowVar.proRunId || '',
         paramMap: { ...this.getProcessParams(true) }
       }
       const data = {
@@ -228,42 +196,42 @@ export default {
       }
       return new Promise((resolve, reject) => {
         HttpEhr.getAssignersList(data).then(res => {
-          this.cacheFlowVar["assigners"] = res.data
+          this.cacheFlowVar['assigners'] = res.data
           this.processPreAssigner()
           resolve(res)
         })
       })
     },
-    getNextNode() {
+    getNextNode () {
       return new Promise((resolve, reject) => {
-        if (JSON.stringify(this.flowContext.processVar) == "{}") {
+        if (JSON.stringify(this.flowContext.processVar) == '{}') {
           delete this.flowContext.processVar
         }
         HttpEhr.getNextNode({
           personId: this.cacheFlowVar.personId,
           flowContext: this.flowContext
         }).then(res => {
-          this.cacheFlowVar["nextNodes"] = res.data
+          this.cacheFlowVar['nextNodes'] = res.data
           this.processNextNode()
           resolve(res.data)
         })
       })
     },
-    processNextNode() {
-      let nextNodeId = this.cacheFlowVar["nextNodes"][0].id
+    processNextNode () {
+      let nextNodeId = this.cacheFlowVar['nextNodes'][0].id
       let nextNodePerson = {}
-      this.cacheFlowVar["nextNodeId"] = nextNodeId
+      this.cacheFlowVar['nextNodeId'] = nextNodeId
 
-      if (nextNodeId === "EndEvent") {
-        this.cacheFlowVar["nextNodeId"] = "FirstNode"
+      if (nextNodeId === 'EndEvent') {
+        this.cacheFlowVar['nextNodeId'] = 'FirstNode'
         nextNodePerson = {
           assignerName: this.flowData.flowInst.applyerName,
           assignerId: this.flowData.flowInst.applyerId
         }
       } else {
-        const preAssigners = this.flowContext["preAssigners"] || {}
+        const preAssigners = this.flowContext['preAssigners'] || {}
         if (Object.keys(preAssigners).length === 0) {
-          this.$toast({ message: "下一环节处理人不存在" })
+          this.$toast({ message: '下一环节处理人不存在' })
           return false
         }
         nextNodePerson = preAssigners[nextNodeId] || {}
@@ -271,50 +239,50 @@ export default {
       this.nextNodePerson = nextNodePerson
     },
     // 加工preAssinger
-    processPreAssigner() {
+    processPreAssigner () {
       let flowContext = this.flowContext
-      const assigners = this.cacheFlowVar["assigners"]
+      const assigners = this.cacheFlowVar['assigners']
 
       assigners.nodeAssigners.forEach(assign => {
         const defaultAssigner = 0
-        if (assign["nodeAssignerPersons"].length > 0) {
-          flowContext["preAssigners"][assign.nodeId] = {
-            assignerId: assign["nodeAssignerPersons"][defaultAssigner].sysUsername,
-            assignerName: assign["nodeAssignerPersons"][defaultAssigner].name
+        if (assign['nodeAssignerPersons'].length > 0) {
+          flowContext['preAssigners'][assign.nodeId] = {
+            assignerId: assign['nodeAssignerPersons'][defaultAssigner].sysUsername,
+            assignerName: assign['nodeAssignerPersons'][defaultAssigner].name
           }
         } else {
-          flowContext["preAssigners"][assign.nodeId] = {
-            assignerId: "",
-            assignerName: ""
+          flowContext['preAssigners'][assign.nodeId] = {
+            assignerId: '',
+            assignerName: ''
           }
         }
       })
       this.flowContext = flowContext
     },
     // 获取processParams数据
-    getProcessParams() {
+    getProcessParams () {
       const params = {}
       const formData = this.formData
-      let formFields = this.flowData.flowBase.bizDataRule || ""
+      let formFields = this.flowData.flowBase.bizDataRule || ''
       if (formFields) {
         formFields = JSON.parse(formFields)
         if (Array.isArray(formFields)) {
           formFields.forEach((item, i) => {
             if (item.propertyName) {
               if (formData[item.propertyName]) {
-                params[item.propertyName] = formData[item.propertyName] || ""
+                params[item.propertyName] = formData[item.propertyName] || ''
               }
             }
           })
         }
       }
-      params["departmentType"] = formData.departmentType
-      params["departmentBizType"] = formData.departmentBizType
-      params["theFirstTrial"] = formData.theFirstTrial
+      params['departmentType'] = formData.departmentType
+      params['departmentBizType'] = formData.departmentBizType
+      params['theFirstTrial'] = formData.theFirstTrial
       return params
     },
     // 初始化流程数据
-    load() {
+    load () {
       const flowData = this.flowData
       const cacheFlowVar = this.cacheFlowVar
       if (flowData.currentPerson && flowData.currentPerson.id) {
@@ -324,14 +292,14 @@ export default {
         cacheFlowVar.loginUsername = flowData.loginUsername
       }
       if (flowData.flowKeyId) {
-        cacheFlowVar.flowKeyId = flowData.flowKeyId || ""
+        cacheFlowVar.flowKeyId = flowData.flowKeyId || ''
       }
-      if (flowData.formId) cacheFlowVar.formId = flowData.formId || ""
-      if (flowData.dataId) cacheFlowVar.dataId = flowData.dataId || ""
+      if (flowData.formId) cacheFlowVar.formId = flowData.formId || ''
+      if (flowData.dataId) cacheFlowVar.dataId = flowData.dataId || ''
       if (Object.keys(flowData).length) {
         cacheFlowVar.flowDefId = flowData.flowBase.id
       }
-      if (!flowData.firstNode || flowData.firstNode === "startEvent") {
+      if (!flowData.firstNode || flowData.firstNode === 'startEvent') {
         cacheFlowVar.firstNode = flowData.flowNodes[0].id
       }
       if (flowData.currentNode.nodeId) {
@@ -340,14 +308,14 @@ export default {
         cacheFlowVar.nodeId = flowData.flowInst.currentNodeId
       }
       if (flowData.isNewFlow) {
-        cacheFlowVar.nodeId = cacheFlowVar.firstNode || ""
+        cacheFlowVar.nodeId = cacheFlowVar.firstNode || ''
       } else {
-        cacheFlowVar.instId = flowData.flowInst.actInstId || ""
-        cacheFlowVar.proRunId = flowData.flowInst.proRunId || ""
+        cacheFlowVar.instId = flowData.flowInst.actInstId || ''
+        cacheFlowVar.proRunId = flowData.flowInst.proRunId || ''
       }
       if (flowData.currentTask && flowData.currentTask.id) {
-        cacheFlowVar.taskUserId = flowData.currentTask.id || ""
-        cacheFlowVar.executionId = flowData.currentTask.actExecutionId || ""
+        cacheFlowVar.taskUserId = flowData.currentTask.id || ''
+        cacheFlowVar.executionId = flowData.currentTask.actExecutionId || ''
       }
       this.cacheFlowVar = cacheFlowVar
       this.flowContext = {
@@ -357,12 +325,12 @@ export default {
         nodeId: this.cacheFlowVar.nodeId,
         dataId: this.cacheFlowVar.dataId,
         formId: this.cacheFlowVar.formId,
-        proRunId: this.cacheFlowVar.proRunId || ""
+        proRunId: this.cacheFlowVar.proRunId || ''
       }
       this.flowContext.processParams = this.getProcessParams()
     },
-    getForm() {
-      HttpEhr.getAfPerson({ "afPersonId": this.util.getSession("ehrSessionData").userId || "" })
+    getForm () {
+      HttpEhr.getAfPerson({ 'afPersonId': this.util.getSession('ehrSessionData').userId || '' })
         .then(res => {
           this.departmentId = res.data.formData.dataList[0] && res.data.formData.dataList[0].afDepartmentId
           this.formData = res.data.formData
@@ -370,23 +338,23 @@ export default {
           this.load()
         })
     },
-    showEditFn() {
+    showEditFn () {
       this.showEdit = true
       this.personAry = JSON.parse(JSON.stringify(this.cachePersonAry))
     },
-    handleSelectConfig(value) {
+    handleSelectConfig (value) {
       this.personAry.push({
         leaderId: value.id,
         leaderName: value.name
       })
     },
-    close() {
+    close () {
       this.showEdit = false
     },
-    showPerson() {
+    showPerson () {
       this.isShowPerson = true
     },
-    del(index) {
+    del (index) {
       this.personAry.splice(index, 1)
     }
   },

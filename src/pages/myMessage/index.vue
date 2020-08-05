@@ -1,8 +1,8 @@
 <template>
   <div class="myMessage">
+    <tabNav></tabNav>
     <div class="wrap-1">
-      <tabNav></tabNav>
-      <cardMyMessage :keyName="keyName" :title="title" :userNumber="userNumber"></cardMyMessage>
+      <cardMyMessage :keyName="keyName" :title="title" :userNumber="userNumber" :idPhoto="idPhoto" :departmentName="departmentName"></cardMyMessage>
       <div class="cantainer" v-if="infoData.length>0">
         <router-view></router-view>
       </div>
@@ -13,23 +13,27 @@
 <script>
 import tabNav from '@components/tabNav/tabNav'
 import cardMyMessage from '@components/card/cardMyMessage'
-import { mapGetters,mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 // import mymsgData from '../../testJson/mymsg.js'
 import util from '../../util/util'
 import HttpEhr from '@requestPool/index.js'
 
 export default {
-  components: { tabNav,cardMyMessage },
+  components: { tabNav, cardMyMessage },
   props: {},
-  data() {
+  data () {
     return {
       userNumber: '',
+      userId: '',
+      isEHR: '01',
       title: '',
+      idPhoto: '',
+      departmentName: '',
       keyName: '人员编号'
     }
   },
-  mounted() {
-    document.title='我的信息'
+  mounted () {
+    document.title = '个人档案'
   },
   computed: {
     ...mapGetters({
@@ -37,29 +41,41 @@ export default {
     })
   },
   methods: {
-    ...mapMutations(['setInfoDataList','setInfoData']),
+    ...mapMutations(['setInfoDataList', 'setInfoData']),
     // 初始化
-    init() {
+    init () {
       HttpEhr.getMyMessageDataList({
-        userId: this.util.getSession('ehrSessionData').userId||'',
+        userId: this.userId,
         isMoble: 'isMoble'
       }).then(res => {
         // 总数据保存起来
         this.setInfoDataList(res.data)
         // 默认显示第一个 基本信息
-        this.setInfoData(util.filtData(res.data,'01'))
-        if(!this.util.filtData(res.data,'01')[0].dataList) {
-          this.userNumber=''
-          this.title=''
+        if (this.canShow == 1) {
+          this.setInfoData(res.data)
         } else {
-          const newStr=this.util.filtData(res.data,'01')[0].dataList[0].id||'暂无'
-          this.userNumber=newStr.substr(1,newStr.length-1)
-          this.title=this.util.filtData(res.data,'01')[0].dataList[0].name||'暂无'
+          this.setInfoData(util.filtData(res.data, '01'))
+        }
+        console.log(util.filtData(res.data, '01'))
+        if (!this.util.filtData(res.data, '01')[0].dataList) {
+          this.userNumber = ''
+          this.title = ''
+          this.idPhoto = ''
+          this.departmentName = ''
+        } else {
+          const newStr = this.util.filtData(res.data, '01')[0].dataList[0].id || '暂无'
+          this.userNumber = newStr.substr(1, newStr.length - 1)
+          this.title = this.util.filtData(res.data, '01')[0].dataList[0].name || '暂无'
+          this.idPhoto = this.util.filtData(res.data, '01')[0].dataList[0].idPhoto || '暂无'
+          this.departmentName = this.util.filtData(res.data, '01')[0].dataList[0].departmentName || '暂无'
         }
       })
     }
   },
-  created() {
+  created () {
+    console.log(this.$route)
+    this.userId = this.$route.query.userId || this.util.getSession('ehrSessionData').userId
+    this.canShow = this.$route.query.canShow || 1
     // 测试数据
     // this.setInfoDataList(mymsgData.data)
     // this.setInfoData(util.filtData(mymsgData.data, '01'))
@@ -75,13 +91,12 @@ export default {
   font-size: 0.24rem;
   .wrap-1 {
     font-size: 0.24rem;
-    margin: 0 0.4rem;
-    position: absolute;
-    width: 90%;
+    padding: 1.5rem 0.4rem 0;
+    width: 100%;
     box-sizing: border-box;
   }
   .cantainer {
-    padding-top: 2.5rem;
+    padding-top: 0.5rem;
   }
 }
 </style>

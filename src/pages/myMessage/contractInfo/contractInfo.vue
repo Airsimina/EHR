@@ -6,23 +6,19 @@
     <div class="list-box">
       <span class="icon-right">01</span>
       <div class="lis-box">
-        <div class="lis-row lis-name">开始日期</div>
-        <span>:</span>
+        <div class="lis-row lis-name">开始日期:</div>
         <div class="lis-row lis-value">{{str}}</div>
       </div>
       <div class="lis-box">
-        <div class="lis-row lis-name">结束日期</div>
-        <span>:</span>
+        <div class="lis-row lis-name">结束日期:</div>
         <div class="lis-row lis-value">{{str}}</div>
       </div>
       <div class="lis-box">
-        <div class="lis-row lis-name">合同类型</div>
-        <span>:</span>
+        <div class="lis-row lis-name">合同类型:</div>
         <div class="lis-row lis-value">{{str}}</div>
       </div>
       <div class="lis-box">
-        <div class="lis-row lis-name">红签订类型</div>
-        <span>:</span>
+        <div class="lis-row lis-name">红签订类型:</div>
         <div class="lis-row lis-value">{{str}}</div>
       </div>
     </div>

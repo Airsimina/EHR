@@ -1,70 +1,40 @@
 <template>
   <div class="tab-nav-wrap">
     <div class="tab-box">
-      <div class="tab-name"
-           @click="changeTab(item,index)"
-           v-for="(item,index) in tabList"
-           :key="index"
-           :class="{'active-tab' : tabIndex == index}">
+      <div class="tab-name" @click="changeTab(item,index)" v-for="(item,index) in tabList" :key="index" :class="{'active-tab' : tabIndex == index}">
         <span>{{item.name}}</span>
         <span class="icon-name"></span>
       </div>
 
-      <div class="tab-list-box"
-           v-if="showbox">
+      <div class="tab-list-box" v-if="showbox">
         <!-- 全部 -->
-        <div class="box-1"
-             v-if="selTabIdShow==1">
-          <div @click="selcontent(item,index)"
-               :class="{'active-name-1' : index == lisIndex_1,'lis-1':selTabIdShow==1}"
-               v-for="(item,index) in dataList"
-               :key="index">{{item.name}}</div>
+        <div class="box-1" v-if="selTabIdShow==1">
+          <div @click="selcontent(item,index)" :class="{'active-name-1' : index == lisIndex_1,'lis-1':selTabIdShow==1}" v-for="(item,index) in dataList" :key="index">{{item.name}}</div>
         </div>
         <!-- 筛选 -->
-        <div class="box-1"
-             v-if="selTabIdShow==2">
+        <div class="box-1" v-if="selTabIdShow==2">
           <div class="lis-2">
-            <span class="sp-input"
-                  :class="{'sp-input-active':datePicker==0}"
-                  @click="showDatePicker(0)">{{startTime}}</span>
+            <span class="sp-input" :class="{'sp-input-active':datePicker==0}" @click="showDatePicker(0)">{{startTime}}</span>
             <span class="sp-text">至</span>
-            <span class="sp-input"
-                  :class="{'sp-input-active':datePicker==1}"
-                  @click="showDatePicker(1)">{{endTime}}</span>
+            <span class="sp-input" :class="{'sp-input-active':datePicker==1}" @click="showDatePicker(1)">{{endTime}}</span>
           </div>
           <div class="btn-box">
             <div class="btn">
-              <span class="ok"
-                    @click="selcontent({},0)">查询</span>
+              <span class="ok" @click="selcontent({},0)">查询</span>
             </div>
           </div>
-
         </div>
         <!-- 分类 -->
-        <div class="box-1"
-             v-if="selTabIdShow==3">
-          <div @click="selcontent(item,index)"
-               :class="{'active-name-3' : index == lisIndex_3,'lis-3':selTabIdShow==3}"
-               v-for="(item,index) in dataList"
-               :key="index">{{item.name}}</div>
+        <div class="box-1" v-if="selTabIdShow==3">
+          <div @click="selcontent(item,index)" :class="{'active-name-3' : index == lisIndex_3,'lis-3':selTabIdShow==3}" v-for="(item,index) in dataList" :key="index">{{item.name}}</div>
         </div>
       </div>
-      <van-popup v-model="isPopShow"
-                 close-icon-position="top-left"
-                 position="bottom"
-                 :style="{ height: '40%' }">
-        <van-datetime-picker v-model="currentDate"
-                             :title="popupTitle"
-                             @cancel="cancelPicker"
-                             @confirm="confirmPicker"
-                             type="year-month"
-                             :formatter="formatter" />
+      <van-popup v-model="isPopShow" close-icon-position="top-left" position="bottom" :style="{ height: '40%' }">
+        <van-datetime-picker v-model="currentDate" :title="popupTitle" @cancel="cancelPicker" @confirm="confirmPicker" type="year-month" :formatter="formatter" />
       </van-popup>
     </div>
     <!-- 蒙层 -->
-    <div class="menc"
-         v-show="showbox"
-         @click="closeMenc"></div>
+    <div class="menc" v-show="showbox" @click="closeMenc"></div>
   </div>
 </template>
 
@@ -258,7 +228,7 @@ export default {
 <style lang="scss" scoped>
 .tab-nav-wrap {
   font-size: 0.24rem;
-  margin-bottom: 1.4rem;
+  margin-bottom: 0.4rem;
   .menc {
     position: fixed;
     display: inline-block;
@@ -274,13 +244,11 @@ export default {
     position: relative;
     display: flex;
     justify-content: center;
-    width: 90%;
     line-height: 0.9rem;
     box-sizing: border-box;
     border-radius: 0.2rem;
     z-index: 500 !important;
     background: #fff;
-    position: fixed;
     .tab-name {
       flex: 1;
       text-align: center;

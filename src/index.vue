@@ -8,13 +8,13 @@
 </template>
 
 <script>
-import Loading from './components/loading'
+import Loading from "./components/loading"
 export default {
-  name: 'App',
+  name: "App",
   components: { Loading },
   data () {
     return {
-      keepAliveArray: ['Home']
+      keepAliveArray: ["Home"]
     }
   }
 }

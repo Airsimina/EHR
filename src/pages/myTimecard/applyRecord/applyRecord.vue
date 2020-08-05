@@ -1,24 +1,21 @@
 <template>
   <div class="examine">
     <!-- 我的申请 -->
+    <van-search v-model="searchForm.name" shape="round" background="#5576ab" placeholder="申请名称" @change="classSearchFun" @keyup.enter="classSearchFun">
+      <!-- <template #action>
+          <div @click="classSearchFun" class="search-filter">
+            <van-icon name="filter-o" />
+          </div>
+      </template>-->
+    </van-search>
     <div class="wrap-1">
-      <tabApplyRecord :pageTypeVal="pageTypeVal" @classSearchFun="classSearchFun"></tabApplyRecord>
-      <van-list
-        v-model="loading"
-        v-if="dataList.length>0"
-        :finished="finished"
-        finished-text="我也是有底线的"
-        @load="updateList"
-      >
-        <div
-          class="list-data"
-          @click="recordMoreFun(item)"
-          v-for="(item,index) in dataList"
-          :key="index"
-        >
+      <!-- <tabApplyRecord :pageTypeVal="pageTypeVal" @classSearchFun="classSearchFun"></tabApplyRecord> -->
+      <van-tabs v-model="activeName" color="#438AEA" title-active-color="#438AEA" sticky offset-top="1.9rem" background="#f4f6f9" @change="tabChange">
+        <van-tab v-for="item in statusList" :key="item.id" :title="item.name" :name="item.id">
+          <van-list v-model="loading" v-if="dataList.length>0" :finished="finished" finished-text="我也是有底线的" @load="updateList">
+            <!-- <div class="list-data" @click="recordMoreFun(item)" v-for="(item,index) in dataList" :key="index">
           <div class="title">{{item.dataType=='1' ? '请假申请':'假期调整申请'}}</div>
           <div class="row-data">
-            <!-- // 请假类型1、年休2、病假3、事假4、工伤假5、婚假6、产假7、护理假8、丧假 -->
             <div class="sublis">
               <span class="name">请假类型 :</span>
               <span class="val color-b">{{util.getLeaveVal(item.type)}}</span>
@@ -40,53 +37,88 @@
               <span class="val one">{{JSON.parse(item.dates).toString()}}</span>
             </div>
           </div>
-          <!-- 1 同意 2 审核中 3 驳回 -->
-          <div
-            class="title-status"
-            :class="[getStatusTxt(item.status).sty]"
-          >{{getStatusTxt(item.status).txt}}</div>
-        </div>
-      </van-list>
-      <!-- 空数据占位符 -->
-      <div class="no-data" v-show="dataList.length==0">
-        <div class="img-box"></div>
-        <div class="text">暂无数据~</div>
-      </div>
+          <div class="title-status" :class="[getStatusTxt(item.status).sty]">{{getStatusTxt(item.status).txt}}</div>
+            </div>-->
+            <record-list :recordList="dataList"></record-list>
+          </van-list>
+        </van-tab>
+      </van-tabs>
+    </div>
+
+    <!-- 空数据占位符 -->
+    <div class="no-data" v-show="dataList.length==0">
+      <div class="img-box"></div>
+      <div class="text">暂无数据~</div>
     </div>
   </div>
 </template>
 
+            <!-- // 请假类型1、年休2、病假3、事假4、工伤假5、婚假6、产假7、护理假8、丧假 -->
+          <!-- 3 同意 2 审核中 4 驳回 -->
 <script>
-import tabApplyRecord from "@components/tabNav/tabApplyRecord"
-import HttpEhr from "@requestPool/index.js"
+import tabApplyRecord from '@components/tabNav/tabApplyRecord'
+import recordList from '@components/recordList/index.vue'
+import HttpEhr from '@requestPool/index.js'
 // import testapplyList from '../../../testJson/applyList.js'
 // import util from '../../../util/util.js'
 
 export default {
-  components: { tabApplyRecord },
+  components: {
+    // tabApplyRecord,
+    recordList
+  },
   props: {},
-  data() {
+  data () {
     return {
-      pageTypeVal: "1", // 1:我的申请 2:假期调整申请
+      pageTypeVal: '1', // 1:我的申请 2:假期调整申请
       dataList: [],
+      searchForm: {
+        name: '',
+        startDate: '',
+        endDate: '',
+        type: '1',
+        status: '',
+        userId: this.util.getSession('ehrSessionData').userId || '',
+        pageNum: 1,
+        showSize: 10
+      },
+      activeName: 'a', // 标签栏
       jsonData: {
-        startDate: "",
-        endDate: "",
-        type: "1",
-        status: "2"
+        startDate: '',
+        endDate: '',
+        type: '1',
+        status: '2'
       },
       page: 1, // 当前页
       showCount: 10, // 当前页显示多少条
       totalPage: -1, // 总页数
       finished: false,
-      loading: false
+      loading: false,
+      statusList: [
+        {
+          name: '全部',
+          id: ''
+        },
+        {
+          name: '审批中',
+          id: '2'
+        },
+        {
+          name: '已通过',
+          id: '3'
+        },
+        // {
+        //   name: "驳回",
+        //   id: "4"
+        // }
+      ],
     }
   },
   methods: {
     // 详情
-    recordMoreFun(itemData) {
+    recordMoreFun (itemData) {
       this.$router.push({
-        name: "leaveApply",
+        name: 'leaveApply',
         query: {
           id: itemData.id, // 数据id
           dataType: itemData.dataType, // 请假  销假
@@ -95,16 +127,8 @@ export default {
       })
     },
     // 获取我的申请列表数据
-    getApplyRecordList() {
-      HttpEhr.getApplyRecordList({
-        userId: this.util.getSession("ehrSessionData").userId || "",
-        startDate: this.jsonData.startTime,
-        endDate: this.jsonData.endTime,
-        type: this.jsonData.type,
-        status: this.jsonData.status,
-        pageNum: this.page,
-        showSize: this.showCount
-      }).then(res => {
+    getApplyRecordList () {
+      HttpEhr.getApplyRecordList(this.searchForm).then(res => {
         if (res.data.rows.length > 0) {
           this.dataList = this.dataList.concat(res.data.rows)
           this.totalPage = res.data.pages
@@ -117,61 +141,66 @@ export default {
       })
     },
     // 搜索
-    classSearchFun(subData) {
-      console.log(subData)
+    classSearchFun (subData) {
       this.page = 1
       this.totalPage = -1
       this.jsonData.startTime = subData.startTime
       this.jsonData.endTime = subData.endTime
       this.jsonData.type = subData.type
       this.dataList = []
-      if (this.$route.query.icon == "qjtzsq") {
-        this.jsonData.status = "3"
+      if (this.$route.query.icon == 'qjtzsq') {
+        this.jsonData.status = '3'
       } else {
         this.jsonData.status = subData.status
       }
       this.getApplyRecordList()
     },
+    tabChange (index) {
+      console.log(index)
+      this.searchForm.status = index
+      this.searchForm.pageNum = 1
+      this.searchForm.showCount = 10
+      this.dataList = []
+      this.getApplyRecordList()
+    },
     // 上拉加载
-    updateList() {
+    updateList () {
       // if (this.page == this.totalPage) {
       //   this.loading = false
       //   this.finished = true
       //   return
       // }
-      this.page++
+      this.searchForm.pageNum++
       this.getApplyRecordList()
     },
     // 默认时间
-    initTime() {
-      this.jsonData.endTime = this.util.setDefaultTime(2, "add")
-      this.jsonData.startTime = this.util.setDefaultTime(2, "minus")
+    initTime () {
+      this.searchForm.endTime = this.util.setDefaultTime(2, 'add')
+      this.searchForm.startTime = this.util.setDefaultTime(2, 'minus')
     },
     // 获取状态文本
-    getStatusTxt(type) {
+    getStatusTxt (type) {
       if (type == 3) {
-        return { txt: "同意", sty: "ty" }
+        return { txt: '同意', sty: 'ty' }
       } else if (type == 2) {
-        return { txt: "审批中", sty: "spz" }
+        return { txt: '审批中', sty: 'spz' }
       } else if (type == 4) {
-        return { txt: "驳回", sty: "bh" }
+        return { txt: '驳回', sty: 'bh' }
       }
     }
   },
-  created() {
-    if (this.$route.query.icon == "qjtzsq") {
-      document.title = "请假调整申请"
-      this.pageTypeVal = "2"
-      this.jsonData.status = "3"
+  created () {
+    if (this.$route.query.icon == 'qjtzsq') {
+      document.title = '请假调整申请'
+      this.pageTypeVal = '2'
     } else {
-      document.title = "我的申请"
-      this.pageTypeVal = "1"
-      this.jsonData.status = "2"
+      document.title = '我的申请'
+      this.pageTypeVal = '1'
     }
     this.initTime()
     this.getApplyRecordList()
   },
-  mounted() {
+  mounted () {
     // 测试数据
   }
 }
@@ -180,13 +209,27 @@ export default {
 <style lang="scss" scoped>
 .examine {
   font-size: 0.24rem;
+  .van-search {
+    position: fixed;
+    width: 100%;
+    z-index: 200;
+    .van-search__action {
+      padding: 0;
+    }
+  }
   .wrap-1 {
     font-size: 0.24rem;
-    position: absolute;
-    padding: 0 0.4rem;
+    padding: 1.5rem 0.4rem 0;
     width: 100%;
     box-sizing: border-box;
-
+    .search-filter {
+      font-size: 0.6rem;
+      color: #fff;
+      padding: 0.1rem 0.1rem 0;
+      &:active {
+        background-color: #5576ab;
+      }
+    }
     .list-data {
       font-size: 0.24rem;
       width: 100%;
@@ -253,30 +296,30 @@ export default {
         }
       }
     }
-    .no-data {
-      font-size: 0.24rem;
-      width: 100%;
-      height: 8.8rem;
-      background: rgba(255, 255, 255, 1);
-      box-shadow: 0px 0.1rem 0.45rem rgba(0, 0, 0, 0.02);
-      border-radius: 0.2rem;
+  }
+  .no-data {
+    font-size: 0.24rem;
+    height: 8.8rem;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0.1rem 0.45rem rgba(0, 0, 0, 0.02);
+    border-radius: 0.2rem;
+    position: relative;
+    margin: 0.2rem 0.4rem;
+    .img-box {
+      width: 2.2rem;
+      height: 1.7rem;
       position: relative;
-      .img-box {
-        width: 2.2rem;
-        height: 1.7rem;
-        position: relative;
-        top: 3.18rem;
-        margin: auto;
-        background: url("../../../../static/img/zwt.png") 0 0 no-repeat;
-        background-size: 100% 100%;
-      }
-      .text {
-        color: #999999;
-        font-size: 0.3rem;
-        text-align: center;
-        position: relative;
-        top: 3.45rem;
-      }
+      top: 3.18rem;
+      margin: auto;
+      background: url("../../../../static/img/zwt.png") 0 0 no-repeat;
+      background-size: 100% 100%;
+    }
+    .text {
+      color: #999999;
+      font-size: 0.3rem;
+      text-align: center;
+      position: relative;
+      top: 3.45rem;
     }
   }
 }

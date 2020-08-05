@@ -1,21 +1,9 @@
 <template>
   <div id="turnToPerson">
-    <van-popup
-      v-model="isShow"
-      @close="handleLayoutClose"
-      round
-      position="bottom"
-      :style="{ 'max-height': '80%' }"
-    >
+    <van-popup v-model="isShow" @close="handleLayoutClose" round position="bottom" :style="{ 'max-height': '80%' }">
       <div class="layout">
         <div class="search-box">
-          <input
-            @focusout="inputBlur"
-            class="search-input"
-            v-model="myValue"
-            :placeholder="placeholdertext"
-            @keyup.enter="onSearch"
-          />
+          <input @focusout="inputBlur" class="search-input" v-model="myValue" :placeholder="placeholdertext" @keyup.enter="onSearch" />
           <div class="search-icon" @click.stop="onSearch"></div>
         </div>
         <div class="tab-box" v-if="!isSearch">
@@ -25,25 +13,13 @@
         <div class="company-box" v-show="tabIndex === 1" v-if="!isSearch">
           <div class="my-select">
             <div class="value-box">
-              <div
-                class="first"
-                :class="{ blue: !item.id }"
-                @click="changeCompanyTab(item, index)"
-                v-for="(item, index) in companyDataAry"
-                :key="index"
-              >{{ item.name }}</div>
+              <div class="first" :class="{ blue: !item.id }" @click="changeCompanyTab(item, index)" v-for="(item, index) in companyDataAry" :key="index">{{ item.name }}</div>
               <div v-show="showCompanyPerson" class="first">人员</div>
             </div>
           </div>
           <div class="option-box-layout">
             <div class="my-option-box">
-              <div
-                class="my-option"
-                v-for="(item, index) in company"
-                :key="index"
-                @click="selectCompanyAndPeople(item)"
-                :class="{ blue: companyData.id === item.id }"
-              >
+              <div class="my-option" v-for="(item, index) in company" :key="index" @click="selectCompanyAndPeople(item)" :class="{ blue: companyData.id === item.id }">
                 <span class="name">{{ item.name }}</span>
               </div>
             </div>
@@ -51,13 +27,7 @@
               <van-radio-group v-model="selectName">
                 <van-cell-group>
                   <div v-for="(item, index) in companyPerson" :key="index">
-                    <van-cell
-                      v-if="item.departmentId !== 'O00000001'"
-                      class="radio-name"
-                      :title="item.name + ' ' + item.unno"
-                      clickable
-                      @click="radio = item.sysUsername"
-                    >
+                    <van-cell v-if="item.departmentId !== 'O00000001'" class="radio-name" :title="item.name + ' ' + item.unno" clickable @click="radio = item.sysUsername">
                       <van-radio slot="right-icon" class="my-radio" :name="item.sysUsername" />
                     </van-cell>
                   </div>
@@ -70,39 +40,20 @@
         <div class="higher-level" v-show="tabIndex === 2" v-if="!isSearch">
           <div class="my-select">
             <div class="value-box">
-              <div
-                class="first"
-                :class="{ blue: !item.id }"
-                @click="changeCompanyTab(item, index)"
-                v-for="(item, index) in companyDataAry"
-                :key="index"
-              >{{ item.text }}</div>
+              <div class="first" :class="{ blue: !item.id }" @click="changeCompanyTab(item, index)" v-for="(item, index) in companyDataAry" :key="index">{{ item.text }}</div>
               <div v-show="showCompanyPerson" class="first">人员</div>
             </div>
           </div>
           <div class="option-box-layout">
             <div class="my-option-box">
-              <div
-                class="my-option"
-                v-for="(item, index) in company"
-                :key="index"
-                @click="selectCompanyAndPeople(item)"
-                :class="{ blue: companyData.id === item.id }"
-              >
+              <div class="my-option" v-for="(item, index) in company" :key="index" @click="selectCompanyAndPeople(item)" :class="{ blue: companyData.id === item.id }">
                 <span class="name">{{ item.text }}</span>
               </div>
             </div>
             <div class="my-option-box">
               <van-radio-group v-model="selectName">
                 <van-cell-group icon-size="30">
-                  <van-cell
-                    class="radio-name"
-                    :title="item.name + ' ' + item.unno"
-                    clickable
-                    @click="radio = item.sysUsername"
-                    v-for="(item, index) in companyPerson"
-                    :key="index"
-                  >
+                  <van-cell class="radio-name" :title="item.name + ' ' + item.unno" clickable @click="radio = item.sysUsername" v-for="(item, index) in companyPerson" :key="index">
                     <template #right-icon>
                       <van-radio slot="right-icon" class="my-radio" :name="item.sysUsername" />
                     </template>
@@ -117,14 +68,7 @@
           <div>
             <van-radio-group v-model="selectName">
               <van-cell-group>
-                <van-cell
-                  class="radio-name"
-                  :title="item.name + ' ' + item.unno"
-                  clickable
-                  @click="radio = item.sysUsername"
-                  v-for="(item, index) in companyPerson"
-                  :key="index"
-                >
+                <van-cell class="radio-name" :title="item.name + ' ' + item.unno" clickable @click="radio = item.sysUsername" v-for="(item, index) in companyPerson" :key="index">
                   <div class="single_person_item"></div>
                   <van-radio slot="right-icon" class="my-radio" :name="item.sysUsername" />
                 </van-cell>
@@ -132,21 +76,10 @@
             </van-radio-group>
           </div>
         </div>
-        <loadMoreList
-          class="search-container"
-          @load="handleLoad"
-          ref="dataList"
-          :finished="finished"
-          v-if="isSearch"
-        >
+        <loadMoreList class="search-container" @load="handleLoad" ref="dataList" :finished="finished" v-if="isSearch">
           <van-radio-group v-model="selectName">
             <van-cell-group :icon-size="iconSize">
-              <van-cell
-                clickable
-                @click="radio = item.sysUsername"
-                v-for="(item, index) in companyPerson"
-                :key="index"
-              >
+              <van-cell clickable @click="radio = item.sysUsername" v-for="(item, index) in companyPerson" :key="index">
                 <div class="single-select-person">
                   <span class="text-style">{{ item.name }}</span>
                   <span class="text-style">{{ item.unno }}</span>
@@ -171,9 +104,9 @@
 </template>
 
 <script>
-import myHttp from "@requestPool/index.js"
-import loadMoreList from "@components/loadMoreList/index.vue"
-import { Dialog } from "vant"
+import myHttp from '@requestPool/index.js'
+import loadMoreList from '@components/loadMoreList/index.vue'
+import { Dialog } from 'vant'
 
 export default {
   components: {
@@ -183,7 +116,7 @@ export default {
     departmentId: {
       // 获取的组织
       type: String,
-      default: ""
+      default: ''
     },
     // 显示转办探矿
     value: {
@@ -192,28 +125,28 @@ export default {
     },
     operateType: {
       type: String,
-      default: "append"
+      default: 'append'
     }
   },
-  data() {
+  data () {
     return {
       iconSize: 30,
       titleArray: [
         {
-          label: "在我之前加签",
-          value: "before"
+          label: '在我之前加签',
+          value: 'before'
         },
         {
-          label: "在我之后加签",
-          value: "after"
+          label: '在我之后加签',
+          value: 'after'
         }
       ],
       tabFlag: false,
       selectName: null,
-      number: "123123",
+      number: '123123',
       isShow: this.value,
-      myValue: "",
-      placeholdertext: "请输入人名或拼音",
+      myValue: '',
+      placeholdertext: '请输入人名或拼音',
       showCompanyPerson: false,
       showHigherLevelPerson: false,
       showMyDepartmentPerson: false,
@@ -222,16 +155,16 @@ export default {
       // （二级tab 数据）
       companyDataAry: [
         {
-          id: "O00000001",
-          type: "O",
-          code: "O00000001",
-          unno: "00000001",
+          id: 'O00000001',
+          type: 'O',
+          code: 'O00000001',
+          unno: '00000001',
           lockedStatus: 0,
           deleteStatus: 0,
-          name: "华新水泥股份有限公司",
-          extId: "O00000001",
-          extName: "华新水泥股份有限公司",
-          refId: "ComOrg",
+          name: '华新水泥股份有限公司',
+          extId: 'O00000001',
+          extName: '华新水泥股份有限公司',
+          refId: 'ComOrg',
           childrenCount: 33,
           reportPersonNum: null,
           personNum: null,
@@ -244,58 +177,58 @@ export default {
       myDepartmentDataAry: [{}],
       // 股份公司
       companyData: {
-        id: "",
-        text: ""
+        id: '',
+        text: ''
       },
       // 上级部门人员
       higherLevelData: {
-        id: "",
-        text: ""
+        id: '',
+        text: ''
       },
       // 我的部门
       myDepartmentData: {
-        id: "",
-        text: ""
+        id: '',
+        text: ''
       },
       // 列表数据
       company: [],
       // 上级部门列表数据
       higherLevel: [
         {
-          id: "1",
-          text: "IT服务中心1",
+          id: '1',
+          text: 'IT服务中心1',
           hasChildren: false
         },
         {
-          id: "2",
-          text: "软件开发",
+          id: '2',
+          text: '软件开发',
           hasChildren: true
         },
         {
-          id: "3",
-          text: "IT服务中心2",
+          id: '3',
+          text: 'IT服务中心2',
           hasChildren: true
         },
         {
-          id: "4",
-          text: "用户服务",
+          id: '4',
+          text: '用户服务',
           hasChildren: true
         },
         {
-          id: "5",
-          text: "信息安全",
+          id: '5',
+          text: '信息安全',
           hasChildren: true
         },
         {
-          id: "6",
-          text: "架构治理",
+          id: '6',
+          text: '架构治理',
           hasChildren: true
         }
       ],
       myDepartment: [
         {
-          id: "1",
-          text: "软件开发",
+          id: '1',
+          text: '软件开发',
           hasChildren: false
         }
       ],
@@ -303,53 +236,53 @@ export default {
         queryType: 1
       },
       selectQuery: {
-        orgId: ""
+        orgId: ''
       },
       selectPeopleQuery: {
-        orgaId: "",
+        orgaId: '',
         pageNum: 1,
         pageSize: 499,
-        searchKey: ""
+        searchKey: ''
       },
       tabIndex: 1,
       tabIndex2: 1,
       changeTabIndex: 0,
-      appendType: "before",
+      appendType: 'before',
       appendActiveTitleIndex: 0,
       isSearch: false,
       companyPerson: [],
       searchObj: {
         pageNum: 0,
         pageSize: 20,
-        searchKey: "",
-        orgaId: ""
+        searchKey: '',
+        orgaId: ''
       },
       finished: false
     }
   },
   watch: {
-    value: function(val, oldVal) {
+    value: function (val, oldVal) {
       this.isShow = val
-      this.$emit("input", val)
+      this.$emit('input', val)
       if (!val) this.reset()
     },
-    isShow: function(val) {
+    isShow: function (val) {
       this.changeTab(1)
     }
   },
-  mounted() {
-    console.log("departmentId", this.departmentId)
+  mounted () {
+    console.log('departmentId', this.departmentId)
     this.changeTab(1)
     // if (this.operateType == '') {
     // }
   },
   methods: {
-    handleAppendLabelClick(item, index) {
+    handleAppendLabelClick (item, index) {
       this.appendType = item.value
       this.appendActiveTitleIndex = index
     },
     // 选择公司tab
-    changeCompanyTab(item, index) {
+    changeCompanyTab (item, index) {
       this.selectName = null
       this.tabFlag = true
       this.changeTabIndex = index
@@ -360,29 +293,29 @@ export default {
           this.company = res.data.childOrganization
         }
       })
-      myHttp.getPersonList(this.selectPeopleQuery).then(res => {
+      myHttp.getPersonListByOrgaId(this.selectPeopleQuery).then(res => {
         if (res.code == 0) {
           this.companyPerson = res.data.rows
-          console.log("this.companyPerson", this.companyPerson)
+          console.log('this.companyPerson', this.companyPerson)
         }
       })
     },
-    selectCompanyAndPeople(item) {
+    selectCompanyAndPeople (item) {
       this.selectQuery.orgaId = item.id
       this.selectPeopleQuery.orgaId = item.id
       myHttp.getOrgChildren(this.selectQuery).then(res => {
         if (res.code == 0) {
-          console.log("data", res.data)
+          console.log('data', res.data)
           this.company = res.data.childOrganization
         }
       })
-      myHttp.getPersonList(this.selectPeopleQuery).then(res => {
+      myHttp.getPersonListByOrgaId(this.selectPeopleQuery).then(res => {
         if (res.code == 0) {
           this.companyPerson = res.data.rows
         }
       })
       if (!this.tabFlag) {
-        console.log("this.companyDataAry", this.companyDataAry)
+        console.log('this.companyDataAry', this.companyDataAry)
         this.companyDataAry.push(item)
       } else {
         this.companyDataAry.splice(
@@ -394,13 +327,13 @@ export default {
       this.tabFlag = false
     },
     // 选择股份公司人员
-    selectCompanyPerson(item) {
+    selectCompanyPerson (item) {
       this.companyData = item
     },
     // 点击上级部门已选项
-    changeHigherLevelTab(item, index) {},
+    changeHigherLevelTab (item, index) { },
     // 选择上级部门项
-    selectHigherLevel(item, index) {
+    selectHigherLevel (item, index) {
       if (!item.hasChildren) {
         this.showHigherLevelPerson = true // 删除空选项
         this.higherLevelDataAry.splice(this.higherLevelDataAry.length - 1, 1)
@@ -417,17 +350,17 @@ export default {
       )
     },
     // 选择上级部门人员
-    selectHigherLevelPerson(item) {
+    selectHigherLevelPerson (item) {
       this.higherLevelData = item
     },
-    changeMyDepartmentTab(item, index) {
+    changeMyDepartmentTab (item, index) {
       const num = this.myDepartmentDataAry.length - index
       this.myDepartmentDataAry.splice(index, num)
       this.myDepartmentDataAry.push({})
       this.showMyDepartmentPerson = false
       // this.myDepartment
     },
-    selectMyDepartment(item) {
+    selectMyDepartment (item) {
       if (!item.hasChildren) {
         this.showMyDepartmentPerson = true
         // 删除空选项
@@ -445,24 +378,24 @@ export default {
       )
     },
     // 选择我的部门人员
-    selectMyDepartmentPerson(item) {
+    selectMyDepartmentPerson (item) {
       this.myDepartmentData = item
     },
-    changeTab(index) {
+    changeTab (index) {
       this.tabIndex = index
       this.selectObj.queryType = index
       this.companyDataAry = [
         {
-          id: "O00000001",
-          type: "O",
-          code: "O00000001",
-          unno: "00000001",
+          id: 'O00000001',
+          type: 'O',
+          code: 'O00000001',
+          unno: '00000001',
           lockedStatus: 0,
           deleteStatus: 0,
-          name: "华新水泥股份有限公司",
-          extId: "O00000001",
-          extName: "华新水泥股份有限公司",
-          refId: "ComOrg",
+          name: '华新水泥股份有限公司',
+          extId: 'O00000001',
+          extName: '华新水泥股份有限公司',
+          refId: 'ComOrg',
           childrenCount: 33,
           reportPersonNum: null,
           personNum: null,
@@ -478,7 +411,7 @@ export default {
           this.company = res.data.childOrganization
           if (this.tabIndex == 3) {
             this.selectPeopleQuery.orgaId = this.departmentId
-            myHttp.getPersonList(this.selectPeopleQuery).then(res => {
+            myHttp.getPersonListByOrgaId(this.selectPeopleQuery).then(res => {
               if (res.code == 0) {
                 this.companyPerson = res.data.rows
               }
@@ -487,43 +420,43 @@ export default {
         }
       })
     },
-    handleLayoutClose() {
+    handleLayoutClose () {
       this.tabIndex = 1
       this.changeTab(1)
-      this.myValue = ""
-      this.$emit("input", false)
+      this.myValue = ''
+      this.$emit('input', false)
     },
-    handleCertainPerson() {
+    handleCertainPerson () {
       if (!this.selectName) {
         Dialog.alert({
-          message: "请选择人员！"
+          message: '请选择人员！'
         })
       } else {
         this.companyPerson.forEach((item, index) => {
           if (item.sysUsername === this.selectName) {
-            this.$emit("config", item)
+            this.$emit('config', item)
           }
         })
-        this.$emit("input", false)
+        this.$emit('input', false)
       }
     },
-    reset() {
+    reset () {
       this.selectName = null
       this.isSearch = false
       this.companyPerson = []
     },
-    onSearch() {
-      console.log("123123")
+    onSearch () {
+      console.log('123123')
       this.searchObj.page = 0
       this.isSearch = true
       this.companyPerson = []
       this.handleLoad()
     },
-    handleLoad() {
+    handleLoad () {
       this.searchObj.page++
       this.searchObj.searchKey = this.myValue
 
-      myHttp.getPersonList(this.searchObj).then(res => {
+      myHttp.getPersonListByOrgaId(this.searchObj).then(res => {
         if (res.code == 0) {
           this.companyPerson = this.companyPerson.concat(res.data.rows)
 
@@ -537,21 +470,21 @@ export default {
         }
       })
     },
-    inputBlur(e) {
+    inputBlur (e) {
       setTimeout(() => {
         const scrollTop =
           document.documentElement.scrollTop || document.body.scrollTop || 0
         window.scrollTo(0, scrollTop)
       }, 200)
     },
-    inputFocus(e) {
-      console.log("22222")
+    inputFocus (e) {
+      console.log('22222')
       // 如果focus，则移除上一个输入框的timer
       if (
         e &&
         e.target &&
         e.target.tagName &&
-        e.target.tagName.toLowerCase() === "input"
+        e.target.tagName.toLowerCase() === 'input'
       ) {
         clearTimeout(this.timer)
       }

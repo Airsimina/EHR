@@ -14,7 +14,7 @@ module.exports = {
         'eqeqeq': 'off', // 关闭===校验
         'eol-last': 'off', // 文件以单一的换行符结束
         'indent': 0, // 缩进检查
-        "quotes": [2, "double"], //引号类型 `` "" ''
+        "quotes": [1, "single"], //引号类型 `` "" ''
         'no-new': 0, // 关闭 使用new不将结果对象分配给变量
         'quote-props': 'off', // 关闭 对象中属性名称是否始终用引号括起来
         'prefer-const': 'off', // 关闭 如果一个变量从不重新分配，使用const声明更好。

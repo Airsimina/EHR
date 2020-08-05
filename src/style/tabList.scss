@@ -53,6 +53,8 @@
   .lis-box {
     padding: 0.15rem 0;
     position: relative;
+    display: flex;
+    justify-content: space-between;
 
     .lis-row {
       position: relative;
@@ -63,7 +65,6 @@
       position: relative;
       min-width: 1.2rem;
       font-size: 0.26rem;
-      font-weight: bold;
       text-align-last: justify;
       text-align: justify;
     }
@@ -79,6 +80,7 @@
       font-size: 0.26rem;
       color: #666666;
       padding-left: 0.1rem;
+      font-weight: bold;
     }
   }
 }

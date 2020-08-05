@@ -1,27 +1,16 @@
 <template>
   <div class="tab-nav-wrap">
     <div class="tab-box">
-      <div class="tab-name"
-           @click="changeTab(item,index)"
-           v-for="(item,index) in tabList"
-           :key="index"
-           :class="{'active-tab' : tabIndex == index}">
+      <div class="tab-name" @click="changeTab(item,index)" v-for="(item,index) in tabList" :key="index" :class="{'active-tab' : tabIndex == index}">
         <span>{{item}}</span>
         <span class="icon-name"></span>
       </div>
-      <div class="tab-list-box"
-           v-show="showbox">
-        <div class="lis"
-             @click="selcontent(item,index)"
-             :class="{'active-name' : index == lisIndex}"
-             v-for="(item,index) in tabNabList"
-             :key="index">{{item.name}}</div>
+      <div class="tab-list-box" v-show="showbox">
+        <div class="lis" @click="selcontent(item,index)" :class="{'active-name' : index == lisIndex}" v-for="(item,index) in tabNabList" :key="index">{{item.name}}</div>
       </div>
     </div>
 
-    <div class="menc"
-         v-show="showbox"
-         @click="closeMenc"></div>
+    <div class="menc" v-show="showbox" @click="closeMenc"></div>
   </div>
 </template>
 <script>
@@ -209,19 +198,23 @@ export default {
 <style lang="scss" scoped>
 .tab-nav-wrap {
   font-size: 0.24rem;
-  padding-bottom: 1.4rem;
-  position: relative;
-  &::after {
-    content: "";
-    display: inline-block;
-    position: fixed;
-    width: 100%;
-    height: 0.7rem;
-    background: #f3f5f8;
-    top: 3.2rem;
-    left: 0;
-    z-index: 8;
-  }
+  padding: 0.2rem 0.4rem;
+  position: fixed;
+  box-sizing: border-box;
+  background: #5775ad;
+  z-index: 200;
+  width: 100%;
+  // &::after {
+  //   content: "";
+  //   display: inline-block;
+  //   position: fixed;
+  //   width: 100%;
+  //   height: 0.7rem;
+  //   background: #f3f5f8;
+  //   top: 3.2rem;
+  //   left: 0;
+  //   z-index: 8;
+  // }
 
   .menc {
     position: fixed;
@@ -238,19 +231,18 @@ export default {
     position: relative;
     display: flex;
     justify-content: center;
-    width: 90%;
-    line-height: 0.9rem;
+    width: 100%;
+    line-height: 0.8rem;
     box-sizing: border-box;
     border-radius: 0.2rem;
     z-index: 500 !important;
     background: #fff;
-    position: fixed;
+    // position: fixed;
     .tab-name {
       padding: 0 0.25rem;
       text-align: center;
       font-size: 0.28rem;
       color: #999999;
-      line-height: 1rem;
       &.active-tab {
         color: #5576ab;
         .icon-name {
